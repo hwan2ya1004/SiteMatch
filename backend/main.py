@@ -56,21 +56,18 @@ async def lifespan(app: FastAPI):
         finally:
             db.close()
 
-        # 임베딩 서비스 초기화 (비동기로 실행)
-        loop = asyncio.get_event_loop()
+        # 임베딩 서비스 초기화 (키워드 방식 — 즉시 완료)
         try:
             from services.embedding import init_embedding_service
-            await loop.run_in_executor(
-                None, init_embedding_service, GROQ_API_KEY, parks_data
-            )
+            init_embedding_service(GROQ_API_KEY, parks_data)
             print("✅ AI 매칭 엔진 초기화 완료")
         except Exception as e:
             print(f"⚠️ AI 매칭 엔진 초기화 실패: {e}")
 
-        # RAG 서비스 초기화 (Groq + HuggingFace 임베딩)
+        # RAG 서비스 초기화 (Groq 직접 호출 — 즉시 완료)
         try:
             from services.rag import init_rag_service
-            await loop.run_in_executor(None, init_rag_service, GROQ_API_KEY)
+            init_rag_service(GROQ_API_KEY)
             print("✅ RAG 챗봇 초기화 완료")
         except Exception as e:
             print(f"⚠️ RAG 챗봇 초기화 실패: {e}")

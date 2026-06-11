@@ -1,18 +1,12 @@
 """
-HuggingFace 임베딩 + FAISS 벡터 검색 기반 AI 매칭 엔진
-임베딩: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 (로컬, 무료)
+키워드 기반 AI 매칭 엔진 (Render 무료 플랜 최적화)
+sentence-transformers / FAISS 없이 키워드 스코어링으로 동작
 """
 import json
 import os
-import pickle
-import numpy as np
 from typing import List, Dict, Any
 
-from sentence_transformers import SentenceTransformer
-import faiss
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-INDEX_PATH = os.path.join(BASE_DIR, "data", "faiss_index.pkl")
 
 # 업종 매핑 (한국어 → 영문 키워드 확장)
 INDUSTRY_KEYWORDS = {
@@ -45,175 +39,136 @@ REGION_MAP = {
     "광주광역시": ["광주광역시", "광주 북구"],
 }
 
+# 면적 조건 매핑 (㎡)
+AREA_MAP = {
+    "330㎡ 미만 (100평)": (0, 330),
+    "330~1,000㎡ (100~300평)": (330, 1000),
+    "1,000~3,300㎡ (300~1,000평)": (1000, 3300),
+    "3,300~10,000㎡ (1,000~3,000평)": (3300, 10000),
+    "10,000㎡ 이상 (3,000평+)": (10000, float("inf")),
+}
+
+# 예산 조건 매핑 (임대료 원/㎡/월 기준)
+BUDGET_MAP = {
+    "500만원 미만": 20000,
+    "500~1,000만원": 30000,
+    "1,000~3,000만원": 50000,
+    "3,000만원 이상": 999999,
+}
+
 
 class EmbeddingService:
     def __init__(self, api_key: str = None):
-        # HuggingFace 로컬 임베딩 (무료, 다국어 지원)
-        self._model = SentenceTransformer(
-            "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-        )
-        self.index = None
-        self.park_ids = []
-        self.parks_data = []
-
-    def _embed_text(self, text: str) -> List[float]:
-        """단일 텍스트 임베딩"""
-        return self._model.encode(text, normalize_embeddings=True).tolist()
-
-    def _embed_query(self, text: str) -> List[float]:
-        """쿼리 텍스트 임베딩"""
-        return self._model.encode(text, normalize_embeddings=True).tolist()
-
-    def _park_to_text(self, park: Dict) -> str:
-        """공단 데이터를 임베딩용 텍스트로 변환"""
-        industries = park.get("industries", [])
-        if isinstance(industries, str):
-            industries = json.loads(industries)
-        logistics = park.get("logistics", [])
-        if isinstance(logistics, str):
-            logistics = json.loads(logistics)
-        features = park.get("features", [])
-        if isinstance(features, str):
-            features = json.loads(features)
-
-        return (
-            f"산업단지명: {park['name']}. "
-            f"위치: {park['city']} ({park['region']}). "
-            f"유형: {park.get('type', '')}. "
-            f"주요 업종: {', '.join(industries)}. "
-            f"물류 조건: {', '.join(logistics)}. "
-            f"특징: {', '.join(features)}. "
-            f"가용 면적: {park.get('available_area', 0):,.0f}㎡. "
-            f"공실률: {park.get('vacancy_rate', 0)}%. "
-            f"임대료: {park.get('rent_per_sqm', 0):,}원/㎡/월. "
-            f"설명: {park.get('description', '')}. "
-            f"지원금: {park.get('subsidy', '')}."
-        )
-
-    def _query_to_text(self, industry: str, size: str, area: str,
-                       region: str, budget: str, logistics: str, extra: str) -> str:
-        """기업 조건을 임베딩용 쿼리 텍스트로 변환"""
-        keywords = INDUSTRY_KEYWORDS.get(industry, [industry])
-        return (
-            f"업종: {industry} ({', '.join(keywords)}). "
-            f"종업원 수: {size}. "
-            f"필요 면적: {area}. "
-            f"희망 지역: {region or '지역 무관'}. "
-            f"월 예산: {budget or '무관'}. "
-            f"물류 조건: {logistics or '무관'}. "
-            f"추가 요구사항: {extra or '없음'}."
-        )
+        self.parks_data: List[Dict] = []
 
     def build_index(self, parks: List[Dict]):
-        """공단 데이터로 FAISS 인덱스 구축"""
-        print("🔄 FAISS 인덱스 구축 중...")
-        self.parks_data = parks
-        self.park_ids = [p["id"] if isinstance(p, dict) else p.id for p in parks]
-
-        texts = [self._park_to_text(p if isinstance(p, dict) else p.__dict__) for p in parks]
-        embeddings = []
-        for i, text in enumerate(texts):
-            emb = self._embed_text(text)
-            embeddings.append(emb)
-            print(f"  임베딩 {i+1}/{len(texts)}: {parks[i]['name'] if isinstance(parks[i], dict) else parks[i].name}")
-
-        vectors = np.array(embeddings, dtype=np.float32)
-        # L2 정규화 (코사인 유사도용)
-        faiss.normalize_L2(vectors)
-
-        dim = vectors.shape[1]
-        self.index = faiss.IndexFlatIP(dim)  # Inner Product = 코사인 유사도 (정규화 후)
-        self.index.add(vectors)
-
-        # 인덱스 저장
-        os.makedirs(os.path.dirname(INDEX_PATH), exist_ok=True)
-        with open(INDEX_PATH, "wb") as f:
-            pickle.dump({
-                "index": faiss.serialize_index(self.index),
-                "park_ids": self.park_ids,
-                "parks_data": self.parks_data,
-            }, f)
-        print(f"✅ FAISS 인덱스 구축 완료 ({len(parks)}개 공단)")
+        """공단 데이터 로드 (키워드 방식은 인덱스 불필요)"""
+        self.parks_data = [
+            p if isinstance(p, dict) else {c.name: getattr(p, c.name) for c in p.__table__.columns}
+            for p in parks
+        ]
+        # JSON 필드 파싱
+        for park in self.parks_data:
+            for field in ["industries", "logistics", "features"]:
+                if isinstance(park.get(field), str):
+                    try:
+                        park[field] = json.loads(park[field])
+                    except Exception:
+                        park[field] = []
+        print(f"✅ 매칭 엔진 초기화 완료 ({len(self.parks_data)}개 공단, 키워드 방식)")
 
     def load_index(self) -> bool:
-        """저장된 FAISS 인덱스 로드"""
-        if not os.path.exists(INDEX_PATH):
-            return False
-        with open(INDEX_PATH, "rb") as f:
-            data = pickle.load(f)
-        self.index = faiss.deserialize_index(data["index"])
-        self.park_ids = data["park_ids"]
-        self.parks_data = data["parks_data"]
-        print(f"✅ FAISS 인덱스 로드 완료 ({len(self.park_ids)}개 공단)")
-        return True
+        """키워드 방식은 별도 인덱스 파일 불필요 — 항상 False 반환해 build_index 호출 유도"""
+        return False
+
+    def _score_park(self, park: Dict, industry: str, size: str, area: str,
+                    region: str, budget: str, logistics: str, extra: str) -> float:
+        """공단 하나에 대한 키워드 매칭 점수 계산 (0.0 ~ 1.0)"""
+        score = 0.0
+        max_score = 0.0
+
+        park_industries = park.get("industries", [])
+        park_logistics = park.get("logistics", [])
+        park_features = park.get("features", [])
+        park_region = park.get("region", "") + " " + park.get("city", "")
+        park_text = " ".join([
+            park.get("name", ""),
+            park.get("description", ""),
+            park.get("type", ""),
+            " ".join(park_industries),
+            " ".join(park_logistics),
+            " ".join(park_features),
+        ])
+
+        # ── 1. 업종 매칭 (가중치 40%) ──────────────────────────────
+        max_score += 40
+        keywords = INDUSTRY_KEYWORDS.get(industry, [industry])
+        matched_kw = sum(1 for kw in keywords if kw in park_text)
+        industry_score = min(matched_kw / max(len(keywords), 1), 1.0) * 40
+        score += industry_score
+
+        # ── 2. 지역 매칭 (가중치 25%) ──────────────────────────────
+        max_score += 25
+        if region and region not in ("지역 무관", ""):
+            region_keywords = REGION_MAP.get(region, [region])
+            if any(kw in park_region for kw in region_keywords):
+                score += 25
+        else:
+            score += 15  # 지역 무관이면 기본 점수 부여
+
+        # ── 3. 예산(임대료) 매칭 (가중치 20%) ─────────────────────
+        max_score += 20
+        rent = park.get("rent_per_sqm", 0)
+        if budget and budget not in ("무관", ""):
+            max_rent = BUDGET_MAP.get(budget, 999999)
+            if rent <= max_rent:
+                score += 20
+            elif rent <= max_rent * 1.3:
+                score += 10  # 30% 초과까지는 부분 점수
+        else:
+            score += 15  # 예산 무관이면 기본 점수
+
+        # ── 4. 물류 조건 매칭 (가중치 10%) ────────────────────────
+        max_score += 10
+        if logistics and logistics not in ("무관", ""):
+            if logistics in park_text or any(logistics in lg for lg in park_logistics):
+                score += 10
+            else:
+                score += 3
+        else:
+            score += 7
+
+        # ── 5. 가용 면적 매칭 (가중치 5%) ─────────────────────────
+        max_score += 5
+        if area and area in AREA_MAP:
+            min_area, max_area = AREA_MAP[area]
+            avail = park.get("available_area", 0)
+            if avail >= min_area:
+                score += 5
+            elif avail > 0:
+                score += 2
+
+        return score / max_score  # 0.0 ~ 1.0 정규화
 
     def search(self, industry: str, size: str, area: str,
                region: str, budget: str, logistics: str, extra: str,
                top_k: int = 5) -> List[Dict]:
-        """기업 조건으로 유사 공단 검색"""
-        if self.index is None:
-            raise ValueError("FAISS 인덱스가 로드되지 않았습니다.")
-
-        query_text = self._query_to_text(industry, size, area, region, budget, logistics, extra)
-        query_emb = self._embed_query(query_text)
-        query_vec = np.array([query_emb], dtype=np.float32)
-        faiss.normalize_L2(query_vec)
-
-        scores, indices = self.index.search(query_vec, min(top_k, len(self.park_ids)))
+        """기업 조건으로 공단 검색 (키워드 스코어링)"""
+        if not self.parks_data:
+            raise ValueError("공단 데이터가 로드되지 않았습니다.")
 
         results = []
-        for score, idx in zip(scores[0], indices[0]):
-            if idx < 0:
-                continue
-            park = self.parks_data[idx]
-            if isinstance(park, dict):
-                park_dict = park.copy()
-            else:
-                park_dict = {c.name: getattr(park, c.name) for c in park.__table__.columns}
-
-            # JSON 필드 파싱
-            for field in ["industries", "logistics", "features"]:
-                if isinstance(park_dict.get(field), str):
-                    try:
-                        park_dict[field] = json.loads(park_dict[field])
-                    except Exception:
-                        park_dict[field] = []
-
-            # 지역 필터 (희망 지역이 있을 경우 점수 보정)
-            similarity_score = float(score)
-            if region and region != "지역 무관":
-                region_keywords = REGION_MAP.get(region, [region])
-                park_region = park_dict.get("region", "") + park_dict.get("city", "")
-                if any(kw in park_region for kw in region_keywords):
-                    similarity_score = min(1.0, similarity_score * 1.15)  # 지역 일치 보너스
-
-            # 예산 필터 (임대료 기준)
-            rent = park_dict.get("rent_per_sqm", 0)
-            if budget and budget != "무관":
-                budget_ok = _check_budget(budget, rent)
-                if not budget_ok:
-                    similarity_score *= 0.7  # 예산 초과 시 점수 감소
-
+        for park in self.parks_data:
+            raw_score = self._score_park(
+                park, industry, size, area, region, budget, logistics, extra
+            )
             results.append({
-                "park": park_dict,
-                "score": round(similarity_score * 100, 1),
+                "park": park,
+                "score": round(raw_score * 100, 1),
             })
 
-        # 점수 기준 정렬
         results.sort(key=lambda x: x["score"], reverse=True)
         return results[:top_k]
-
-
-def _check_budget(budget: str, rent_per_sqm: int) -> bool:
-    """예산 조건 체크"""
-    budget_map = {
-        "500만원 미만": 20000,
-        "500~1,000만원": 30000,
-        "1,000~3,000만원": 50000,
-        "3,000만원 이상": 999999,
-    }
-    max_rent = budget_map.get(budget, 999999)
-    return rent_per_sqm <= max_rent
 
 
 # 싱글톤 인스턴스
@@ -228,7 +183,7 @@ def get_embedding_service() -> EmbeddingService:
 def init_embedding_service(api_key: str, parks: List[Dict]) -> EmbeddingService:
     global _embedding_service
     _embedding_service = EmbeddingService(api_key)
-    # 저장된 인덱스 로드 시도, 없으면 새로 구축
+    # 키워드 방식은 load_index()가 항상 False → build_index() 호출
     if not _embedding_service.load_index():
         _embedding_service.build_index(parks)
     return _embedding_service

@@ -1,21 +1,15 @@
 """
 LangChain RAG + Groq (Llama 3.3 70B) 기반 챗봇 서비스
-무료 API: https://console.groq.com
-임베딩: HuggingFace sentence-transformers (로컬, 무료)
+임베딩/FAISS 없이 subsidy_docs.txt를 직접 컨텍스트로 활용 (Render 무료 플랜 최적화)
 """
 import os
 from typing import List, AsyncGenerator
 
 from groq import Groq
 from langchain_groq import ChatGroq
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import FAISS as LangchainFAISS
-from langchain_core.documents import Document
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS_PATH = os.path.join(BASE_DIR, "data", "subsidy_docs.txt")
-RAG_INDEX_PATH = os.path.join(BASE_DIR, "data", "rag_faiss_index")
 
 SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMatch AI'입니다.
 산업단지 입주와 관련된 지원금, 인허가 절차, 세금 혜택, 입지 추천 등에 대해 
@@ -32,6 +26,46 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
 {context}
 """
 
+# 문서 최대 길이 (토큰 절약을 위해 앞부분 4000자만 사용)
+MAX_CONTEXT_CHARS = 4000
+
+
+def _load_docs() -> str:
+    """subsidy_docs.txt 로드 (없으면 빈 문자열)"""
+    if not os.path.exists(DOCS_PATH):
+        return ""
+    try:
+        with open(DOCS_PATH, "r", encoding="utf-8") as f:
+            text = f.read()
+        return text[:MAX_CONTEXT_CHARS]
+    except Exception:
+        return ""
+
+
+def _keyword_filter_context(docs_text: str, query: str) -> str:
+    """쿼리 키워드가 포함된 단락을 우선 반환 (간단한 관련성 필터)"""
+    if not docs_text:
+        return "관련 문서 없음"
+
+    paragraphs = [p.strip() for p in docs_text.split("\n\n") if p.strip()]
+    query_words = [w for w in query.split() if len(w) >= 2]
+
+    # 키워드 포함 단락 우선 정렬
+    scored = []
+    for para in paragraphs:
+        hits = sum(1 for w in query_words if w in para)
+        scored.append((hits, para))
+    scored.sort(key=lambda x: x[0], reverse=True)
+
+    # 상위 단락들을 합쳐서 반환 (최대 1500자)
+    context = ""
+    for _, para in scored:
+        if len(context) + len(para) > 1500:
+            break
+        context += para + "\n\n"
+
+    return context.strip() or docs_text[:1500]
+
 
 class RAGService:
     def __init__(self, api_key: str):
@@ -45,58 +79,21 @@ class RAGService:
             temperature=0.3,
             max_tokens=600,
         )
-        # HuggingFace 로컬 임베딩 (무료, 인터넷 불필요)
-        self.embeddings = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
-            model_kwargs={"device": "cpu"},
-            encode_kwargs={"normalize_embeddings": True},
-        )
-        self.vectorstore = None
+        # 문서 로드 (시작 시 1회)
+        self._docs_text = _load_docs()
+        print(f"✅ RAG 챗봇 초기화 완료 (문서 {len(self._docs_text)}자 로드)")
 
     def build_vectorstore(self):
-        """지원금 문서로 RAG 벡터스토어 구축"""
-        print("🔄 RAG 벡터스토어 구축 중...")
-        if not os.path.exists(DOCS_PATH):
-            print("⚠️ 지원금 문서 파일이 없습니다.")
-            return
-
-        with open(DOCS_PATH, "r", encoding="utf-8") as f:
-            text = f.read()
-
-        splitter = RecursiveCharacterTextSplitter(
-            chunk_size=500,
-            chunk_overlap=50,
-            separators=["\n\n", "\n", "。", ".", " "],
-        )
-        chunks = splitter.split_text(text)
-        docs = [Document(page_content=chunk) for chunk in chunks]
-
-        self.vectorstore = LangchainFAISS.from_documents(docs, self.embeddings)
-        self.vectorstore.save_local(RAG_INDEX_PATH)
-        print(f"✅ RAG 벡터스토어 구축 완료 ({len(docs)}개 청크)")
+        """호환성 유지용 — 실제로는 아무것도 하지 않음"""
+        pass
 
     def load_vectorstore(self) -> bool:
-        """저장된 RAG 벡터스토어 로드"""
-        if not os.path.exists(RAG_INDEX_PATH):
-            return False
-        try:
-            self.vectorstore = LangchainFAISS.load_local(
-                RAG_INDEX_PATH,
-                self.embeddings,
-                allow_dangerous_deserialization=True,
-            )
-            print(f"✅ RAG 벡터스토어 로드 완료")
-            return True
-        except Exception as e:
-            print(f"⚠️ RAG 벡터스토어 로드 실패 (재구축): {e}")
-            return False
+        """호환성 유지용 — True 반환해 build_vectorstore 호출 방지"""
+        return True
 
     def _get_context(self, query: str) -> str:
-        """쿼리 관련 문서 검색"""
-        if self.vectorstore is None:
-            return "관련 문서를 찾을 수 없습니다."
-        docs = self.vectorstore.similarity_search(query, k=3)
-        return "\n\n".join([doc.page_content for doc in docs])
+        """쿼리 관련 문서 검색 (키워드 필터링)"""
+        return _keyword_filter_context(self._docs_text, query)
 
     def chat(self, messages: List[dict]) -> str:
         """동기 챗봇 응답"""
@@ -179,6 +176,7 @@ def get_rag_service() -> RAGService:
 def init_rag_service(api_key: str) -> RAGService:
     global _rag_service
     _rag_service = RAGService(api_key)
+    # load_vectorstore()가 True를 반환하므로 build_vectorstore()는 호출되지 않음
     if not _rag_service.load_vectorstore():
         _rag_service.build_vectorstore()
     return _rag_service
