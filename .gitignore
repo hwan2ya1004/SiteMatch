@@ -1,0 +1,57 @@
+# 환경변수 (API 키 포함 - 절대 업로드 금지)
+.env
+backend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# 가상환경
+.venv/
+venv/
+ENV/
+env/
+
+# 데이터베이스
+*.db
+*.sqlite
+*.sqlite3
+backend/sitematch.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 로그
+*.log
+logs/
+
+# FAISS 인덱스 (자동 생성됨)
+*.faiss
+*.pkl
+
+# 테스트
+.pytest_cache/
+.coverage
+htmlcov/
