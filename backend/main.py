@@ -145,7 +145,11 @@ app.include_router(chat_router)
 app.include_router(dashboard_router)
 
 # 정적 파일 서빙 (프론트엔드 HTML)
-FRONTEND_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "SiteMatchAI.html")
+# backend/ 폴더 내부 경로 우선, 없으면 상위 폴더에서 찾음
+_backend_dir = os.path.dirname(os.path.abspath(__file__))
+FRONTEND_PATH = os.path.join(_backend_dir, "SiteMatchAI.html")
+if not os.path.exists(FRONTEND_PATH):
+    FRONTEND_PATH = os.path.join(os.path.dirname(_backend_dir), "SiteMatchAI.html")
 
 
 @app.get("/")
