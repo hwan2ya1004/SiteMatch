@@ -37,10 +37,12 @@
   .nav-btn:hover { background: var(--gray-bg); color: var(--text); }
   .nav-btn.active { background: var(--teal-light); color: var(--teal-dark); }
   .nav-icon { width: 16px; height: 16px; }
-  .api-status { margin-left: 16px; font-size: 12px; padding: 4px 10px; border-radius: 99px; font-weight: 500; }
+  .api-status { margin-left: 16px; font-size: 12px; padding: 4px 10px 4px 8px; border-radius: 99px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .api-status::before { content: ''; width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
   .api-status.online { background: var(--green-bg); color: var(--green-text); }
+  .api-status.online::before { background: #2E9E3F; box-shadow: 0 0 0 3px rgba(46,158,63,0.18); }
   .api-status.offline { background: var(--red-bg); color: var(--red-text); }
-  .api-status.checking { background: var(--amber-bg); color: var(--amber-text); }
+  .api-status.offline::before { background: #D6362E; }
 
   /* ── 레이아웃 ── */
   .layout { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
@@ -437,30 +439,24 @@ function showPage(id, btn) {
   if (id === 'dashboard') loadDashboard();
 }
 
-// ── API 상태 확인 ──
+// ── API 상태 확인 ── (초록 = 온라인, 빨강 = 오프라인 — 2색으로 단순화)
 async function checkApiStatus() {
   const el = document.getElementById('api-status');
   try {
     const resp = await fetch(`${API_BASE}/health`, { signal: AbortSignal.timeout(3000) });
     const data = await resp.json();
-    if (data.status === 'ok') {
-      if (data.ai_matching && data.rag_chatbot) {
-        el.textContent = '● AI 온라인';
-        el.className = 'api-status online';
-      } else if (data.gemini_key_set) {
-        el.textContent = '● AI 초기화 중';
-        el.className = 'api-status checking';
-        setTimeout(checkApiStatus, 5000);
-      } else {
-        el.textContent = '● API 키 미설정';
-        el.className = 'api-status offline';
-      }
+    if (data.status === 'ok' && data.ai_matching && data.rag_chatbot) {
+      el.textContent = 'AI 온라인';
+      el.className = 'api-status online';
+      return; // 온라인 확인되면 재확인 불필요
     }
-  } catch(e) {
-    el.textContent = '● 백엔드 오프라인';
+    el.textContent = data.groq_key_set ? 'AI 초기화 중' : 'AI 오프라인 (키 미설정)';
     el.className = 'api-status offline';
-    setTimeout(checkApiStatus, 5000);
+  } catch(e) {
+    el.textContent = 'AI 오프라인';
+    el.className = 'api-status offline';
   }
+  setTimeout(checkApiStatus, 5000);
 }
 
 // ── AI 매칭 ──
