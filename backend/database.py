@@ -59,6 +59,18 @@ class MatchingHistory(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+class VacancySnapshot(Base):
+    """공실 현황 일별 스냅샷 — 추이 차트용 시계열 데이터.
+    대시보드 통계 조회 시 하루 1회(자정 기준)만 새 스냅샷을 기록한다."""
+    __tablename__ = "vacancy_snapshots"
+
+    id = Column(Integer, primary_key=True, index=True)
+    snapshot_date = Column(String(10), unique=True, index=True)  # "YYYY-MM-DD"
+    avg_vacancy_rate = Column(Float)
+    total_available_area = Column(Float)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
 class ChatHistory(Base):
     __tablename__ = "chat_history"
 

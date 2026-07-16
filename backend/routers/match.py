@@ -1,6 +1,6 @@
 """
 AI 매칭 엔진 라우터
-POST /api/match → Gemini 임베딩 + FAISS → 상위 5개 공단 추천
+POST /api/match → Groq LLM(Llama 3.3 70B)이 기업 조건과 공단 데이터를 분석 → 상위 5개 공단 추천
 """
 import json
 from datetime import datetime
@@ -35,6 +35,7 @@ class MatchResult(BaseModel):
     region: str
     city: str
     score: float
+    reason: str = ""
     available_area: float
     vacancy_rate: float
     rent_per_sqm: int
@@ -80,6 +81,7 @@ async def run_match(req: MatchRequest, db: Session = Depends(get_db)):
             "region": park.get("region", ""),
             "city": park.get("city", ""),
             "score": r["score"],
+            "reason": r.get("reason", ""),
             "available_area": park.get("available_area", 0),
             "vacancy_rate": park.get("vacancy_rate", 0),
             "rent_per_sqm": park.get("rent_per_sqm", 0),

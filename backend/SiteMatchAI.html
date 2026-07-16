@@ -371,6 +371,16 @@
       </table>
     </div>
 
+    <div class="table-wrap">
+      <div class="table-header">
+        평균 공실률 추이
+        <span style="font-size:12px;color:var(--text-sub);font-weight:400" id="trend-updated">서비스 접속 시 하루 1회 자동 기록</span>
+      </div>
+      <div id="vacancy-trend-chart" style="padding:16px 20px">
+        <div style="color:var(--text-sub);font-size:13px">데이터 로딩 중...</div>
+      </div>
+    </div>
+
     <div class="dashboard-grid">
       <div class="table-wrap">
         <div class="table-header">최근 매칭 현황</div>
@@ -469,7 +479,7 @@ async function runMatch() {
   const res = document.getElementById('match-results');
   btn.disabled = true;
   btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg> AI 분석 중...';
-  res.innerHTML = '<div class="loading-wrap"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><div class="loading-text" style="margin-top:16px">Gemini 임베딩 + FAISS 벡터 검색으로 분석 중...</div></div>';
+  res.innerHTML = '<div class="loading-wrap"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><div class="loading-text" style="margin-top:16px">AI가 기업 조건과 공단 데이터를 분석하는 중...</div></div>';
 
   try {
     const resp = await fetch(`${API_BASE}/api/match`, {
@@ -500,7 +510,7 @@ function renderResults(results, ind) {
   const res = document.getElementById('match-results');
   res.innerHTML = `<div style="font-size:14px;color:var(--text-sub);margin-bottom:16px;display:flex;align-items:center;gap:8px">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-    <span><strong style="color:var(--text)">${ind}</strong> 조건에 맞는 산업단지 ${results.length}곳을 추천합니다 (Gemini 임베딩 + FAISS 벡터 검색)</span>
+    <span><strong style="color:var(--text)">${ind}</strong> 조건에 맞는 산업단지 ${results.length}곳을 추천합니다 (AI 분석 기반)</span>
   </div>` + results.map((r, i) => `
   <div class="result-card ${i===0?'top-pick':''}">
     <div class="result-row1">
@@ -515,7 +525,7 @@ function renderResults(results, ind) {
       ${(r.features||[]).slice(0,4).map(t=>`<span class="tag">${t}</span>`).join('')}
       ${r.vacancy_rate ? `<span class="tag">공실률 ${r.vacancy_rate}%</span>` : ''}
     </div>
-    <div class="result-reason">${r.description}</div>
+    <div class="result-reason">${r.reason || r.description}</div>
     <div class="subsidy-box">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:6px"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
       ${r.subsidy}
@@ -683,6 +693,13 @@ async function loadDashboard() {
       renderRecentMatches(matchesData.matches);
     }
 
+    // 공실률 추이 로드
+    const trendResp = await fetch(`${API_BASE}/api/dashboard/vacancy-trend`);
+    if (trendResp.ok) {
+      const trendData = await trendResp.json();
+      renderVacancyTrend(trendData.points);
+    }
+
   } catch(e) {
     console.warn('대시보드 로드 실패 (백엔드 미연결):', e.message);
     // 백엔드 미연결 시 기존 정적 데이터 표시
@@ -714,6 +731,54 @@ function renderParksTable(parks) {
   `).join('');
 }
 
+function renderVacancyTrend(points) {
+  const el = document.getElementById('vacancy-trend-chart');
+  if (!el) return;
+
+  if (!points || points.length === 0) {
+    el.innerHTML = '<div style="color:var(--text-sub);font-size:13px">아직 추이 데이터가 없습니다. 대시보드에 접속할 때마다 하루 1개씩 공실률 스냅샷이 자동으로 쌓입니다.</div>';
+    return;
+  }
+
+  if (points.length === 1) {
+    const p = points[0];
+    el.innerHTML = `<div style="display:flex;align-items:center;gap:10px">
+      <div style="width:10px;height:10px;border-radius:50%;background:var(--teal)"></div>
+      <div style="font-size:13px;color:var(--text-sub)">데이터 수집 1일차 (${p.date}) · 평균 공실률 <strong style="color:var(--text)">${p.avg_vacancy_rate}%</strong> — 접속일이 쌓일수록 추이 그래프가 채워집니다.</div>
+    </div>`;
+    return;
+  }
+
+  const W = 640, H = 160, PAD_L = 40, PAD_R = 16, PAD_T = 16, PAD_B = 28;
+  const values = points.map(p => p.avg_vacancy_rate);
+  let min = Math.min(...values), max = Math.max(...values);
+  if (min === max) { min -= 1; max += 1; }
+  const xStep = (W - PAD_L - PAD_R) / (points.length - 1);
+  const yFor = v => PAD_T + (1 - (v - min) / (max - min)) * (H - PAD_T - PAD_B);
+  const xFor = i => PAD_L + i * xStep;
+
+  const linePoints = points.map((p, i) => `${xFor(i)},${yFor(p.avg_vacancy_rate)}`).join(' ');
+  const dots = points.map((p, i) => `<circle cx="${xFor(i)}" cy="${yFor(p.avg_vacancy_rate)}" r="3.5" fill="var(--teal)"><title>${p.date}: ${p.avg_vacancy_rate}%</title></circle>`).join('');
+  // 라벨은 너무 많으면 겹치므로 처음/중간/끝만 표시
+  const labelIdxs = points.length <= 7
+    ? points.map((_, i) => i)
+    : [0, Math.floor((points.length - 1) / 2), points.length - 1];
+  const labels = labelIdxs.map(i => `<text x="${xFor(i)}" y="${H - 8}" font-size="10" fill="var(--text-sub)" text-anchor="middle">${points[i].date.slice(5)}</text>`).join('');
+
+  el.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:160px">
+      <text x="${PAD_L - 8}" y="${yFor(max) + 4}" font-size="10" fill="var(--text-sub)" text-anchor="end">${max.toFixed(1)}%</text>
+      <text x="${PAD_L - 8}" y="${yFor(min) + 4}" font-size="10" fill="var(--text-sub)" text-anchor="end">${min.toFixed(1)}%</text>
+      <polyline points="${linePoints}" fill="none" stroke="var(--teal)" stroke-width="2" />
+      ${dots}
+      ${labels}
+    </svg>
+    <div style="font-size:11px;color:var(--text-sub);margin-top:4px">누적 ${points.length}일치 데이터 · 최신: ${points[points.length - 1].avg_vacancy_rate}%</div>
+  `;
+}
+
+const MATCH_STATUS_OPTIONS = ['매칭 완료', '현장 방문 예약', '입주 확정', '보류'];
+
 function renderRecentMatches(matches) {
   const el = document.getElementById('recent-matches');
   if (!matches || matches.length === 0) {
@@ -727,9 +792,26 @@ function renderRecentMatches(matches) {
         <div class="recent-company">${m.company_name}</div>
         <div class="recent-detail">${m.industry} · ${m.size} · ${m.matched_park}</div>
       </div>
-      <span class="recent-status">${m.status}</span>
+      <select class="recent-status" style="border:none;cursor:pointer" onchange="updateMatchStatus(${m.id}, this.value)">
+        ${MATCH_STATUS_OPTIONS.map(s => `<option value="${s}" ${s === m.status ? 'selected' : ''}>${s}</option>`).join('')}
+      </select>
     </div>
   `).join('');
+}
+
+async function updateMatchStatus(matchId, status) {
+  try {
+    const resp = await fetch(`${API_BASE}/api/dashboard/matches/${matchId}/status`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    });
+    if (!resp.ok) throw new Error('상태 업데이트 실패');
+    loadDashboard();
+  } catch (e) {
+    console.error(e);
+    alert('매칭 상태 업데이트에 실패했습니다.');
+  }
 }
 
 function renderStaticDashboard() {
