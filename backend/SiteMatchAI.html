@@ -344,9 +344,9 @@
     <div class="stats-grid" id="stats-grid">
       <!-- 동적으로 로드 -->
       <div class="stat-card"><div class="stat-label">전체 공실 면적</div><div class="stat-value" id="stat-area">-</div><div class="stat-change" id="stat-area-sub">로딩 중...</div></div>
-      <div class="stat-card"><div class="stat-label">이달 매칭 성사</div><div class="stat-value" id="stat-matches">-</div><div class="stat-change up" id="stat-matches-sub">로딩 중...</div></div>
-      <div class="stat-card"><div class="stat-label">평균 탐색 기간</div><div class="stat-value" id="stat-days">12일</div><div class="stat-change up">기존 180일 → 12일</div></div>
-      <div class="stat-card"><div class="stat-label">등록 기업 수</div><div class="stat-value" id="stat-companies">-</div><div class="stat-change up" id="stat-companies-sub">로딩 중...</div></div>
+      <div class="stat-card"><div class="stat-label">이달 매칭 요청</div><div class="stat-value" id="stat-matches">-</div><div class="stat-change up" id="stat-matches-sub">로딩 중...</div></div>
+      <div class="stat-card"><div class="stat-label">평균 탐색 기간 (목표)</div><div class="stat-value" id="stat-days">12일</div><div class="stat-change up">기존 180일 → 목표 12일</div></div>
+      <div class="stat-card"><div class="stat-label">누적 매칭 요청 수</div><div class="stat-value" id="stat-companies">-</div><div class="stat-change up" id="stat-companies-sub">로딩 중...</div></div>
     </div>
 
     <div class="table-wrap">
@@ -672,7 +672,7 @@ async function loadDashboard() {
       document.getElementById('stat-matches').textContent = `${stats.monthly_matches}건`;
       document.getElementById('stat-matches-sub').textContent = `전체 ${stats.total_parks}개 산단 모니터링`;
       document.getElementById('stat-companies').textContent = `${stats.total_companies}개사`;
-      document.getElementById('stat-companies-sub').textContent = '▲ 누적 매칭 기업';
+      document.getElementById('stat-companies-sub').textContent = '▲ 회원가입 없이 익명 매칭 가능';
     }
 
     // 공단 목록 로드
