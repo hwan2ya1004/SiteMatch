@@ -566,7 +566,7 @@ let currentBotText = '';
 function handleWsMessage(data) {
   if (data.type === 'start') {
     currentBotText = '';
-    currentBotEl = appendMsg('bot', '');
+    currentBotEl = appendMsg('bot', '<span class="dot"></span><span class="dot"></span><span class="dot"></span>');
     document.getElementById('send-btn').disabled = true;
     isStreaming = true;
   } else if (data.type === 'chunk') {
