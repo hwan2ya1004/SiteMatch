@@ -459,6 +459,16 @@ async function checkApiStatus() {
   setTimeout(checkApiStatus, 5000);
 }
 
+// ── 필요 면적 구간 문자열("500~2,000㎡" 등)에서 대표값(중간값) 추출 ──
+function parseAreaMidpointSqm(areaStr) {
+  if (!areaStr) return null;
+  const nums = (areaStr.replace(/,/g, '').match(/\d+(\.\d+)?/g) || []).map(Number);
+  if (nums.length === 0) return null;
+  if (nums.length >= 2) return (nums[0] + nums[1]) / 2;
+  if (areaStr.includes('미만')) return nums[0] / 2;
+  return nums[0]; // "OOO㎡ 이상" 등
+}
+
 // ── AI 매칭 ──
 async function runMatch() {
   const ind = document.getElementById('f-industry').value;
@@ -490,7 +500,7 @@ async function runMatch() {
     }
 
     const data = await resp.json();
-    renderResults(data.results, ind);
+    renderResults(data.results, ind, ar);
   } catch(e) {
     res.innerHTML = `<div style="background:var(--red-bg);border:1px solid #f5c6c6;border-radius:12px;padding:20px;color:var(--red-text)">
       <strong>⚠️ 오류:</strong> ${e.message}<br>
@@ -502,12 +512,20 @@ async function runMatch() {
   btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> 다시 매칭';
 }
 
-function renderResults(results, ind) {
+function renderResults(results, ind, ar) {
   const res = document.getElementById('match-results');
+  const areaSqm = parseAreaMidpointSqm(ar);
   res.innerHTML = `<div style="font-size:14px;color:var(--text-sub);margin-bottom:16px;display:flex;align-items:center;gap:8px">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
     <span><strong style="color:var(--text)">${ind}</strong> 조건에 맞는 산업단지 ${results.length}곳을 추천합니다 (AI 분석 기반)</span>
-  </div>` + results.map((r, i) => `
+  </div>` + results.map((r, i) => {
+    let monthlyRentLine = '';
+    if (areaSqm && r.rent_per_sqm) {
+      const billedSqm = Math.min(areaSqm, r.available_area || areaSqm);
+      const monthlyRent = Math.round(billedSqm * r.rent_per_sqm);
+      monthlyRentLine = `<br>예상 월 임대료: <strong>약 ${monthlyRent.toLocaleString()}원</strong> <span style="color:var(--text-sub)">(선택한 필요 면적 ${ar} 기준 추정치, 실제 계약 면적에 따라 달라짐)</span>`;
+    }
+    return `
   <div class="result-card ${i===0?'top-pick':''}">
     <div class="result-row1">
       <div>
@@ -529,7 +547,7 @@ function renderResults(results, ind) {
     <div style="font-size:12px;color:var(--text-sub);margin-bottom:12px">
       가용면적: <strong>${(r.available_area||0).toLocaleString()}㎡</strong> &nbsp;|&nbsp;
       임대료: <strong>${r.rent_per_sqm ? r.rent_per_sqm.toLocaleString()+'원/㎡' : '-'}</strong> &nbsp;|&nbsp;
-      문의: <strong>${r.contact || '-'}</strong>
+      문의: <strong>${r.contact || '-'}</strong>${monthlyRentLine}
     </div>
     <div class="result-actions">
       <button class="btn-primary" onclick="goChat('${r.name}')">챗봇에서 상세 문의</button>
