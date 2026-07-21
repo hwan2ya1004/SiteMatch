@@ -5,6 +5,7 @@ data.go.kr API 자동 수집 → SQLite 저장 → 일 1회 갱신
 """
 import json
 import os
+import re
 import requests
 from datetime import datetime
 from typing import List, Dict, Optional
@@ -59,6 +60,37 @@ def _get_recent_quarter_ym() -> str:
         month = 12
         year -= 1
     return f"{year}{month:02d}"
+
+
+def _prev_quarter_ym(ym: str) -> str:
+    """분기 년월을 한 분기 전으로 이동"""
+    year, month = int(ym[:4]), int(ym[4:])
+    month -= 3
+    if month <= 0:
+        month += 12
+        year -= 1
+    return f"{year}{month:02d}"
+
+
+def _normalize_park_name(name: str) -> str:
+    """지역본부마다 다른 표기(공백·가운뎃점·약어)를 통일해 비교 가능하게 만든다.
+    예: "구미 국가산단" → "구미국가산업단지" (KICOX 공식 표기와 동일해짐)"""
+    name = re.sub(r"\(.*?\)", "", name)  # 괄호 안 지역 설명 제거
+    name = name.replace(" ", "")
+    name = name.replace("일반산단", "일반산업단지")
+    name = name.replace("국가산단", "국가산업단지")
+    return name
+
+
+def _park_name_candidates(park_name: str) -> List[str]:
+    """"반월·시화 국가산단"처럼 복수 단지를 묶은 이름은 개별 후보로 분리한다."""
+    parts = re.split(r"[·,]", park_name)
+    return [_normalize_park_name(p) for p in parts if p.strip()]
+
+
+def _names_match(park_name_candidates: List[str], irstt_nm: str) -> bool:
+    norm_irstt = _normalize_park_name(irstt_nm)
+    return any(c in norm_irstt or norm_irstt in c for c in park_name_candidates)
 
 
 class PublicDataService:
@@ -185,9 +217,23 @@ class PublicDataService:
         print(f"  단지별 고용현황: {len(items)}건")
         return items
 
+    def _resolve_available_ym(self, max_lookback: int = 8) -> Optional[str]:
+        """실제로 데이터가 존재하는 가장 최근 분기 년월을 탐색한다.
+        공공데이터 제공 시차를 정확히 예측할 수 없어(예: 2024년 4월 이후
+        미제공), 예상 시점부터 거슬러 올라가며 데이터가 있는 첫 분기를 찾는다."""
+        ym = _get_recent_quarter_ym()
+        for _ in range(max_lookback):
+            if self._call_api("mvn_cmpny", year_month=ym):
+                return ym
+            ym = _prev_quarter_ym(ym)
+        return None
+
     def fetch_all_stats(self, year_month: str = None) -> Dict[str, List[Dict]]:
         """모든 통계 데이터 수집"""
-        ym = year_month or _get_recent_quarter_ym()
+        ym = year_month or self._resolve_available_ym()
+        if not ym:
+            print(f"⚠️ 최근 {8}개 분기 내 데이터를 찾지 못함")
+            return {"enterprise": [], "industry": [], "op_rate": [], "employment": []}
         print(f"📡 공공데이터 API 수집 시작 (년월: {ym})...")
         return {
             "enterprise": self.fetch_complex_enterprise_stats(ym),
@@ -198,12 +244,12 @@ class PublicDataService:
 
     def _merge_stats_to_park(self, park: Dict, stats: Dict[str, List[Dict]]) -> Dict:
         """수집된 통계 데이터를 공단 정보에 병합"""
-        park_name = park.get("name", "")
+        candidates = _park_name_candidates(park.get("name", ""))
 
         # 단지별 입주업체 현황
         for item in stats.get("enterprise", []):
             irstt_nm = item.get("irsttNm", "")
-            if park_name in irstt_nm or irstt_nm in park_name:
+            if _names_match(candidates, irstt_nm):
                 total = int(item.get("monthMvnCmpCnt", 0) or 0)
                 operating = int(item.get("monthOpCmpCnt", 0) or 0)
                 if total > 0:
@@ -216,7 +262,7 @@ class PublicDataService:
         # 단지별 가동률
         for item in stats.get("op_rate", []):
             irstt_nm = item.get("irsttNm", "")
-            if park_name in irstt_nm or irstt_nm in park_name:
+            if _names_match(candidates, irstt_nm):
                 op_rate = float(item.get("monthOpRate", 0) or 0)
                 if op_rate > 0:
                     park["operation_rate"] = op_rate
@@ -226,14 +272,14 @@ class PublicDataService:
         # 단지별 고용 현황
         for item in stats.get("employment", []):
             irstt_nm = item.get("irsttNm", "")
-            if park_name in irstt_nm or irstt_nm in park_name:
+            if _names_match(candidates, irstt_nm):
                 park["total_employees"] = int(item.get("monthTotal", 0) or 0)
                 break
 
         # 업종별 입주업체 현황에서 주요 업종 추출
         for item in stats.get("industry", []):
             irstt_nm = item.get("irsttNm", "")
-            if park_name in irstt_nm or irstt_nm in park_name:
+            if _names_match(candidates, irstt_nm):
                 # induty01~12 중 값이 큰 업종 추출
                 industry_counts = []
                 for code, name in INDUSTRY_CODE_MAP.items():

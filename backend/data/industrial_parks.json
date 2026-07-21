@@ -7,7 +7,7 @@
     "type": "국가산단",
     "total_area": 1500000,
     "available_area": 12400,
-    "vacancy_rate": 8.0,
+    "vacancy_rate": 15.6,
     "rent_per_sqm": 28000,
     "industries": [
       "전자",
@@ -76,7 +76,7 @@
     "type": "국가산단",
     "total_area": 2300000,
     "available_area": 38200,
-    "vacancy_rate": 19.0,
+    "vacancy_rate": 19.4,
     "rent_per_sqm": 21000,
     "industries": [
       "기계",
@@ -110,7 +110,7 @@
     "type": "국가산단",
     "total_area": 1800000,
     "available_area": 67500,
-    "vacancy_rate": 29.0,
+    "vacancy_rate": 33.3,
     "rent_per_sqm": 18000,
     "industries": [
       "전자",
@@ -144,7 +144,7 @@
     "type": "국가산단",
     "total_area": 1200000,
     "available_area": 82000,
-    "vacancy_rate": 35.0,
+    "vacancy_rate": 11.5,
     "rent_per_sqm": 15000,
     "industries": [
       "자동차",
@@ -211,7 +211,7 @@
     "type": "국가산단",
     "total_area": 900000,
     "available_area": 9800,
-    "vacancy_rate": 6.5,
+    "vacancy_rate": 24.0,
     "rent_per_sqm": 35000,
     "industries": [
       "전자",
@@ -246,7 +246,7 @@
     "type": "국가산단",
     "total_area": 2100000,
     "available_area": 15300,
-    "vacancy_rate": 7.2,
+    "vacancy_rate": 8.4,
     "rent_per_sqm": 22000,
     "industries": [
       "자동차",
@@ -447,7 +447,7 @@
     "type": "국가산단",
     "total_area": 34000000,
     "available_area": 48000,
-    "vacancy_rate": 5.2,
+    "vacancy_rate": 17.5,
     "rent_per_sqm": 13000,
     "industries": [
       "석유화학",
@@ -479,7 +479,7 @@
     "type": "국가산단",
     "total_area": 17800000,
     "available_area": 31000,
-    "vacancy_rate": 7.8,
+    "vacancy_rate": 7.9,
     "rent_per_sqm": 12500,
     "industries": [
       "철강",
@@ -543,7 +543,7 @@
     "type": "국가산단",
     "total_area": 6100000,
     "available_area": 15200,
-    "vacancy_rate": 8.4,
+    "vacancy_rate": 30.7,
     "rent_per_sqm": 26000,
     "industries": [
       "디스플레이",
@@ -639,7 +639,7 @@
     "type": "국가산단",
     "total_area": 6800000,
     "available_area": 17600,
-    "vacancy_rate": 10.5,
+    "vacancy_rate": 27.5,
     "rent_per_sqm": 13500,
     "industries": [
       "식품",
@@ -798,7 +798,7 @@
     "type": "국가산단",
     "total_area": 4270000,
     "available_area": 8600,
-    "vacancy_rate": 5.8,
+    "vacancy_rate": 23.8,
     "rent_per_sqm": 24000,
     "industries": [
       "바이오·제약",
@@ -830,7 +830,7 @@
     "type": "국가산단",
     "total_area": 8960000,
     "available_area": 19300,
-    "vacancy_rate": 8.9,
+    "vacancy_rate": 17.9,
     "rent_per_sqm": 20000,
     "industries": [
       "자동차부품",
@@ -1117,7 +1117,7 @@
     "type": "국가산단",
     "total_area": 25000000,
     "available_area": 39000,
-    "vacancy_rate": 6.4,
+    "vacancy_rate": 14.4,
     "rent_per_sqm": 13800,
     "industries": [
       "비철금속",
