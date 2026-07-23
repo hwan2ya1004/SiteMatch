@@ -553,7 +553,8 @@ function renderResults(results, ind, ar) {
       <button class="btn-primary" onclick="goChat('${r.name}')">챗봇에서 상세 문의</button>
       <button class="btn-ghost" onclick="window.open('${r.website}','_blank')">공단 홈페이지</button>
     </div>
-  </div>`).join('');
+  </div>`;
+  }).join('');
 }
 
 // ── 챗봇 (WebSocket 스트리밍) ──
