@@ -17,6 +17,39 @@ from services.embedding import get_embedding_service
 
 router = APIRouter(prefix="/api", tags=["matching"])
 
+# 단지 유형별 인허가 절차 (산업입지법 등에 근거한 일반적 구분 — 단지별 세부 스펙은 아님)
+TYPE_NOTES = {
+    "국가산단": "국가산업단지 — 산업통상자원부 지정, 한국산업단지공단(KICOX) 등 관리기관의 입주 심사·인허가 절차를 따릅니다.",
+    "일반산단": "일반산업단지 — 관할 지자체(시·군·구)가 지정·관리하며, 인허가는 지자체 산업단지 관리기관을 통해 진행됩니다.",
+    "도시첨단산단": "도시첨단산업단지 — 지자체 지정, IT·지식서비스 등 첨단업종 중심으로 조성되어 입주 업종 제한이 있을 수 있습니다.",
+    "자유무역지역": "자유무역지역 — 산업통상자원부 산하 특례 지역으로 관세 유예 등 통관 인센티브가 있으며, 별도 관리기관의 입주 승인이 필요합니다.",
+}
+
+# 업종별 일반적으로 확인이 필요한 인프라 항목 (공단별 실측 스펙이 아닌, 업종 특성상 체크리스트)
+INDUSTRY_INFRA_HINTS = [
+    ({"석유화학", "화학", "화학소재", "정유", "플라스틱"}, "폐수·폐기물 처리 시설과 위험물 취급 인허가 여건을 확인하세요."),
+    ({"반도체", "반도체부품", "전자", "전기전자", "디스플레이", "IT부품", "모바일"}, "안정적인 전력·용수 공급 능력과 클린룸 인프라 여부를 확인하세요."),
+    ({"식품", "바이오", "바이오·제약", "의료기기", "화장품"}, "위생 등급 인증, 냉동·냉장 물류, 상수도 수질 기준을 확인하세요."),
+    ({"자동차", "자동차부품", "조선", "조선기자재", "항공부품", "기계", "기계부품", "금속", "금속가공", "철강"}, "대형 화물 운송로와 배후 협력업체 접근성을 확인하세요."),
+    ({"물류", "수출가공"}, "고속도로 IC·항만·공항 접근성을 우선 확인하세요."),
+]
+
+
+def build_infra_note(park: dict) -> str:
+    """단지 유형·업종 기준의 일반적 확인사항. 공단별 실측 인프라 스펙(전력 용량 등)이 아니라
+    입지 선정 시 놓치기 쉬운 체크포인트를 안내하는 용도."""
+    notes = []
+    type_note = TYPE_NOTES.get(park.get("type", ""))
+    if type_note:
+        notes.append(type_note)
+    park_industries = set(park.get("industries") or [])
+    matched = []
+    for keys, hint in INDUSTRY_INFRA_HINTS:
+        if park_industries & keys and hint not in matched:
+            matched.append(hint)
+    notes.extend(matched[:2])  # 카드가 너무 길어지지 않도록 업종 힌트는 최대 2개까지만
+    return " ".join(notes)
+
 
 class MatchRequest(BaseModel):
     industry: str
@@ -37,6 +70,7 @@ class MatchResult(BaseModel):
     score: float
     reason: str = ""
     breakdown: dict = {}
+    infra_note: str = ""
     available_area: float
     vacancy_rate: float
     rent_per_sqm: int
@@ -84,6 +118,7 @@ async def run_match(req: MatchRequest, db: Session = Depends(get_db)):
             "score": r["score"],
             "reason": r.get("reason", ""),
             "breakdown": r.get("breakdown", {}),
+            "infra_note": build_infra_note(park),
             "available_area": park.get("available_area", 0),
             "vacancy_rate": park.get("vacancy_rate", 0),
             "rent_per_sqm": park.get("rent_per_sqm", 0),

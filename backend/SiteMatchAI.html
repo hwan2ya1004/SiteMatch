@@ -206,7 +206,7 @@
       <div class="form-grid">
         <div class="field">
           <label>업종 *</label>
-          <select id="f-industry">
+          <select id="f-industry" onchange="showIndustryHint(this.value)">
             <option value="">선택하세요</option>
             <option>전자·반도체</option>
             <option>자동차·부품</option>
@@ -219,6 +219,7 @@
             <option>로봇·스마트팩토리</option>
             <option>기타 제조업</option>
           </select>
+          <div id="industry-hint" style="display:none;font-size:12px;color:var(--teal-dark);background:var(--teal-light);border-radius:6px;padding:6px 10px;margin-top:2px"></div>
         </div>
         <div class="field">
           <label>종업원 수 *</label>
@@ -459,6 +460,30 @@ async function checkApiStatus() {
   setTimeout(checkApiStatus, 5000);
 }
 
+// ── 업종별 1차 추천 힌트 (선택 즉시 표시, 매칭 실행 전 참고용) ──
+const INDUSTRY_HINTS = {
+  '전자·반도체': '보통 용인·수원·평택·이천 등 수도권 반도체 벨트에 집중돼요. 안정적 전력·용수 공급과 클린룸 인프라가 중요합니다.',
+  '자동차·부품': '울산·경남·아산 등 완성차·부품 협력사가 밀집한 지역이 유리해요. 대형 화물 운송로 접근성이 중요합니다.',
+  '기계·금속 장비': '창원·대구·부산 등 기계·금속 가공 클러스터가 발달한 지역이 유리해요.',
+  '화학·소재': '여수·광양·서산(대산) 등 임해 석유화학단지가 대표적이에요. 폐수처리 시설·위험물 인허가 여건을 꼭 확인하세요.',
+  '식품·음료': '익산(국가식품클러스터) 등 식품 특화단지가 유리해요. 위생 등급과 냉동·냉장 물류가 중요합니다.',
+  '섬유·의류': '대구 등 섬유산업 기반이 있는 지역이 유리해요.',
+  '바이오·의료기기': '원주(의료기기 클러스터), 오송(바이오헬스) 등 특화단지가 유리해요.',
+  '물류·유통': '고속도로 IC·항만·공항 접근성이 핵심이에요 — 평택항·부산신항 인근을 확인하세요.',
+  '로봇·스마트팩토리': '대구, 경기 남부 등 R&D 인력과 통신 인프라가 갖춰진 지역이 유리해요.',
+  '기타 제조업': '인건비 수준과 인력 수급이 용이한 지역을 우선 고려하세요.',
+};
+function showIndustryHint(industry) {
+  const el = document.getElementById('industry-hint');
+  const hint = INDUSTRY_HINTS[industry];
+  if (hint) {
+    el.textContent = '💡 ' + hint;
+    el.style.display = 'block';
+  } else {
+    el.style.display = 'none';
+  }
+}
+
 // ── 필요 면적 구간 문자열("500~2,000㎡" 등)에서 대표값(중간값) 추출 ──
 function parseAreaMidpointSqm(areaStr) {
   if (!areaStr) return null;
@@ -550,6 +575,7 @@ function renderResults(results, ind, ar) {
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:6px"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
       ${r.subsidy}
     </div>
+    ${r.infra_note ? `<div style="background:var(--amber-bg);color:var(--amber-text);border-radius:8px;padding:8px 12px;font-size:12px;margin-bottom:12px">🔍 입지 선정 시 확인사항: ${r.infra_note}</div>` : ''}
     <div style="font-size:12px;color:var(--text-sub);margin-bottom:12px">
       가용면적: <strong>${(r.available_area||0).toLocaleString()}㎡</strong> &nbsp;|&nbsp;
       임대료: <strong>${r.rent_per_sqm ? r.rent_per_sqm.toLocaleString()+'원/㎡' : '-'}</strong> &nbsp;|&nbsp;
