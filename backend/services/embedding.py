@@ -19,17 +19,23 @@ MATCH_MODEL = "llama-3.3-70b-versatile"
 SYSTEM_PROMPT = """당신은 한국 산업단지 입주 컨설턴트 AI입니다.
 주어진 기업 조건과 산업단지 목록을 검토하여, 각 산업단지가 이 기업에 얼마나 적합한지 평가하세요.
 
-평가 기준(중요도 순):
-1. 업종 적합성 — 산업단지의 주요 업종이 기업 업종과 얼마나 연관되는지
-2. 희망 지역 일치 여부
-3. 예산(임대료) 적합성
-4. 물류 조건 충족 여부
-5. 필요 면적 충족 여부
-6. 기업의 추가 요구사항 반영 여부
+평가 기준과 배점(총 100점, score는 아래 배점의 합이어야 함):
+1. 업종 적합성 (40점) — 산업단지의 주요 업종이 기업 업종과 얼마나 연관되는지. 아래 업종별 핵심 입지 요인을 반드시 함께 고려하세요:
+   - 전자·반도체: 안정적 전력·용수 공급, 클린룸 인프라, 숙련 인력 밀집 지역(용인·수원·평택·이천 등)
+   - 자동차·부품, 기계·금속 장비, 로봇·스마트팩토리: 대형 화물 운송로, 배후 협력업체·부품사 밀집도
+   - 화학·소재: 폐수·폐기물 처리 시설, 위험물 취급 인허가, 임해(항만) 접근성
+   - 식품·음료, 바이오·의료기기: 위생·품질 관리 인프라, 냉동·냉장 물류, 상수도 수질
+   - 물류·유통: 고속도로 IC·항만·공항 접근성
+   - 섬유·의류, 기타 제조업: 인건비 수준, 인력 수급 용이성
+2. 희망 지역 일치 여부 (25점)
+3. 예산(임대료) 적합성 (15점)
+4. 물류 조건 충족 여부 (10점)
+5. 필요 면적 충족 여부 (5점)
+6. 기업의 추가 요구사항 반영 여부 (5점)
 
 반드시 아래 JSON 배열 형식으로만 답변하고, 다른 설명은 절대 포함하지 마세요.
-[{"id": 공단ID(정수), "score": 점수(0~100 정수), "reason": "적합/부적합 이유를 한 문장으로"}, ...]
-목록에 있는 모든 공단에 대해 반드시 항목을 하나씩 반환하세요."""
+[{"id": 공단ID(정수), "score": 총점(0~100 정수), "breakdown": {"industry": 0~40, "region": 0~25, "budget": 0~15, "logistics": 0~10, "area": 0~5, "extra": 0~5}, "reason": "적합/부적합 이유를 한 문장으로, 업종별 핵심 입지 요인을 근거로 언급"}, ...]
+breakdown 각 항목의 합은 score와 같아야 합니다. 목록에 있는 모든 공단에 대해 반드시 항목을 하나씩 반환하세요."""
 
 # ── 폴백용 키워드 매핑 (LLM 호출 실패 시에만 사용) ──────────────────────
 INDUSTRY_KEYWORDS = {
@@ -152,7 +158,7 @@ class EmbeddingService:
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.2,
-            max_tokens=1500,
+            max_tokens=5400,
         )
         raw = completion.choices[0].message.content
         scored = self._extract_json_array(raw)
@@ -164,6 +170,7 @@ class EmbeddingService:
                     "id": int(item["id"]),
                     "score": max(0.0, min(100.0, float(item["score"]))),
                     "reason": str(item.get("reason", "")),
+                    "breakdown": self._sanitize_breakdown(item.get("breakdown")),
                 })
             except (KeyError, TypeError, ValueError):
                 continue
@@ -171,11 +178,24 @@ class EmbeddingService:
             raise ValueError("LLM 응답에서 유효한 점수를 파싱하지 못했습니다.")
         return results
 
-    # ── 폴백: 규칙 기반 키워드 스코어링 ─────────────────────────────
+    @staticmethod
+    def _sanitize_breakdown(raw: Any) -> Dict[str, float]:
+        """LLM이 반환한 breakdown을 배점 범위 안으로 보정한다."""
+        caps = {"industry": 40, "region": 25, "budget": 15, "logistics": 10, "area": 5, "extra": 5}
+        if not isinstance(raw, dict):
+            return {}
+        out = {}
+        for key, cap in caps.items():
+            try:
+                out[key] = max(0.0, min(float(cap), float(raw.get(key, 0))))
+            except (TypeError, ValueError):
+                out[key] = 0.0
+        return out
+
+    # ── 폴백: 규칙 기반 키워드 스코어링 (LLM과 동일한 100점 배점 체계) ──
     def _keyword_score_park(self, park: Dict, industry: str, size: str, area: str,
-                             region: str, budget: str, logistics: str, extra: str) -> float:
-        score = 0.0
-        max_score = 0.0
+                             region: str, budget: str, logistics: str, extra: str) -> Dict[str, float]:
+        breakdown = {"industry": 0.0, "region": 0.0, "budget": 0.0, "logistics": 0.0, "area": 0.0, "extra": 0.0}
 
         park_industries = park.get("industries", [])
         park_logistics = park.get("logistics", [])
@@ -190,49 +210,50 @@ class EmbeddingService:
             " ".join(park_features),
         ])
 
-        max_score += 40
         keywords = INDUSTRY_KEYWORDS.get(industry, [industry])
         matched_kw = sum(1 for kw in keywords if kw in park_text)
-        score += min(matched_kw / max(len(keywords), 1), 1.0) * 40
+        breakdown["industry"] = min(matched_kw / max(len(keywords), 1), 1.0) * 40
 
-        max_score += 25
         if region and region not in ("지역 무관", ""):
             region_keywords = REGION_MAP.get(region, [region])
-            if any(kw in park_region for kw in region_keywords):
-                score += 25
+            breakdown["region"] = 25.0 if any(kw in park_region for kw in region_keywords) else 0.0
         else:
-            score += 15
+            breakdown["region"] = 15.0
 
-        max_score += 20
         rent = park.get("rent_per_sqm", 0)
         if budget and budget not in ("무관", ""):
             max_rent = BUDGET_MAP.get(budget, 999999)
             if rent <= max_rent:
-                score += 20
+                breakdown["budget"] = 15.0
             elif rent <= max_rent * 1.3:
-                score += 10
+                breakdown["budget"] = 7.0
         else:
-            score += 15
+            breakdown["budget"] = 11.0
 
-        max_score += 10
         if logistics and logistics not in ("무관", ""):
             if logistics in park_text or any(logistics in lg for lg in park_logistics):
-                score += 10
+                breakdown["logistics"] = 10.0
             else:
-                score += 3
+                breakdown["logistics"] = 3.0
         else:
-            score += 7
+            breakdown["logistics"] = 7.0
 
-        max_score += 5
         if area and area in AREA_MAP:
             min_area, _ = AREA_MAP[area]
             avail = park.get("available_area", 0)
             if avail >= min_area:
-                score += 5
+                breakdown["area"] = 5.0
             elif avail > 0:
-                score += 2
+                breakdown["area"] = 2.0
+        else:
+            breakdown["area"] = 3.0
 
-        return score / max_score
+        if extra and extra.strip():
+            breakdown["extra"] = 5.0 if extra.strip() in park_text else 1.0
+        else:
+            breakdown["extra"] = 3.0
+
+        return breakdown
 
     def search(self, industry: str, size: str, area: str,
                region: str, budget: str, logistics: str, extra: str,
@@ -252,17 +273,19 @@ class EmbeddingService:
                         "park": park,
                         "score": round(item["score"], 1),
                         "reason": item["reason"],
+                        "breakdown": item.get("breakdown", {}),
                     })
                 else:
-                    results.append({"park": park, "score": 0.0, "reason": ""})
+                    results.append({"park": park, "score": 0.0, "reason": "", "breakdown": {}})
         except Exception as e:
             print(f"⚠️ LLM 매칭 실패, 키워드 매칭으로 대체: {e}")
             results = []
             for park in self.parks_data:
-                raw_score = self._keyword_score_park(
+                breakdown = self._keyword_score_park(
                     park, industry, size, area, region, budget, logistics, extra
                 )
-                results.append({"park": park, "score": round(raw_score * 100, 1), "reason": ""})
+                total = round(sum(breakdown.values()), 1)
+                results.append({"park": park, "score": total, "reason": "", "breakdown": breakdown})
 
         results.sort(key=lambda x: x["score"], reverse=True)
         return results[:top_k]

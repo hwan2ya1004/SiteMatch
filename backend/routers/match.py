@@ -36,6 +36,7 @@ class MatchResult(BaseModel):
     city: str
     score: float
     reason: str = ""
+    breakdown: dict = {}
     available_area: float
     vacancy_rate: float
     rent_per_sqm: int
@@ -82,6 +83,7 @@ async def run_match(req: MatchRequest, db: Session = Depends(get_db)):
             "city": park.get("city", ""),
             "score": r["score"],
             "reason": r.get("reason", ""),
+            "breakdown": r.get("breakdown", {}),
             "available_area": park.get("available_area", 0),
             "vacancy_rate": park.get("vacancy_rate", 0),
             "rent_per_sqm": park.get("rent_per_sqm", 0),

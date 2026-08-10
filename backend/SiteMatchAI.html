@@ -525,6 +525,11 @@ function renderResults(results, ind, ar) {
       const monthlyRent = Math.round(billedSqm * r.rent_per_sqm);
       monthlyRentLine = `<br>예상 월 임대료: <strong>약 ${monthlyRent.toLocaleString()}원</strong> <span style="color:var(--text-sub)">(선택한 필요 면적 ${ar} 기준 추정치, 실제 계약 면적에 따라 달라짐)</span>`;
     }
+    const bd = r.breakdown || {};
+    const bdLabels = [['industry','업종',40],['region','지역',25],['budget','예산',15],['logistics','물류',10],['area','면적',5],['extra','요구사항',5]];
+    const breakdownLine = Object.keys(bd).length
+      ? `<div style="font-size:11px;color:var(--text-sub);margin-bottom:10px">매칭 근거: ${bdLabels.map(([k,label,cap])=>`${label} ${Math.round(bd[k]||0)}/${cap}`).join(' · ')}</div>`
+      : '';
     return `
   <div class="result-card ${i===0?'top-pick':''}">
     <div class="result-row1">
@@ -540,6 +545,7 @@ function renderResults(results, ind, ar) {
       ${r.vacancy_rate ? `<span class="tag">공실률 ${r.vacancy_rate}%</span>` : ''}
     </div>
     <div class="result-reason">${r.reason || r.description}</div>
+    ${breakdownLine}
     <div class="subsidy-box">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:6px"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
       ${r.subsidy}
