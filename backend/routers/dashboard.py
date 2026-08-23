@@ -14,16 +14,21 @@ from sqlalchemy import func, desc
 from datetime import datetime, timedelta
 from typing import Dict, Optional
 
-from database import get_db, IndustrialPark, MatchingHistory, VacancySnapshot
+from database import get_db, IndustrialPark, MatchingHistory, VacancySnapshot, ParkInquiry
 
 router = APIRouter(prefix="/api", tags=["dashboard"])
 
-# 매칭 이력의 실제 진행 상태 — 공단 담당자가 대시보드에서 직접 갱신
-MATCH_STATUS_OPTIONS = ["매칭 완료", "현장 방문 예약", "입주 확정", "보류"]
+
+class InquiryCreate(BaseModel):
+    park_name: str
+    company_name: str = ""
+    contact: str = ""
+    industry: str = ""
+    message: str
 
 
-class MatchStatusUpdate(BaseModel):
-    status: str
+class InquiryReply(BaseModel):
+    reply: str
 
 
 
@@ -190,58 +195,81 @@ def get_parks(db: Session = Depends(get_db)):
     return {"parks": result, "total": len(result)}
 
 
-@router.get("/dashboard/recent-matches")
-def get_recent_matches(limit: int = 10, park: str = "", db: Session = Depends(get_db)):
-    """최근 매칭 이력 (인증 없음 — 임시 공개).
-    park가 주어지면 그 공단이 추천 상위 5곳 안에 포함된 이력만 필터링한다
-    (1위로 뽑힌 경우뿐 아니라 후보로 등장한 경우까지 전부 — 관공서 화면의 "내 산업단지" 필터용)."""
-    query = db.query(MatchingHistory).order_by(desc(MatchingHistory.created_at))
-    histories = query.all() if park else query.limit(limit).all()
+@router.post("/inquiries")
+def create_inquiry(body: InquiryCreate, db: Session = Depends(get_db)):
+    """산업단지 입주 문의 등록 (소비자용, 인증 없음).
+    관리기관과 직접 연결되는 창구가 없어 챗봇이 안내한 외부 연락처에서 막히는
+    문제를 보완하기 위해, 문의를 남기면 해당 산단의 관공서 대시보드에 접수된다."""
+    if not body.park_name.strip():
+        raise HTTPException(status_code=400, detail="산업단지를 선택해주세요.")
+    if not body.message.strip():
+        raise HTTPException(status_code=400, detail="문의 내용을 입력해주세요.")
 
-    result = []
-    for h in histories:
-        matched = []
-        try:
-            matched = json.loads(h.matched_parks) if h.matched_parks else []
-        except Exception:
-            pass
-
-        if park and park not in matched:
-            continue
-
-        result.append({
-            "id": h.id,
-            "company_name": h.company_name or "익명",
-            "industry": h.industry,
-            "size": h.size,
-            "matched_park": matched[0] if matched else "",
-            "matched_parks": matched,
-            "status": h.status,
-            "created_at": h.created_at.isoformat() if h.created_at else "",
-        })
-        if park and len(result) >= limit:
-            break
-
-    return {"matches": result, "total": len(result)}
-
-
-@router.patch("/dashboard/matches/{match_id}/status")
-def update_match_status(match_id: int, body: MatchStatusUpdate, db: Session = Depends(get_db)):
-    """매칭 이력의 실제 진행 상태(현장 방문 예약/입주 확정 등) 기록 (인증 없음 — 임시 공개).
-    추후 매칭 정확도 개선(피드백 루프)에 쓸 실제 성사 데이터를 축적하기 위한 엔드포인트."""
-    if body.status not in MATCH_STATUS_OPTIONS:
-        raise HTTPException(
-            status_code=400,
-            detail=f"status는 {MATCH_STATUS_OPTIONS} 중 하나여야 합니다.",
-        )
-
-    history = db.query(MatchingHistory).filter(MatchingHistory.id == match_id).first()
-    if not history:
-        raise HTTPException(status_code=404, detail="매칭 이력을 찾을 수 없습니다.")
-
-    history.status = body.status
+    inquiry = ParkInquiry(
+        park_name=body.park_name.strip(),
+        company_name=body.company_name.strip() or "익명",
+        contact=body.contact.strip(),
+        industry=body.industry.strip(),
+        message=body.message.strip(),
+        status="접수",
+    )
+    db.add(inquiry)
     db.commit()
-    return {"id": history.id, "status": history.status}
+    db.refresh(inquiry)
+    return {"id": inquiry.id, "status": inquiry.status}
+
+
+@router.get("/dashboard/inquiries")
+def get_inquiries(park: str = "", limit: int = 50, db: Session = Depends(get_db)):
+    """산업단지 입주 문의 목록 (관공서 대시보드용, 인증 없음 — 임시 공개).
+    park가 주어지지 않으면 빈 목록을 반환한다 — 관리기관마다 담당 산단이 달라
+    "전체 보기" 상태에서 다른 산단으로 온 문의(연락처 포함)까지 노출되지 않도록
+    프런트에서 특정 산단을 선택했을 때만 호출하는 것을 전제로 한다."""
+    if not park:
+        return {"inquiries": [], "total": 0}
+
+    rows = (
+        db.query(ParkInquiry)
+        .filter(ParkInquiry.park_name == park)
+        .order_by(desc(ParkInquiry.created_at))
+        .limit(limit)
+        .all()
+    )
+    return {
+        "inquiries": [
+            {
+                "id": r.id,
+                "park_name": r.park_name,
+                "company_name": r.company_name,
+                "contact": r.contact,
+                "industry": r.industry,
+                "message": r.message,
+                "reply": r.reply,
+                "status": r.status,
+                "created_at": r.created_at.isoformat() if r.created_at else "",
+                "replied_at": r.replied_at.isoformat() if r.replied_at else "",
+            }
+            for r in rows
+        ],
+        "total": len(rows),
+    }
+
+
+@router.patch("/dashboard/inquiries/{inquiry_id}")
+def reply_inquiry(inquiry_id: int, body: InquiryReply, db: Session = Depends(get_db)):
+    """입주 문의에 담당자 답변 등록 (관공서 대시보드용, 인증 없음 — 임시 공개)."""
+    if not body.reply.strip():
+        raise HTTPException(status_code=400, detail="답변 내용을 입력해주세요.")
+
+    inquiry = db.query(ParkInquiry).filter(ParkInquiry.id == inquiry_id).first()
+    if not inquiry:
+        raise HTTPException(status_code=404, detail="문의를 찾을 수 없습니다.")
+
+    inquiry.reply = body.reply.strip()
+    inquiry.status = "답변완료"
+    inquiry.replied_at = datetime.utcnow()
+    db.commit()
+    return {"id": inquiry.id, "status": inquiry.status}
 
 
 @router.get("/dashboard/whoami")

@@ -71,6 +71,24 @@ class VacancySnapshot(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+class ParkInquiry(Base):
+    """산업단지 입주 문의 — 소비자가 특정 산단에 남긴 문의를 관공서 담당자가
+    대시보드에서 확인하고 답변한다 (관리공단과 직접 채팅하는 창구가 없어
+    실제 신청 단계에서 막히는 문제를 해결하기 위한 접수 창구)."""
+    __tablename__ = "park_inquiries"
+
+    id = Column(Integer, primary_key=True, index=True)
+    park_name = Column(String(100), nullable=False)
+    company_name = Column(String(100))
+    contact = Column(String(100))
+    industry = Column(String(50))
+    message = Column(Text)
+    reply = Column(Text)
+    status = Column(String(20), default="접수")   # 접수 / 답변완료
+    created_at = Column(DateTime, default=datetime.utcnow)
+    replied_at = Column(DateTime)
+
+
 class ChatHistory(Base):
     __tablename__ = "chat_history"
 

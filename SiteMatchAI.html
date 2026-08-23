@@ -409,11 +409,14 @@
     </div>
 
     <div class="dashboard-grid">
-      <div class="table-wrap">
-        <div class="table-header">최근 매칭 현황</div>
-        <div class="recent-list" id="recent-matches">
-          <div class="recent-item"><div style="color:var(--text-sub)">데이터 로딩 중...</div></div>
+      <div class="table-wrap" id="inquiries-panel" style="display:none">
+        <div class="table-header">입주 문의</div>
+        <div class="recent-list" id="park-inquiries">
+          <div class="recent-item"><div style="color:var(--text-sub)">문의 없음</div></div>
         </div>
+      </div>
+      <div class="table-wrap" id="inquiries-hint" style="display:flex;align-items:center;justify-content:center;padding:24px;color:var(--text-sub);font-size:13px;text-align:center">
+        "내 산업단지"에서 담당 산단을 선택하면 그 산단으로 온 입주 문의가 여기에 표시됩니다.
       </div>
       <div class="table-wrap" id="contest-panel" style="display:none">
         <div class="table-header">공모전 심사 대응 현황 <span style="font-size:11px;color:var(--text-sub);font-weight:400">(관리자 전용)</span></div>
@@ -449,6 +452,35 @@
     </div>
   </div>
 
+</div>
+
+<div id="inquiry-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,20,0.45);z-index:200;align-items:center;justify-content:center">
+  <div class="card" style="width:100%;max-width:420px;margin:0">
+    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+      <span>입주 문의하기</span>
+      <button onclick="closeInquiryModal()" style="border:none;background:none;cursor:pointer;font-size:18px;color:var(--text-sub);line-height:1">×</button>
+    </div>
+    <div style="font-size:13px;color:var(--text-sub);margin-bottom:14px" id="inquiry-modal-park"></div>
+    <div class="field" style="margin-bottom:10px">
+      <label>회사명 (선택)</label>
+      <input type="text" id="inquiry-company" placeholder="예: OO전자">
+    </div>
+    <div class="field" style="margin-bottom:10px">
+      <label>연락처 (전화 또는 이메일)</label>
+      <input type="text" id="inquiry-contact" placeholder="담당자가 답변을 남길 때 필요합니다">
+    </div>
+    <div class="field" style="margin-bottom:10px">
+      <label>업종 (선택)</label>
+      <input type="text" id="inquiry-industry" placeholder="예: 전자·반도체">
+    </div>
+    <div class="field" style="margin-bottom:14px">
+      <label>문의 내용</label>
+      <textarea id="inquiry-message" rows="4" placeholder="입주 조건, 임대 절차 등 궁금한 점을 남겨주세요." style="padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;resize:vertical"></textarea>
+    </div>
+    <button class="match-btn" style="width:100%" onclick="submitInquiry()" id="inquiry-submit-btn">문의 등록</button>
+    <div id="inquiry-error" style="color:var(--red-text);font-size:13px;margin-top:8px;display:none"></div>
+    <div id="inquiry-success" style="color:var(--teal-dark);font-size:13px;margin-top:8px;display:none">문의가 등록되었습니다. 산단 담당자가 확인 후 답변을 남길 예정입니다.</div>
+  </div>
 </div>
 
 <script>
@@ -708,6 +740,7 @@ function renderResults(results, ind, ar) {
     </div>
     <div class="result-actions">
       <button class="btn-primary" onclick="goChat('${r.name}')">챗봇에서 상세 문의</button>
+      <button class="btn-primary" onclick="openInquiryModal('${r.name}')">입주 문의하기</button>
       <button class="btn-ghost" onclick="window.open('${r.website}','_blank')">공단 홈페이지</button>
     </div>
   </div>`;
@@ -836,6 +869,64 @@ function goChat(name) {
   sendChat();
 }
 
+// ── 입주 문의 모달 (소비자 → 관공서 대시보드로 접수) ──
+function openInquiryModal(parkName) {
+  document.getElementById('inquiry-modal-park').textContent = `${parkName}에 문의를 남깁니다`;
+  document.getElementById('inquiry-modal-overlay').dataset.park = parkName;
+  document.getElementById('inquiry-company').value = '';
+  document.getElementById('inquiry-contact').value = '';
+  document.getElementById('inquiry-industry').value = '';
+  document.getElementById('inquiry-message').value = '';
+  document.getElementById('inquiry-error').style.display = 'none';
+  document.getElementById('inquiry-success').style.display = 'none';
+  document.getElementById('inquiry-submit-btn').style.display = 'block';
+  document.getElementById('inquiry-modal-overlay').style.display = 'flex';
+}
+
+function closeInquiryModal() {
+  document.getElementById('inquiry-modal-overlay').style.display = 'none';
+}
+
+async function submitInquiry() {
+  const parkName = document.getElementById('inquiry-modal-overlay').dataset.park;
+  const message = document.getElementById('inquiry-message').value.trim();
+  const errEl = document.getElementById('inquiry-error');
+  errEl.style.display = 'none';
+
+  if (!message) {
+    errEl.textContent = '문의 내용을 입력해주세요.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('inquiry-submit-btn');
+  btn.disabled = true;
+  try {
+    const resp = await fetch(`${API_BASE}/api/inquiries`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        park_name: parkName,
+        company_name: document.getElementById('inquiry-company').value.trim(),
+        contact: document.getElementById('inquiry-contact').value.trim(),
+        industry: document.getElementById('inquiry-industry').value.trim(),
+        message,
+      }),
+    });
+    if (!resp.ok) {
+      const data = await resp.json().catch(() => ({}));
+      throw new Error(data.detail || '문의 등록에 실패했습니다.');
+    }
+    document.getElementById('inquiry-success').style.display = 'block';
+    btn.style.display = 'none';
+  } catch (e) {
+    errEl.textContent = e.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
 // ── 대시보드 ──
 function dashAuthHeaders() {
   return { 'X-Access-Key': window.dashboardAccessKey || '' };
@@ -861,7 +952,7 @@ async function loadDashboard() {
       const parksData = await parksResp.json();
       window.allParks = parksData.parks;
       populateMyParkSelect(parksData.parks);
-      applyMyParkFilter(); // 선택된 공단 기준으로 표·요약·매칭이력을 다시 그림 (내부에서 recent-matches도 불러옴)
+      applyMyParkFilter(); // 선택된 공단 기준으로 표·요약·입주 문의를 다시 그림
     }
 
     // 공실률 추이 로드
@@ -889,8 +980,10 @@ function setMyParkStorage(name) {
 function populateMyParkSelect(parks) {
   const sel = document.getElementById('my-park-select');
   const saved = getMyParkStorage();
+  // 원본 parks 배열은 "이달 문의 많은 순"(공실 현황 표용 정렬)이라 셀렉트 목록엔 안 맞음 — 이름순으로 재정렬
+  const sorted = [...parks].sort((a, b) => a.name.localeCompare(b.name, 'ko'));
   sel.innerHTML = '<option value="">전체 보기 (모든 산업단지)</option>' +
-    parks.map(p => `<option value="${p.name}">${p.name} (${p.city})</option>`).join('');
+    sorted.map(p => `<option value="${p.name}">${p.name} (${p.city})</option>`).join('');
   if (saved && parks.some(p => p.name === saved)) {
     sel.value = saved;
   }
@@ -909,8 +1002,9 @@ async function applyMyParkFilter() {
   if (!name) {
     document.getElementById('my-park-summary').style.display = 'none';
     renderParksTable(parks);
-    const matchesResp = await fetch(`${API_BASE}/api/dashboard/recent-matches`, { headers: dashAuthHeaders() });
-    if (matchesResp.ok) renderRecentMatches((await matchesResp.json()).matches, null);
+    // "전체 보기" 상태에서는 다른 산단의 입주 문의(연락처 포함)가 섞여 보이지 않도록 패널 자체를 숨김
+    document.getElementById('inquiries-panel').style.display = 'none';
+    document.getElementById('inquiries-hint').style.display = 'flex';
     return;
   }
 
@@ -929,8 +1023,65 @@ async function applyMyParkFilter() {
       </div>`;
   }
 
-  const matchesResp = await fetch(`${API_BASE}/api/dashboard/recent-matches?park=${encodeURIComponent(name)}&limit=20`, { headers: dashAuthHeaders() });
-  if (matchesResp.ok) renderRecentMatches((await matchesResp.json()).matches, name);
+  document.getElementById('inquiries-hint').style.display = 'none';
+  document.getElementById('inquiries-panel').style.display = 'block';
+  await loadInquiries(name);
+}
+
+async function loadInquiries(parkName) {
+  try {
+    const resp = await fetch(`${API_BASE}/api/dashboard/inquiries?park=${encodeURIComponent(parkName)}`, { headers: dashAuthHeaders() });
+    if (resp.ok) renderInquiries((await resp.json()).inquiries);
+  } catch (e) {
+    console.warn('입주 문의 로드 실패:', e.message);
+  }
+}
+
+function renderInquiries(inquiries) {
+  const el = document.getElementById('park-inquiries');
+  if (!inquiries || inquiries.length === 0) {
+    el.innerHTML = '<div class="recent-item"><div style="color:var(--text-sub)">문의 없음</div></div>';
+    return;
+  }
+
+  el.innerHTML = inquiries.map(q => `
+    <div class="recent-item" style="flex-direction:column;align-items:stretch;gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <div>
+          <div class="recent-company">${q.company_name}${q.industry ? ' · ' + q.industry : ''}</div>
+          <div class="recent-detail">${q.contact || '연락처 미기재'} · ${q.created_at ? q.created_at.slice(0,10) : ''}</div>
+        </div>
+        <span class="badge ${q.status === '답변완료' ? 'low' : 'mid'}">${q.status}</span>
+      </div>
+      <div style="font-size:13px;color:var(--text)">${q.message}</div>
+      ${q.reply
+        ? `<div style="font-size:12px;color:var(--teal-dark);background:var(--teal-light);border-radius:8px;padding:8px 10px">담당자 답변: ${q.reply}</div>`
+        : `<div style="display:flex;gap:6px">
+             <input type="text" id="reply-input-${q.id}" placeholder="답변 입력..." style="flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+             <button class="btn-primary" style="padding:6px 12px;font-size:12px" onclick="replyInquiry(${q.id})">답변 등록</button>
+           </div>`}
+    </div>
+  `).join('');
+}
+
+async function replyInquiry(id) {
+  const input = document.getElementById(`reply-input-${id}`);
+  const reply = input ? input.value.trim() : '';
+  if (!reply) { alert('답변 내용을 입력해주세요.'); return; }
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/dashboard/inquiries/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', ...dashAuthHeaders() },
+      body: JSON.stringify({ reply }),
+    });
+    if (!resp.ok) throw new Error('답변 등록 실패');
+    const name = document.getElementById('my-park-select').value;
+    if (name) loadInquiries(name);
+  } catch (e) {
+    console.error(e);
+    alert('답변 등록에 실패했습니다.');
+  }
 }
 
 function renderParksTable(parks) {
@@ -1003,52 +1154,6 @@ function renderVacancyTrend(points) {
   `;
 }
 
-const MATCH_STATUS_OPTIONS = ['매칭 완료', '현장 방문 예약', '입주 확정', '보류'];
-
-function renderRecentMatches(matches, filterPark) {
-  const el = document.getElementById('recent-matches');
-  if (!matches || matches.length === 0) {
-    el.innerHTML = '<div class="recent-item"><div style="color:var(--text-sub)">매칭 이력 없음</div></div>';
-    return;
-  }
-
-  el.innerHTML = matches.map(m => {
-    // "내 산업단지" 필터가 걸려있고 그 공단이 1위가 아니면, 헷갈리지 않게 몇 순위로 추천됐는지 같이 보여줌
-    let parkLabel = m.matched_park;
-    if (filterPark && Array.isArray(m.matched_parks)) {
-      const rank = m.matched_parks.indexOf(filterPark) + 1;
-      if (rank > 1) parkLabel = `${filterPark} (${rank}순위 추천 · 1위는 ${m.matched_park})`;
-      else parkLabel = filterPark;
-    }
-    return `
-    <div class="recent-item">
-      <div>
-        <div class="recent-company">${m.company_name}</div>
-        <div class="recent-detail">${m.industry} · ${m.size} · ${parkLabel}</div>
-      </div>
-      <select class="recent-status" style="border:none;cursor:pointer" onchange="updateMatchStatus(${m.id}, this.value)">
-        ${MATCH_STATUS_OPTIONS.map(s => `<option value="${s}" ${s === m.status ? 'selected' : ''}>${s}</option>`).join('')}
-      </select>
-    </div>
-  `;
-  }).join('');
-}
-
-async function updateMatchStatus(matchId, status) {
-  try {
-    const resp = await fetch(`${API_BASE}/api/dashboard/matches/${matchId}/status`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', ...dashAuthHeaders() },
-      body: JSON.stringify({ status }),
-    });
-    if (!resp.ok) throw new Error('상태 업데이트 실패');
-    loadDashboard();
-  } catch (e) {
-    console.error(e);
-    alert('매칭 상태 업데이트에 실패했습니다.');
-  }
-}
-
 function renderStaticDashboard() {
   // 백엔드 미연결 시 안내 메시지 표시
   document.getElementById('stat-area').textContent = '-';
@@ -1064,8 +1169,7 @@ function renderStaticDashboard() {
     <div style="font-size:13px">서버를 실행하면 실시간 데이터가 표시됩니다: <code style="background:var(--gray-bg);padding:2px 8px;border-radius:4px">cd backend && python main.py</code></div>
   </td></tr>`;
 
-  const el = document.getElementById('recent-matches');
-  el.innerHTML = '<div class="recent-item"><div style="color:var(--text-sub)">백엔드 서버 연결 후 매칭 이력이 표시됩니다.</div></div>';
+  document.getElementById('inquiries-hint').textContent = '백엔드 서버 연결 후 입주 문의가 표시됩니다.';
 }
 
 // ── 초기화 ──

@@ -125,9 +125,10 @@ ws.send(JSON.stringify({
 ```http
 GET /api/dashboard/stats             # 핵심 통계 (성사 건수 포함, 조회 시 오늘자 공실 스냅샷 자동 기록)
 GET /api/dashboard/parks             # 공실 현황 목록 (이달 문의 수는 매칭 이력 집계 기반 실데이터)
-GET /api/dashboard/recent-matches    # 최근 매칭 이력
 GET /api/dashboard/vacancy-trend     # 공실률 추이 (일별 스냅샷, 최대 30일)
-PATCH /api/dashboard/matches/{id}/status  # 매칭 건 실제 진행 상태 기록 (매칭 완료/현장 방문 예약/입주 확정/보류)
+POST /api/inquiries                  # 산업단지 입주 문의 등록 (소비자용)
+GET /api/dashboard/inquiries?park=   # 특정 산단으로 온 입주 문의 목록 (관공서용, park 미지정 시 빈 목록)
+PATCH /api/dashboard/inquiries/{id}  # 입주 문의에 담당자 답변 등록
 GET /api/parks?region=경기도         # 산업단지 목록 (필터)
 ```
 
