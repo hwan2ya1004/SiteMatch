@@ -185,9 +185,13 @@
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       AI 상담
     </button>
-    <button class="nav-btn" onclick="showPage('dashboard', this)">
+    <button class="nav-btn" onclick="showPage('gov', this)">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      대시보드
+      관공서
+    </button>
+    <button class="nav-btn" onclick="showPage('admin', this)">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>
+      관리자
     </button>
   </nav>
   <span class="api-status checking" id="api-status">● 연결 확인 중</span>
@@ -336,12 +340,25 @@
     </div>
   </div>
 
-  <!-- ── 대시보드 ── -->
+  <!-- ── 대시보드 (관공서/관리자 공용, 접근 키로 게이트) ── -->
   <div class="page" id="page-dashboard">
     <div class="page-header">
-      <div class="page-title">공실 현황 대시보드</div>
-      <div class="page-desc">전국 산업단지 공실 현황 및 매칭 통계를 실시간으로 모니터링합니다.</div>
+      <div class="page-title" id="dashboard-title">공실 현황 대시보드</div>
+      <div class="page-desc" id="dashboard-desc">전국 산업단지 공실 현황 및 매칭 통계를 실시간으로 모니터링합니다.</div>
     </div>
+
+    <div class="card" id="dashboard-gate" style="max-width:420px">
+      <div class="card-title" id="gate-title">접근 키를 입력하세요</div>
+      <div class="field">
+        <input type="password" class="chat-input" id="gate-key-input" placeholder="접근 키" style="width:100%" onkeydown="if(event.key==='Enter')submitDashboardKey()">
+      </div>
+      <button class="match-btn" style="margin-top:10px" onclick="submitDashboardKey()">확인</button>
+      <div id="gate-error" style="color:var(--red-text);font-size:13px;margin-top:8px;display:none"></div>
+      <div style="font-size:12px;color:var(--text-sub);margin-top:10px">공단·지자체 담당자용 화면입니다. 접근 키는 서비스 운영자에게 문의하세요.</div>
+    </div>
+
+    <div id="dashboard-content" style="display:none">
+    <div id="admin-status-panel" style="display:none;margin-bottom:16px"></div>
     <div class="stats-grid" id="stats-grid">
       <!-- 동적으로 로드 -->
       <div class="stat-card"><div class="stat-label">전체 공실 면적</div><div class="stat-value" id="stat-area">-</div><div class="stat-change" id="stat-area-sub">로딩 중...</div></div>
@@ -391,8 +408,8 @@
           <div class="recent-item"><div style="color:var(--text-sub)">데이터 로딩 중...</div></div>
         </div>
       </div>
-      <div class="table-wrap">
-        <div class="table-header">공모전 심사 대응 현황</div>
+      <div class="table-wrap" id="contest-panel" style="display:none">
+        <div class="table-header">공모전 심사 대응 현황 <span style="font-size:11px;color:var(--text-sub);font-weight:400">(관리자 전용)</span></div>
         <div class="recent-list">
           <div class="recent-item" style="flex-direction:column;align-items:flex-start;gap:4px">
             <div style="font-weight:600;font-size:13px">창의성 (25점)</div>
@@ -422,6 +439,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 
 </div>
@@ -432,12 +450,106 @@ const API_BASE = window.location.origin;
 const WS_BASE = window.location.origin.replace('https://', 'wss://').replace('http://', 'ws://');
 
 // ── 페이지 전환 ──
+let dashboardRole = null; // 'gov' | 'admin' — 현재 열려있는 대시보드 탭이 요구하는 최소 권한
 function showPage(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
+  const pageId = (id === 'gov' || id === 'admin') ? 'dashboard' : id;
+  document.getElementById('page-' + pageId).classList.add('active');
   btn.classList.add('active');
-  if (id === 'dashboard') loadDashboard();
+  if (id === 'gov' || id === 'admin') {
+    dashboardRole = id;
+    document.getElementById('dashboard-title').textContent = id === 'admin' ? '관리자 대시보드' : '공실 현황 대시보드 (관공서)';
+    document.getElementById('dashboard-desc').textContent = id === 'admin'
+      ? 'SiteMatch 운영진 전용 화면입니다. 전체 산업단지 데이터와 시스템 운영 현황을 관리합니다.'
+      : '전국 산업단지 공실 현황 및 매칭 통계를 실시간으로 모니터링합니다.';
+    checkDashboardGate();
+  }
+}
+
+// ── 대시보드 접근 게이트 ──
+// 세션 저장소에 역할별로 키를 따로 보관 (관리자 키는 관공서 화면도 열 수 있음)
+function getStoredKey(role) {
+  try { return sessionStorage.getItem('accessKey_' + role) || ''; } catch(e) { return ''; }
+}
+function storeKey(role, key) {
+  try { sessionStorage.setItem('accessKey_' + role, key); } catch(e) {}
+}
+
+async function checkDashboardGate() {
+  const gate = document.getElementById('dashboard-gate');
+  const content = document.getElementById('dashboard-content');
+  // 이미 이 화면 권한으로 인증된 키가 세션에 있으면 바로 통과
+  const candidateKeys = dashboardRole === 'admin'
+    ? [getStoredKey('admin')]
+    : [getStoredKey('gov'), getStoredKey('admin')];
+
+  for (const key of candidateKeys) {
+    if (!key) continue;
+    const role = await verifyAccessKey(key);
+    if (role && (dashboardRole === 'gov' ? true : role === 'admin')) {
+      window.dashboardAccessKey = key;
+      gate.style.display = 'none';
+      content.style.display = 'block';
+      document.getElementById('admin-status-panel').style.display = role === 'admin' ? 'block' : 'none';
+      document.getElementById('contest-panel').style.display = role === 'admin' ? 'block' : 'none';
+      loadDashboard();
+      if (role === 'admin') loadAdminStatus();
+      return;
+    }
+  }
+  // 인증된 키 없음 — 게이트 표시
+  gate.style.display = 'block';
+  content.style.display = 'none';
+  document.getElementById('gate-title').textContent = dashboardRole === 'admin' ? '관리자 접근 키를 입력하세요' : '관공서 접근 키를 입력하세요';
+  document.getElementById('gate-key-input').value = '';
+  document.getElementById('gate-error').style.display = 'none';
+}
+
+async function verifyAccessKey(key) {
+  try {
+    const resp = await fetch(`${API_BASE}/api/dashboard/whoami`, { headers: { 'X-Access-Key': key } });
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.role || null;
+  } catch(e) { return null; }
+}
+
+async function submitDashboardKey() {
+  const key = document.getElementById('gate-key-input').value.trim();
+  const errEl = document.getElementById('gate-error');
+  if (!key) return;
+  const role = await verifyAccessKey(key);
+  const allowed = role && (dashboardRole === 'gov' ? true : role === 'admin');
+  if (!allowed) {
+    errEl.textContent = '접근 키가 올바르지 않습니다.';
+    errEl.style.display = 'block';
+    return;
+  }
+  storeKey(role, key);
+  checkDashboardGate();
+}
+
+async function loadAdminStatus() {
+  const el = document.getElementById('admin-status-panel');
+  try {
+    const resp = await fetch(`${API_BASE}/api/dashboard/admin/system-status`, { headers: { 'X-Access-Key': window.dashboardAccessKey || '' } });
+    if (!resp.ok) return;
+    const s = await resp.json();
+    el.innerHTML = `
+      <div class="card" style="margin-bottom:0">
+        <div class="card-title">시스템 운영 현황 (관리자 전용)</div>
+        <div style="font-size:13px;color:var(--text-sub);line-height:1.8">
+          AI 매칭 엔진: <strong style="color:${s.ai_matching_ready?'var(--teal)':'var(--red-text)'}">${s.ai_matching_ready?'정상':'중단'}</strong> &nbsp;|&nbsp;
+          RAG 챗봇: <strong style="color:${s.rag_chatbot_ready?'var(--teal)':'var(--red-text)'}">${s.rag_chatbot_ready?'정상':'중단'}</strong> &nbsp;|&nbsp;
+          Groq 키 설정: <strong>${s.groq_key_set?'예':'아니오'}</strong><br>
+          매칭 모델: <strong>${s.match_model}</strong> &nbsp;|&nbsp;
+          DB: <strong>${s.database}</strong> &nbsp;|&nbsp;
+          전체 공단 수: <strong>${s.total_parks}</strong> &nbsp;|&nbsp;
+          누적 매칭 이력: <strong>${s.total_matches_all_time}건</strong>
+        </div>
+      </div>`;
+  } catch(e) { console.warn('관리자 상태 로드 실패:', e.message); }
 }
 
 // ── API 상태 확인 ── (초록 = 온라인, 빨강 = 오프라인 — 2색으로 단순화)
@@ -712,10 +824,14 @@ function goChat(name) {
 }
 
 // ── 대시보드 ──
+function dashAuthHeaders() {
+  return { 'X-Access-Key': window.dashboardAccessKey || '' };
+}
+
 async function loadDashboard() {
   try {
     // 통계 로드
-    const statsResp = await fetch(`${API_BASE}/api/dashboard/stats`);
+    const statsResp = await fetch(`${API_BASE}/api/dashboard/stats`, { headers: dashAuthHeaders() });
     if (statsResp.ok) {
       const stats = await statsResp.json();
       document.getElementById('stat-area').textContent = stats.total_available_area || '-';
@@ -727,21 +843,21 @@ async function loadDashboard() {
     }
 
     // 공단 목록 로드
-    const parksResp = await fetch(`${API_BASE}/api/dashboard/parks`);
+    const parksResp = await fetch(`${API_BASE}/api/dashboard/parks`, { headers: dashAuthHeaders() });
     if (parksResp.ok) {
       const parksData = await parksResp.json();
       renderParksTable(parksData.parks);
     }
 
     // 최근 매칭 로드
-    const matchesResp = await fetch(`${API_BASE}/api/dashboard/recent-matches`);
+    const matchesResp = await fetch(`${API_BASE}/api/dashboard/recent-matches`, { headers: dashAuthHeaders() });
     if (matchesResp.ok) {
       const matchesData = await matchesResp.json();
       renderRecentMatches(matchesData.matches);
     }
 
     // 공실률 추이 로드
-    const trendResp = await fetch(`${API_BASE}/api/dashboard/vacancy-trend`);
+    const trendResp = await fetch(`${API_BASE}/api/dashboard/vacancy-trend`, { headers: dashAuthHeaders() });
     if (trendResp.ok) {
       const trendData = await trendResp.json();
       renderVacancyTrend(trendData.points);
@@ -850,7 +966,7 @@ async function updateMatchStatus(matchId, status) {
   try {
     const resp = await fetch(`${API_BASE}/api/dashboard/matches/${matchId}/status`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...dashAuthHeaders() },
       body: JSON.stringify({ status }),
     });
     if (!resp.ok) throw new Error('상태 업데이트 실패');
@@ -884,7 +1000,6 @@ function renderStaticDashboard() {
 window.addEventListener('load', () => {
   checkApiStatus();
   connectWebSocket();
-  loadDashboard();
 });
 </script>
 </body>

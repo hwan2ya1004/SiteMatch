@@ -7,12 +7,12 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Header
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from sqlalchemy import func, desc
 from datetime import datetime, timedelta
-from typing import Dict
+from typing import Dict, Optional
 
 from database import get_db, IndustrialPark, MatchingHistory, VacancySnapshot
 
@@ -24,6 +24,27 @@ MATCH_STATUS_OPTIONS = ["매칭 완료", "현장 방문 예약", "입주 확정"
 
 class MatchStatusUpdate(BaseModel):
     status: str
+
+
+def require_access(x_access_key: Optional[str] = Header(default=None)) -> str:
+    """대시보드(관공서·관리자 전용) 접근 검증.
+    ADMIN_KEY와 일치하면 "admin", GOV_KEY와 일치하면 "gov" 역할을 반환한다.
+    두 키 중 하나라도 서버에 설정돼 있지 않으면(빈 값) 해당 역할로는 접근을 허용하지 않는다 —
+    환경변수 누락이 곧 "누구나 통과"로 이어지는 실수를 막기 위함."""
+    admin_key = os.getenv("ADMIN_KEY") or ""
+    gov_key = os.getenv("GOV_KEY") or ""
+    if x_access_key and admin_key and x_access_key == admin_key:
+        return "admin"
+    if x_access_key and gov_key and x_access_key == gov_key:
+        return "gov"
+    raise HTTPException(status_code=401, detail="접근 키가 올바르지 않습니다.")
+
+
+def require_admin(role: str = Depends(require_access)) -> str:
+    """관리자(SiteMatch 운영진) 전용 엔드포인트 보호."""
+    if role != "admin":
+        raise HTTPException(status_code=403, detail="관리자 권한이 필요합니다.")
+    return role
 
 
 def _ensure_today_snapshot(db: Session, avg_vacancy: float, total_available: float) -> None:
@@ -44,8 +65,8 @@ def _ensure_today_snapshot(db: Session, avg_vacancy: float, total_available: flo
 
 
 @router.get("/dashboard/stats")
-def get_stats(db: Session = Depends(get_db)):
-    """대시보드 핵심 통계"""
+def get_stats(db: Session = Depends(get_db), role: str = Depends(require_access)):
+    """대시보드 핵심 통계 (관공서·관리자 전용)"""
     parks = db.query(IndustrialPark).all()
 
     total_available = sum(p.available_area or 0 for p in parks)
@@ -80,8 +101,8 @@ def get_stats(db: Session = Depends(get_db)):
 
 
 @router.get("/dashboard/vacancy-trend")
-def get_vacancy_trend(days: int = 30, db: Session = Depends(get_db)):
-    """공실률 추이 (일별 스냅샷). 서비스 사용일마다 하루 1포인트씩 쌓인다."""
+def get_vacancy_trend(days: int = 30, db: Session = Depends(get_db), role: str = Depends(require_access)):
+    """공실률 추이 (일별 스냅샷, 관공서·관리자 전용). 서비스 사용일마다 하루 1포인트씩 쌓인다."""
     snapshots = db.query(VacancySnapshot).order_by(
         VacancySnapshot.snapshot_date.asc()
     ).limit(days).all()
@@ -119,8 +140,8 @@ def _monthly_inquiry_counts(db: Session) -> Dict[str, int]:
 
 
 @router.get("/dashboard/parks")
-def get_parks(db: Session = Depends(get_db)):
-    """산업단지 공실 현황 목록"""
+def get_parks(db: Session = Depends(get_db), role: str = Depends(require_access)):
+    """산업단지 공실 현황 목록 (관공서·관리자 전용)"""
     parks = db.query(IndustrialPark).all()
     inquiry_counts = _monthly_inquiry_counts(db)
     parks.sort(key=lambda p: inquiry_counts.get(p.name, 0), reverse=True)
@@ -167,8 +188,8 @@ def get_parks(db: Session = Depends(get_db)):
 
 
 @router.get("/dashboard/recent-matches")
-def get_recent_matches(limit: int = 10, db: Session = Depends(get_db)):
-    """최근 매칭 이력"""
+def get_recent_matches(limit: int = 10, db: Session = Depends(get_db), role: str = Depends(require_access)):
+    """최근 매칭 이력 (관공서·관리자 전용)"""
     histories = db.query(MatchingHistory).order_by(
         desc(MatchingHistory.created_at)
     ).limit(limit).all()
@@ -195,8 +216,8 @@ def get_recent_matches(limit: int = 10, db: Session = Depends(get_db)):
 
 
 @router.patch("/dashboard/matches/{match_id}/status")
-def update_match_status(match_id: int, body: MatchStatusUpdate, db: Session = Depends(get_db)):
-    """매칭 이력의 실제 진행 상태(현장 방문 예약/입주 확정 등) 기록.
+def update_match_status(match_id: int, body: MatchStatusUpdate, db: Session = Depends(get_db), role: str = Depends(require_access)):
+    """매칭 이력의 실제 진행 상태(현장 방문 예약/입주 확정 등) 기록 (관공서·관리자 전용).
     추후 매칭 정확도 개선(피드백 루프)에 쓸 실제 성사 데이터를 축적하기 위한 엔드포인트."""
     if body.status not in MATCH_STATUS_OPTIONS:
         raise HTTPException(
@@ -211,6 +232,29 @@ def update_match_status(match_id: int, body: MatchStatusUpdate, db: Session = De
     history.status = body.status
     db.commit()
     return {"id": history.id, "status": history.status}
+
+
+@router.get("/dashboard/whoami")
+def whoami(role: str = Depends(require_access)):
+    """접근 키 검증 + 역할 확인 (프론트엔드 로그인 게이트에서 사용)"""
+    return {"role": role}
+
+
+@router.get("/dashboard/admin/system-status")
+def admin_system_status(db: Session = Depends(get_db), role: str = Depends(require_admin)):
+    """관리자(SiteMatch 운영진) 전용 — 관공서 화면에는 노출하지 않는 운영 현황."""
+    from services.embedding import get_embedding_service
+    from services.rag import get_rag_service
+
+    return {
+        "ai_matching_ready": get_embedding_service() is not None,
+        "rag_chatbot_ready": get_rag_service() is not None,
+        "groq_key_set": bool(os.getenv("GROQ_API_KEY")),
+        "match_model": "openai/gpt-oss-120b",
+        "total_parks": db.query(IndustrialPark).count(),
+        "total_matches_all_time": db.query(MatchingHistory).count(),
+        "database": "SQLite",
+    }
 
 
 @router.get("/parks")
