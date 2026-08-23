@@ -1,5 +1,5 @@
 """
-LLM 기반 AI 매칭 엔진 (Groq Llama 3.3 70B)
+LLM 기반 AI 매칭 엔진 (Groq openai/gpt-oss-120b)
 기업 조건과 공단 데이터를 LLM에게 직접 분석시켜 적합도 점수를 산출한다.
 로컬 임베딩 모델(sentence-transformers)이나 FAISS 없이 API 호출만으로 동작하므로
 Render 무료 플랜의 메모리 제약에서도 안정적으로 실행된다.
@@ -14,7 +14,7 @@ from groq import Groq
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-MATCH_MODEL = "llama-3.3-70b-versatile"
+MATCH_MODEL = "openai/gpt-oss-120b"
 
 SYSTEM_PROMPT = """당신은 한국 산업단지 입주 컨설턴트 AI입니다.
 주어진 기업 조건과 산업단지 목록을 검토하여, 각 산업단지가 이 기업에 얼마나 적합한지 평가하세요.
@@ -33,9 +33,9 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 컨설턴트 AI입니다
 5. 필요 면적 충족 여부 (5점)
 6. 기업의 추가 요구사항 반영 여부 (5점)
 
-반드시 아래 JSON 배열 형식으로만 답변하고, 다른 설명은 절대 포함하지 마세요.
-[{"id": 공단ID(정수), "score": 총점(0~100 정수), "breakdown": {"industry": 0~40, "region": 0~25, "budget": 0~15, "logistics": 0~10, "area": 0~5, "extra": 0~5}, "reason": "적합/부적합 이유를 한 문장으로, 업종별 핵심 입지 요인을 근거로 언급"}, ...]
-breakdown 각 항목의 합은 score와 같아야 합니다. 목록에 있는 모든 공단에 대해 반드시 항목을 하나씩 반환하세요."""
+반드시 아래 JSON 배열 형식으로만, 공백·줄바꿈 없이 압축해서 답변하고 다른 설명은 절대 포함하지 마세요.
+[{"id":공단ID(정수),"score":총점(0~100 정수),"breakdown":{"industry":0~40,"region":0~25,"budget":0~15,"logistics":0~10,"area":0~5,"extra":0~5},"reason":"20자 이내 핵심 근거(업종별 입지 요인 위주)"}, ...]
+breakdown 각 항목의 합은 score와 같아야 합니다. reason은 반드시 20자를 넘지 마세요. 목록에 있는 모든 공단에 대해 빠짐없이 항목을 반환하세요."""
 
 # ── 폴백용 키워드 매핑 (LLM 호출 실패 시에만 사용) ──────────────────────
 INDUSTRY_KEYWORDS = {
@@ -112,14 +112,16 @@ class EmbeddingService:
     def _park_to_prompt_line(self, park: Dict) -> str:
         industries = ", ".join(park.get("industries") or []) or "정보없음"
         logistics = ", ".join(park.get("logistics") or []) or "정보없음"
-        features = ", ".join(park.get("features") or []) or "정보없음"
+        subsidy = park.get("subsidy") or "정보없음"
+        if len(subsidy) > 25:
+            subsidy = subsidy[:25] + "…"
+        # 토큰 예산(Groq 무료 티어 TPM) 안에 38개 단지를 모두 넣기 위해 "특징" 등 부가 정보는 생략
         return (
-            f"- ID {park.get('id')} | {park.get('name', '')} "
-            f"({park.get('city', '')}, {park.get('region', '')}) | "
-            f"업종: {industries} | 물류: {logistics} | 특징: {features} | "
-            f"가용면적: {park.get('available_area', 0):,.0f}㎡ | "
-            f"임대료: {park.get('rent_per_sqm', 0):,}원/㎡/월 | "
-            f"지원금: {park.get('subsidy', '') or '정보없음'}"
+            f"- ID{park.get('id')} {park.get('name', '')}"
+            f"({park.get('region', '')} {park.get('city', '')}) "
+            f"업종:{industries} 물류:{logistics} "
+            f"면적:{park.get('available_area', 0):,.0f}㎡ "
+            f"임대료:{park.get('rent_per_sqm', 0):,}원 지원금:{subsidy}"
         )
 
     def _build_user_prompt(self, industry: str, size: str, area: str,
@@ -158,7 +160,8 @@ class EmbeddingService:
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.2,
-            max_tokens=5400,
+            max_tokens=3400,
+            reasoning_effort="low",  # gpt-oss는 추론 모델 — effort를 낮추지 않으면 토큰 예산을 "생각"에 다 씀
         )
         raw = completion.choices[0].message.content
         scored = self._extract_json_array(raw)

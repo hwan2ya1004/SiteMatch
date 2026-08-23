@@ -1,6 +1,6 @@
 """
 AI 매칭 엔진 라우터
-POST /api/match → Groq LLM(Llama 3.3 70B)이 기업 조건과 공단 데이터를 분석 → 상위 5개 공단 추천
+POST /api/match → Groq LLM(openai/gpt-oss-120b)이 기업 조건과 공단 데이터를 분석 → 상위 5개 공단 추천
 """
 import json
 from datetime import datetime

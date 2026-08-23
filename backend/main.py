@@ -8,6 +8,15 @@ import json
 import asyncio
 from contextlib import asynccontextmanager
 
+# Windows 콘솔(cp949 등)에서 이모지·한글 print가 UnicodeEncodeError로 죽는 것을 방지
+# (uvicorn --reload가 띄우는 자식 프로세스는 PYTHONIOENCODING 환경변수를 물려받지 못할 수 있음)
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        try:
+            _stream.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles

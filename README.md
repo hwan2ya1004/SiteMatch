@@ -42,8 +42,8 @@ SiteMatch/
     │   ├── industrial_parks.json # 12개 산업단지 내장 데이터
     │   └── subsidy_docs.txt      # 지원금·인허가 RAG 문서
     ├── services/
-    │   ├── embedding.py          # Groq LLM(Llama 3.3 70B) 기반 매칭 엔진
-    │   ├── rag.py                # Groq LLM(Llama 3.3 70B) 기반 RAG 챗봇 서비스
+    │   ├── embedding.py          # Groq LLM(openai/gpt-oss-120b) 기반 매칭 엔진
+    │   ├── rag.py                # Groq LLM(openai/gpt-oss-120b) 기반 RAG 챗봇 서비스
     │   └── public_data.py        # 공공데이터 ETL 파이프라인
     └── routers/
         ├── match.py              # POST /api/match
@@ -58,8 +58,8 @@ SiteMatch/
 | 모듈 | 기술 스택 | 엔드포인트 |
 |------|-----------|-----------|
 | **기업 온보딩** | HTML 폼 (업종·규모·면적·지역·물류) | 프론트엔드 |
-| **AI 매칭 엔진** | Groq Llama 3.3 70B가 기업 조건·공단 데이터를 직접 분석해 점수 산정 | `POST /api/match` |
-| **LLM 챗봇** | LangChain + Groq Llama 3.3 70B + WebSocket 스트리밍 | `WS /ws/chat` |
+| **AI 매칭 엔진** | Groq openai/gpt-oss-120b가 기업 조건·공단 데이터를 직접 분석해 점수 산정 | `POST /api/match` |
+| **LLM 챗봇** | LangChain + Groq openai/gpt-oss-120b + WebSocket 스트리밍 | `WS /ws/chat` |
 | **공실 DB** | 한국산업단지공단 API → SQLite → 일 1회 갱신 | ETL 스케줄러 |
 | **관리자 대시보드** | 공단별 문의 현황(매칭 이력 집계)·매칭 통계·공실 추이(일별 스냅샷) | `GET /api/dashboard/*` |
 | **매칭 이력 관리** | 매칭 건별 실제 진행 상태(현장 방문/입주 확정 등) 기록 | `PATCH /api/dashboard/matches/{id}/status` |
@@ -141,7 +141,7 @@ pip install -r backend/requirements.txt
 
 주요 패키지:
 - `fastapi` + `uvicorn` — 웹 서버
-- `groq` — Groq LLM(Llama 3.3 70B) 직접 호출 (스트리밍용)
+- `groq` — Groq LLM(openai/gpt-oss-120b) 직접 호출 (스트리밍용)
 - `langchain-groq` — LangChain Groq 연동
 - `sqlalchemy` — SQLite ORM
 - `apscheduler` — 일 1회 ETL 스케줄러
@@ -164,13 +164,13 @@ Groq API 키 없이도 서버가 실행됩니다:
 [브라우저 SiteMatchAI.html]
         │
         ├── POST /api/match ──→ [EmbeddingService]
-        │                           └── Groq Llama 3.3 70B가 기업 조건 + 공단 목록을 직접 분석
+        │                           └── Groq openai/gpt-oss-120b가 기업 조건 + 공단 목록을 직접 분석
         │                           └── (LLM 호출 실패 시 규칙 기반 키워드 스코어링으로 폴백)
         │                           └── SQLite IndustrialPark DB
         │
         ├── WS /ws/chat ────→ [RAGService]
         │                           └── subsidy_docs.txt 키워드 필터링으로 관련 문단 추출
-        │                           └── Groq Llama 3.3 70B 스트리밍 응답
+        │                           └── Groq openai/gpt-oss-120b 스트리밍 응답
         │
         └── GET /api/dashboard/* → [DashboardRouter]
                                         └── SQLite 집계 쿼리

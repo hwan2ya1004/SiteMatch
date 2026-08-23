@@ -1,5 +1,5 @@
 """
-LangChain RAG + Groq (Llama 3.3 70B) 기반 챗봇 서비스
+LangChain RAG + Groq 기반 챗봇 서비스
 임베딩/FAISS 없이 subsidy_docs.txt를 직접 컨텍스트로 활용 (Render 무료 플랜 최적화)
 """
 import os
@@ -10,6 +10,9 @@ from langchain_groq import ChatGroq
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS_PATH = os.path.join(BASE_DIR, "data", "subsidy_docs.txt")
+
+# llama-3.3-70b-versatile는 Groq에서 서비스 종료되어 대체 모델로 전환 (2026-08 확인)
+CHAT_MODEL = "openai/gpt-oss-120b"
 
 SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMatch AI'입니다.
 산업단지 입주와 관련된 지원금, 인허가 절차, 세금 혜택, 입지 추천 등에 대해 
@@ -74,10 +77,11 @@ class RAGService:
         self._groq_client = Groq(api_key=api_key)
         # LangChain Groq LLM
         self.llm = ChatGroq(
-            model="llama-3.3-70b-versatile",
+            model=CHAT_MODEL,
             groq_api_key=api_key,
             temperature=0.3,
             max_tokens=600,
+            reasoning_effort="low",  # gpt-oss는 추론 모델 — effort를 낮추지 않으면 토큰 예산을 "생각"에 다 씀
         )
         # 문서 로드 (시작 시 1회)
         self._docs_text = _load_docs()
@@ -149,13 +153,14 @@ AI:"""
 
         # Groq 스트리밍
         stream = self._groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model=CHAT_MODEL,
             messages=[
                 {"role": "system", "content": system_content},
                 {"role": "user", "content": user_content},
             ],
             temperature=0.3,
             max_tokens=600,
+            reasoning_effort="low",
             stream=True,
         )
         for chunk in stream:
