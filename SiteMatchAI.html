@@ -463,11 +463,17 @@ function showPage(id, btn) {
     document.getElementById('dashboard-desc').textContent = id === 'admin'
       ? 'SiteMatch 운영진 전용 화면입니다. 전체 산업단지 데이터와 시스템 운영 현황을 관리합니다.'
       : '전국 산업단지 공실 현황 및 매칭 통계를 실시간으로 모니터링합니다.';
-    checkDashboardGate();
+    // TODO: 로그인 화면 준비되면 checkDashboardGate()로 다시 교체 — 지금은 임시로 바로 통과시킴
+    document.getElementById('dashboard-gate').style.display = 'none';
+    document.getElementById('dashboard-content').style.display = 'block';
+    document.getElementById('admin-status-panel').style.display = id === 'admin' ? 'block' : 'none';
+    document.getElementById('contest-panel').style.display = id === 'admin' ? 'block' : 'none';
+    loadDashboard();
+    if (id === 'admin') loadAdminStatus();
   }
 }
 
-// ── 대시보드 접근 게이트 ──
+// ── 대시보드 접근 게이트 (현재 미사용 — 로그인 화면 만들 때 showPage에서 다시 호출) ──
 // 세션 저장소에 역할별로 키를 따로 보관 (관리자 키는 관공서 화면도 열 수 있음)
 function getStoredKey(role) {
   try { return sessionStorage.getItem('accessKey_' + role) || ''; } catch(e) { return ''; }

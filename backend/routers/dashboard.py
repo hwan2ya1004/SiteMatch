@@ -26,6 +26,9 @@ class MatchStatusUpdate(BaseModel):
     status: str
 
 
+
+# 아래 두 함수는 로그인 화면을 별도로 만들 때까지 라우트에 적용하지 않고 대기시켜둔 상태.
+# (지금은 모든 /dashboard/* 엔드포인트가 키 없이 열려 있음 — 임시로 되돌린 것)
 def require_access(x_access_key: Optional[str] = Header(default=None)) -> str:
     """대시보드(관공서·관리자 전용) 접근 검증.
     ADMIN_KEY와 일치하면 "admin", GOV_KEY와 일치하면 "gov" 역할을 반환한다.
@@ -65,8 +68,8 @@ def _ensure_today_snapshot(db: Session, avg_vacancy: float, total_available: flo
 
 
 @router.get("/dashboard/stats")
-def get_stats(db: Session = Depends(get_db), role: str = Depends(require_access)):
-    """대시보드 핵심 통계 (관공서·관리자 전용)"""
+def get_stats(db: Session = Depends(get_db)):
+    """대시보드 핵심 통계 (인증 없음 — 로그인 화면 준비 전까지 임시로 공개)"""
     parks = db.query(IndustrialPark).all()
 
     total_available = sum(p.available_area or 0 for p in parks)
@@ -101,8 +104,8 @@ def get_stats(db: Session = Depends(get_db), role: str = Depends(require_access)
 
 
 @router.get("/dashboard/vacancy-trend")
-def get_vacancy_trend(days: int = 30, db: Session = Depends(get_db), role: str = Depends(require_access)):
-    """공실률 추이 (일별 스냅샷, 관공서·관리자 전용). 서비스 사용일마다 하루 1포인트씩 쌓인다."""
+def get_vacancy_trend(days: int = 30, db: Session = Depends(get_db)):
+    """공실률 추이 (일별 스냅샷, 인증 없음 — 임시 공개). 서비스 사용일마다 하루 1포인트씩 쌓인다."""
     snapshots = db.query(VacancySnapshot).order_by(
         VacancySnapshot.snapshot_date.asc()
     ).limit(days).all()
@@ -140,8 +143,8 @@ def _monthly_inquiry_counts(db: Session) -> Dict[str, int]:
 
 
 @router.get("/dashboard/parks")
-def get_parks(db: Session = Depends(get_db), role: str = Depends(require_access)):
-    """산업단지 공실 현황 목록 (관공서·관리자 전용)"""
+def get_parks(db: Session = Depends(get_db)):
+    """산업단지 공실 현황 목록 (인증 없음 — 임시 공개)"""
     parks = db.query(IndustrialPark).all()
     inquiry_counts = _monthly_inquiry_counts(db)
     parks.sort(key=lambda p: inquiry_counts.get(p.name, 0), reverse=True)
@@ -188,8 +191,8 @@ def get_parks(db: Session = Depends(get_db), role: str = Depends(require_access)
 
 
 @router.get("/dashboard/recent-matches")
-def get_recent_matches(limit: int = 10, db: Session = Depends(get_db), role: str = Depends(require_access)):
-    """최근 매칭 이력 (관공서·관리자 전용)"""
+def get_recent_matches(limit: int = 10, db: Session = Depends(get_db)):
+    """최근 매칭 이력 (인증 없음 — 임시 공개)"""
     histories = db.query(MatchingHistory).order_by(
         desc(MatchingHistory.created_at)
     ).limit(limit).all()
@@ -216,8 +219,8 @@ def get_recent_matches(limit: int = 10, db: Session = Depends(get_db), role: str
 
 
 @router.patch("/dashboard/matches/{match_id}/status")
-def update_match_status(match_id: int, body: MatchStatusUpdate, db: Session = Depends(get_db), role: str = Depends(require_access)):
-    """매칭 이력의 실제 진행 상태(현장 방문 예약/입주 확정 등) 기록 (관공서·관리자 전용).
+def update_match_status(match_id: int, body: MatchStatusUpdate, db: Session = Depends(get_db)):
+    """매칭 이력의 실제 진행 상태(현장 방문 예약/입주 확정 등) 기록 (인증 없음 — 임시 공개).
     추후 매칭 정확도 개선(피드백 루프)에 쓸 실제 성사 데이터를 축적하기 위한 엔드포인트."""
     if body.status not in MATCH_STATUS_OPTIONS:
         raise HTTPException(
@@ -241,8 +244,8 @@ def whoami(role: str = Depends(require_access)):
 
 
 @router.get("/dashboard/admin/system-status")
-def admin_system_status(db: Session = Depends(get_db), role: str = Depends(require_admin)):
-    """관리자(SiteMatch 운영진) 전용 — 관공서 화면에는 노출하지 않는 운영 현황."""
+def admin_system_status(db: Session = Depends(get_db)):
+    """관리자 화면에서만 노출하는 운영 현황 (인증 없음 — 임시 공개, URL을 알면 접근은 가능함)."""
     from services.embedding import get_embedding_service
     from services.rag import get_rag_service
 
