@@ -41,7 +41,7 @@
     "type": "일반산단",
     "total_area": 800000,
     "available_area": 21800,
-    "vacancy_rate": 12.0,
+    "vacancy_rate": 12,
     "rent_per_sqm": 32000,
     "industries": [
       "반도체",
@@ -178,7 +178,7 @@
     "type": "일반산단",
     "total_area": 600000,
     "available_area": 18600,
-    "vacancy_rate": 14.0,
+    "vacancy_rate": 14,
     "rent_per_sqm": 25000,
     "industries": [
       "바이오",
@@ -211,7 +211,7 @@
     "type": "국가산단",
     "total_area": 900000,
     "available_area": 9800,
-    "vacancy_rate": 24.0,
+    "vacancy_rate": 24,
     "rent_per_sqm": 35000,
     "industries": [
       "전자",
@@ -1085,7 +1085,7 @@
     "type": "국가산단",
     "total_area": 12290000,
     "available_area": 24500,
-    "vacancy_rate": 8.0,
+    "vacancy_rate": 8,
     "rent_per_sqm": 23000,
     "industries": [
       "자동차부품",
@@ -1237,5 +1237,200 @@
     "website": "https://www.kicox.or.kr",
     "lat": 36.3745,
     "lng": 127.375
+  },
+  {
+    "id": 39,
+    "name": "평택 진위 일반산단",
+    "region": "경기도",
+    "city": "경기 평택",
+    "type": "일반산단",
+    "total_area": 485964,
+    "available_area": 0,
+    "vacancy_rate": 3,
+    "rent_per_sqm": 27000,
+    "industries": [
+      "전자",
+      "전기전자",
+      "정밀부품",
+      "기계부품"
+    ],
+    "logistics": [
+      "고속도로 IC 10분 이내",
+      "수도권 접근성 우수"
+    ],
+    "features": [
+      "전자·정밀기기 특화",
+      "수도권 접근성",
+      "기존 조성 완료 단지"
+    ],
+    "monthly_inquiries": 0,
+    "description": "전자부품·전기장비·정밀광학기기 업종이 밀집한 평택 진위면 소재 산업단지입니다. 경부축 인접으로 수도권 접근성이 우수합니다.",
+    "subsidy": "경기도 중소기업 입주 지원 최대 1억 5천만원, 평택시 기업 유치 지원금 최대 2억원",
+    "contact": "031-611-9111",
+    "website": "http://www.picm.or.kr",
+    "lat": 37.061,
+    "lng": 127.098
+  },
+  {
+    "id": 40,
+    "name": "평택 진위2 일반산단",
+    "region": "경기도",
+    "city": "경기 평택",
+    "type": "일반산단",
+    "total_area": 956290,
+    "available_area": 0,
+    "vacancy_rate": 3,
+    "rent_per_sqm": 29000,
+    "industries": [
+      "전자",
+      "전기전자",
+      "자동차부품",
+      "물류"
+    ],
+    "logistics": [
+      "고속도로 IC 10분 이내",
+      "수도권 접근성 우수"
+    ],
+    "features": [
+      "LG전자 협력사 밀집",
+      "전자부품 특화",
+      "창고·물류 구역 보유"
+    ],
+    "monthly_inquiries": 0,
+    "description": "LG전자 등 대기업 협력사가 다수 입주한 평택 진위면 소재 산업단지로, 전자부품·전기장비 업종 비중이 높습니다.",
+    "subsidy": "경기도 중소기업 입주 지원 최대 1억 5천만원, 평택시 기업 유치 지원금 최대 2억원",
+    "contact": "031-8024-5000",
+    "website": "https://www.pyeongtaek.go.kr",
+    "lat": 37.07,
+    "lng": 127.087
+  },
+  {
+    "id": 41,
+    "name": "평택 송탄 일반산단",
+    "region": "경기도",
+    "city": "경기 평택",
+    "type": "일반산단",
+    "total_area": 1086290,
+    "available_area": 0,
+    "vacancy_rate": 3,
+    "rent_per_sqm": 27000,
+    "industries": [
+      "기계",
+      "화학",
+      "금속",
+      "물류"
+    ],
+    "logistics": [
+      "고속도로 IC 10분 이내",
+      "수도권 접근성 우수"
+    ],
+    "features": [
+      "대규모 기계·화학 클러스터",
+      "140여개 업체 입주",
+      "기존 조성 완료 단지"
+    ],
+    "monthly_inquiries": 0,
+    "description": "평택 옛 송탄지역 소재의 대규모 산업단지로 기계·화학·금속 업종이 고르게 분포되어 있습니다.",
+    "subsidy": "경기도 중소기업 입주 지원 최대 1억 5천만원, 평택시 기업 유치 지원금 최대 2억원",
+    "contact": "031-611-9111",
+    "website": "http://www.picm.or.kr",
+    "lat": 37.133,
+    "lng": 127.073
+  },
+  {
+    "id": 42,
+    "name": "평택 일반산단",
+    "region": "경기도",
+    "city": "경기 평택",
+    "type": "일반산단",
+    "total_area": 534798,
+    "available_area": 0,
+    "vacancy_rate": 3,
+    "rent_per_sqm": 27000,
+    "industries": [
+      "기계",
+      "화학",
+      "금속",
+      "섬유"
+    ],
+    "logistics": [
+      "고속도로 IC 10분 이내",
+      "수도권 접근성 우수"
+    ],
+    "features": [
+      "기계·화학 업종 중심",
+      "기존 조성 완료 단지"
+    ],
+    "monthly_inquiries": 0,
+    "description": "평택 신장동 일원의 산업단지로 기계·화학 업종 비중이 높고 76개 업체가 입주해 있습니다.",
+    "subsidy": "경기도 중소기업 입주 지원 최대 1억 5천만원, 평택시 기업 유치 지원금 최대 2억원",
+    "contact": "031-611-9111",
+    "website": "http://www.picm.or.kr",
+    "lat": 37.128,
+    "lng": 127.078
+  },
+  {
+    "id": 43,
+    "name": "평택 칠괴 일반산단",
+    "region": "경기도",
+    "city": "경기 평택",
+    "type": "일반산단",
+    "total_area": 641276,
+    "available_area": 0,
+    "vacancy_rate": 3,
+    "rent_per_sqm": 27000,
+    "industries": [
+      "자동차",
+      "자동차부품",
+      "전기전자",
+      "기계"
+    ],
+    "logistics": [
+      "고속도로 IC 10분 이내",
+      "수도권 접근성 우수"
+    ],
+    "features": [
+      "완성차(쌍용자동차) 배후단지",
+      "자동차부품 클러스터"
+    ],
+    "monthly_inquiries": 0,
+    "description": "쌍용자동차 평택공장을 포함한 자동차·자동차부품 중심 산업단지로, 완성차 인접 협력사 입지에 유리합니다.",
+    "subsidy": "경기도 중소기업 입주 지원 최대 1억 5천만원, 평택시 기업 유치 지원금 최대 2억원",
+    "contact": "031-611-9111",
+    "website": "http://www.picm.or.kr",
+    "lat": 37.084,
+    "lng": 127.073
+  },
+  {
+    "id": 44,
+    "name": "평택 장당 일반산단",
+    "region": "경기도",
+    "city": "경기 평택",
+    "type": "일반산단",
+    "total_area": 149719,
+    "available_area": 0,
+    "vacancy_rate": 3,
+    "rent_per_sqm": 27000,
+    "industries": [
+      "화학",
+      "전자",
+      "기계",
+      "식품"
+    ],
+    "logistics": [
+      "고속도로 IC 10분 이내",
+      "수도권 접근성 우수"
+    ],
+    "features": [
+      "소규모 정밀 업종 클러스터",
+      "인근 칠괴산단과 폐기물처리 연계"
+    ],
+    "monthly_inquiries": 0,
+    "description": "평택 장당동 소재의 소규모 산업단지로 화학·전자·기계 업종 5개 업체가 입주해 있습니다.",
+    "subsidy": "경기도 중소기업 입주 지원 최대 1억 5천만원, 평택시 기업 유치 지원금 최대 2억원",
+    "contact": "031-611-9111",
+    "website": "http://www.picm.or.kr",
+    "lat": 37.089,
+    "lng": 127.066
   }
 ]
