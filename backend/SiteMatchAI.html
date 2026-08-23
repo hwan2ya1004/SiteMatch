@@ -358,6 +358,13 @@
     </div>
 
     <div id="dashboard-content" style="display:none">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title">내 산업단지</div>
+      <select id="my-park-select" style="padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;width:100%;max-width:360px" onchange="onMyParkChange()">
+        <option value="">전체 보기 (모든 산업단지)</option>
+      </select>
+      <div id="my-park-summary" style="display:none;margin-top:14px;padding:14px;background:var(--teal-light);border-radius:10px"></div>
+    </div>
     <div id="admin-status-panel" style="display:none;margin-bottom:16px"></div>
     <div class="stats-grid" id="stats-grid">
       <!-- 동적으로 로드 -->
@@ -852,14 +859,9 @@ async function loadDashboard() {
     const parksResp = await fetch(`${API_BASE}/api/dashboard/parks`, { headers: dashAuthHeaders() });
     if (parksResp.ok) {
       const parksData = await parksResp.json();
-      renderParksTable(parksData.parks);
-    }
-
-    // 최근 매칭 로드
-    const matchesResp = await fetch(`${API_BASE}/api/dashboard/recent-matches`, { headers: dashAuthHeaders() });
-    if (matchesResp.ok) {
-      const matchesData = await matchesResp.json();
-      renderRecentMatches(matchesData.matches);
+      window.allParks = parksData.parks;
+      populateMyParkSelect(parksData.parks);
+      applyMyParkFilter(); // 선택된 공단 기준으로 표·요약·매칭이력을 다시 그림 (내부에서 recent-matches도 불러옴)
     }
 
     // 공실률 추이 로드
@@ -874,6 +876,61 @@ async function loadDashboard() {
     // 백엔드 미연결 시 기존 정적 데이터 표시
     renderStaticDashboard();
   }
+}
+
+// ── "내 산업단지" 필터 (관공서 담당자가 자기 공단만 골라서 보기) ──
+function getMyParkStorage() {
+  try { return localStorage.getItem('siteMatchMyPark') || ''; } catch(e) { return ''; }
+}
+function setMyParkStorage(name) {
+  try { localStorage.setItem('siteMatchMyPark', name || ''); } catch(e) {}
+}
+
+function populateMyParkSelect(parks) {
+  const sel = document.getElementById('my-park-select');
+  const saved = getMyParkStorage();
+  sel.innerHTML = '<option value="">전체 보기 (모든 산업단지)</option>' +
+    parks.map(p => `<option value="${p.name}">${p.name} (${p.city})</option>`).join('');
+  if (saved && parks.some(p => p.name === saved)) {
+    sel.value = saved;
+  }
+}
+
+function onMyParkChange() {
+  const name = document.getElementById('my-park-select').value;
+  setMyParkStorage(name);
+  applyMyParkFilter();
+}
+
+async function applyMyParkFilter() {
+  const name = document.getElementById('my-park-select').value;
+  const parks = window.allParks || [];
+
+  if (!name) {
+    document.getElementById('my-park-summary').style.display = 'none';
+    renderParksTable(parks);
+    const matchesResp = await fetch(`${API_BASE}/api/dashboard/recent-matches`, { headers: dashAuthHeaders() });
+    if (matchesResp.ok) renderRecentMatches((await matchesResp.json()).matches, null);
+    return;
+  }
+
+  const mine = parks.filter(p => p.name === name);
+  renderParksTable(mine);
+  const park = mine[0];
+  if (park) {
+    document.getElementById('my-park-summary').style.display = 'block';
+    document.getElementById('my-park-summary').innerHTML = `
+      <div style="font-weight:600;margin-bottom:6px">${park.name} 요약</div>
+      <div style="font-size:13px;color:var(--teal-dark)">
+        공실률 <strong>${park.vacancy_rate}%</strong> (${park.status}) &nbsp;|&nbsp;
+        가용 면적 <strong>${park.available_area}</strong> &nbsp;|&nbsp;
+        임대료 <strong>${park.rent_per_sqm}</strong> &nbsp;|&nbsp;
+        이달 문의 <strong>${park.monthly_inquiries}건</strong>
+      </div>`;
+  }
+
+  const matchesResp = await fetch(`${API_BASE}/api/dashboard/recent-matches?park=${encodeURIComponent(name)}&limit=20`, { headers: dashAuthHeaders() });
+  if (matchesResp.ok) renderRecentMatches((await matchesResp.json()).matches, name);
 }
 
 function renderParksTable(parks) {
@@ -948,24 +1005,33 @@ function renderVacancyTrend(points) {
 
 const MATCH_STATUS_OPTIONS = ['매칭 완료', '현장 방문 예약', '입주 확정', '보류'];
 
-function renderRecentMatches(matches) {
+function renderRecentMatches(matches, filterPark) {
   const el = document.getElementById('recent-matches');
   if (!matches || matches.length === 0) {
     el.innerHTML = '<div class="recent-item"><div style="color:var(--text-sub)">매칭 이력 없음</div></div>';
     return;
   }
 
-  el.innerHTML = matches.map(m => `
+  el.innerHTML = matches.map(m => {
+    // "내 산업단지" 필터가 걸려있고 그 공단이 1위가 아니면, 헷갈리지 않게 몇 순위로 추천됐는지 같이 보여줌
+    let parkLabel = m.matched_park;
+    if (filterPark && Array.isArray(m.matched_parks)) {
+      const rank = m.matched_parks.indexOf(filterPark) + 1;
+      if (rank > 1) parkLabel = `${filterPark} (${rank}순위 추천 · 1위는 ${m.matched_park})`;
+      else parkLabel = filterPark;
+    }
+    return `
     <div class="recent-item">
       <div>
         <div class="recent-company">${m.company_name}</div>
-        <div class="recent-detail">${m.industry} · ${m.size} · ${m.matched_park}</div>
+        <div class="recent-detail">${m.industry} · ${m.size} · ${parkLabel}</div>
       </div>
       <select class="recent-status" style="border:none;cursor:pointer" onchange="updateMatchStatus(${m.id}, this.value)">
         ${MATCH_STATUS_OPTIONS.map(s => `<option value="${s}" ${s === m.status ? 'selected' : ''}>${s}</option>`).join('')}
       </select>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 async function updateMatchStatus(matchId, status) {

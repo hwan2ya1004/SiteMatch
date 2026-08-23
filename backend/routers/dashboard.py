@@ -191,11 +191,12 @@ def get_parks(db: Session = Depends(get_db)):
 
 
 @router.get("/dashboard/recent-matches")
-def get_recent_matches(limit: int = 10, db: Session = Depends(get_db)):
-    """최근 매칭 이력 (인증 없음 — 임시 공개)"""
-    histories = db.query(MatchingHistory).order_by(
-        desc(MatchingHistory.created_at)
-    ).limit(limit).all()
+def get_recent_matches(limit: int = 10, park: str = "", db: Session = Depends(get_db)):
+    """최근 매칭 이력 (인증 없음 — 임시 공개).
+    park가 주어지면 그 공단이 추천 상위 5곳 안에 포함된 이력만 필터링한다
+    (1위로 뽑힌 경우뿐 아니라 후보로 등장한 경우까지 전부 — 관공서 화면의 "내 산업단지" 필터용)."""
+    query = db.query(MatchingHistory).order_by(desc(MatchingHistory.created_at))
+    histories = query.all() if park else query.limit(limit).all()
 
     result = []
     for h in histories:
@@ -205,15 +206,21 @@ def get_recent_matches(limit: int = 10, db: Session = Depends(get_db)):
         except Exception:
             pass
 
+        if park and park not in matched:
+            continue
+
         result.append({
             "id": h.id,
             "company_name": h.company_name or "익명",
             "industry": h.industry,
             "size": h.size,
             "matched_park": matched[0] if matched else "",
+            "matched_parks": matched,
             "status": h.status,
             "created_at": h.created_at.isoformat() if h.created_at else "",
         })
+        if park and len(result) >= limit:
+            break
 
     return {"matches": result, "total": len(result)}
 
