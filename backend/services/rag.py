@@ -29,18 +29,18 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
 {context}
 """
 
-# 문서 최대 길이 (토큰 절약을 위해 앞부분 4000자만 사용)
-MAX_CONTEXT_CHARS = 4000
-
-
 def _load_docs() -> str:
-    """subsidy_docs.txt 로드 (없으면 빈 문자열)"""
+    """subsidy_docs.txt 전체 로드 (없으면 빈 문자열).
+    문서 전체를 그대로 프롬프트에 넣는 게 아니라, 질의 시점에
+    _keyword_filter_context()가 관련 단락만 골라내 1500자로 줄이므로
+    여기서 앞부분만 잘라내면 뒤쪽에 추가된 내용이 검색 자체가 불가능해진다
+    (실제로 이 버그 때문에 문서 뒷부분에 추가한 산단 정보를 챗봇이 못 찾고
+    환각 답변을 낸 사례가 있었음 — 반드시 전체를 로드해야 함)."""
     if not os.path.exists(DOCS_PATH):
         return ""
     try:
         with open(DOCS_PATH, "r", encoding="utf-8") as f:
-            text = f.read()
-        return text[:MAX_CONTEXT_CHARS]
+            return f.read()
     except Exception:
         return ""
 
