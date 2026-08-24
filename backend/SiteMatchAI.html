@@ -25,10 +25,10 @@
     --green-bg: #EAF3DE;
     --green-text: #27500A;
   }
-  body { font-family: 'Pretendard', 'Noto Sans KR', system-ui, -apple-system, sans-serif; background: var(--gray-bg); color: var(--text); min-height: 100vh; }
+  body { font-family: 'Pretendard', 'Noto Sans KR', system-ui, -apple-system, sans-serif; background: var(--gray-bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
 
   /* ── 상단 네비 ── */
-  .topbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .topbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; height: 56px; position: sticky; top: 0; z-index: 100; flex-shrink: 0; }
   .logo { font-size: 18px; font-weight: 700; color: var(--teal); letter-spacing: -0.5px; }
   .logo-sub { font-size: 18px; font-weight: 300; color: var(--text-sub); }
   .logo-badge { font-size: 10px; background: var(--teal-light); color: var(--teal-dark); padding: 2px 7px; border-radius: 99px; margin-left: 8px; font-weight: 500; vertical-align: middle; }
@@ -45,7 +45,7 @@
   .api-status.offline::before { background: #D6362E; }
 
   /* ── 레이아웃 ── */
-  .layout { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+  .layout { max-width: 1100px; margin: 0 auto; padding: 32px 24px; flex: 1 0 auto; width: 100%; box-sizing: border-box; }
   .page { display: none; }
   .page.active { display: block; }
 
@@ -454,8 +454,8 @@
 
 </div>
 
-<footer style="border-top:1px solid var(--border);padding:24px 32px;margin-top:12px;font-size:12px;color:var(--text-sub);line-height:1.8">
-  <div style="max-width:1200px">
+<footer style="border-top:1px solid var(--border);padding:24px 32px;font-size:12px;color:var(--text-sub);line-height:1.8;flex-shrink:0">
+  <div style="max-width:1100px;margin:0 auto">
     <strong style="color:var(--text)">서희연구소</strong>
     &nbsp;|&nbsp; 대표자: 김성환
     &nbsp;|&nbsp; 사업자등록번호: 832-29-01692 (간이과세자)
