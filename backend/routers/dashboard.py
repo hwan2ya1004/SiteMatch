@@ -152,7 +152,7 @@ def get_parks(db: Session = Depends(get_db)):
     """산업단지 공실 현황 목록 (인증 없음 — 임시 공개)"""
     parks = db.query(IndustrialPark).all()
     inquiry_counts = _monthly_inquiry_counts(db)
-    parks.sort(key=lambda p: inquiry_counts.get(p.name, 0), reverse=True)
+    parks.sort(key=lambda p: p.name)  # 이름순(가나다) — "내 산업단지" 셀렉트와 동일한 정렬 기준
 
     result = []
     for p in parks:
