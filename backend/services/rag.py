@@ -45,18 +45,44 @@ def _load_docs() -> str:
         return ""
 
 
+# 한국어는 명사에 조사가 붙어 띄어쓰기 기준 토큰과 문서 표기가 어긋나기 쉽다
+# (예: 질문의 "현덕지구도" ≠ 문서의 "현덕지구"). 흔한 조사를 뒤에서부터 제거해
+# 명사 자체를 비교 대상으로 삼는다. 길이 긴 조사부터 검사해야 짧은 조사가 먼저
+# 걸려 어중간하게 잘리는 것을 막을 수 있다.
+_TRAILING_PARTICLES = sorted(
+    ["으로서", "으로써", "이라서", "에서는", "에서도", "이라도",
+     "에서", "에게", "한테", "에는", "에도", "까지", "부터", "이나", "라도", "만은",
+     "은", "는", "이", "가", "을", "를", "의", "도", "만", "과", "와", "로", "에", "나"],
+    key=len, reverse=True,
+)
+
+
+def _strip_trailing_particle(word: str) -> str:
+    """단어 끝의 흔한 조사를 하나 제거한다 (명사가 2자 미만으로 줄어들면 원래 단어 유지)."""
+    for p in _TRAILING_PARTICLES:
+        if word.endswith(p) and len(word) - len(p) >= 2:
+            return word[: -len(p)]
+    return word
+
+
 def _keyword_filter_context(docs_text: str, query: str) -> str:
     """쿼리 키워드가 포함된 단락을 우선 반환 (간단한 관련성 필터)"""
     if not docs_text:
         return "관련 문서 없음"
 
     paragraphs = [p.strip() for p in docs_text.split("\n\n") if p.strip()]
-    query_words = [w for w in query.split() if len(w) >= 2]
+    raw_words = [w for w in query.split() if len(w) >= 2]
+    # 원형 토큰과 조사 제거 토큰을 모두 후보로 사용 (조사 제거판이 원형과 다를 때만 추가)
+    query_words = list(dict.fromkeys(
+        raw_words + [_strip_trailing_particle(w) for w in raw_words]
+    ))
 
-    # 키워드 포함 단락 우선 정렬
+    # 키워드 포함 단락 우선 정렬 (단락 내 공백을 제거한 버전에도 대조해
+    # "안산사이언스밸리"(질문) vs "안산 사이언스밸리"(문서) 같은 띄어쓰기 차이도 흡수)
     scored = []
     for para in paragraphs:
-        hits = sum(1 for w in query_words if w in para)
+        para_nospace = para.replace(" ", "")
+        hits = sum(1 for w in query_words if w in para or w.replace(" ", "") in para_nospace)
         scored.append((hits, para))
     scored.sort(key=lambda x: x[0], reverse=True)
 
