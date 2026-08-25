@@ -944,11 +944,11 @@
     "monthly_inquiries": 23,
     "description": "수도권 남부 물류 요충지에 위치한 산업단지로, 식품가공·물류 기업이 다수 입주해 있습니다. 서울·경기 남부 접근성이 좋습니다.",
     "subsidy": "경기도 중소기업 육성자금 최대 2억원, 안성시 이전 보조금",
-    "contact": "1688-7277",
+    "contact": "031-677-7900",
     "lat": 37.0079,
     "lng": 127.2795,
     "id": 29,
-    "website": "https://www.kicox.or.kr"
+    "website": "https://www.asicm.or.kr"
   },
   {
     "name": "화성 마도일반산단",
@@ -976,11 +976,11 @@
     "monthly_inquiries": 48,
     "description": "반도체 대기업 배후 협력업체가 밀집한 소부장(소재·부품·장비) 특화단지입니다. 수요가 많아 공실률이 낮은 편입니다.",
     "subsidy": "경기도 반도체 소부장 특화 지원금 최대 4억원, 화성시 이전 보조금",
-    "contact": "1688-7277",
+    "contact": "031-8012-7799",
     "lat": 37.1996,
     "lng": 126.8312,
     "id": 30,
-    "website": "https://www.kicox.or.kr"
+    "website": "https://www.hsuco.or.kr"
   },
   {
     "name": "파주 LCD일반산단",
@@ -1008,11 +1008,11 @@
     "monthly_inquiries": 27,
     "description": "디스플레이 대기업 배후에 위치한 협력업체 밀집 산업단지입니다. 서울 접근성이 좋아 수도권 서북부 거점으로 활용됩니다.",
     "subsidy": "경기도 디스플레이 소재부품 지원금 최대 3억원",
-    "contact": "1688-7277",
+    "contact": "031-940-5335",
     "lat": 37.7599,
     "lng": 126.7799,
     "id": 31,
-    "website": "https://www.kicox.or.kr"
+    "website": "https://www.paju.go.kr"
   },
   {
     "name": "이천 일반산단",
@@ -1040,11 +1040,11 @@
     "monthly_inquiries": 31,
     "description": "반도체 대기업 협력업체가 집중된 산업단지로, 수요 대비 공급이 부족해 공실률이 낮습니다. 정밀기계·전자부품 기업에 적합합니다.",
     "subsidy": "경기도 반도체 협력사 지원금 최대 3억원, 이천시 이전 보조금",
-    "contact": "1688-7277",
+    "contact": "031-644-2000",
     "lat": 37.2723,
     "lng": 127.4348,
     "id": 32,
-    "website": "https://www.kicox.or.kr"
+    "website": "https://www.icheon.go.kr"
   },
   {
     "name": "마산자유무역지역",
