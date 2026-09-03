@@ -67,6 +67,23 @@ REGION_MAP = {
     "광주광역시": ["광주광역시", "광주 북구"],
 }
 
+# 프론트엔드 "희망 지역" 선택값(정식 명칭) → industrial_parks 데이터의 시도 표기(약칭) 매핑.
+# 전국산업단지현황통계 원본이 "경기/경남/충북"처럼 약칭으로 시도를 표기하기 때문에 필요하다.
+REGION_TO_DATA_SIDO = {
+    "서울특별시": "서울", "경기도": "경기", "인천광역시": "인천",
+    "강원도": "강원", "강원특별자치도": "강원",
+    "충청남도": "충남", "충청북도": "충북", "대전광역시": "대전", "세종특별자치시": "세종",
+    "전라남도": "전남", "전라북도": "전북", "전북특별자치도": "전북", "광주광역시": "광주",
+    "경상남도": "경남", "경상북도": "경북", "부산광역시": "부산", "대구광역시": "대구", "울산광역시": "울산",
+    "제주특별자치도": "제주",
+}
+
+# LLM 프롬프트에 한 번에 넣을 수 있는 후보 상한. Groq 무료 티어 TPM(분당 토큰) 한도 안에서
+# 안전하게 처리 가능한 수준으로, 전국 1,400여 개 단지를 통째로 넣으면 토큰 초과로 요청 자체가
+# 거부된다(413 rate_limit_exceeded 실제 확인됨). 지역 등으로 먼저 후보를 좁힌 뒤에도 이 상한을
+# 넘으면, 키워드 사전 점수로 상위 후보만 추려서 LLM에 넘긴다.
+MAX_LLM_CANDIDATES = 40
+
 AREA_MAP = {
     "330㎡ 미만 (100평)": (0, 330),
     "330~1,000㎡ (100~300평)": (330, 1000),
@@ -115,17 +132,22 @@ class EmbeddingService:
         subsidy = park.get("subsidy") or "정보없음"
         if len(subsidy) > 25:
             subsidy = subsidy[:25] + "…"
+        available_area = park.get("available_area")
+        rent_per_sqm = park.get("rent_per_sqm")
+        area_text = f"{available_area:,.0f}㎡" if available_area is not None else "정보없음"
+        rent_text = f"{rent_per_sqm:,}원" if rent_per_sqm is not None else "정보없음"
         # 토큰 예산(Groq 무료 티어 TPM) 안에 38개 단지를 모두 넣기 위해 "특징" 등 부가 정보는 생략
         return (
             f"- ID{park.get('id')} {park.get('name', '')}"
-            f"({park.get('region', '')} {park.get('city', '')}) "
+            f"({park.get('region') or '정보없음'} {park.get('city') or ''}) "
             f"업종:{industries} 물류:{logistics} "
-            f"면적:{park.get('available_area', 0):,.0f}㎡ "
-            f"임대료:{park.get('rent_per_sqm', 0):,}원 지원금:{subsidy}"
+            f"면적:{area_text} "
+            f"임대료:{rent_text} 지원금:{subsidy}"
         )
 
     def _build_user_prompt(self, industry: str, size: str, area: str,
-                            region: str, budget: str, logistics: str, extra: str) -> str:
+                            region: str, budget: str, logistics: str, extra: str,
+                            candidates: List[Dict]) -> str:
         company_text = (
             f"[기업 조건]\n"
             f"업종: {industry}\n"
@@ -136,7 +158,7 @@ class EmbeddingService:
             f"물류 조건: {logistics or '무관'}\n"
             f"추가 요구사항: {extra or '없음'}"
         )
-        park_lines = "\n".join(self._park_to_prompt_line(p) for p in self.parks_data)
+        park_lines = "\n".join(self._park_to_prompt_line(p) for p in candidates)
         return f"{company_text}\n\n[산업단지 목록]\n{park_lines}"
 
     @staticmethod
@@ -147,12 +169,13 @@ class EmbeddingService:
         return json.loads(match.group(0))
 
     def _llm_score(self, industry: str, size: str, area: str,
-                    region: str, budget: str, logistics: str, extra: str) -> List[Dict]:
-        """Groq LLM이 공단 목록을 직접 분석해 점수를 매긴다."""
+                    region: str, budget: str, logistics: str, extra: str,
+                    candidates: List[Dict]) -> List[Dict]:
+        """Groq LLM이 (사전에 좁혀진) 공단 후보 목록을 직접 분석해 점수를 매긴다."""
         if self._client is None:
             raise RuntimeError("GROQ_API_KEY가 설정되지 않았습니다.")
 
-        user_prompt = self._build_user_prompt(industry, size, area, region, budget, logistics, extra)
+        user_prompt = self._build_user_prompt(industry, size, area, region, budget, logistics, extra, candidates)
         completion = self._client.chat.completions.create(
             model=MATCH_MODEL,
             messages=[
@@ -200,14 +223,13 @@ class EmbeddingService:
                              region: str, budget: str, logistics: str, extra: str) -> Dict[str, float]:
         breakdown = {"industry": 0.0, "region": 0.0, "budget": 0.0, "logistics": 0.0, "area": 0.0, "extra": 0.0}
 
-        park_industries = park.get("industries", [])
-        park_logistics = park.get("logistics", [])
-        park_features = park.get("features", [])
-        park_region = park.get("region", "") + " " + park.get("city", "")
+        park_industries = park.get("industries") or []
+        park_logistics = park.get("logistics") or []
+        park_features = park.get("features") or []
         park_text = " ".join([
-            park.get("name", ""),
-            park.get("description", ""),
-            park.get("type", ""),
+            park.get("name") or "",
+            park.get("description") or "",
+            park.get("type") or "",
             " ".join(park_industries),
             " ".join(park_logistics),
             " ".join(park_features),
@@ -218,12 +240,11 @@ class EmbeddingService:
         breakdown["industry"] = min(matched_kw / max(len(keywords), 1), 1.0) * 40
 
         if region and region not in ("지역 무관", ""):
-            region_keywords = REGION_MAP.get(region, [region])
-            breakdown["region"] = 25.0 if any(kw in park_region for kw in region_keywords) else 0.0
+            breakdown["region"] = 25.0 if self._region_matches(park.get("region"), region) else 0.0
         else:
             breakdown["region"] = 15.0
 
-        rent = park.get("rent_per_sqm", 0)
+        rent = park.get("rent_per_sqm") or 0
         if budget and budget not in ("무관", ""):
             max_rent = BUDGET_MAP.get(budget, 999999)
             if rent <= max_rent:
@@ -243,7 +264,7 @@ class EmbeddingService:
 
         if area and area in AREA_MAP:
             min_area, _ = AREA_MAP[area]
-            avail = park.get("available_area", 0)
+            avail = park.get("available_area") or 0
             if avail >= min_area:
                 breakdown["area"] = 5.0
             elif avail > 0:
@@ -258,18 +279,51 @@ class EmbeddingService:
 
         return breakdown
 
+    @staticmethod
+    def _region_matches(park_region: Optional[str], region_filter: str) -> bool:
+        """희망 지역(정식 명칭)과 공단 데이터의 시도 표기(약칭)를 비교한다."""
+        if not park_region:
+            return False
+        target = REGION_TO_DATA_SIDO.get(region_filter, region_filter)
+        return park_region == target or target in park_region or park_region in target
+
+    def _select_candidates(self, industry: str, size: str, area: str,
+                            region: str, budget: str, logistics: str, extra: str) -> List[Dict]:
+        """LLM에 넘길 후보를 MAX_LLM_CANDIDATES 이하로 좁힌다.
+        1) 희망 지역이 있으면 먼저 해당 시도로 좁히고 (없으면 전국 대상 유지)
+        2) 그래도 상한을 넘으면, 키워드 사전 점수(LLM 없이 계산 가능)로 상위 후보만 추린다.
+        전국 1,400여 개를 한 번에 LLM에 보내면 토큰 한도 초과로 요청이 거부되기 때문에 필요한 단계."""
+        pool = self.parks_data
+        if region and region not in ("지역 무관", ""):
+            region_pool = [p for p in pool if self._region_matches(p.get("region"), region)]
+            if region_pool:
+                pool = region_pool
+
+        if len(pool) <= MAX_LLM_CANDIDATES:
+            return pool
+
+        scored = [
+            (sum(self._keyword_score_park(p, industry, size, area, region, budget, logistics, extra).values()), p)
+            for p in pool
+        ]
+        scored.sort(key=lambda x: x[0], reverse=True)
+        return [p for _, p in scored[:MAX_LLM_CANDIDATES]]
+
     def search(self, industry: str, size: str, area: str,
                region: str, budget: str, logistics: str, extra: str,
                top_k: int = 5) -> List[Dict]:
-        """기업 조건으로 공단 검색. Groq LLM이 직접 분석하며, 실패 시 키워드 매칭으로 폴백."""
+        """기업 조건으로 공단 검색. 지역/키워드로 후보를 먼저 좁힌 뒤,
+        Groq LLM이 그 후보만 직접 분석하며, 실패 시 키워드 매칭으로 폴백."""
         if not self.parks_data:
             raise ValueError("공단 데이터가 로드되지 않았습니다.")
 
+        candidates = self._select_candidates(industry, size, area, region, budget, logistics, extra)
+
         try:
-            llm_scores = self._llm_score(industry, size, area, region, budget, logistics, extra)
+            llm_scores = self._llm_score(industry, size, area, region, budget, logistics, extra, candidates)
             score_map = {item["id"]: item for item in llm_scores}
             results = []
-            for park in self.parks_data:
+            for park in candidates:
                 item = score_map.get(park.get("id"))
                 if item:
                     results.append({
@@ -283,7 +337,7 @@ class EmbeddingService:
         except Exception as e:
             print(f"⚠️ LLM 매칭 실패, 키워드 매칭으로 대체: {e}")
             results = []
-            for park in self.parks_data:
+            for park in candidates:
                 breakdown = self._keyword_score_park(
                     park, industry, size, area, region, budget, logistics, extra
                 )

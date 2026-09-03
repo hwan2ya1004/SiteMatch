@@ -3,7 +3,7 @@ LangChain RAG + Groq 기반 챗봇 서비스
 임베딩/FAISS 없이 subsidy_docs.txt를 직접 컨텍스트로 활용 (Render 무료 플랜 최적화)
 """
 import os
-from typing import List, AsyncGenerator
+from typing import List, AsyncGenerator, Dict, Optional
 
 from groq import Groq
 from langchain_groq import ChatGroq
@@ -24,6 +24,11 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
 3. 한국어로만 답변하세요
 4. 모르는 내용은 "한국산업단지공단(www.kicox.or.kr)에 문의하세요"라고 안내하세요
 5. 아래 참고 문서를 활용하여 정확한 정보를 제공하세요
+6. 참고 문서 맨 앞에 "[단지명 실측 데이터]" 블록이 있다면, 그건 SiteMatch DB에서 방금 조회한
+   실제 수치입니다 — 질문한 단지에 대한 답변은 반드시 이 블록의 수치를 그대로 인용하세요.
+   이 블록이 없다면, 또는 블록은 있어도 물어본 항목(예: 공실률)이 그 안에 안 적혀 있다면,
+   절대로 다른 수치(면적 등)로부터 계산·추정해서 만들어내지 말고 "해당 정보는 없습니다"라고
+   솔직히 답하세요. 없는 수치를 그럴듯하게 계산해서 답하는 것이 가장 나쁜 답변입니다.
 
 참고 문서:
 {context}
@@ -97,8 +102,9 @@ def _keyword_filter_context(docs_text: str, query: str) -> str:
 
 
 class RAGService:
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, parks: Optional[List[Dict]] = None):
         self.api_key = api_key
+        self.parks = parks or []
         # Groq 클라이언트 (스트리밍용)
         self._groq_client = Groq(api_key=api_key)
         # LangChain Groq LLM
@@ -111,7 +117,7 @@ class RAGService:
         )
         # 문서 로드 (시작 시 1회)
         self._docs_text = _load_docs()
-        print(f"✅ RAG 챗봇 초기화 완료 (문서 {len(self._docs_text)}자 로드)")
+        print(f"✅ RAG 챗봇 초기화 완료 (문서 {len(self._docs_text)}자 로드, 단지 {len(self.parks)}개 조회 가능)")
 
     def build_vectorstore(self):
         """호환성 유지용 — 실제로는 아무것도 하지 않음"""
@@ -121,9 +127,52 @@ class RAGService:
         """호환성 유지용 — True 반환해 build_vectorstore 호출 방지"""
         return True
 
+    def _find_mentioned_park(self, query: str) -> Optional[Dict]:
+        """사용자 질문에 등장한 산업단지를 실제 DB 목록에서 찾는다.
+        여러 개가 걸리면(예: "구미"가 여러 구미 단지명에 다 포함) 가장 이름이 긴(구체적인) 걸 고른다."""
+        q = query.replace(" ", "")
+        best = None
+        for p in self.parks:
+            name = (p.get("name") or "").replace(" ", "")
+            if len(name) < 2:
+                continue
+            if name in q or q in name:
+                if not best or len(name) > len((best.get("name") or "").replace(" ", "")):
+                    best = p
+        return best
+
+    @staticmethod
+    def _format_park_facts(park: Dict) -> str:
+        """단지 실측 데이터를 챗봇 컨텍스트용 텍스트로 정리한다."""
+        lines = [f"[{park.get('name')} 실측 데이터 — SiteMatch AI DB 기준]"]
+        loc = " ".join(x for x in [park.get("region"), park.get("city")] if x)
+        if loc:
+            lines.append(f"위치: {loc}")
+        if park.get("type"):
+            lines.append(f"유형: {park['type']}")
+        vac = park.get("vacancy_rate")
+        lines.append(f"공실률(입주 대비 미가동 비율): {vac}%" if vac is not None else "공실률: 데이터 없음")
+        if park.get("available_area"):
+            lines.append(f"미분양(신규 분양 가능) 면적: {park['available_area']:,.0f}㎡")
+        else:
+            lines.append("미분양 면적: 데이터 없음(또는 0)")
+        if park.get("total_area"):
+            lines.append(f"지정면적: {park['total_area']:,.0f}㎡")
+        if park.get("industries"):
+            lines.append(f"주요 업종(등록공장 기준): {', '.join(park['industries'])}")
+        if park.get("rent_per_sqm"):
+            lines.append(f"임대료: {park['rent_per_sqm']:,}원/㎡")
+        if park.get("subsidy"):
+            lines.append(f"지원금: {park['subsidy']}")
+        return "\n".join(lines)
+
     def _get_context(self, query: str) -> str:
-        """쿼리 관련 문서 검색 (키워드 필터링)"""
-        return _keyword_filter_context(self._docs_text, query)
+        """쿼리 관련 문서 검색 (키워드 필터링) + 질문에 등장한 특정 단지의 실측 데이터를 함께 제공."""
+        doc_context = _keyword_filter_context(self._docs_text, query)
+        park = self._find_mentioned_park(query)
+        if park:
+            return self._format_park_facts(park) + "\n\n" + doc_context
+        return doc_context
 
     def chat(self, messages: List[dict]) -> str:
         """동기 챗봇 응답"""
@@ -204,9 +253,9 @@ def get_rag_service() -> RAGService:
     return _rag_service
 
 
-def init_rag_service(api_key: str) -> RAGService:
+def init_rag_service(api_key: str, parks: Optional[List[Dict]] = None) -> RAGService:
     global _rag_service
-    _rag_service = RAGService(api_key)
+    _rag_service = RAGService(api_key, parks)
     # load_vectorstore()가 True를 반환하므로 build_vectorstore()는 호출되지 않음
     if not _rag_service.load_vectorstore():
         _rag_service.build_vectorstore()

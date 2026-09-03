@@ -358,12 +358,34 @@
     </div>
 
     <div id="dashboard-content" style="display:none">
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-title">내 산업단지</div>
-      <select id="my-park-select" style="padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;width:100%;max-width:360px" onchange="onMyParkChange()">
-        <option value="">전체 보기 (모든 산업단지)</option>
-      </select>
-      <div id="my-park-summary" style="display:none;margin-top:14px;padding:14px;background:var(--teal-light);border-radius:10px"></div>
+    <div class="card" id="parks-filter-section" style="margin-bottom:16px">
+      <div class="card-title">산업단지 필터</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+        <input type="text" id="pf-search" placeholder="🔍 산업단지명 검색"
+               oninput="applyParksFilter()"
+               style="flex:2 1 180px;min-width:140px;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);outline:none">
+        <select id="pf-region" onchange="applyParksFilter()"
+                style="flex:1 1 120px;min-width:110px;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:var(--white)">
+          <option value="">전체 지역</option>
+        </select>
+        <select id="pf-type" onchange="applyParksFilter()"
+                style="flex:1 1 120px;min-width:110px;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:var(--white)">
+          <option value="">전체 유형</option>
+        </select>
+        <select id="pf-industry" onchange="applyParksFilter()"
+                style="flex:1 1 120px;min-width:110px;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:var(--white)">
+          <option value="">전체 업종</option>
+        </select>
+        <select id="pf-status" onchange="applyParksFilter()"
+                style="flex:1 1 110px;min-width:100px;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:var(--white)">
+          <option value="">전체 상태</option>
+          <option value="여유">여유 (15% 미만)</option>
+          <option value="보통">보통 (15~25%)</option>
+          <option value="주의">주의 (25% 이상)</option>
+        </select>
+        <button class="btn-ghost" onclick="resetParksFilter()" style="flex:0 0 auto;padding:9px 14px;white-space:nowrap">초기화</button>
+      </div>
+      <div id="pf-result-count" style="font-size:12px;color:var(--text-sub);margin-top:10px"></div>
     </div>
     <div id="admin-status-panel" style="display:none;margin-bottom:16px"></div>
     <div class="stats-grid" id="stats-grid">
@@ -409,15 +431,6 @@
     </div>
 
     <div class="dashboard-grid">
-      <div class="table-wrap" id="inquiries-panel" style="display:none">
-        <div class="table-header">입주 문의</div>
-        <div class="recent-list" id="park-inquiries">
-          <div class="recent-item"><div style="color:var(--text-sub)">문의 없음</div></div>
-        </div>
-      </div>
-      <div class="table-wrap" id="inquiries-hint" style="display:flex;align-items:center;justify-content:center;padding:24px;color:var(--text-sub);font-size:13px;text-align:center">
-        "내 산업단지"에서 담당 산단을 선택하면 그 산단으로 온 입주 문의가 여기에 표시됩니다.
-      </div>
       <div class="table-wrap" id="contest-panel" style="display:none">
         <div class="table-header">공모전 심사 대응 현황 <span style="font-size:11px;color:var(--text-sub);font-weight:400">(관리자 전용)</span></div>
         <div class="recent-list">
@@ -966,8 +979,8 @@ async function loadDashboard() {
     if (parksResp.ok) {
       const parksData = await parksResp.json();
       window.allParks = parksData.parks;
-      populateMyParkSelect(parksData.parks);
-      applyMyParkFilter(); // 선택된 공단 기준으로 표·요약·입주 문의를 다시 그림
+      populateParksFilterOptions(parksData.parks);
+      applyParksFilter();
     }
 
     // 공실률 추이 로드
@@ -984,119 +997,67 @@ async function loadDashboard() {
   }
 }
 
-// ── "내 산업단지" 필터 (관공서 담당자가 자기 공단만 골라서 보기) ──
-function getMyParkStorage() {
-  try { return localStorage.getItem('siteMatchMyPark') || ''; } catch(e) { return ''; }
-}
-function setMyParkStorage(name) {
-  try { localStorage.setItem('siteMatchMyPark', name || ''); } catch(e) {}
+// 담당자별 입주 문의 확인·답변 기능은 추후 "마이페이지"로 별도 구현 예정 (지금은 제외)
+
+// ── 산업단지 필터 (지역·유형·업종·상태·검색어 조합) ──
+const NO_REGION_VALUE = '__none__';
+
+function populateParksFilterOptions(parks) {
+  // 이미 옵션이 채워져 있으면 다시 만들지 않음 — 사용자가 고른 값이 리로드 때마다 초기화되는 것 방지
+  const regionSel = document.getElementById('pf-region');
+  const typeSel = document.getElementById('pf-type');
+  const industrySel = document.getElementById('pf-industry');
+  if (regionSel.options.length > 1) return;
+
+  const regions = new Set();
+  let hasNoRegion = false;
+  parks.forEach(p => { if (p.region) regions.add(p.region); else hasNoRegion = true; });
+  regionSel.innerHTML = '<option value="">전체 지역</option>' +
+    [...regions].sort((a, b) => a.localeCompare(b, 'ko')).map(r => `<option value="${r}">${r}</option>`).join('') +
+    (hasNoRegion ? `<option value="${NO_REGION_VALUE}">지역 정보 없음</option>` : '');
+
+  const types = new Set();
+  parks.forEach(p => { if (p.type) types.add(p.type); });
+  typeSel.innerHTML = '<option value="">전체 유형</option>' +
+    [...types].sort((a, b) => a.localeCompare(b, 'ko')).map(t => `<option value="${t}">${t}</option>`).join('');
+
+  const industries = new Set();
+  parks.forEach(p => (p.industries || []).forEach(i => industries.add(i)));
+  industrySel.innerHTML = '<option value="">전체 업종</option>' +
+    [...industries].sort((a, b) => a.localeCompare(b, 'ko')).map(i => `<option value="${i}">${i}</option>`).join('');
 }
 
-function populateMyParkSelect(parks) {
-  const sel = document.getElementById('my-park-select');
-  const saved = getMyParkStorage();
-  // 원본 parks 배열은 "이달 문의 많은 순"(공실 현황 표용 정렬)이라 셀렉트 목록엔 안 맞음 — 이름순으로 재정렬
-  const sorted = [...parks].sort((a, b) => a.name.localeCompare(b.name, 'ko'));
-  sel.innerHTML = '<option value="">전체 보기 (모든 산업단지)</option>' +
-    sorted.map(p => `<option value="${p.name}">${p.name} (${p.city})</option>`).join('');
-  if (saved && parks.some(p => p.name === saved)) {
-    sel.value = saved;
-  }
-}
-
-function onMyParkChange() {
-  const name = document.getElementById('my-park-select').value;
-  setMyParkStorage(name);
-  applyMyParkFilter();
-}
-
-async function applyMyParkFilter() {
-  const name = document.getElementById('my-park-select').value;
+function applyParksFilter() {
   const parks = window.allParks || [];
+  const search = document.getElementById('pf-search').value.trim().toLowerCase();
+  const region = document.getElementById('pf-region').value;
+  const type = document.getElementById('pf-type').value;
+  const industry = document.getElementById('pf-industry').value;
+  const status = document.getElementById('pf-status').value;
 
-  if (!name) {
-    document.getElementById('my-park-summary').style.display = 'none';
-    renderParksTable(parks);
-    // "전체 보기" 상태에서는 다른 산단의 입주 문의(연락처 포함)가 섞여 보이지 않도록 패널 자체를 숨김
-    document.getElementById('inquiries-panel').style.display = 'none';
-    document.getElementById('inquiries-hint').style.display = 'flex';
-    return;
-  }
+  const filtered = parks.filter(p => {
+    if (search && !p.name.toLowerCase().includes(search)) return false;
+    if (region) {
+      if (region === NO_REGION_VALUE ? !!p.region : p.region !== region) return false;
+    }
+    if (type && p.type !== type) return false;
+    if (industry && !(p.industries || []).includes(industry)) return false;
+    if (status && p.status !== status) return false;
+    return true;
+  });
 
-  const mine = parks.filter(p => p.name === name);
-  renderParksTable(mine);
-  const park = mine[0];
-  if (park) {
-    document.getElementById('my-park-summary').style.display = 'block';
-    document.getElementById('my-park-summary').innerHTML = `
-      <div style="font-weight:600;margin-bottom:6px">${park.name} 요약</div>
-      <div style="font-size:13px;color:var(--teal-dark)">
-        공실률 <strong>${park.vacancy_rate}%</strong> (${park.status}) &nbsp;|&nbsp;
-        가용 면적 <strong>${park.available_area}</strong> &nbsp;|&nbsp;
-        임대료 <strong>${park.rent_per_sqm}</strong> &nbsp;|&nbsp;
-        이달 문의 <strong>${park.monthly_inquiries}건</strong>
-      </div>`;
-  }
-
-  document.getElementById('inquiries-hint').style.display = 'none';
-  document.getElementById('inquiries-panel').style.display = 'block';
-  await loadInquiries(name);
+  renderParksTable(filtered);
+  document.getElementById('pf-result-count').textContent =
+    `전체 ${parks.length}개 중 ${filtered.length}개 표시`;
 }
 
-async function loadInquiries(parkName) {
-  try {
-    const resp = await fetch(`${API_BASE}/api/dashboard/inquiries?park=${encodeURIComponent(parkName)}`, { headers: dashAuthHeaders() });
-    if (resp.ok) renderInquiries((await resp.json()).inquiries);
-  } catch (e) {
-    console.warn('입주 문의 로드 실패:', e.message);
-  }
-}
-
-function renderInquiries(inquiries) {
-  const el = document.getElementById('park-inquiries');
-  if (!inquiries || inquiries.length === 0) {
-    el.innerHTML = '<div class="recent-item"><div style="color:var(--text-sub)">문의 없음</div></div>';
-    return;
-  }
-
-  el.innerHTML = inquiries.map(q => `
-    <div class="recent-item" style="flex-direction:column;align-items:stretch;gap:8px">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
-        <div>
-          <div class="recent-company">${q.company_name}${q.industry ? ' · ' + q.industry : ''}</div>
-          <div class="recent-detail">${q.contact || '연락처 미기재'} · ${q.created_at ? q.created_at.slice(0,10) : ''}</div>
-        </div>
-        <span class="badge ${q.status === '답변완료' ? 'low' : 'mid'}">${q.status}</span>
-      </div>
-      <div style="font-size:13px;color:var(--text)">${q.message}</div>
-      ${q.reply
-        ? `<div style="font-size:12px;color:var(--teal-dark);background:var(--teal-light);border-radius:8px;padding:8px 10px">담당자 답변: ${q.reply}</div>`
-        : `<div style="display:flex;gap:6px">
-             <input type="text" id="reply-input-${q.id}" placeholder="답변 입력..." style="flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px">
-             <button class="btn-primary" style="padding:6px 12px;font-size:12px" onclick="replyInquiry(${q.id})">답변 등록</button>
-           </div>`}
-    </div>
-  `).join('');
-}
-
-async function replyInquiry(id) {
-  const input = document.getElementById(`reply-input-${id}`);
-  const reply = input ? input.value.trim() : '';
-  if (!reply) { alert('답변 내용을 입력해주세요.'); return; }
-
-  try {
-    const resp = await fetch(`${API_BASE}/api/dashboard/inquiries/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', ...dashAuthHeaders() },
-      body: JSON.stringify({ reply }),
-    });
-    if (!resp.ok) throw new Error('답변 등록 실패');
-    const name = document.getElementById('my-park-select').value;
-    if (name) loadInquiries(name);
-  } catch (e) {
-    console.error(e);
-    alert('답변 등록에 실패했습니다.');
-  }
+function resetParksFilter() {
+  document.getElementById('pf-search').value = '';
+  document.getElementById('pf-region').value = '';
+  document.getElementById('pf-type').value = '';
+  document.getElementById('pf-industry').value = '';
+  document.getElementById('pf-status').value = '';
+  applyParksFilter();
 }
 
 function renderParksTable(parks) {
@@ -1107,7 +1068,7 @@ function renderParksTable(parks) {
   }
 
   tbody.innerHTML = parks.map(p => `
-    <tr>
+    <tr onclick="toggleParkTrend(${p.id})" style="cursor:pointer" title="클릭하면 이 단지의 공실률 추이를 볼 수 있어요">
       <td style="font-weight:600">${p.name}</td>
       <td style="color:var(--text-sub)">${p.city}</td>
       <td>
@@ -1120,53 +1081,118 @@ function renderParksTable(parks) {
       <td><span class="badge ${p.status_class}">${p.status}</span></td>
       <td style="font-weight:600;color:var(--teal)">${p.monthly_inquiries}건</td>
     </tr>
+    <tr class="park-trend-row" id="trend-row-${p.id}" style="display:none">
+      <td colspan="8" style="background:var(--gray-bg);padding:16px 20px">
+        <div style="font-weight:600;font-size:13px;margin-bottom:8px">${p.name} 공실률 추이</div>
+        <div id="trend-container-${p.id}"></div>
+      </td>
+    </tr>
   `).join('');
 }
 
-function renderVacancyTrend(points) {
-  const el = document.getElementById('vacancy-trend-chart');
-  if (!el) return;
-
+/** 공실률 추이 SVG 차트 HTML을 만든다. points는 {date, value} 배열.
+ * renderVacancyTrend(전체 평균)와 산단별 추이(toggleParkTrend) 양쪽에서 공용으로 쓴다. */
+function buildTrendHtml(points, label) {
   if (!points || points.length === 0) {
-    el.innerHTML = '<div style="color:var(--text-sub);font-size:13px">아직 추이 데이터가 없습니다. 대시보드에 접속할 때마다 하루 1개씩 공실률 스냅샷이 자동으로 쌓입니다.</div>';
-    return;
+    return `<div style="color:var(--text-sub);font-size:13px">아직 추이 데이터가 없습니다. 대시보드에 접속할 때마다 하루 1개씩 공실률 스냅샷이 자동으로 쌓입니다.</div>`;
   }
 
   if (points.length === 1) {
     const p = points[0];
-    el.innerHTML = `<div style="display:flex;align-items:center;gap:10px">
+    return `<div style="display:flex;align-items:center;gap:10px">
       <div style="width:10px;height:10px;border-radius:50%;background:var(--teal)"></div>
-      <div style="font-size:13px;color:var(--text-sub)">데이터 수집 1일차 (${p.date}) · 평균 공실률 <strong style="color:var(--text)">${p.avg_vacancy_rate}%</strong> — 접속일이 쌓일수록 추이 그래프가 채워집니다.</div>
+      <div style="font-size:13px;color:var(--text-sub)">데이터 수집 1일차 (${p.date}) · ${label} <strong style="color:var(--text)">${p.value}%</strong> — 접속일이 쌓일수록 추이 그래프가 채워집니다.</div>
     </div>`;
-    return;
   }
 
   const W = 640, H = 160, PAD_L = 40, PAD_R = 16, PAD_T = 16, PAD_B = 28;
-  const values = points.map(p => p.avg_vacancy_rate);
+  const values = points.map(p => p.value);
   let min = Math.min(...values), max = Math.max(...values);
   if (min === max) { min -= 1; max += 1; }
   const xStep = (W - PAD_L - PAD_R) / (points.length - 1);
   const yFor = v => PAD_T + (1 - (v - min) / (max - min)) * (H - PAD_T - PAD_B);
   const xFor = i => PAD_L + i * xStep;
 
-  const linePoints = points.map((p, i) => `${xFor(i)},${yFor(p.avg_vacancy_rate)}`).join(' ');
-  const dots = points.map((p, i) => `<circle cx="${xFor(i)}" cy="${yFor(p.avg_vacancy_rate)}" r="3.5" fill="var(--teal)"><title>${p.date}: ${p.avg_vacancy_rate}%</title></circle>`).join('');
+  const linePoints = points.map((p, i) => `${xFor(i)},${yFor(p.value)}`).join(' ');
+  const dots = points.map((p, i) => `<circle cx="${xFor(i)}" cy="${yFor(p.value)}" r="3.5" fill="var(--teal)"><title>${p.date}: ${p.value}%</title></circle>`).join('');
   // 라벨은 너무 많으면 겹치므로 처음/중간/끝만 표시
   const labelIdxs = points.length <= 7
     ? points.map((_, i) => i)
     : [0, Math.floor((points.length - 1) / 2), points.length - 1];
   const labels = labelIdxs.map(i => `<text x="${xFor(i)}" y="${H - 8}" font-size="10" fill="var(--text-sub)" text-anchor="middle">${points[i].date.slice(5)}</text>`).join('');
 
-  el.innerHTML = `
+  // 그래프는 위로 갈수록 공실률이 높다는 걸 한눈에 읽기 어렵다는 피드백이 있어,
+  // 첫날 대비 최신값의 증감을 화살표+색상+%p로 명시적으로 보여준다.
+  const first = points[0].value;
+  const last = points[points.length - 1].value;
+  const diff = Math.round((last - first) * 10) / 10;
+  let trendHtml;
+  if (diff > 0) {
+    trendHtml = `<span style="color:#E24B4A;font-weight:700">▲ ${diff}%p 증가</span> <span style="color:var(--text-sub)">(공실이 늘었습니다 · 나쁨)</span>`;
+  } else if (diff < 0) {
+    trendHtml = `<span style="color:#639922;font-weight:700">▼ ${Math.abs(diff)}%p 감소</span> <span style="color:var(--text-sub)">(공실이 줄었습니다 · 좋음)</span>`;
+  } else {
+    trendHtml = `<span style="color:var(--text-sub);font-weight:700">- 변화 없음</span>`;
+  }
+
+  return `
+    <div style="font-size:13px;margin-bottom:8px">
+      ${trendHtml}
+      <span style="color:var(--text-sub);font-size:12px"> · ${points[0].date.slice(5)} ${first}% → ${points[points.length - 1].date.slice(5)} ${last}%</span>
+    </div>
     <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:160px">
-      <text x="${PAD_L - 8}" y="${yFor(max) + 4}" font-size="10" fill="var(--text-sub)" text-anchor="end">${max.toFixed(1)}%</text>
-      <text x="${PAD_L - 8}" y="${yFor(min) + 4}" font-size="10" fill="var(--text-sub)" text-anchor="end">${min.toFixed(1)}%</text>
+      <text x="${PAD_L - 8}" y="${yFor(max) + 4}" font-size="10" fill="var(--text-sub)" text-anchor="end">${max.toFixed(1)}% (최고)</text>
+      <text x="${PAD_L - 8}" y="${yFor(min) + 4}" font-size="10" fill="var(--text-sub)" text-anchor="end">${min.toFixed(1)}% (최저)</text>
       <polyline points="${linePoints}" fill="none" stroke="var(--teal)" stroke-width="2" />
       ${dots}
       ${labels}
     </svg>
-    <div style="font-size:11px;color:var(--text-sub);margin-top:4px">누적 ${points.length}일치 데이터 · 최신: ${points[points.length - 1].avg_vacancy_rate}%</div>
+    <div style="font-size:11px;color:var(--text-sub);margin-top:4px">누적 ${points.length}일치 데이터 · 그래프 위쪽=공실률 높음, 아래쪽=공실률 낮음</div>
   `;
+}
+
+function renderVacancyTrend(points) {
+  const el = document.getElementById('vacancy-trend-chart');
+  if (!el) return;
+  el.innerHTML = buildTrendHtml(
+    (points || []).map(p => ({ date: p.date, value: p.avg_vacancy_rate })),
+    '평균 공실률'
+  );
+}
+
+// ── 산업단지 행 클릭 → 그 단지만의 공실률 추이를 아래에 펼침 ──
+const _parkTrendCache = {};
+
+async function toggleParkTrend(parkId) {
+  const row = document.getElementById(`trend-row-${parkId}`);
+  if (!row) return;
+
+  const isOpen = row.style.display !== 'none';
+  // 다른 곳에 열려있던 추이는 닫아서 한 번에 하나만 보이게 한다
+  document.querySelectorAll('.park-trend-row').forEach(r => { r.style.display = 'none'; });
+  if (isOpen) return; // 이미 열려있던 걸 다시 클릭하면 닫기만 하고 끝
+
+  row.style.display = 'table-row';
+  const container = document.getElementById(`trend-container-${parkId}`);
+  if (_parkTrendCache[parkId]) {
+    container.innerHTML = _parkTrendCache[parkId];
+    return;
+  }
+
+  container.innerHTML = '<div style="color:var(--text-sub);font-size:13px;padding:12px 0">불러오는 중...</div>';
+  try {
+    const resp = await fetch(`${API_BASE}/api/dashboard/parks/${parkId}/vacancy-trend`, { headers: dashAuthHeaders() });
+    if (!resp.ok) throw new Error('조회 실패');
+    const data = await resp.json();
+    const html = buildTrendHtml(
+      (data.points || []).map(p => ({ date: p.date, value: p.vacancy_rate })),
+      '공실률'
+    );
+    _parkTrendCache[parkId] = html;
+    container.innerHTML = html;
+  } catch (e) {
+    container.innerHTML = '<div style="color:var(--text-sub);font-size:13px;padding:12px 0">추이를 불러오지 못했습니다.</div>';
+  }
 }
 
 function renderStaticDashboard() {
@@ -1183,8 +1209,6 @@ function renderStaticDashboard() {
     <div style="font-size:15px;font-weight:600;margin-bottom:8px">백엔드 서버에 연결할 수 없습니다</div>
     <div style="font-size:13px">서버를 실행하면 실시간 데이터가 표시됩니다: <code style="background:var(--gray-bg);padding:2px 8px;border-radius:4px">cd backend && python main.py</code></div>
   </td></tr>`;
-
-  document.getElementById('inquiries-hint').textContent = '백엔드 서버 연결 후 입주 문의가 표시됩니다.';
 }
 
 // ── 초기화 ──

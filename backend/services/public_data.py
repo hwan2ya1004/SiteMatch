@@ -82,10 +82,26 @@ def _normalize_park_name(name: str) -> str:
     return name
 
 
+# 내장 샘플명과 KICOX 공식 명칭(irsttNm)이 표기 규칙만으로는 안 겹치는 단지들.
+# 실제로는 같은 단지가 맞는지 확인 후 등록한 별칭 — 자동 정규화 규칙으로는 못 잡음.
+KNOWN_ALIASES = {
+    "서울디지털산업단지": ["서울디지털국가산업단지"],
+    "김해골든루트산단": ["김해GoldenRoot일반산업단지", "김해골든루트일반산업단지"],
+    "인천 부평국가산단": ["한국수출산업(부평)국가산업단지", "한국수출산업부평국가산업단지"],
+    "부산 녹산국가산단": ["명지녹산국가산업단지"],
+    "광주 첨단 과학산단": ["광주첨단과학국가산업단지"],
+    "포항철강산단": ["포항국가산업단지"],
+}
+
+
 def _park_name_candidates(park_name: str) -> List[str]:
-    """"반월·시화 국가산단"처럼 복수 단지를 묶은 이름은 개별 후보로 분리한다."""
+    """"반월·시화 국가산단"처럼 복수 단지를 묶은 이름은 개별 후보로 분리하고,
+    KNOWN_ALIASES에 등록된 공식 명칭도 후보에 함께 넣는다."""
     parts = re.split(r"[·,]", park_name)
-    return [_normalize_park_name(p) for p in parts if p.strip()]
+    candidates = [_normalize_park_name(p) for p in parts if p.strip()]
+    for alias in KNOWN_ALIASES.get(park_name, []):
+        candidates.append(_normalize_park_name(alias))
+    return candidates
 
 
 def _names_match(park_name_candidates: List[str], irstt_nm: str) -> bool:

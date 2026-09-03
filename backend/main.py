@@ -76,7 +76,7 @@ async def lifespan(app: FastAPI):
         # RAG 서비스 초기화 (Groq 직접 호출 — 즉시 완료)
         try:
             from services.rag import init_rag_service
-            init_rag_service(GROQ_API_KEY)
+            init_rag_service(GROQ_API_KEY, parks_data)
             print("✅ RAG 챗봇 초기화 완료")
         except Exception as e:
             print(f"⚠️ RAG 챗봇 초기화 실패: {e}")
@@ -89,8 +89,16 @@ async def lifespan(app: FastAPI):
             minute=0,
             id="daily_etl",
         )
+        # 업종 정보 백필 (일일 트래픽 1,000회 제한 — 매일 새벽 3시에 이어서 처리)
+        scheduler.add_job(
+            industry_backfill_job,
+            "cron",
+            hour=3,
+            minute=0,
+            id="industry_backfill",
+        )
         scheduler.start()
-        print("✅ ETL 스케줄러 시작 (매일 02:00 갱신)")
+        print("✅ ETL 스케줄러 시작 (매일 02:00 공공데이터 갱신 / 03:00 업종 백필)")
     else:
         print("⚠️ GROQ_API_KEY 미설정 → AI 기능 비활성화")
         print("   backend/.env 파일에 GROQ_API_KEY를 설정하세요")
@@ -122,6 +130,22 @@ async def daily_etl_job():
         print(f"⚠️ ETL 오류: {e}")
     finally:
         db.close()
+
+
+async def industry_backfill_job():
+    """등록공장 생산정보 API로 단지별 업종 정보를 채우는 작업.
+    일일 트래픽 1,000회 제한 때문에 하루치만 처리하고, 남은 단지는 다음날 이어서 처리한다."""
+    if not PUBLIC_DATA_API_KEY:
+        print("⚠️ 업종 백필 건너뜀: PUBLIC_DATA_API_KEY 미설정")
+        return
+    print(f"🔄 업종 백필 작업 시작: {__import__('datetime').datetime.now()}")
+    from services.industry_backfill import run_backfill
+    try:
+        result = run_backfill(PUBLIC_DATA_API_KEY)
+        if result["remaining"] == 0:
+            print("🎉 전국 단지 업종 백필 완전히 완료됨")
+    except Exception as e:
+        print(f"⚠️ 업종 백필 오류: {e}")
 
 
 # FastAPI 앱 생성

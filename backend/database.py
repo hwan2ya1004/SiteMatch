@@ -71,6 +71,18 @@ class VacancySnapshot(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+class ParkVacancySnapshot(Base):
+    """산업단지별 일별 공실률 스냅샷 — 단지 클릭 시 개별 추이 차트용.
+    VacancySnapshot(전체 평균)과 별개로, 단지마다 하루 1회 기록한다."""
+    __tablename__ = "park_vacancy_snapshots"
+
+    id = Column(Integer, primary_key=True, index=True)
+    park_id = Column(Integer, index=True)
+    snapshot_date = Column(String(10), index=True)  # "YYYY-MM-DD"
+    vacancy_rate = Column(Float)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
 class ParkInquiry(Base):
     """산업단지 입주 문의 — 소비자가 특정 산단에 남긴 문의를 관공서 담당자가
     대시보드에서 확인하고 답변한다 (관리공단과 직접 채팅하는 창구가 없어

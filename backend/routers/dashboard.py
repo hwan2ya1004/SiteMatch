@@ -14,7 +14,8 @@ from sqlalchemy import func, desc
 from datetime import datetime, timedelta
 from typing import Dict, Optional
 
-from database import get_db, IndustrialPark, MatchingHistory, VacancySnapshot, ParkInquiry
+from database import get_db, IndustrialPark, MatchingHistory, VacancySnapshot, ParkVacancySnapshot, ParkInquiry
+from data.national_stats import get_national_park_stats
 
 router = APIRouter(prefix="/api", tags=["dashboard"])
 
@@ -55,21 +56,41 @@ def require_admin(role: str = Depends(require_access)) -> str:
     return role
 
 
-def _ensure_today_snapshot(db: Session, avg_vacancy: float, total_available: float) -> None:
-    """오늘 날짜의 공실 스냅샷이 없으면 하나 기록한다 (추이 차트용 시계열 적재)."""
-    today = datetime.utcnow().strftime("%Y-%m-%d")
-    exists = db.query(VacancySnapshot).filter(VacancySnapshot.snapshot_date == today).first()
-    if exists:
+def _ensure_today_snapshot(db: Session, avg_vacancy: float, total_available: float, parks: list) -> None:
+    """오늘 날짜의 공실 스냅샷이 없으면 기록한다 (추이 차트용 시계열 적재).
+    전체 평균(VacancySnapshot)과 단지별 개별 스냅샷(ParkVacancySnapshot)은 서로 독립적으로 존재 여부를
+    체크한다 — 하나가 먼저 쌓였다고 해서 다른 하나까지 건너뛰면 안 되기 때문 (실제로 있었던 버그)."""
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    if not db.query(VacancySnapshot).filter(VacancySnapshot.snapshot_date == today).first():
+        try:
+            db.add(VacancySnapshot(
+                snapshot_date=today,
+                avg_vacancy_rate=round(avg_vacancy, 1),
+                total_available_area=total_available,
+            ))
+            db.commit()
+        except Exception:
+            db.rollback()  # 동시 요청으로 인한 unique 충돌 등은 무시
+
+    already_done_ids = {
+        row.park_id for row in
+        db.query(ParkVacancySnapshot.park_id).filter(ParkVacancySnapshot.snapshot_date == today).all()
+    }
+    if len(already_done_ids) >= len(parks):
         return
     try:
-        db.add(VacancySnapshot(
-            snapshot_date=today,
-            avg_vacancy_rate=round(avg_vacancy, 1),
-            total_available_area=total_available,
-        ))
+        for p in parks:
+            if p.vacancy_rate is None or p.id in already_done_ids:
+                continue
+            db.add(ParkVacancySnapshot(
+                park_id=p.id,
+                snapshot_date=today,
+                vacancy_rate=p.vacancy_rate,
+            ))
         db.commit()
     except Exception:
-        db.rollback()  # 동시 요청으로 인한 unique 충돌 등은 무시
+        db.rollback()
 
 
 @router.get("/dashboard/stats")
@@ -80,10 +101,10 @@ def get_stats(db: Session = Depends(get_db)):
     total_available = sum(p.available_area or 0 for p in parks)
     avg_vacancy = (sum(p.vacancy_rate or 0 for p in parks) / len(parks)) if parks else 0
 
-    _ensure_today_snapshot(db, avg_vacancy, total_available)
+    _ensure_today_snapshot(db, avg_vacancy, total_available, parks)
 
     # 이달 매칭 건수
-    this_month = datetime.utcnow().replace(day=1, hour=0, minute=0, second=0)
+    this_month = datetime.now().replace(day=1, hour=0, minute=0, second=0)
     monthly_matches = db.query(MatchingHistory).filter(
         MatchingHistory.created_at >= this_month
     ).count()
@@ -104,7 +125,8 @@ def get_stats(db: Session = Depends(get_db)):
         "total_companies": total_companies,
         "confirmed_matches": confirmed_matches,
         "avg_search_days": 12,  # 플랫폼 평균 탐색 기간
-        "total_parks": len(parks),
+        "total_parks": len(parks),  # 서비스에 등록된 샘플 단지 수 (전국 총계 아님)
+        "national": get_national_park_stats(),  # 전국 산업단지 총계·유형별 분포 (TAM 참고용)
     }
 
 
@@ -128,10 +150,33 @@ def get_vacancy_trend(days: int = 30, db: Session = Depends(get_db)):
     }
 
 
+@router.get("/dashboard/parks/{park_id}/vacancy-trend")
+def get_park_vacancy_trend(park_id: int, days: int = 30, db: Session = Depends(get_db)):
+    """특정 산업단지 하나의 공실률 추이 (표에서 단지를 클릭했을 때 사용, 인증 없음 — 임시 공개)."""
+    park = db.query(IndustrialPark).filter(IndustrialPark.id == park_id).first()
+    if not park:
+        raise HTTPException(status_code=404, detail="단지를 찾을 수 없습니다.")
+
+    snapshots = db.query(ParkVacancySnapshot).filter(
+        ParkVacancySnapshot.park_id == park_id
+    ).order_by(ParkVacancySnapshot.snapshot_date.asc()).limit(days).all()
+
+    return {
+        "park_id": park_id,
+        "park_name": park.name,
+        "current_vacancy_rate": park.vacancy_rate,
+        "points": [
+            {"date": s.snapshot_date, "vacancy_rate": s.vacancy_rate}
+            for s in snapshots
+        ],
+        "total": len(snapshots),
+    }
+
+
 def _monthly_inquiry_counts(db: Session) -> Dict[str, int]:
     """이달 매칭 요청에서 공단별로 몇 번 추천되었는지 집계 (실제 데이터).
     industrial_parks.json의 고정 monthly_inquiries 목업값을 대체한다."""
-    this_month = datetime.utcnow().replace(day=1, hour=0, minute=0, second=0)
+    this_month = datetime.now().replace(day=1, hour=0, minute=0, second=0)
     histories = db.query(MatchingHistory).filter(
         MatchingHistory.created_at >= this_month
     ).all()
@@ -180,10 +225,11 @@ def get_parks(db: Session = Depends(get_db)):
             "name": p.name,
             "city": p.city,
             "region": p.region,
+            "type": p.type or "",
             "vacancy_rate": p.vacancy_rate or 0,
             "available_area": f"{p.available_area:,.0f}㎡" if p.available_area else "0㎡",
             "available_area_raw": p.available_area or 0,
-            "rent_per_sqm": f"{p.rent_per_sqm:,}원/㎡" if p.rent_per_sqm else "0원/㎡",
+            "rent_per_sqm": f"{p.rent_per_sqm:,}원/㎡" if p.rent_per_sqm else "정보없음",
             "industries": json.loads(p.industries) if p.industries else [],
             "status": status,
             "status_class": status_class,
@@ -267,7 +313,7 @@ def reply_inquiry(inquiry_id: int, body: InquiryReply, db: Session = Depends(get
 
     inquiry.reply = body.reply.strip()
     inquiry.status = "답변완료"
-    inquiry.replied_at = datetime.utcnow()
+    inquiry.replied_at = datetime.now()
     db.commit()
     return {"id": inquiry.id, "status": inquiry.status}
 
