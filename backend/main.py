@@ -169,10 +169,12 @@ app.add_middleware(
 from routers.match import router as match_router
 from routers.chat import router as chat_router
 from routers.dashboard import router as dashboard_router
+from routers.concierge import router as concierge_router
 
 app.include_router(match_router)
 app.include_router(chat_router)
 app.include_router(dashboard_router)
+app.include_router(concierge_router)
 
 # 정적 파일 서빙 (프론트엔드 HTML)
 # backend/ 폴더 내부 경로 우선, 없으면 상위 폴더에서 찾음

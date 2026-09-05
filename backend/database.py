@@ -25,6 +25,7 @@ class IndustrialPark(Base):
     region = Column(String(50))
     city = Column(String(100))
     type = Column(String(50))
+    dev_status = Column(String(20))  # 조성상태: 완료 / 조성중 / 미개발 (한국산업단지공단 공식 문서 기준)
     total_area = Column(Float)
     available_area = Column(Float)
     vacancy_rate = Column(Float)
@@ -83,6 +84,26 @@ class ParkVacancySnapshot(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+class ConciergeRequest(Base):
+    """확인대행/원스톱 동행 요청 — 사람이 직접 관리기관에 확인하거나 입주 과정을
+    끝까지 챙겨주는 프리미엄 유료 서비스(2-2/1-1-1 참조). ParkInquiry(공단에 남기는
+    일반 문의)와 달리, 이건 SiteMatch 운영진이 직접 처리해야 하는 내부 작업 큐다."""
+    __tablename__ = "concierge_requests"
+
+    id = Column(Integer, primary_key=True, index=True)
+    request_type = Column(String(20), default="확인대행")  # 확인대행 / 원스톱동행 / 민원대행
+    minwon_type = Column(String(30))  # request_type="민원대행"일 때만 사용 — 예: "입주계약", "업종변경"
+    park_name = Column(String(100), nullable=False)
+    company_name = Column(String(100))
+    contact = Column(String(100), nullable=False)
+    message = Column(Text)
+    status = Column(String(20), default="접수")  # 접수 / 확인중 / 완료
+    result = Column(Text)  # 운영진이 확인한 결과 (고객에게 회신되는 내용)
+    fee_note = Column(String(50))  # 예: "건당 3만원", "성공수수료 40만원"
+    created_at = Column(DateTime, default=datetime.utcnow)
+    completed_at = Column(DateTime)
+
+
 class ParkInquiry(Base):
     """산업단지 입주 문의 — 소비자가 특정 산단에 남긴 문의를 관공서 담당자가
     대시보드에서 확인하고 답변한다 (관리공단과 직접 채팅하는 창구가 없어
@@ -138,6 +159,7 @@ def init_db():
                     region=p["region"],
                     city=p["city"],
                     type=p["type"],
+                    dev_status=p.get("dev_status"),
                     total_area=p["total_area"],
                     available_area=p["available_area"],
                     vacancy_rate=p["vacancy_rate"],

@@ -33,6 +33,10 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 컨설턴트 AI입니다
 5. 필요 면적 충족 여부 (5점)
 6. 기업의 추가 요구사항 반영 여부 (5점)
 
+각 단지 정보의 "조성상태"를 반드시 확인하세요. "조성중" 또는 "미개발" 단지는 즉시 입주가
+불가능하므로, 다른 조건이 동일하다면 "완료" 단지보다 순위를 낮추고, 그 단지를 추천할 때는
+reason에 조성상태(예: "조성중")를 반드시 언급하세요. 조성상태를 숨기고 추천하지 마세요.
+
 반드시 아래 JSON 배열 형식으로만, 공백·줄바꿈 없이 압축해서 답변하고 다른 설명은 절대 포함하지 마세요.
 [{"id":공단ID(정수),"score":총점(0~100 정수),"breakdown":{"industry":0~40,"region":0~25,"budget":0~15,"logistics":0~10,"area":0~5,"extra":0~5},"reason":"20자 이내 핵심 근거(업종별 입지 요인 위주)"}, ...]
 breakdown 각 항목의 합은 score와 같아야 합니다. reason은 반드시 20자를 넘지 마세요. 목록에 있는 모든 공단에 대해 빠짐없이 항목을 반환하세요."""
@@ -136,10 +140,12 @@ class EmbeddingService:
         rent_per_sqm = park.get("rent_per_sqm")
         area_text = f"{available_area:,.0f}㎡" if available_area is not None else "정보없음"
         rent_text = f"{rent_per_sqm:,}원" if rent_per_sqm is not None else "정보없음"
+        dev_status = park.get("dev_status") or "완료"
         # 토큰 예산(Groq 무료 티어 TPM) 안에 38개 단지를 모두 넣기 위해 "특징" 등 부가 정보는 생략
         return (
             f"- ID{park.get('id')} {park.get('name', '')}"
             f"({park.get('region') or '정보없음'} {park.get('city') or ''}) "
+            f"조성상태:{dev_status} "
             f"업종:{industries} 물류:{logistics} "
             f"면적:{area_text} "
             f"임대료:{rent_text} 지원금:{subsidy}"
@@ -342,7 +348,12 @@ class EmbeddingService:
                     park, industry, size, area, region, budget, logistics, extra
                 )
                 total = round(sum(breakdown.values()), 1)
-                results.append({"park": park, "score": total, "reason": "", "breakdown": breakdown})
+                dev_status = park.get("dev_status") or "완료"
+                reason = ""
+                if dev_status != "완료":
+                    total = round(total * 0.85, 1)  # 즉시 입주 불가 — 다른 조건 동일하면 순위를 낮춘다
+                    reason = f"조성상태: {dev_status} (아직 완공 전)"
+                results.append({"park": park, "score": total, "reason": reason, "breakdown": breakdown})
 
         results.sort(key=lambda x: x["score"], reverse=True)
         return results[:top_k]

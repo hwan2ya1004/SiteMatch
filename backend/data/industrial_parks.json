@@ -17569,7 +17569,13 @@
     "available_area": 0.0,
     "vacancy_rate": 25.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "일반 창고업",
+      "태양력 발전업",
+      "화학섬유직물 직조업",
+      "그 외 기타 일반목적용 기계 제조업",
+      "비내화 모르타르 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -26915,7 +26921,12 @@
     "available_area": 33000.0,
     "vacancy_rate": 60.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속 문, 창, 셔터 및 관련제품 제조업",
+      "기관차 및 기타 철도차량 제조업",
+      "기타 구조용 금속제품 제조업",
+      "배전반 및 전기 자동제어반 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,

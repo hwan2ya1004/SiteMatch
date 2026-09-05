@@ -18,11 +18,13 @@ from services.embedding import get_embedding_service
 router = APIRouter(prefix="/api", tags=["matching"])
 
 # 단지 유형별 인허가 절차 (산업입지법 등에 근거한 일반적 구분 — 단지별 세부 스펙은 아님)
+# {city}는 build_infra_note()에서 해당 공단의 실제 관할 지자체명(시·군·구)으로 치환된다 —
+# 예전엔 "관할 지자체(시·군·구)"라는 문구 그대로 노출되어 정작 어디인지 알 수 없었음
 TYPE_NOTES = {
     "국가산단": "국가산업단지 — 산업통상자원부 지정, 한국산업단지공단(KICOX) 등 관리기관의 입주 심사·인허가 절차를 따릅니다.",
-    "일반산단": "일반산업단지 — 관할 지자체(시·군·구)가 지정·관리하며, 인허가는 지자체 산업단지 관리기관을 통해 진행됩니다.",
-    "도시첨단산단": "도시첨단산업단지 — 지자체 지정, IT·지식서비스 등 첨단업종 중심으로 조성되어 입주 업종 제한이 있을 수 있습니다.",
-    "농공산단": "농공단지 — 시장·군수 지정, 농어촌 지역 소규모 제조업 중심으로 조성되어 부지·임대료가 저렴하나 대규모 부지·물류 인프라는 제한적일 수 있습니다.",
+    "일반산단": "일반산업단지 — {city}{josa_ga} 지정·관리하며, 인허가는 지자체 산업단지 관리기관을 통해 진행됩니다.",
+    "도시첨단산단": "도시첨단산업단지 — {city} 지정, IT·지식서비스 등 첨단업종 중심으로 조성되어 입주 업종 제한이 있을 수 있습니다.",
+    "농공산단": "농공단지 — {city} 지정, 농어촌 지역 소규모 제조업 중심으로 조성되어 부지·임대료가 저렴하나 대규모 부지·물류 인프라는 제한적일 수 있습니다.",
     "자유무역지역": "자유무역지역 — 산업통상자원부 산하 특례 지역으로 관세 유예 등 통관 인센티브가 있으며, 별도 관리기관의 입주 승인이 필요합니다.",
 }
 
@@ -36,13 +38,29 @@ INDUSTRY_INFRA_HINTS = [
 ]
 
 
+def _josa_i_ga(word: str) -> str:
+    """받침 유무에 따라 '이'/'가' 중 알맞은 주격 조사를 고른다 (예: 가평군이, 안성시가)."""
+    if not word:
+        return "가"
+    code = ord(word[-1]) - 0xAC00
+    if 0 <= code <= 11171:
+        return "가" if code % 28 == 0 else "이"
+    return "가"
+
+
 def build_infra_note(park: dict) -> str:
     """단지 유형·업종 기준의 일반적 확인사항. 공단별 실측 인프라 스펙(전력 용량 등)이 아니라
     입지 선정 시 놓치기 쉬운 체크포인트를 안내하는 용도."""
     notes = []
-    type_note = TYPE_NOTES.get(park.get("type", ""))
-    if type_note:
-        notes.append(type_note)
+    dev_status = park.get("dev_status")
+    if dev_status == "조성중":
+        notes.append("⚠️ 현재 조성 중인 단지입니다 — 즉시 입주가 아닌 향후 입주 일정 확인이 필요합니다.")
+    elif dev_status == "미개발":
+        notes.append("⚠️ 아직 미개발 상태인 단지입니다 — 실제 조성·분양 일정을 관리기관에 반드시 확인하세요.")
+    type_note_tmpl = TYPE_NOTES.get(park.get("type", ""))
+    if type_note_tmpl:
+        city = park.get("city") or park.get("region") or "관할 지자체"
+        notes.append(type_note_tmpl.format(city=city, josa_ga=_josa_i_ga(city)))
     park_industries = set(park.get("industries") or [])
     matched = []
     for keys, hint in INDUSTRY_INFRA_HINTS:
@@ -71,6 +89,7 @@ class MatchResult(BaseModel):
     score: float
     reason: str = ""
     breakdown: dict = {}
+    dev_status: str = "완료"
     infra_note: str = ""
     available_area: float
     vacancy_rate: float
@@ -113,12 +132,14 @@ async def run_match(req: MatchRequest, db: Session = Depends(get_db)):
         park = r["park"]
         formatted.append({
             "rank": i + 1,
+            "id": park.get("id"),
             "name": park.get("name", ""),
             "region": park.get("region", ""),
             "city": park.get("city", ""),
             "score": r["score"],
             "reason": r.get("reason", ""),
             "breakdown": r.get("breakdown", {}),
+            "dev_status": park.get("dev_status") or "완료",
             "infra_note": build_infra_note(park),
             "available_area": park.get("available_area", 0),
             "vacancy_rate": park.get("vacancy_rate", 0),
@@ -126,10 +147,13 @@ async def run_match(req: MatchRequest, db: Session = Depends(get_db)):
             "industries": park.get("industries", []),
             "logistics": park.get("logistics", []),
             "features": park.get("features", []),
-            "description": park.get("description", ""),
-            "subsidy": park.get("subsidy", ""),
-            "contact": park.get("contact", ""),
-            "website": park.get("website", ""),
+            # park.get(key, "")는 키가 아예 없을 때만 기본값을 주므로, 값이 JSON null인
+            # 원본 데이터(1,406개 중 상당수가 description/subsidy/contact/website 미확보)에는
+            # 소용없다 — "or \"\""로 None을 명시적으로 걸러내야 프론트에 "null" 문자열이 안 새어나간다
+            "description": park.get("description") or "",
+            "subsidy": park.get("subsidy") or "",
+            "contact": park.get("contact") or "",
+            "website": park.get("website") or "",
             "lat": park.get("lat", 0),
             "lng": park.get("lng", 0),
         })

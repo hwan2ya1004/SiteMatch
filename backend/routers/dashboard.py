@@ -34,7 +34,8 @@ class InquiryReply(BaseModel):
 
 
 # 아래 두 함수는 로그인 화면을 별도로 만들 때까지 라우트에 적용하지 않고 대기시켜둔 상태.
-# (지금은 모든 /dashboard/* 엔드포인트가 키 없이 열려 있음 — 임시로 되돌린 것)
+# (지금은 모든 /dashboard/* 및 concierge 처리 큐 엔드포인트가 키 없이 열려 있음 — 사용자 요청으로 임시 원복.
+# 로그인 기능 구현 시 콘시어지 처리 큐(개인정보 포함)부터 최우선으로 보호할 것)
 def require_access(x_access_key: Optional[str] = Header(default=None)) -> str:
     """대시보드(관공서·관리자 전용) 접근 검증.
     ADMIN_KEY와 일치하면 "admin", GOV_KEY와 일치하면 "gov" 역할을 반환한다.
@@ -56,43 +57,6 @@ def require_admin(role: str = Depends(require_access)) -> str:
     return role
 
 
-def _ensure_today_snapshot(db: Session, avg_vacancy: float, total_available: float, parks: list) -> None:
-    """오늘 날짜의 공실 스냅샷이 없으면 기록한다 (추이 차트용 시계열 적재).
-    전체 평균(VacancySnapshot)과 단지별 개별 스냅샷(ParkVacancySnapshot)은 서로 독립적으로 존재 여부를
-    체크한다 — 하나가 먼저 쌓였다고 해서 다른 하나까지 건너뛰면 안 되기 때문 (실제로 있었던 버그)."""
-    today = datetime.now().strftime("%Y-%m-%d")
-
-    if not db.query(VacancySnapshot).filter(VacancySnapshot.snapshot_date == today).first():
-        try:
-            db.add(VacancySnapshot(
-                snapshot_date=today,
-                avg_vacancy_rate=round(avg_vacancy, 1),
-                total_available_area=total_available,
-            ))
-            db.commit()
-        except Exception:
-            db.rollback()  # 동시 요청으로 인한 unique 충돌 등은 무시
-
-    already_done_ids = {
-        row.park_id for row in
-        db.query(ParkVacancySnapshot.park_id).filter(ParkVacancySnapshot.snapshot_date == today).all()
-    }
-    if len(already_done_ids) >= len(parks):
-        return
-    try:
-        for p in parks:
-            if p.vacancy_rate is None or p.id in already_done_ids:
-                continue
-            db.add(ParkVacancySnapshot(
-                park_id=p.id,
-                snapshot_date=today,
-                vacancy_rate=p.vacancy_rate,
-            ))
-        db.commit()
-    except Exception:
-        db.rollback()
-
-
 @router.get("/dashboard/stats")
 def get_stats(db: Session = Depends(get_db)):
     """대시보드 핵심 통계 (인증 없음 — 로그인 화면 준비 전까지 임시로 공개)"""
@@ -100,8 +64,6 @@ def get_stats(db: Session = Depends(get_db)):
 
     total_available = sum(p.available_area or 0 for p in parks)
     avg_vacancy = (sum(p.vacancy_rate or 0 for p in parks) / len(parks)) if parks else 0
-
-    _ensure_today_snapshot(db, avg_vacancy, total_available, parks)
 
     # 이달 매칭 건수
     this_month = datetime.now().replace(day=1, hour=0, minute=0, second=0)
@@ -127,49 +89,6 @@ def get_stats(db: Session = Depends(get_db)):
         "avg_search_days": 12,  # 플랫폼 평균 탐색 기간
         "total_parks": len(parks),  # 서비스에 등록된 샘플 단지 수 (전국 총계 아님)
         "national": get_national_park_stats(),  # 전국 산업단지 총계·유형별 분포 (TAM 참고용)
-    }
-
-
-@router.get("/dashboard/vacancy-trend")
-def get_vacancy_trend(days: int = 30, db: Session = Depends(get_db)):
-    """공실률 추이 (일별 스냅샷, 인증 없음 — 임시 공개). 서비스 사용일마다 하루 1포인트씩 쌓인다."""
-    snapshots = db.query(VacancySnapshot).order_by(
-        VacancySnapshot.snapshot_date.asc()
-    ).limit(days).all()
-
-    return {
-        "points": [
-            {
-                "date": s.snapshot_date,
-                "avg_vacancy_rate": s.avg_vacancy_rate,
-                "total_available_area": s.total_available_area,
-            }
-            for s in snapshots
-        ],
-        "total": len(snapshots),
-    }
-
-
-@router.get("/dashboard/parks/{park_id}/vacancy-trend")
-def get_park_vacancy_trend(park_id: int, days: int = 30, db: Session = Depends(get_db)):
-    """특정 산업단지 하나의 공실률 추이 (표에서 단지를 클릭했을 때 사용, 인증 없음 — 임시 공개)."""
-    park = db.query(IndustrialPark).filter(IndustrialPark.id == park_id).first()
-    if not park:
-        raise HTTPException(status_code=404, detail="단지를 찾을 수 없습니다.")
-
-    snapshots = db.query(ParkVacancySnapshot).filter(
-        ParkVacancySnapshot.park_id == park_id
-    ).order_by(ParkVacancySnapshot.snapshot_date.asc()).limit(days).all()
-
-    return {
-        "park_id": park_id,
-        "park_name": park.name,
-        "current_vacancy_rate": park.vacancy_rate,
-        "points": [
-            {"date": s.snapshot_date, "vacancy_rate": s.vacancy_rate}
-            for s in snapshots
-        ],
-        "total": len(snapshots),
     }
 
 
@@ -226,6 +145,7 @@ def get_parks(db: Session = Depends(get_db)):
             "city": p.city,
             "region": p.region,
             "type": p.type or "",
+            "dev_status": p.dev_status or "완료",
             "vacancy_rate": p.vacancy_rate or 0,
             "available_area": f"{p.available_area:,.0f}㎡" if p.available_area else "0㎡",
             "available_area_raw": p.available_area or 0,

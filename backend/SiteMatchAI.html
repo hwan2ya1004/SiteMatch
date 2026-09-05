@@ -88,7 +88,7 @@
   .result-region { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
   .score-pill { background: var(--teal-light); color: var(--teal-dark); font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 99px; white-space: nowrap; }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-  .tag { font-size: 12px; padding: 3px 10px; border-radius: 99px; background: var(--gray-bg); color: var(--text-sub); border: 1px solid var(--border); }
+  .tag { display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 99px; background: var(--gray-bg); color: var(--text-sub); border: 1px solid var(--border); margin: 2px 2px 2px 0; line-height: 1.4; }
   .result-reason { font-size: 13px; color: var(--text-sub); line-height: 1.7; margin-bottom: 12px; }
   .subsidy-box { background: var(--teal-light); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--teal-dark); margin-bottom: 14px; font-weight: 500; }
   .result-actions { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -192,6 +192,10 @@
     <button class="nav-btn" onclick="showPage('admin', this)">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>
       관리자
+    </button>
+    <button class="nav-btn" onclick="showPage('concierge', this)">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      원스톱 안내
     </button>
   </nav>
   <span class="api-status checking" id="api-status">● 연결 확인 중</span>
@@ -329,12 +333,9 @@
           </div>
         </div>
         <div class="sidebar-card">
-          <div class="sidebar-title">관련 기관 바로가기</div>
-          <div class="quick-list">
-            <div class="quick-item" onclick="window.open('https://www.kicox.or.kr','_blank')">한국산업단지공단</div>
-            <div class="quick-item" onclick="window.open('https://www.kotra.or.kr','_blank')">KOTRA (대한무역투자진흥공사)</div>
-            <div class="quick-item" onclick="window.open('https://www.data.go.kr','_blank')">공공데이터포털</div>
-          </div>
+          <div class="sidebar-title">관리기관에 직접 확인이 필요하신가요?</div>
+          <div style="font-size:13px;color:var(--text-sub);margin-bottom:10px">전화·서류 확인은 챗봇으로는 어려운 부분입니다. 원스톱 안내에서 확인대행을 신청하시면 담당자가 직접 확인해드립니다.</div>
+          <button class="btn-primary" style="width:100%" onclick="goConcierge()">🛎️ 원스톱 안내로 이동</button>
         </div>
       </div>
     </div>
@@ -354,7 +355,7 @@
       </div>
       <button class="match-btn" style="margin-top:10px" onclick="submitDashboardKey()">확인</button>
       <div id="gate-error" style="color:var(--red-text);font-size:13px;margin-top:8px;display:none"></div>
-      <div style="font-size:12px;color:var(--text-sub);margin-top:10px">공단·지자체 담당자용 화면입니다. 접근 키는 서비스 운영자에게 문의하세요.</div>
+      <div style="font-size:12px;color:var(--text-sub);margin-top:10px">공단·지자체 담당자용 화면입니다. 접근 키는 서비스 운영자에게 문의하세요.<br>※ 계정 기반 로그인 기능은 아직 없으며, 향후 구현 예정입니다. 지금은 접근 키 하나로 관리자·관공서 역할을 구분하는 임시 방식입니다.</div>
     </div>
 
     <div id="dashboard-content" style="display:none">
@@ -420,48 +421,68 @@
       </table>
     </div>
 
-    <div class="table-wrap">
-      <div class="table-header">
-        평균 공실률 추이
-        <span style="font-size:12px;color:var(--text-sub);font-weight:400" id="trend-updated">서비스 접속 시 하루 1회 자동 기록</span>
-      </div>
-      <div id="vacancy-trend-chart" style="padding:16px 20px">
-        <div style="color:var(--text-sub);font-size:13px">데이터 로딩 중...</div>
-      </div>
-    </div>
-
     <div class="dashboard-grid">
-      <div class="table-wrap" id="contest-panel" style="display:none">
-        <div class="table-header">공모전 심사 대응 현황 <span style="font-size:11px;color:var(--text-sub);font-weight:400">(관리자 전용)</span></div>
-        <div class="recent-list">
-          <div class="recent-item" style="flex-direction:column;align-items:flex-start;gap:4px">
-            <div style="font-weight:600;font-size:13px">창의성 (25점)</div>
-            <div style="font-size:12px;color:var(--text-sub)">기존 포털 대비 AI 능동 추천·LLM 통합</div>
-            <div class="progress" style="width:100%;margin-top:4px"><div class="progress-fill" style="width:100%;background:var(--teal-mid)"></div></div>
-          </div>
-          <div class="recent-item" style="flex-direction:column;align-items:flex-start;gap:4px">
-            <div style="font-weight:600;font-size:13px">구체성 (25점)</div>
-            <div style="font-size:12px;color:var(--text-sub)">실제 작동하는 시제품 구현</div>
-            <div class="progress" style="width:100%;margin-top:4px"><div class="progress-fill" style="width:100%;background:var(--teal-mid)"></div></div>
-          </div>
-          <div class="recent-item" style="flex-direction:column;align-items:flex-start;gap:4px">
-            <div style="font-weight:600;font-size:13px">발전 가능성 (30점)</div>
-            <div style="font-size:12px;color:var(--text-sub)">B2G SaaS → B2B 3단계 수익 모델</div>
-            <div class="progress" style="width:100%;margin-top:4px"><div class="progress-fill" style="width:95%;background:var(--teal-mid)"></div></div>
-          </div>
-          <div class="recent-item" style="flex-direction:column;align-items:flex-start;gap:4px">
-            <div style="font-weight:600;font-size:13px">문제해결 가능성 (20점)</div>
-            <div style="font-size:12px;color:var(--text-sub)">공실 2,200만㎡ 문제 정량 해결</div>
-            <div class="progress" style="width:100%;margin-top:4px"><div class="progress-fill" style="width:100%;background:var(--teal-mid)"></div></div>
-          </div>
-          <div class="recent-item" style="flex-direction:column;align-items:flex-start;gap:4px">
-            <div style="font-weight:600;font-size:13px">AI 확산성 가산점 (+5)</div>
-            <div style="font-size:12px;color:var(--text-sub)">오픈API·멀티플랫폼 확장 구조</div>
-            <div class="progress" style="width:100%;margin-top:4px"><div class="progress-fill" style="width:100%;background:var(--teal-mid)"></div></div>
-          </div>
+      <div class="table-wrap" id="concierge-panel" style="display:none">
+        <div class="table-header">원스톱 안내 처리 현황 <span style="font-size:11px;color:var(--text-sub);font-weight:400">(관리자 전용 — 고객 회사명·연락처 포함)</span></div>
+        <div id="concierge-list" style="padding:16px 20px">
+          <div style="color:var(--text-sub);font-size:13px">불러오는 중...</div>
         </div>
       </div>
     </div>
+    </div>
+  </div>
+
+  <!-- ── 원스톱 안내 (확인대행·원스톱 동행 — 사람이 직접 처리하는 프리미엄 서비스) ── -->
+  <div class="page" id="page-concierge">
+    <div class="page-header">
+      <div class="page-title">원스톱 안내</div>
+      <div class="page-desc">사람이 직접 관리기관에 확인하거나 입주 과정을 끝까지 챙겨드리는 유료 서비스입니다. 신청하면 아래 처리 현황에 접수됩니다.</div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title">확인대행 · 원스톱 동행 · 민원대행 신청</div>
+      <div class="form-grid">
+        <div class="field">
+          <label>요청 유형 *</label>
+          <select id="cr-type" onchange="onConciergeTypeChange()">
+            <option value="확인대행">확인대행 (건당 3만원) — 관리기관에 직접 확인 후 회신</option>
+            <option value="원스톱동행">원스톱 동행 (성공수수료: 연간 임대료의 1%) — 문의부터 계약까지 끝까지 동행 [행정사 채용 전까지 비활성]</option>
+            <option value="민원대행">민원대행 (건당 10만원) — 팩토리온 민원(입주계약·업종변경 등) 접수를 담당자가 대신 처리 [행정사 채용 전까지 비활성]</option>
+          </select>
+        </div>
+        <div class="field" id="cr-minwon-field" style="display:none">
+          <label>민원 유형 *</label>
+          <select id="cr-minwon-type">
+            <option value="">불러오는 중...</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>산업단지명 *</label>
+          <input type="text" id="cr-park" placeholder="예: 구미 국가산단">
+        </div>
+        <div class="field">
+          <label>회사명 (선택)</label>
+          <input type="text" id="cr-company" placeholder="예: OO전자">
+        </div>
+        <div class="field">
+          <label>연락처 *</label>
+          <input type="text" id="cr-contact" placeholder="전화 또는 이메일">
+        </div>
+        <div class="field form-full">
+          <label>확인하고 싶은 내용</label>
+          <input type="text" id="cr-message" placeholder="예: 3상 전력 사용 가능 여부, 최근 분양 조건 등">
+        </div>
+      </div>
+      <div style="margin-top:12px;font-size:13px;color:var(--text-sub)">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+          <input type="checkbox" id="cr-privacy-agree">
+          <span><a href="javascript:void(0)" onclick="event.preventDefault();openPrivacyModal()" style="color:var(--teal-dark);text-decoration:underline">개인정보처리방침</a>에 동의합니다 (필수)</span>
+        </label>
+      </div>
+      <button class="match-btn" style="margin-top:12px" onclick="submitConciergeRequest()">신청하기</button>
+      <div id="cr-error" style="color:var(--red-text);font-size:13px;margin-top:8px;display:none"></div>
+      <div id="cr-success" style="color:var(--teal-dark);font-size:13px;margin-top:8px;display:none"></div>
+      <div style="font-size:12px;color:var(--text-sub);margin-top:10px">신청 처리 현황은 고객 개인정보가 포함되어 있어 이 화면에는 표시되지 않으며, 운영진이 관리자 화면에서 별도로 확인합니다.</div>
     </div>
   </div>
 
@@ -482,32 +503,23 @@
   </div>
 </footer>
 
-<div id="inquiry-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,20,0.45);z-index:200;align-items:center;justify-content:center">
-  <div class="card" style="width:100%;max-width:420px;margin:0">
+<div id="privacy-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,20,0.45);z-index:210;align-items:center;justify-content:center">
+  <div class="card" style="width:100%;max-width:520px;margin:0;max-height:80vh;overflow-y:auto">
     <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
-      <span>입주 문의하기</span>
-      <button onclick="closeInquiryModal()" style="border:none;background:none;cursor:pointer;font-size:18px;color:var(--text-sub);line-height:1">×</button>
+      <span>개인정보처리방침</span>
+      <button onclick="closePrivacyModal()" style="border:none;background:none;cursor:pointer;font-size:18px;color:var(--text-sub);line-height:1">×</button>
     </div>
-    <div style="font-size:13px;color:var(--text-sub);margin-bottom:14px" id="inquiry-modal-park"></div>
-    <div class="field" style="margin-bottom:10px">
-      <label>회사명 (선택)</label>
-      <input type="text" id="inquiry-company" placeholder="예: OO전자">
+    <div style="font-size:13px;color:var(--text-main);line-height:1.7">
+      <p>서희연구소(이하 "회사")는 확인대행·원스톱동행·민원대행 서비스 신청 처리를 위해 아래와 같이 개인정보를 처리합니다.</p>
+      <p><b>1. 수집 항목</b><br>회사명(선택), 연락처(필수), 산업단지명, 요청 유형, 문의 내용</p>
+      <p><b>2. 수집 목적</b><br>확인대행·원스톱동행·민원대행 신청 접수 및 처리 결과 회신</p>
+      <p><b>3. 보유 및 이용 기간</b><br>요청 처리 완료 후 1년간 보관 후 파기. 단, 관계 법령에 따라 보관 의무가 있는 경우 그 기간 동안 보관</p>
+      <p><b>4. 제3자 제공</b><br>제공하지 않음. 관리기관 확인 시에도 신청자의 개인정보는 전달하지 않고, 담당자가 일반적인 입주 조건만 문의함</p>
+      <p><b>5. 처리위탁(국외 이전)</b><br>서버 호스팅을 위해 Render(미국 소재)에 위탁</p>
+      <p><b>6. 정보주체의 권리</b><br>개인정보 열람·정정·삭제·처리정지를 요청할 수 있으며, 아래 연락처로 문의 가능</p>
+      <p><b>7. 파기 절차</b><br>보유 기간 경과 시 데이터베이스에서 즉시 삭제</p>
+      <p><b>8. 개인정보 보호책임자</b><br>김성환(대표), seohilab@naver.com</p>
     </div>
-    <div class="field" style="margin-bottom:10px">
-      <label>연락처 (전화 또는 이메일)</label>
-      <input type="text" id="inquiry-contact" placeholder="담당자가 답변을 남길 때 필요합니다">
-    </div>
-    <div class="field" style="margin-bottom:10px">
-      <label>업종 (선택)</label>
-      <input type="text" id="inquiry-industry" placeholder="예: 전자·반도체">
-    </div>
-    <div class="field" style="margin-bottom:14px">
-      <label>문의 내용</label>
-      <textarea id="inquiry-message" rows="4" placeholder="입주 조건, 임대 절차 등 궁금한 점을 남겨주세요." style="padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;resize:vertical"></textarea>
-    </div>
-    <button class="match-btn" style="width:100%" onclick="submitInquiry()" id="inquiry-submit-btn">문의 등록</button>
-    <div id="inquiry-error" style="color:var(--red-text);font-size:13px;margin-top:8px;display:none"></div>
-    <div id="inquiry-success" style="color:var(--teal-dark);font-size:13px;margin-top:8px;display:none">문의가 등록되었습니다. 산단 담당자가 확인 후 답변을 남길 예정입니다.</div>
   </div>
 </div>
 
@@ -530,13 +542,14 @@ function showPage(id, btn) {
     document.getElementById('dashboard-desc').textContent = id === 'admin'
       ? 'SiteMatch 운영진 전용 화면입니다. 전체 산업단지 데이터와 시스템 운영 현황을 관리합니다.'
       : '전국 산업단지 공실 현황 및 매칭 통계를 실시간으로 모니터링합니다.';
-    // TODO: 로그인 화면 준비되면 checkDashboardGate()로 다시 교체 — 지금은 임시로 바로 통과시킴
+    // 로그인 기능 미구현 — 지금 단계에서는 키 입력 없이 공개. 관리자 화면의 콘시어지
+    // 처리 큐(회사명·연락처 포함)도 현재는 접근 통제 없이 노출됨 — 로그인 기능 구현 시 반드시 보호 필요.
     document.getElementById('dashboard-gate').style.display = 'none';
     document.getElementById('dashboard-content').style.display = 'block';
     document.getElementById('admin-status-panel').style.display = id === 'admin' ? 'block' : 'none';
-    document.getElementById('contest-panel').style.display = id === 'admin' ? 'block' : 'none';
+    document.getElementById('concierge-panel').style.display = id === 'admin' ? 'block' : 'none';
     loadDashboard();
-    if (id === 'admin') loadAdminStatus();
+    if (id === 'admin') { loadAdminStatus(); loadConciergeQueue(); }
   }
 }
 
@@ -565,9 +578,9 @@ async function checkDashboardGate() {
       gate.style.display = 'none';
       content.style.display = 'block';
       document.getElementById('admin-status-panel').style.display = role === 'admin' ? 'block' : 'none';
-      document.getElementById('contest-panel').style.display = role === 'admin' ? 'block' : 'none';
+      document.getElementById('concierge-panel').style.display = role === 'admin' ? 'block' : 'none';
       loadDashboard();
-      if (role === 'admin') loadAdminStatus();
+      if (role === 'admin') { loadAdminStatus(); loadConciergeQueue(); }
       return;
     }
   }
@@ -740,12 +753,25 @@ function renderResults(results, ind, ar) {
     const breakdownLine = Object.keys(bd).length
       ? `<div style="font-size:11px;color:var(--text-sub);margin-bottom:10px">매칭 근거: ${bdLabels.map(([k,label,cap])=>`${label} ${Math.round(bd[k]||0)}/${cap}`).join(' · ')}</div>`
       : '';
+
+    // ⭐ 프리미엄: 동종업계 입주현황 — 요청 업종(ind)의 키워드가 이 단지의 실제 등록공장 업종과
+    // 겹치는지 확인해 "이미 같은 업종이 입주해 있다"는 클러스터 신호를 보여준다.
+    const parkIndustries = r.industries || [];
+    const indKeywords = (ind || '').split('·').map(s => s.trim()).filter(Boolean);
+    const overlap = parkIndustries.filter(pi => indKeywords.some(kw => pi.includes(kw) || kw.includes(pi)));
+    const peerHtml = parkIndustries.length ? `
+      <div style="background:${overlap.length ? 'var(--teal-light)' : 'var(--gray-bg)'};border-radius:8px;padding:10px 12px;font-size:12px;margin-bottom:12px">
+        <strong>${overlap.length ? '✅ 동일·유사 업종 입주 확인' : '📋 입주 업종 현황'}</strong>
+        <span style="color:var(--text-sub)">(등록공장 실데이터 기준)</span><br>
+        ${parkIndustries.map(pi => `<span class="tag" style="${overlap.includes(pi) ? 'font-weight:700' : ''}">${pi}</span>`).join(' ')}
+      </div>` : '';
+
     return `
   <div class="result-card ${i===0?'top-pick':''}">
     <div class="result-row1">
       <div>
         <div class="result-rank">${i===0?'★ 최우선 추천':'#'+r.rank+' 추천'}</div>
-        <div class="result-name">${r.name}</div>
+        <div class="result-name">${r.name}${devStatusBadge(r.dev_status)}</div>
         <div class="result-region">${r.city}</div>
       </div>
       <div class="score-pill">매칭 ${r.score}점</div>
@@ -754,22 +780,21 @@ function renderResults(results, ind, ar) {
       ${(r.features||[]).slice(0,4).map(t=>`<span class="tag">${t}</span>`).join('')}
       ${r.vacancy_rate ? `<span class="tag">공실률 ${r.vacancy_rate}%</span>` : ''}
     </div>
-    <div class="result-reason">${r.reason || r.description}</div>
+    ${(r.reason || r.description) ? `<div class="result-reason">${r.reason || r.description}</div>` : ''}
     ${breakdownLine}
-    <div class="subsidy-box">
+    ${r.subsidy ? `<div class="subsidy-box">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:6px"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
       ${r.subsidy}
-    </div>
+    </div>` : ''}
     ${r.infra_note ? `<div style="background:var(--amber-bg);color:var(--amber-text);border-radius:8px;padding:8px 12px;font-size:12px;margin-bottom:12px">🔍 입지 선정 시 확인사항: ${r.infra_note}</div>` : ''}
+    ${peerHtml}
     <div style="font-size:12px;color:var(--text-sub);margin-bottom:12px">
       가용면적: <strong>${(r.available_area||0).toLocaleString()}㎡</strong> &nbsp;|&nbsp;
-      임대료: <strong>${r.rent_per_sqm ? r.rent_per_sqm.toLocaleString()+'원/㎡' : '-'}</strong> &nbsp;|&nbsp;
-      문의: <strong>${r.contact || '-'}</strong>${monthlyRentLine}
+      임대료: <strong>${r.rent_per_sqm ? r.rent_per_sqm.toLocaleString()+'원/㎡' : '-'}</strong>${monthlyRentLine}
     </div>
     <div class="result-actions">
       <button class="btn-primary" onclick="goChat('${r.name}')">챗봇에서 상세 문의</button>
-      <button class="btn-primary" onclick="openInquiryModal('${r.name}')">입주 문의하기</button>
-      <button class="btn-ghost" onclick="window.open('${r.website}','_blank')">공단 홈페이지</button>
+      <button class="btn-primary" onclick="goConcierge('${r.name}')">🛎️ 확인 대행 요청</button>
     </div>
   </div>`;
   }).join('');
@@ -898,60 +923,147 @@ function goChat(name) {
 }
 
 // ── 입주 문의 모달 (소비자 → 관공서 대시보드로 접수) ──
-function openInquiryModal(parkName) {
-  document.getElementById('inquiry-modal-park').textContent = `${parkName}에 문의를 남깁니다`;
-  document.getElementById('inquiry-modal-overlay').dataset.park = parkName;
-  document.getElementById('inquiry-company').value = '';
-  document.getElementById('inquiry-contact').value = '';
-  document.getElementById('inquiry-industry').value = '';
-  document.getElementById('inquiry-message').value = '';
-  document.getElementById('inquiry-error').style.display = 'none';
-  document.getElementById('inquiry-success').style.display = 'none';
-  document.getElementById('inquiry-submit-btn').style.display = 'block';
-  document.getElementById('inquiry-modal-overlay').style.display = 'flex';
+// ── 원스톱 안내 (확인대행 · 원스톱 동행 — 사람이 직접 처리하는 프리미엄 서비스) ──
+function goConcierge(parkName) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-concierge').classList.add('active');
+  document.querySelectorAll('.nav-btn')[4].classList.add('active');
+  if (parkName) document.getElementById('cr-park').value = parkName;
 }
 
-function closeInquiryModal() {
-  document.getElementById('inquiry-modal-overlay').style.display = 'none';
+let _minwonTypesLoaded = false;
+
+function onConciergeTypeChange() {
+  const isMinwon = document.getElementById('cr-type').value === '민원대행';
+  document.getElementById('cr-minwon-field').style.display = isMinwon ? 'flex' : 'none';
+  if (isMinwon && !_minwonTypesLoaded) loadMinwonTypes();
 }
 
-async function submitInquiry() {
-  const parkName = document.getElementById('inquiry-modal-overlay').dataset.park;
-  const message = document.getElementById('inquiry-message').value.trim();
-  const errEl = document.getElementById('inquiry-error');
-  errEl.style.display = 'none';
-
-  if (!message) {
-    errEl.textContent = '문의 내용을 입력해주세요.';
-    errEl.style.display = 'block';
-    return;
-  }
-
-  const btn = document.getElementById('inquiry-submit-btn');
-  btn.disabled = true;
+async function loadMinwonTypes() {
+  const sel = document.getElementById('cr-minwon-type');
   try {
-    const resp = await fetch(`${API_BASE}/api/inquiries`, {
+    const resp = await fetch(`${API_BASE}/api/concierge/minwon-types`);
+    const data = await resp.json();
+    sel.innerHTML = '<option value="">선택하세요</option>' +
+      (data.types || []).map(t => `<option value="${t}">${t}</option>`).join('');
+    _minwonTypesLoaded = true;
+  } catch (e) {
+    sel.innerHTML = '<option value="">목록을 불러오지 못했습니다</option>';
+  }
+}
+
+function openPrivacyModal() {
+  document.getElementById('privacy-modal-overlay').style.display = 'flex';
+}
+function closePrivacyModal() {
+  document.getElementById('privacy-modal-overlay').style.display = 'none';
+}
+
+async function submitConciergeRequest() {
+  const type = document.getElementById('cr-type').value;
+  const park = document.getElementById('cr-park').value.trim();
+  const contact = document.getElementById('cr-contact').value.trim();
+  const minwonType = document.getElementById('cr-minwon-type').value;
+  const privacyAgreed = document.getElementById('cr-privacy-agree').checked;
+  const errEl = document.getElementById('cr-error');
+  const okEl = document.getElementById('cr-success');
+  errEl.style.display = 'none';
+  okEl.style.display = 'none';
+
+  if (!park) { errEl.textContent = '산업단지명을 입력해주세요.'; errEl.style.display = 'block'; return; }
+  if (!contact) { errEl.textContent = '연락처를 입력해주세요.'; errEl.style.display = 'block'; return; }
+  if (type === '민원대행' && !minwonType) { errEl.textContent = '민원 유형을 선택해주세요.'; errEl.style.display = 'block'; return; }
+  if (!privacyAgreed) { errEl.textContent = '개인정보처리방침에 동의해주세요.'; errEl.style.display = 'block'; return; }
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/concierge`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        park_name: parkName,
-        company_name: document.getElementById('inquiry-company').value.trim(),
-        contact: document.getElementById('inquiry-contact').value.trim(),
-        industry: document.getElementById('inquiry-industry').value.trim(),
-        message,
+        request_type: type,
+        minwon_type: type === '민원대행' ? minwonType : null,
+        park_name: park,
+        company_name: document.getElementById('cr-company').value.trim(),
+        contact,
+        message: document.getElementById('cr-message').value.trim(),
       }),
     });
     if (!resp.ok) {
       const data = await resp.json().catch(() => ({}));
-      throw new Error(data.detail || '문의 등록에 실패했습니다.');
+      throw new Error(data.detail || '신청에 실패했습니다.');
     }
-    document.getElementById('inquiry-success').style.display = 'block';
-    btn.style.display = 'none';
+    const data = await resp.json();
+    okEl.textContent = `접수되었습니다 (${data.fee_note}). 처리 현황에서 진행 상태를 확인하실 수 있습니다.`;
+    okEl.style.display = 'block';
+    document.getElementById('cr-park').value = '';
+    document.getElementById('cr-company').value = '';
+    document.getElementById('cr-contact').value = '';
+    document.getElementById('cr-privacy-agree').checked = false;
+    document.getElementById('cr-message').value = '';
   } catch (e) {
     errEl.textContent = e.message;
     errEl.style.display = 'block';
-  } finally {
-    btn.disabled = false;
+  }
+}
+
+// 관리자 대시보드 전용 — checkDashboardGate()에서 admin 인증 후에만 호출됨
+async function loadConciergeQueue() {
+  const el = document.getElementById('concierge-list');
+  try {
+    const resp = await fetch(`${API_BASE}/api/dashboard/concierge`, { headers: dashAuthHeaders() });
+    if (!resp.ok) throw new Error('조회 실패');
+    const data = await resp.json();
+    renderConciergeQueue(data.requests || []);
+  } catch (e) {
+    el.innerHTML = '<div style="color:var(--text-sub);font-size:13px">처리 현황을 불러오지 못했습니다.</div>';
+  }
+}
+
+function renderConciergeQueue(requests) {
+  const el = document.getElementById('concierge-list');
+  if (!requests.length) {
+    el.innerHTML = '<div style="color:var(--text-sub);font-size:13px">접수된 요청이 없습니다.</div>';
+    return;
+  }
+  const statusClass = { '접수': 'mid', '확인중': 'mid', '완료': 'low' };
+  el.innerHTML = requests.map(r => `
+    <div class="recent-item" style="flex-direction:column;align-items:stretch;gap:8px;padding:12px 0;border-bottom:1px solid var(--border)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <div>
+          <div class="recent-company">${r.park_name} · ${r.request_type}${r.minwon_type ? ' ('+r.minwon_type+')' : ''} <span style="color:var(--text-sub);font-weight:400">(${r.fee_note})</span></div>
+          <div class="recent-detail">${r.company_name} · ${r.contact} · ${r.created_at ? r.created_at.slice(0,10) : ''}</div>
+        </div>
+        <span class="badge ${statusClass[r.status] || 'mid'}">${r.status}</span>
+      </div>
+      ${r.message ? `<div style="font-size:13px;color:var(--text)">요청 내용: ${r.message}</div>` : ''}
+      ${r.result ? `<div style="font-size:12px;color:var(--teal-dark);background:var(--teal-light);border-radius:8px;padding:8px 10px">확인 결과: ${r.result}</div>` : ''}
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <select id="cr-status-${r.id}" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+          <option value="접수" ${r.status==='접수'?'selected':''}>접수</option>
+          <option value="확인중" ${r.status==='확인중'?'selected':''}>확인중</option>
+          <option value="완료" ${r.status==='완료'?'selected':''}>완료</option>
+        </select>
+        <input type="text" id="cr-result-${r.id}" placeholder="확인 결과 입력..." value="${r.result || ''}" style="flex:1;min-width:160px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+        <button class="btn-primary" style="padding:6px 12px;font-size:12px" onclick="updateConciergeRequest(${r.id})">저장</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function updateConciergeRequest(id) {
+  const status = document.getElementById(`cr-status-${id}`).value;
+  const result = document.getElementById(`cr-result-${id}`).value.trim();
+  try {
+    const resp = await fetch(`${API_BASE}/api/dashboard/concierge/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', ...dashAuthHeaders() },
+      body: JSON.stringify({ status, result }),
+    });
+    if (!resp.ok) throw new Error('저장 실패');
+    loadConciergeQueue();
+  } catch (e) {
+    alert('저장에 실패했습니다.');
   }
 }
 
@@ -981,13 +1093,6 @@ async function loadDashboard() {
       window.allParks = parksData.parks;
       populateParksFilterOptions(parksData.parks);
       applyParksFilter();
-    }
-
-    // 공실률 추이 로드
-    const trendResp = await fetch(`${API_BASE}/api/dashboard/vacancy-trend`, { headers: dashAuthHeaders() });
-    if (trendResp.ok) {
-      const trendData = await trendResp.json();
-      renderVacancyTrend(trendData.points);
     }
 
   } catch(e) {
@@ -1060,6 +1165,13 @@ function resetParksFilter() {
   applyParksFilter();
 }
 
+// 조성중/미개발 단지에 붙일 배지. dev_status가 없거나 "완료"면 아무것도 안 붙인다.
+function devStatusBadge(devStatus) {
+  if (!devStatus || devStatus === '완료') return '';
+  const color = devStatus === '조성중' ? '#EF9F27' : '#8A8F98';
+  return ` <span style="display:inline-block;white-space:nowrap;font-size:11px;font-weight:600;color:#fff;background:${color};border-radius:4px;padding:1px 6px;margin-left:4px;vertical-align:middle">${devStatus}</span>`;
+}
+
 function renderParksTable(parks) {
   const tbody = document.getElementById('parks-tbody');
   if (!parks || parks.length === 0) {
@@ -1068,8 +1180,8 @@ function renderParksTable(parks) {
   }
 
   tbody.innerHTML = parks.map(p => `
-    <tr onclick="toggleParkTrend(${p.id})" style="cursor:pointer" title="클릭하면 이 단지의 공실률 추이를 볼 수 있어요">
-      <td style="font-weight:600">${p.name}</td>
+    <tr>
+      <td style="font-weight:600">${p.name}${devStatusBadge(p.dev_status)}</td>
       <td style="color:var(--text-sub)">${p.city}</td>
       <td>
         <div class="progress"><div class="progress-fill" style="width:${Math.min(p.vacancy_rate,100)}%;background:${p.bar_color}"></div></div>
@@ -1081,118 +1193,7 @@ function renderParksTable(parks) {
       <td><span class="badge ${p.status_class}">${p.status}</span></td>
       <td style="font-weight:600;color:var(--teal)">${p.monthly_inquiries}건</td>
     </tr>
-    <tr class="park-trend-row" id="trend-row-${p.id}" style="display:none">
-      <td colspan="8" style="background:var(--gray-bg);padding:16px 20px">
-        <div style="font-weight:600;font-size:13px;margin-bottom:8px">${p.name} 공실률 추이</div>
-        <div id="trend-container-${p.id}"></div>
-      </td>
-    </tr>
   `).join('');
-}
-
-/** 공실률 추이 SVG 차트 HTML을 만든다. points는 {date, value} 배열.
- * renderVacancyTrend(전체 평균)와 산단별 추이(toggleParkTrend) 양쪽에서 공용으로 쓴다. */
-function buildTrendHtml(points, label) {
-  if (!points || points.length === 0) {
-    return `<div style="color:var(--text-sub);font-size:13px">아직 추이 데이터가 없습니다. 대시보드에 접속할 때마다 하루 1개씩 공실률 스냅샷이 자동으로 쌓입니다.</div>`;
-  }
-
-  if (points.length === 1) {
-    const p = points[0];
-    return `<div style="display:flex;align-items:center;gap:10px">
-      <div style="width:10px;height:10px;border-radius:50%;background:var(--teal)"></div>
-      <div style="font-size:13px;color:var(--text-sub)">데이터 수집 1일차 (${p.date}) · ${label} <strong style="color:var(--text)">${p.value}%</strong> — 접속일이 쌓일수록 추이 그래프가 채워집니다.</div>
-    </div>`;
-  }
-
-  const W = 640, H = 160, PAD_L = 40, PAD_R = 16, PAD_T = 16, PAD_B = 28;
-  const values = points.map(p => p.value);
-  let min = Math.min(...values), max = Math.max(...values);
-  if (min === max) { min -= 1; max += 1; }
-  const xStep = (W - PAD_L - PAD_R) / (points.length - 1);
-  const yFor = v => PAD_T + (1 - (v - min) / (max - min)) * (H - PAD_T - PAD_B);
-  const xFor = i => PAD_L + i * xStep;
-
-  const linePoints = points.map((p, i) => `${xFor(i)},${yFor(p.value)}`).join(' ');
-  const dots = points.map((p, i) => `<circle cx="${xFor(i)}" cy="${yFor(p.value)}" r="3.5" fill="var(--teal)"><title>${p.date}: ${p.value}%</title></circle>`).join('');
-  // 라벨은 너무 많으면 겹치므로 처음/중간/끝만 표시
-  const labelIdxs = points.length <= 7
-    ? points.map((_, i) => i)
-    : [0, Math.floor((points.length - 1) / 2), points.length - 1];
-  const labels = labelIdxs.map(i => `<text x="${xFor(i)}" y="${H - 8}" font-size="10" fill="var(--text-sub)" text-anchor="middle">${points[i].date.slice(5)}</text>`).join('');
-
-  // 그래프는 위로 갈수록 공실률이 높다는 걸 한눈에 읽기 어렵다는 피드백이 있어,
-  // 첫날 대비 최신값의 증감을 화살표+색상+%p로 명시적으로 보여준다.
-  const first = points[0].value;
-  const last = points[points.length - 1].value;
-  const diff = Math.round((last - first) * 10) / 10;
-  let trendHtml;
-  if (diff > 0) {
-    trendHtml = `<span style="color:#E24B4A;font-weight:700">▲ ${diff}%p 증가</span> <span style="color:var(--text-sub)">(공실이 늘었습니다 · 나쁨)</span>`;
-  } else if (diff < 0) {
-    trendHtml = `<span style="color:#639922;font-weight:700">▼ ${Math.abs(diff)}%p 감소</span> <span style="color:var(--text-sub)">(공실이 줄었습니다 · 좋음)</span>`;
-  } else {
-    trendHtml = `<span style="color:var(--text-sub);font-weight:700">- 변화 없음</span>`;
-  }
-
-  return `
-    <div style="font-size:13px;margin-bottom:8px">
-      ${trendHtml}
-      <span style="color:var(--text-sub);font-size:12px"> · ${points[0].date.slice(5)} ${first}% → ${points[points.length - 1].date.slice(5)} ${last}%</span>
-    </div>
-    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:160px">
-      <text x="${PAD_L - 8}" y="${yFor(max) + 4}" font-size="10" fill="var(--text-sub)" text-anchor="end">${max.toFixed(1)}% (최고)</text>
-      <text x="${PAD_L - 8}" y="${yFor(min) + 4}" font-size="10" fill="var(--text-sub)" text-anchor="end">${min.toFixed(1)}% (최저)</text>
-      <polyline points="${linePoints}" fill="none" stroke="var(--teal)" stroke-width="2" />
-      ${dots}
-      ${labels}
-    </svg>
-    <div style="font-size:11px;color:var(--text-sub);margin-top:4px">누적 ${points.length}일치 데이터 · 그래프 위쪽=공실률 높음, 아래쪽=공실률 낮음</div>
-  `;
-}
-
-function renderVacancyTrend(points) {
-  const el = document.getElementById('vacancy-trend-chart');
-  if (!el) return;
-  el.innerHTML = buildTrendHtml(
-    (points || []).map(p => ({ date: p.date, value: p.avg_vacancy_rate })),
-    '평균 공실률'
-  );
-}
-
-// ── 산업단지 행 클릭 → 그 단지만의 공실률 추이를 아래에 펼침 ──
-const _parkTrendCache = {};
-
-async function toggleParkTrend(parkId) {
-  const row = document.getElementById(`trend-row-${parkId}`);
-  if (!row) return;
-
-  const isOpen = row.style.display !== 'none';
-  // 다른 곳에 열려있던 추이는 닫아서 한 번에 하나만 보이게 한다
-  document.querySelectorAll('.park-trend-row').forEach(r => { r.style.display = 'none'; });
-  if (isOpen) return; // 이미 열려있던 걸 다시 클릭하면 닫기만 하고 끝
-
-  row.style.display = 'table-row';
-  const container = document.getElementById(`trend-container-${parkId}`);
-  if (_parkTrendCache[parkId]) {
-    container.innerHTML = _parkTrendCache[parkId];
-    return;
-  }
-
-  container.innerHTML = '<div style="color:var(--text-sub);font-size:13px;padding:12px 0">불러오는 중...</div>';
-  try {
-    const resp = await fetch(`${API_BASE}/api/dashboard/parks/${parkId}/vacancy-trend`, { headers: dashAuthHeaders() });
-    if (!resp.ok) throw new Error('조회 실패');
-    const data = await resp.json();
-    const html = buildTrendHtml(
-      (data.points || []).map(p => ({ date: p.date, value: p.vacancy_rate })),
-      '공실률'
-    );
-    _parkTrendCache[parkId] = html;
-    container.innerHTML = html;
-  } catch (e) {
-    container.innerHTML = '<div style="color:var(--text-sub);font-size:13px;padding:12px 0">추이를 불러오지 못했습니다.</div>';
-  }
 }
 
 function renderStaticDashboard() {
