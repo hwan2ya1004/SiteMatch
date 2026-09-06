@@ -111,6 +111,54 @@ def _monthly_inquiry_counts(db: Session) -> Dict[str, int]:
     return counts
 
 
+# 특정 산단 개별로 실제 관리기관을 웹서치로 확인해둔 것 (subsidy_docs.txt
+# "경기도 내 다른 산업단지 관리기관 안내" 섹션과 동일 출처). (park명, 소재 시·군) 정확히
+# 일치할 때만 적용 — 같은 시에 있는 다른 산단까지 같은 기관으로 단정하면 안 되므로
+# 도시 단위가 아니라 반드시 개별 산단명으로 매칭한다.
+_MANAGEMENT_ORG_OVERRIDES = {
+    ("마도", "화성시"): "화성도시공사 산업단지관리사업소",
+    ("파주LCD", "파주시"): "파주시 평화경제과",
+    ("관리", "이천시"): "이천시 (민원콜센터 031-644-2000 경유)",
+}
+
+
+# 산업집적법 제30조상 "관리권자" 직함. region은 국가법령정보센터 통계 표기(약칭)라
+# 특별시·광역시·특별자치시는 시장, 도·특별자치도는 도지사가 맞게 매핑해둔다.
+_REGION_HEAD_TITLE = {
+    "서울": "서울특별시장", "부산": "부산광역시장", "대구": "대구광역시장",
+    "인천": "인천광역시장", "광주": "광주광역시장", "대전": "대전광역시장",
+    "울산": "울산광역시장", "세종": "세종특별자치시장",
+    "경기": "경기도지사", "강원": "강원특별자치도지사",
+    "충북": "충청북도지사", "충남": "충청남도지사",
+    "전북": "전북특별자치도지사", "전남": "전라남도지사",
+    "경북": "경상북도지사", "경남": "경상남도지사", "제주": "제주특별자치도지사",
+}
+
+
+def _management_org(park: "IndustrialPark") -> str:
+    """산업단지 관리기관을 산업집적법 제30조 기준으로 안내한다.
+    - 개별 산단 단위로 실제 확인된 경우(_MANAGEMENT_ORG_OVERRIDES)는 그 기관명을 그대로 사용
+    - 국가산단은 관리업무가 실질적으로 한국산업단지공단(KICOX)에 위탁되어 있어 전국 공통으로 확신 가능
+    - 일반산단·도시첨단산단의 법상 관리권자는 "시·도지사"(광역 단위)이지 시청(기초지자체)이 아님
+    - 농공단지의 법상 관리권자는 "시장·군수·구청장"(기초지자체 단위)
+    - 어느 쪽이든 실무는 한국산업단지공단·산업단지관리공단·입주기업체협의회 등에 위탁될 수 있고
+      실제 위탁 여부·기관명은 산단마다 달라 법률 문서만으로는 알 수 없다 — 개별 확인 없이
+      특정 위탁기관명을 단정하지 않는다(사실에 근거해야 한다는 원칙)"""
+    override = _MANAGEMENT_ORG_OVERRIDES.get((park.name, park.city))
+    if override:
+        return override
+    if park.type == "국가산단":
+        return "한국산업단지공단(KICOX)"
+    if park.type == "농공산단":
+        city = park.city or "관할 시·군·구"
+        return f"{city} 시장·군수 (관리권자, 산업집적법 제30조) — 위탁관리기관 있으면 산단별 확인 필요"
+    head = _REGION_HEAD_TITLE.get(park.region or "")
+    if head:
+        return f"{head} (관리권자, 산업집적법 제30조) — 실무 창구는 통상 {park.city or '관할 시·군·구'} 또는 위탁관리기관(공단 등), 산단별 확인 필요"
+    city = park.city or park.region or "관할 지자체"
+    return f"{city} (관할 지자체 — 위탁관리기관은 산단별로 다를 수 있어 개별 확인 필요)"
+
+
 @router.get("/dashboard/parks")
 def get_parks(db: Session = Depends(get_db)):
     """산업단지 공실 현황 목록 (인증 없음 — 임시 공개)"""
@@ -120,23 +168,25 @@ def get_parks(db: Session = Depends(get_db)):
 
     result = []
     for p in parks:
-        # 공실률에 따른 상태 분류
-        if p.vacancy_rate and p.vacancy_rate >= 25:
+        # 공실률(등록 대비 미가동 비율)만 보고 "여유"를 매기면, 이미 완공되어
+        # 분양·입주가 다 끝난(가용면적 0) 단지도 "여유"로 표시되는 모순이 생긴다
+        # (실제로 발생 — 가용면적 0㎡인데 "여유"로 떠서 혼란을 준 사례). 가용면적이
+        # 없으면 공실률 수치와 무관하게 "포화"를 최우선으로 표시한다.
+        if p.dev_status == "완료" and not (p.available_area and p.available_area > 0):
+            status = "포화"
+            status_class = "high"
+            bar_color = "#E24B4A"
+        elif p.vacancy_rate and p.vacancy_rate >= 25:
             status = "주의"
             status_class = "high"
+            bar_color = "#E24B4A"
         elif p.vacancy_rate and p.vacancy_rate >= 15:
             status = "보통"
             status_class = "mid"
+            bar_color = "#EF9F27"
         else:
             status = "여유"
             status_class = "low"
-
-        # 공실률 색상
-        if p.vacancy_rate and p.vacancy_rate >= 25:
-            bar_color = "#E24B4A"
-        elif p.vacancy_rate and p.vacancy_rate >= 15:
-            bar_color = "#EF9F27"
-        else:
             bar_color = "#639922"
 
         result.append({
@@ -146,6 +196,7 @@ def get_parks(db: Session = Depends(get_db)):
             "region": p.region,
             "type": p.type or "",
             "dev_status": p.dev_status or "완료",
+            "management_org": _management_org(p),
             "vacancy_rate": p.vacancy_rate or 0,
             "available_area": f"{p.available_area:,.0f}㎡" if p.available_area else "0㎡",
             "available_area_raw": p.available_area or 0,

@@ -19,18 +19,22 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
 친절하고 구체적으로 답변하세요.
 
 다음 규칙을 따르세요:
-1. 실제 제도명과 금액을 최대한 포함하세요
-2. 답변은 400자 이내로 간결하게 작성하세요
+1. 참고 문서에 실제로 적힌 제도명·금액만 사용하세요. 문서에 없는 금액·비율·조건은 절대로
+   지어내지 마세요. 문서에 "확인 필요" 또는 "확인되지 않음"이라고 되어 있으면, 그 사실 그대로
+   "정확한 금액은 확인되지 않았습니다"라고 답하세요 — 그럴듯한 숫자를 새로 만들어 채우는 것이
+   가장 나쁜 답변입니다.
+2. 절차·조건처럼 여러 단계로 나뉘는 질문에는 1번부터 번호를 매겨 순서대로 자세히 설명하세요.
+   길이를 줄이려고 정보를 생략하지 말고, 확인된 내용은 빠짐없이 구조적으로 안내하세요.
 3. 한국어로만 답변하세요
-4. 관리기관 전화번호·기관명 등 외부 연락처를 안내하지 마세요. 정확한 확인이 필요한 내용
-   (관리기관에 직접 확인해야 하는 사항, 서류·절차 등)은 "원스톱 안내 탭에서 확인대행을 신청하시면
-   저희가 직접 확인해드립니다"라고 답해, 사용자가 사이트를 벗어나지 않고 SiteMatch 안에서
-   해결하도록 유도하세요.
+4. 관리기관 전화번호 등 개별 담당자 연락처는 안내하지 마세요 (기관명 자체는 참고 문서에 있으면
+   언급해도 됩니다). 답변은 질문에 대한 내용으로 끝내세요 — "문의하세요", "확인해드립니다",
+   "신청하시면 도와드립니다" 같은 안내·유도성 마무리 문장을 답변 끝에 덧붙이지 마세요. 아는 내용은
+   바로 답하고, 모르는 내용은 모른다고 답하면 그걸로 끝입니다.
 5. 그 외 일반적으로 모르는 내용은 추측하지 말고 솔직히 "해당 정보는 없습니다"라고 답하세요
 6. 아래 참고 문서를 활용하여 정확한 정보를 제공하세요
 7. 참고 문서 맨 앞에 "[단지명 실측 데이터]" 블록이 있다면, 그건 SiteMatch DB에서 방금 조회한
    실제 수치입니다 — 질문한 단지에 대한 답변은 반드시 이 블록의 수치를 그대로 인용하세요.
-   이 블록이 없다면, 또는 블록은 있어도 물어본 항목(예: 공실률)이 그 안에 안 적혀 있다면,
+   이 블록이 없다면, 또는 블록은 있어도 물어본 항목(예: 가동률)이 그 안에 안 적혀 있다면,
    절대로 다른 수치(면적 등)로부터 계산·추정해서 만들어내지 말고 "해당 정보는 없습니다"라고
    솔직히 답하세요. 없는 수치를 그럴듯하게 계산해서 답하는 것이 가장 나쁜 답변입니다.
 
@@ -41,7 +45,7 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
 def _load_docs() -> str:
     """subsidy_docs.txt 전체 로드 (없으면 빈 문자열).
     문서 전체를 그대로 프롬프트에 넣는 게 아니라, 질의 시점에
-    _keyword_filter_context()가 관련 단락만 골라내 1500자로 줄이므로
+    _keyword_filter_context()가 관련 단락만 골라내 2200자로 줄이므로
     여기서 앞부분만 잘라내면 뒤쪽에 추가된 내용이 검색 자체가 불가능해진다
     (실제로 이 버그 때문에 문서 뒷부분에 추가한 산단 정보를 챗봇이 못 찾고
     환각 답변을 낸 사례가 있었음 — 반드시 전체를 로드해야 함)."""
@@ -66,6 +70,9 @@ _TRAILING_PARTICLES = sorted(
 )
 
 
+_TRAILING_PUNCT = "?!.,~·…\"'()[]{}:;"
+
+
 def _strip_trailing_particle(word: str) -> str:
     """단어 끝의 흔한 조사를 하나 제거한다 (명사가 2자 미만으로 줄어들면 원래 단어 유지)."""
     for p in _TRAILING_PARTICLES:
@@ -74,17 +81,31 @@ def _strip_trailing_particle(word: str) -> str:
     return word
 
 
+# 실제 검색 사고 사례: "혜택은?"처럼 문장부호가 붙은 단어는 조사 제거가 "은?"과
+# 안 맞아 실패했고("혜택"이라는 핵심 키워드가 통째로 유실됨), "있는"/"받을"처럼
+# 정보량이 거의 없는 기능어는 아무 문단에나 걸려서 엉뚱한 문단(예: 산업집적법 조문)이
+# 점수만 높아 1위로 뽑히는 문제가 있었다 — 그 결과 문서에 실제로 있는 "창업 기업
+# 산업단지 입주 혜택" 섹션을 놔두고 챗봇이 "해당 정보는 없습니다"라고 답한 사례 발생.
+_STOPWORDS = {
+    "있는", "있다", "없는", "없다", "받을", "받는", "하는", "하다", "되는", "되다",
+    "그리고", "그런데", "그래서", "어떻게", "무엇", "어디", "언제", "누구", "이런",
+    "저런", "그런", "때는", "경우",
+}
+
+
 def _keyword_filter_context(docs_text: str, query: str) -> str:
     """쿼리 키워드가 포함된 단락을 우선 반환 (간단한 관련성 필터)"""
     if not docs_text:
         return "관련 문서 없음"
 
     paragraphs = [p.strip() for p in docs_text.split("\n\n") if p.strip()]
-    raw_words = [w for w in query.split() if len(w) >= 2]
+    raw_words = [w.strip(_TRAILING_PUNCT) for w in query.split()]
+    raw_words = [w for w in raw_words if len(w) >= 2 and w not in _STOPWORDS]
     # 원형 토큰과 조사 제거 토큰을 모두 후보로 사용 (조사 제거판이 원형과 다를 때만 추가)
-    query_words = list(dict.fromkeys(
-        raw_words + [_strip_trailing_particle(w) for w in raw_words]
-    ))
+    query_words = [
+        w for w in dict.fromkeys(raw_words + [_strip_trailing_particle(w) for w in raw_words])
+        if w not in _STOPWORDS
+    ]
 
     # 키워드 포함 단락 우선 정렬 (단락 내 공백을 제거한 버전에도 대조해
     # "안산사이언스밸리"(질문) vs "안산 사이언스밸리"(문서) 같은 띄어쓰기 차이도 흡수)
@@ -95,11 +116,14 @@ def _keyword_filter_context(docs_text: str, query: str) -> str:
         scored.append((hits, para))
     scored.sort(key=lambda x: x[0], reverse=True)
 
-    # 상위 단락들을 합쳐서 반환 (최대 1500자)
+    # 상위 단락들을 합쳐서 반환 (최대 2200자 — 1500자였을 때 신청서류 안내처럼
+    # 자체로 1500자를 살짝 넘는 완결된 단락이 통째로 버려지는 사례가 있었음).
+    # 1위 단락이 너무 커도 곧장 break하지 않고 다음 후보로 넘어가야, 상위 1개는
+    # 못 들어가도 2~3위 단락이라도 채울 수 있다(예전엔 break라 아예 빈 컨텍스트가 됨).
     context = ""
     for _, para in scored:
-        if len(context) + len(para) > 1500:
-            break
+        if len(context) + len(para) > 2200:
+            continue
         context += para + "\n\n"
 
     return context.strip() or docs_text[:1500]
@@ -116,7 +140,7 @@ class RAGService:
             model=CHAT_MODEL,
             groq_api_key=api_key,
             temperature=0.3,
-            max_tokens=600,
+            max_tokens=900,  # 단계별 상세 설명을 위해 상향(기존 400자 제한 규칙 폐지에 맞춤)
             reasoning_effort="low",  # gpt-oss는 추론 모델 — effort를 낮추지 않으면 토큰 예산을 "생각"에 다 씀
         )
         # 문서 로드 (시작 시 1회)
@@ -158,7 +182,10 @@ class RAGService:
         if dev_status != "완료":
             lines.append(f"조성상태: {dev_status} (아직 완공 전인 신설 단지)")
         vac = park.get("vacancy_rate")
-        lines.append(f"공실률(입주 대비 미가동 비율): {vac}%" if vac is not None else "공실률: 데이터 없음")
+        # "공실률"이라는 이름은 "빈 땅/건물이 있다"는 뜻으로 오해되기 쉽지만, 이 수치는
+        # 실제로는 등록된 입주기업 중 가동 중인 비율(가동률)이다 — 빈 부지 여부는
+        # 아래 "가용면적"이 알려주는 전혀 다른 지표이므로 혼동 없이 가동률로 표기한다.
+        lines.append(f"가동률(등록 입주기업 중 실제 가동 중인 비율): {round(100 - vac, 1)}%" if vac is not None else "가동률: 데이터 없음")
         if park.get("available_area"):
             lines.append(f"미분양(신규 분양 가능) 면적: {park['available_area']:,.0f}㎡")
         else:
@@ -241,7 +268,7 @@ AI:"""
                 {"role": "user", "content": user_content},
             ],
             temperature=0.3,
-            max_tokens=600,
+            max_tokens=900,  # 단계별 상세 설명을 위해 상향(기존 400자 제한 규칙 폐지에 맞춤)
             reasoning_effort="low",
             stream=True,
         )

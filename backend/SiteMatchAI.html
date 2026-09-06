@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
 <title>SiteMatch AI — 산업단지 공실 AI 매칭 플랫폼</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
+    color-scheme: light;
     --blue: #1F4E79;
     --teal: #0F6E56;
     --teal-mid: #1D9E75;
@@ -116,6 +118,26 @@
   .bubble { padding: 12px 16px; border-radius: 16px; font-size: 14px; line-height: 1.7; }
   .msg.bot .bubble { background: var(--gray-bg); color: var(--text); border-radius: 4px 16px 16px 16px; }
   .msg.user .bubble { background: var(--teal); color: white; border-radius: 16px 4px 16px 16px; }
+  /* 챗봇이 마크다운(**굵게**, 목록, 헤더 등)으로 답할 때 예쁘게 보이도록 — mdToHtml()이 만든 태그용 스타일 */
+  .bubble p { margin: 0 0 8px; }
+  .bubble p:last-child { margin-bottom: 0; }
+  .bubble strong { font-weight: 700; }
+  .bubble ul, .bubble ol { margin: 4px 0 8px; padding-left: 20px; }
+  .bubble li { margin: 3px 0; }
+  .bubble li:last-child { margin-bottom: 0; }
+  .bubble h3, .bubble h4 { margin: 10px 0 6px; font-size: 15px; font-weight: 700; line-height: 1.4; }
+  .bubble h3:first-child, .bubble h4:first-child { margin-top: 0; }
+  .bubble code { background: rgba(0,0,0,0.08); padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
+  .msg.user .bubble code { background: rgba(255,255,255,0.2); }
+  .bubble a { color: var(--teal); text-decoration: underline; word-break: break-all; }
+  .msg.user .bubble a { color: #fff; }
+  .bubble hr { border: none; border-top: 1px solid rgba(0,0,0,0.12); margin: 10px 0; }
+  .msg.user .bubble hr { border-top-color: rgba(255,255,255,0.35); }
+  .bubble table { border-collapse: collapse; margin: 8px 0; font-size: 12.5px; display: block; overflow-x: auto; max-width: 100%; }
+  .bubble th, .bubble td { border: 1px solid rgba(0,0,0,0.15); padding: 5px 9px; text-align: left; }
+  .bubble th { background: rgba(0,0,0,0.05); font-weight: 700; }
+  .msg.user .bubble th, .msg.user .bubble td { border-color: rgba(255,255,255,0.35); }
+  .msg.user .bubble th { background: rgba(255,255,255,0.15); }
   .chat-footer { border-top: 1px solid var(--border); padding: 14px; display: flex; gap: 8px; }
   .chat-input { flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; }
   .chat-input:focus { border-color: var(--teal-mid); }
@@ -216,17 +238,33 @@
           <label>업종 *</label>
           <select id="f-industry" onchange="showIndustryHint(this.value)">
             <option value="">선택하세요</option>
-            <option>전자·반도체</option>
-            <option>자동차·부품</option>
-            <option>기계·금속 장비</option>
-            <option>화학·소재</option>
-            <option>식품·음료</option>
-            <option>섬유·의류</option>
-            <option>바이오·의료기기</option>
-            <option>물류·유통</option>
-            <option>로봇·스마트팩토리</option>
-            <option>기타 제조업</option>
+            <option value="식료품 제조업">10 식료품 제조업</option>
+            <option value="음료 제조업">11 음료 제조업</option>
+            <option value="담배 제조업">12 담배 제조업</option>
+            <option value="섬유제품 제조업">13 섬유제품 제조업(의복 제외)</option>
+            <option value="의복·모피제품 제조업">14 의복, 의복액세서리 및 모피제품 제조업</option>
+            <option value="가죽·가방·신발 제조업">15 가죽, 가방 및 신발 제조업</option>
+            <option value="목재·나무제품 제조업">16 목재 및 나무제품 제조업(가구 제외)</option>
+            <option value="펄프·종이 제조업">17 펄프, 종이 및 종이제품 제조업</option>
+            <option value="인쇄업">18 인쇄 및 기록매체 복제업</option>
+            <option value="석유정제품 제조업">19 코크스, 연탄 및 석유정제품 제조업</option>
+            <option value="화학물질·화학제품 제조업">20 화학물질 및 화학제품 제조업(의약품 제외)</option>
+            <option value="의약품 제조업">21 의료용 물질 및 의약품 제조업</option>
+            <option value="고무·플라스틱제품 제조업">22 고무 및 플라스틱제품 제조업</option>
+            <option value="비금속광물제품 제조업">23 비금속광물제품 제조업</option>
+            <option value="1차 금속 제조업">24 1차 금속 제조업</option>
+            <option value="금속가공제품 제조업">25 금속가공제품 제조업(기계 및 가구 제외)</option>
+            <option value="전자부품·통신장비 제조업">26 전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업</option>
+            <option value="의료·정밀·광학기기 제조업">27 의료, 정밀, 광학기기 및 시계 제조업</option>
+            <option value="전기장비 제조업">28 전기장비 제조업</option>
+            <option value="기타 기계·장비 제조업">29 기타 기계 및 장비 제조업</option>
+            <option value="자동차·트레일러 제조업">30 자동차 및 트레일러 제조업</option>
+            <option value="기타 운송장비 제조업">31 기타 운송장비 제조업</option>
+            <option value="가구 제조업">32 가구 제조업</option>
+            <option value="기타 제품 제조업">33 기타 제품 제조업</option>
+            <option value="산업용 기계·장비 수리업">34 산업용 기계 및 장비 수리업</option>
           </select>
+          <div style="font-size:11px;color:var(--text-hint);margin-top:2px">※ 통계청 한국표준산업분류(KSIC) 대분류 C(제조업) 중분류 10~34 기준</div>
           <div id="industry-hint" style="display:none;font-size:12px;color:var(--teal-dark);background:var(--teal-light);border-radius:6px;padding:6px 10px;margin-top:2px"></div>
         </div>
         <div class="field">
@@ -359,6 +397,15 @@
     </div>
 
     <div id="dashboard-content" style="display:none">
+    <div id="admin-status-panel" style="display:none;margin-bottom:16px"></div>
+    <div style="margin-top:0;margin-bottom:16px">
+      <div class="table-wrap" id="concierge-panel" style="display:none">
+        <div class="table-header">원스톱 안내 처리 현황 <span style="font-size:11px;color:var(--text-sub);font-weight:400">(관리자 전용 — 고객 회사명·연락처 포함)</span></div>
+        <div id="concierge-list" style="padding:16px 20px">
+          <div style="color:var(--text-sub);font-size:13px">불러오는 중...</div>
+        </div>
+      </div>
+    </div>
     <div class="card" id="parks-filter-section" style="margin-bottom:16px">
       <div class="card-title">산업단지 필터</div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
@@ -384,11 +431,14 @@
           <option value="보통">보통 (15~25%)</option>
           <option value="주의">주의 (25% 이상)</option>
         </select>
+        <select id="pf-org" onchange="applyParksFilter()"
+                style="flex:1 1 160px;min-width:140px;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:var(--white)">
+          <option value="">전체 관리기관</option>
+        </select>
         <button class="btn-ghost" onclick="resetParksFilter()" style="flex:0 0 auto;padding:9px 14px;white-space:nowrap">초기화</button>
       </div>
       <div id="pf-result-count" style="font-size:12px;color:var(--text-sub);margin-top:10px"></div>
     </div>
-    <div id="admin-status-panel" style="display:none;margin-bottom:16px"></div>
     <div class="stats-grid" id="stats-grid">
       <!-- 동적으로 로드 -->
       <div class="stat-card"><div class="stat-label">전체 공실 면적</div><div class="stat-value" id="stat-area">-</div><div class="stat-change" id="stat-area-sub">로딩 중...</div></div>
@@ -407,27 +457,19 @@
           <tr>
             <th>산업단지명</th>
             <th>위치</th>
-            <th>공실률</th>
+            <th>가동률</th>
             <th>가용 면적</th>
             <th>임대료(월)</th>
             <th>주요 업종</th>
             <th>상태</th>
+            <th id="th-org">관리기관</th>
             <th>이달 문의</th>
           </tr>
         </thead>
         <tbody id="parks-tbody">
-          <tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 로딩 중...</td></tr>
+          <tr><td colspan="9" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 로딩 중...</td></tr>
         </tbody>
       </table>
-    </div>
-
-    <div class="dashboard-grid">
-      <div class="table-wrap" id="concierge-panel" style="display:none">
-        <div class="table-header">원스톱 안내 처리 현황 <span style="font-size:11px;color:var(--text-sub);font-weight:400">(관리자 전용 — 고객 회사명·연락처 포함)</span></div>
-        <div id="concierge-list" style="padding:16px 20px">
-          <div style="color:var(--text-sub);font-size:13px">불러오는 중...</div>
-        </div>
-      </div>
     </div>
     </div>
   </div>
@@ -548,6 +590,9 @@ function showPage(id, btn) {
     document.getElementById('dashboard-content').style.display = 'block';
     document.getElementById('admin-status-panel').style.display = id === 'admin' ? 'block' : 'none';
     document.getElementById('concierge-panel').style.display = id === 'admin' ? 'block' : 'none';
+    // 관리기관 필터·컬럼은 관리자 전용 요청이었음 — 관공서 탭에는 노출하지 않는다
+    document.getElementById('pf-org').style.display = id === 'admin' ? '' : 'none';
+    document.getElementById('th-org').style.display = id === 'admin' ? '' : 'none';
     loadDashboard();
     if (id === 'admin') { loadAdminStatus(); loadConciergeQueue(); }
   }
@@ -659,17 +704,35 @@ async function checkApiStatus() {
 }
 
 // ── 업종별 1차 추천 힌트 (선택 즉시 표시, 매칭 실행 전 참고용) ──
+// 통계청 한국표준산업분류(KSIC) 대분류 C(제조업) 중분류 10~34 기준으로 재구성.
+// 각 힌트는 해당 업종의 일반적인 입지 요건 위주로 작성했고, 특정 지역 클러스터는
+// 널리 알려진 사실(예: 여수·울산 석유화학단지, 부산 신발산업)만 언급함.
 const INDUSTRY_HINTS = {
-  '전자·반도체': '보통 용인·수원·평택·이천 등 수도권 반도체 벨트에 집중돼요. 안정적 전력·용수 공급과 클린룸 인프라가 중요합니다.',
-  '자동차·부품': '울산·경남·아산 등 완성차·부품 협력사가 밀집한 지역이 유리해요. 대형 화물 운송로 접근성이 중요합니다.',
-  '기계·금속 장비': '창원·대구·부산 등 기계·금속 가공 클러스터가 발달한 지역이 유리해요.',
-  '화학·소재': '여수·광양·서산(대산) 등 임해 석유화학단지가 대표적이에요. 폐수처리 시설·위험물 인허가 여건을 꼭 확인하세요.',
-  '식품·음료': '익산(국가식품클러스터) 등 식품 특화단지가 유리해요. 위생 등급과 냉동·냉장 물류가 중요합니다.',
-  '섬유·의류': '대구 등 섬유산업 기반이 있는 지역이 유리해요.',
-  '바이오·의료기기': '원주(의료기기 클러스터), 오송(바이오헬스) 등 특화단지가 유리해요.',
-  '물류·유통': '고속도로 IC·항만·공항 접근성이 핵심이에요 — 평택항·부산신항 인근을 확인하세요.',
-  '로봇·스마트팩토리': '대구, 경기 남부 등 R&D 인력과 통신 인프라가 갖춰진 지역이 유리해요.',
-  '기타 제조업': '인건비 수준과 인력 수급이 용이한 지역을 우선 고려하세요.',
+  '식료품 제조업': '위생 등급 인증, 냉동·냉장 물류, 상수도 수질이 중요해요. 익산(국가식품클러스터) 등 식품 특화단지가 유리합니다.',
+  '음료 제조업': '수질(용수) 확보와 냉장 물류 인프라가 중요합니다.',
+  '담배 제조업': '별도 인허가(담배사업법)와 환경 규제 여건을 확인하세요.',
+  '섬유제품 제조업': '대구 등 섬유산업 기반이 있는 지역이 유리해요. 폐수처리 여건도 확인하세요.',
+  '의복·모피제품 제조업': '인건비 수준과 봉제 인력 수급이 용이한 지역이 유리합니다.',
+  '가죽·가방·신발 제조업': '부산 등 신발산업 기반이 있는 지역이 유리해요.',
+  '목재·나무제품 제조업': '원자재(목재) 물류 접근성과 분진·소음 관리 여건을 확인하세요.',
+  '펄프·종이 제조업': '용수 공급 능력과 폐수처리 시설이 중요합니다.',
+  '인쇄업': '특별한 입지 제약은 적은 편이며, 수요처(도심) 접근성이 유리할 수 있어요.',
+  '석유정제품 제조업': '여수·울산·서산(대산) 등 임해 석유화학단지가 대표적이에요. 위험물 취급 인허가 여건을 꼭 확인하세요.',
+  '화학물질·화학제품 제조업': '여수·광양·서산(대산) 등 임해 석유화학단지가 대표적이에요. 폐수·폐기물 처리 시설과 위험물 취급 인허가가 중요합니다.',
+  '의약품 제조업': '오송(바이오헬스) 등 특화단지가 유리해요. GMP 등 별도 인증 요건을 확인하세요.',
+  '고무·플라스틱제품 제조업': '원자재 물류 접근성과 폐기물 처리 여건을 확인하세요.',
+  '비금속광물제품 제조업': '분진·소음 관리 여건과 원자재(광물) 물류 접근성이 중요합니다.',
+  '1차 금속 제조업': '대형 화물 운송로와 전력 공급 능력이 중요합니다.',
+  '금속가공제품 제조업': '창원·대구·부산 등 금속가공 클러스터가 발달한 지역이 유리해요.',
+  '전자부품·통신장비 제조업': '용인·수원·평택·이천 등 수도권 반도체·전자 벨트가 대표적이에요. 안정적 전력·용수 공급과 클린룸 인프라가 중요합니다.',
+  '의료·정밀·광학기기 제조업': '원주(의료기기 클러스터) 등 특화단지가 유리해요. 정밀 가공 인프라가 중요합니다.',
+  '전기장비 제조업': '배후 협력업체·부품사 밀집도와 안정적 전력 공급이 중요합니다.',
+  '기타 기계·장비 제조업': '창원·대구·부산 등 기계 가공 클러스터가 발달한 지역이 유리해요.',
+  '자동차·트레일러 제조업': '울산·경남·아산 등 완성차·부품 협력사가 밀집한 지역이 유리해요. 대형 화물 운송로 접근성이 중요합니다.',
+  '기타 운송장비 제조업': '울산·거제·영암 등 조선업 기반 지역이 대표적이에요.',
+  '가구 제조업': '원자재(목재·금속) 물류 접근성이 중요합니다.',
+  '기타 제품 제조업': '업종 특성이 다양하므로 개별 요구사항(전력·용수·물류 등)을 직접 확인하세요.',
+  '산업용 기계·장비 수리업': '수요 업체(제조 공장) 밀집 지역과의 접근성이 유리합니다.',
 };
 function showIndustryHint(industry) {
   const el = document.getElementById('industry-hint');
@@ -772,13 +835,13 @@ function renderResults(results, ind, ar) {
       <div>
         <div class="result-rank">${i===0?'★ 최우선 추천':'#'+r.rank+' 추천'}</div>
         <div class="result-name">${r.name}${devStatusBadge(r.dev_status)}</div>
-        <div class="result-region">${r.city}</div>
+        <div class="result-region">${[r.region, r.city].filter(Boolean).join(' ')}</div>
       </div>
       <div class="score-pill">매칭 ${r.score}점</div>
     </div>
     <div class="tags">
       ${(r.features||[]).slice(0,4).map(t=>`<span class="tag">${t}</span>`).join('')}
-      ${r.vacancy_rate ? `<span class="tag">공실률 ${r.vacancy_rate}%</span>` : ''}
+      ${r.vacancy_rate != null ? `<span class="tag">가동률 ${(100 - r.vacancy_rate).toFixed(1)}%</span>` : ''}
     </div>
     ${(r.reason || r.description) ? `<div class="result-reason">${r.reason || r.description}</div>` : ''}
     ${breakdownLine}
@@ -798,6 +861,115 @@ function renderResults(results, ind, ar) {
     </div>
   </div>`;
   }).join('');
+}
+
+// ── 마크다운 → HTML (챗봇 답변이 **굵게**/목록/헤더 형식으로 오므로 예쁘게 렌더링) ──
+function escapeHtml(s) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function inlineMd(s) {
+  // LLM이 마크다운 표 안에서 줄바꿈 대신 리터럴 "<br>" 문자열을 쓰는 경우가 많은데,
+  // escapeHtml()이 이미 <,>를 엔티티로 바꿔놔서 "&lt;br&gt;" 형태로 남아있다 —
+  // 이걸 실제 줄바꿈 태그로 되돌려줘야 표 셀 안에서 제대로 개행된다.
+  s = s.replace(/&lt;br\s*\/?&gt;/gi, '<br>');
+  // [텍스트](url) 마크다운 링크 먼저 처리한 뒤, 남은 맨 URL(문서에 그냥 괄호로 적어둔
+  // 다운로드 링크 등)도 클릭 가능하게 자동 링크 처리 — href 속성 안의 URL은 다시
+  // 감싸지 않도록 음의 lookbehind로 제외
+  s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+  s = s.replace(/(?<!href=")(https?:\/\/[^\s<)]+)/g,
+    '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+  s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/__(.+?)__/g, '<strong>$1</strong>');
+  s = s.replace(/`([^`]+?)`/g, '<code>$1</code>');
+  s = s.replace(/(^|[^*])\*([^*\n]+?)\*(?!\*)/g, '$1<em>$2</em>');
+  return s;
+}
+
+function isTableRow(line) {
+  const t = line.trim();
+  return t.startsWith('|') && t.endsWith('|') && t.length > 1;
+}
+function isTableSep(line) {
+  return /^\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)+\|?$/.test(line.trim());
+}
+function splitTableRow(line) {
+  let t = line.trim();
+  if (t.startsWith('|')) t = t.slice(1);
+  if (t.endsWith('|')) t = t.slice(0, -1);
+  return t.split('|').map(c => c.trim());
+}
+
+function mdToHtml(raw) {
+  const lines = escapeHtml(raw).split('\n');
+  let html = '';
+  let listType = null;   // 'ul' | 'ol' | null
+  let paraBuf = [];
+
+  const flushPara = () => {
+    if (paraBuf.length) { html += '<p>' + paraBuf.join('<br>') + '</p>'; paraBuf = []; }
+  };
+  const closeList = () => {
+    if (listType) { html += `</${listType}>`; listType = null; }
+  };
+
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    // 표: 헤더행 다음 줄이 "|---|---|" 형태의 구분선이면 표로 인식
+    if (isTableRow(line) && i + 1 < lines.length && isTableSep(lines[i + 1])) {
+      flushPara(); closeList();
+      const headCells = splitTableRow(line).map(inlineMd);
+      html += '<table><thead><tr>' + headCells.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+      i += 2;
+      while (i < lines.length && isTableRow(lines[i])) {
+        const cells = splitTableRow(lines[i]).map(inlineMd);
+        html += '<tr>' + cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
+        i++;
+      }
+      html += '</tbody></table>';
+      continue;
+    }
+
+    if (!trimmed) { flushPara(); closeList(); i++; continue; }
+
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(trimmed)) {
+      flushPara(); closeList();
+      html += '<hr>';
+      i++; continue;
+    }
+    const headerMatch = trimmed.match(/^(#{1,4})\s+(.*)$/);
+    if (headerMatch) {
+      flushPara(); closeList();
+      const level = Math.min(headerMatch[1].length + 2, 4); // 챗봇 답변 안에서 h1/h2는 과해서 h3~h4로만 매핑
+      html += `<h${level}>${inlineMd(headerMatch[2])}</h${level}>`;
+      i++; continue;
+    }
+    const ulMatch = trimmed.match(/^[-*]\s+(.*)$/);
+    if (ulMatch) {
+      flushPara();
+      if (listType !== 'ul') { closeList(); html += '<ul>'; listType = 'ul'; }
+      html += `<li>${inlineMd(ulMatch[1])}</li>`;
+      i++; continue;
+    }
+    const olMatch = trimmed.match(/^\d+[.)]\s+(.*)$/);
+    if (olMatch) {
+      flushPara();
+      if (listType !== 'ol') { closeList(); html += '<ol>'; listType = 'ol'; }
+      html += `<li>${inlineMd(olMatch[1])}</li>`;
+      i++; continue;
+    }
+    closeList();
+    paraBuf.push(inlineMd(trimmed));
+    i++;
+  }
+  flushPara();
+  closeList();
+  return html;
 }
 
 // ── 챗봇 (WebSocket 스트리밍) ──
@@ -834,7 +1006,7 @@ function handleWsMessage(data) {
   } else if (data.type === 'chunk') {
     currentBotText += data.content;
     if (currentBotEl) {
-      currentBotEl.querySelector('.bubble').innerHTML = currentBotText.replace(/\n/g, '<br>');
+      currentBotEl.querySelector('.bubble').innerHTML = mdToHtml(currentBotText);
       const wrap = document.getElementById('chat-messages');
       wrap.scrollTop = wrap.scrollHeight;
     }
@@ -888,7 +1060,7 @@ async function sendChatHttp(msg) {
     const data = await resp.json();
     const reply = data.reply || '응답을 받지 못했습니다.';
     chatHistory.push({ role: 'assistant', content: reply });
-    typingEl.querySelector('.bubble').innerHTML = reply.replace(/\n/g, '<br>');
+    typingEl.querySelector('.bubble').innerHTML = mdToHtml(reply);
   } catch(e) {
     typingEl.querySelector('.bubble').textContent = '백엔드 서버에 연결할 수 없습니다. 서버를 실행해주세요.';
   }
@@ -1079,7 +1251,7 @@ async function loadDashboard() {
     if (statsResp.ok) {
       const stats = await statsResp.json();
       document.getElementById('stat-area').textContent = stats.total_available_area || '-';
-      document.getElementById('stat-area-sub').textContent = `▼ 평균 공실률 ${stats.avg_vacancy_rate}%`;
+      document.getElementById('stat-area-sub').textContent = `▲ 평균 가동률 ${(100 - stats.avg_vacancy_rate).toFixed(1)}%`;
       document.getElementById('stat-matches').textContent = `${stats.monthly_matches}건`;
       document.getElementById('stat-matches-sub').textContent = `전체 ${stats.total_parks}개 산단 모니터링`;
       document.getElementById('stat-companies').textContent = `${stats.total_companies}개사`;
@@ -1130,6 +1302,12 @@ function populateParksFilterOptions(parks) {
   parks.forEach(p => (p.industries || []).forEach(i => industries.add(i)));
   industrySel.innerHTML = '<option value="">전체 업종</option>' +
     [...industries].sort((a, b) => a.localeCompare(b, 'ko')).map(i => `<option value="${i}">${i}</option>`).join('');
+
+  const orgSel = document.getElementById('pf-org');
+  const orgs = new Set();
+  parks.forEach(p => { if (p.management_org) orgs.add(p.management_org); });
+  orgSel.innerHTML = '<option value="">전체 관리기관</option>' +
+    [...orgs].sort((a, b) => a.localeCompare(b, 'ko')).map(o => `<option value="${o}">${o}</option>`).join('');
 }
 
 function applyParksFilter() {
@@ -1139,6 +1317,7 @@ function applyParksFilter() {
   const type = document.getElementById('pf-type').value;
   const industry = document.getElementById('pf-industry').value;
   const status = document.getElementById('pf-status').value;
+  const org = document.getElementById('pf-org').value;
 
   const filtered = parks.filter(p => {
     if (search && !p.name.toLowerCase().includes(search)) return false;
@@ -1148,6 +1327,7 @@ function applyParksFilter() {
     if (type && p.type !== type) return false;
     if (industry && !(p.industries || []).includes(industry)) return false;
     if (status && p.status !== status) return false;
+    if (org && p.management_org !== org) return false;
     return true;
   });
 
@@ -1162,6 +1342,7 @@ function resetParksFilter() {
   document.getElementById('pf-type').value = '';
   document.getElementById('pf-industry').value = '';
   document.getElementById('pf-status').value = '';
+  document.getElementById('pf-org').value = '';
   applyParksFilter();
 }
 
@@ -1175,7 +1356,7 @@ function devStatusBadge(devStatus) {
 function renderParksTable(parks) {
   const tbody = document.getElementById('parks-tbody');
   if (!parks || parks.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 없음</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 없음</td></tr>';
     return;
   }
 
@@ -1184,13 +1365,14 @@ function renderParksTable(parks) {
       <td style="font-weight:600">${p.name}${devStatusBadge(p.dev_status)}</td>
       <td style="color:var(--text-sub)">${p.city}</td>
       <td>
-        <div class="progress"><div class="progress-fill" style="width:${Math.min(p.vacancy_rate,100)}%;background:${p.bar_color}"></div></div>
-        <span style="font-size:12px"> ${p.vacancy_rate}%</span>
+        <div class="progress"><div class="progress-fill" style="width:${Math.min(100 - p.vacancy_rate, 100)}%;background:${p.bar_color}"></div></div>
+        <span style="font-size:12px"> ${(100 - p.vacancy_rate).toFixed(1)}%</span>
       </td>
       <td>${p.available_area}</td>
       <td>${p.rent_per_sqm}</td>
       <td style="color:var(--text-sub)">${(p.industries||[]).slice(0,2).join('·')}</td>
       <td><span class="badge ${p.status_class}">${p.status}</span></td>
+      ${dashboardRole === 'admin' ? `<td style="color:var(--text-sub);font-size:12px">${p.management_org || '-'}</td>` : ''}
       <td style="font-weight:600;color:var(--teal)">${p.monthly_inquiries}건</td>
     </tr>
   `).join('');
@@ -1206,7 +1388,7 @@ function renderStaticDashboard() {
   document.getElementById('stat-companies-sub').innerHTML = '<span style="color:#E24B4A">cd backend && python main.py</span>';
 
   const tbody = document.getElementById('parks-tbody');
-  tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--text-sub)">
+  tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--text-sub)">
     <div style="font-size:15px;font-weight:600;margin-bottom:8px">백엔드 서버에 연결할 수 없습니다</div>
     <div style="font-size:13px">서버를 실행하면 실시간 데이터가 표시됩니다: <code style="background:var(--gray-bg);padding:2px 8px;border-radius:4px">cd backend && python main.py</code></div>
   </td></tr>`;
