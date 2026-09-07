@@ -68,7 +68,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 199,
-    "operating_companies": 199
+    "operating_companies": 199,
+    "address": "서울특별시 구로구 부일로1나길 38 (온수동)"
   },
   {
     "id": 3,
@@ -100,7 +101,8 @@
     "dev_status": "조성중",
     "sale_rate": 82.72,
     "total_companies": 199,
-    "operating_companies": 149
+    "operating_companies": 149,
+    "address": "서울특별시 강서구 마곡동 770-7"
   },
   {
     "id": 4,
@@ -300,7 +302,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 128,
-    "operating_companies": 125
+    "operating_companies": 125,
+    "address": "부산광역시 기장군 장안읍 명례산단5로 53"
   },
   {
     "id": 11,
@@ -413,7 +416,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2635,
-    "operating_companies": 2635
+    "operating_companies": 2635,
+    "address": "부산광역시 해운대구 우동 1524"
   },
   {
     "id": 15,
@@ -444,7 +448,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "부산광역시 강서구 지사동 1396"
   },
   {
     "id": 16,
@@ -476,7 +481,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 104,
-    "operating_companies": 99
+    "operating_companies": 99,
+    "address": "부산광역시 강서구 생곡동 1530-7"
   },
   {
     "id": 17,
@@ -621,7 +627,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "부산광역시 기장군 장안읍 신소재산단2로 17"
   },
   {
     "id": 22,
@@ -653,7 +660,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 93,
-    "operating_companies": 89
+    "operating_companies": 89,
+    "address": "부산광역시 기장군 장안읍 반룡리 910"
   },
   {
     "id": 23,
@@ -685,7 +693,8 @@
     "dev_status": "완료",
     "sale_rate": 84.48,
     "total_companies": 79,
-    "operating_companies": 66
+    "operating_companies": 66,
+    "address": "부산광역시 기장군 장안읍 오리 1117-7"
   },
   {
     "id": 24,
@@ -743,7 +752,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 25,
-    "operating_companies": 20
+    "operating_companies": 20,
+    "address": "부산광역시 기장군 장안읍 기룡리 1152-2"
   },
   {
     "id": 26,
@@ -773,7 +783,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "부산광역시 강서구 정주산단로 49 (지사동)"
   },
   {
     "id": 27,
@@ -855,7 +866,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "부산광역시 기장군 장안읍 기장대로 1909 (대선주조(주)기장공장)"
   },
   {
     "id": 30,
@@ -881,7 +893,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "부산광역시 기장군 장안읍 기룡리 1127"
   },
   {
     "id": 31,
@@ -977,7 +990,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "부산광역시 기장군 정관읍 달산리 1264"
   },
   {
     "id": 34,
@@ -1009,7 +1023,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 82,
-    "operating_companies": 82
+    "operating_companies": 82,
+    "address": "부산광역시 강서구 신호동 185"
   },
   {
     "id": 35,
@@ -1067,7 +1082,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "부산광역시 강서구 과학산단2로42번길 21 (지사동)"
   },
   {
     "id": 37,
@@ -1099,7 +1115,8 @@
     "dev_status": "완료",
     "sale_rate": 75.13,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "부산광역시 강서구 지사동 1464"
   },
   {
     "id": 38,
@@ -1125,7 +1142,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "부산광역시 강서구 지사동 산 213-3"
   },
   {
     "id": 39,
@@ -1235,7 +1253,8 @@
     "dev_status": "조성중",
     "sale_rate": 29.08,
     "total_companies": 10,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "부산광역시 강서구 명지동 3785"
   },
   {
     "id": 43,
@@ -1299,7 +1318,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 242,
-    "operating_companies": 242
+    "operating_companies": 242,
+    "address": "부산광역시 사상구 모라로 22 (모라동,부산벤처타워)"
   },
   {
     "id": 45,
@@ -1558,7 +1578,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 133,
-    "operating_companies": 133
+    "operating_companies": 133,
+    "address": "대구광역시 달서구 장동 34-4"
   },
   {
     "id": 54,
@@ -1590,7 +1611,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 55,
-    "operating_companies": 54
+    "operating_companies": 54,
+    "address": "대구광역시 동구 팔공로51길 10 (봉무동,이시아폴리스 더샵 3차)"
   },
   {
     "id": 55,
@@ -1770,7 +1792,8 @@
     "dev_status": "조성중",
     "sale_rate": 73.96,
     "total_companies": 79,
-    "operating_companies": 79
+    "operating_companies": 79,
+    "address": "대구광역시 달성군 유가읍 상리 917-1"
   },
   {
     "id": 61,
@@ -1886,7 +1909,8 @@
     "dev_status": "조성중",
     "sale_rate": 52.31,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "대구광역시 북구 검단동 1802"
   },
   {
     "id": 65,
@@ -1967,7 +1991,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "대구광역시 동구 율하동 821-6"
   },
   {
     "id": 68,
@@ -1993,7 +2018,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "대구광역시 북구 산격동 1370-1"
   },
   {
     "id": 69,
@@ -2025,7 +2051,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 22,
-    "operating_companies": 22
+    "operating_companies": 22,
+    "address": "대구광역시 달성군 구지면 국가산단동로42길 19"
   },
   {
     "id": 70,
@@ -2089,7 +2116,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 31,
-    "operating_companies": 28
+    "operating_companies": 28,
+    "address": "대구광역시 군위군 군위읍 수서리 421-17"
   },
   {
     "id": 72,
@@ -2121,7 +2149,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "대구광역시 군위군 효령면 중구리 32-8"
   },
   {
     "id": 73,
@@ -2250,7 +2279,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 179,
-    "operating_companies": 177
+    "operating_companies": 177,
+    "address": "인천광역시 미추홀구 도화동 13"
   },
   {
     "id": 77,
@@ -2282,7 +2312,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 608,
-    "operating_companies": 606
+    "operating_companies": 606,
+    "address": "인천광역시 제물포구 송림동 305-1"
   },
   {
     "id": 78,
@@ -2340,7 +2371,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 316,
-    "operating_companies": 309
+    "operating_companies": 309,
+    "address": "인천광역시 서해구 사렴로32번길 24 (경서동)"
   },
   {
     "id": 80,
@@ -2436,7 +2468,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "인천광역시 강화군 하점면 부근리 292-1"
   },
   {
     "id": 83,
@@ -2468,7 +2501,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 80,
-    "operating_companies": 67
+    "operating_companies": 67,
+    "address": "인천광역시 강화군 강화읍 월곳리 761"
   },
   {
     "id": 84,
@@ -2500,7 +2534,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 70,
-    "operating_companies": 69
+    "operating_companies": 69,
+    "address": "인천광역시 계양구 서운산단로1길 35 (서운동,동신부로아(주))"
   },
   {
     "id": 85,
@@ -2554,7 +2589,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 85,
-    "operating_companies": 70
+    "operating_companies": 70,
+    "address": "인천광역시 검단구 소담2로 54 (금곡동)"
   },
   {
     "id": 87,
@@ -2606,7 +2642,8 @@
     "dev_status": "조성중",
     "sale_rate": 76.34,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "인천광역시 계양구 병방동 254-3"
   },
   {
     "id": 89,
@@ -2891,7 +2928,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 697,
-    "operating_companies": 697
+    "operating_companies": 697,
+    "address": "전남광주통합특별시 광산구 옥동 881-12"
   },
   {
     "id": 98,
@@ -2981,7 +3019,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 64,
-    "operating_companies": 64
+    "operating_companies": 64,
+    "address": "전남광주통합특별시 남구 송하동 267"
   },
   {
     "id": 101,
@@ -3039,7 +3078,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 416,
-    "operating_companies": 346
+    "operating_companies": 346,
+    "address": "전남광주통합특별시 광산구 진곡동 623"
   },
   {
     "id": 103,
@@ -3065,7 +3105,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 152,
-    "operating_companies": 128
+    "operating_companies": 128,
+    "address": "전남광주통합특별시 광산구 연산동 1294"
   },
   {
     "id": 104,
@@ -3097,7 +3138,8 @@
     "dev_status": "조성중",
     "sale_rate": 65.51,
     "total_companies": 33,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 남구 압촌동 633"
   },
   {
     "id": 105,
@@ -3180,7 +3222,8 @@
     "dev_status": "조성중",
     "sale_rate": 77.38,
     "total_companies": 7,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "전남광주통합특별시 남구 압촌동 483"
   },
   {
     "id": 108,
@@ -3206,7 +3249,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 북구 용봉동 300"
   },
   {
     "id": 109,
@@ -3264,7 +3308,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1786,
-    "operating_companies": 1768
+    "operating_companies": 1768,
+    "address": "대전광역시 유성구 덕진동 산 41"
   },
   {
     "id": 111,
@@ -3296,7 +3341,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 66,
-    "operating_companies": 63
+    "operating_companies": 63,
+    "address": "대전광역시 동구 하소남로 38 (하소동)"
   },
   {
     "id": 112,
@@ -3409,7 +3455,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "대전광역시 서구 평촌동 229-1"
   },
   {
     "id": 116,
@@ -3435,7 +3482,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "대전광역시 대덕구 오정동 133"
   },
   {
     "id": 117,
@@ -3461,7 +3509,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "대전광역시 유성구 장대동 23-1"
   },
   {
     "id": 118,
@@ -3558,7 +3607,8 @@
     "dev_status": "완료",
     "sale_rate": 97.2,
     "total_companies": 58,
-    "operating_companies": 58
+    "operating_companies": 58,
+    "address": "울산광역시 북구 매곡산업2길 15 (매곡동,(주)일신정밀)"
   },
   {
     "id": 121,
@@ -3590,7 +3640,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 32,
-    "operating_companies": 30
+    "operating_companies": 30,
+    "address": "울산광역시 북구 효문동 981-1"
   },
   {
     "id": 122,
@@ -3619,7 +3670,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "울산광역시 북구 중산동 1565"
   },
   {
     "id": 123,
@@ -3651,7 +3703,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "울산광역시 북구 중산산업로 35 (중산동,(주)선우오토텍)"
   },
   {
     "id": 124,
@@ -3683,7 +3736,8 @@
     "dev_status": "완료",
     "sale_rate": 91.71,
     "total_companies": 100,
-    "operating_companies": 88
+    "operating_companies": 88,
+    "address": "울산광역시 울주군 상북면 거리 1157-8"
   },
   {
     "id": 125,
@@ -3715,7 +3769,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 71,
-    "operating_companies": 69
+    "operating_companies": 69,
+    "address": "울산광역시 울주군 청량읍 용암리 982"
   },
   {
     "id": 126,
@@ -3773,7 +3828,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 32,
-    "operating_companies": 32
+    "operating_companies": 32,
+    "address": "울산광역시 울주군 웅촌면 고연리 1865"
   },
   {
     "id": 128,
@@ -3799,7 +3855,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "울산광역시 울주군 삼남읍 반구대로 163"
   },
   {
     "id": 129,
@@ -3831,7 +3888,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "울산광역시 울주군 두동면 봉계리 660"
   },
   {
     "id": 130,
@@ -3863,7 +3921,8 @@
     "dev_status": "완료",
     "sale_rate": 95.68,
     "total_companies": 52,
-    "operating_companies": 42
+    "operating_companies": 42,
+    "address": "울산광역시 울주군 두서면 활천산업로 100"
   },
   {
     "id": 131,
@@ -3895,7 +3954,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "울산광역시 울주군 두서면 전읍리 1384"
   },
   {
     "id": 132,
@@ -3927,7 +3987,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 83,
-    "operating_companies": 72
+    "operating_companies": 72,
+    "address": "울산광역시 울주군 언양읍 반천리 1106"
   },
   {
     "id": 133,
@@ -3953,7 +4014,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "울산광역시 울주군 삼동면 작동리 산 269-9"
   },
   {
     "id": 134,
@@ -4011,7 +4073,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "울산광역시 북구 매곡동 874-1"
   },
   {
     "id": 136,
@@ -4037,7 +4100,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "울산광역시 북구 매곡동 884-2"
   },
   {
     "id": 137,
@@ -4069,7 +4133,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 150,
-    "operating_companies": 143
+    "operating_companies": 143,
+    "address": "울산광역시 남구 두왕동 767-1"
   },
   {
     "id": 138,
@@ -4101,7 +4166,8 @@
     "dev_status": "완료",
     "sale_rate": 82.49,
     "total_companies": 46,
-    "operating_companies": 31
+    "operating_companies": 31,
+    "address": "울산광역시 울주군 온양읍 내광리 841-6"
   },
   {
     "id": 139,
@@ -4133,7 +4199,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 25,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "울산광역시 북구 천마로 51 (달천동)"
   },
   {
     "id": 140,
@@ -4165,7 +4232,8 @@
     "dev_status": "조성중",
     "sale_rate": 92.19,
     "total_companies": 48,
-    "operating_companies": 48
+    "operating_companies": 48,
+    "address": "울산광역시 울주군 서생면 에너지산업5로 43"
   },
   {
     "id": 141,
@@ -4223,7 +4291,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "울산광역시 울주군 삼남읍 방기로 39"
   },
   {
     "id": 143,
@@ -4353,7 +4422,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "울산광역시 중구 장현동 32"
   },
   {
     "id": 148,
@@ -4385,7 +4455,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 102,
-    "operating_companies": 95
+    "operating_companies": 95,
+    "address": "울산광역시 북구 농공단지3길 25 (달천동,정원산업)"
   },
   {
     "id": 149,
@@ -4415,7 +4486,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "울산광역시 울주군 두동면 봉계농공길 8"
   },
   {
     "id": 150,
@@ -4447,7 +4519,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "울산광역시 울주군 두서면 전읍농공길 40"
   },
   {
     "id": 151,
@@ -4479,7 +4552,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "울산광역시 울주군 상북면 양등리 743-110"
   },
   {
     "id": 152,
@@ -4511,7 +4585,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "세종특별자치시  연서면 와촌리 118-2"
   },
   {
     "id": 153,
@@ -4540,7 +4615,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "세종특별자치시  전의면 유천리 935"
   },
   {
     "id": 154,
@@ -4566,7 +4642,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "세종특별자치시  누리동 194-25"
   },
   {
     "id": 155,
@@ -4598,7 +4675,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "세종특별자치시  전의면 신정리 613"
   },
   {
     "id": 156,
@@ -4624,7 +4702,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 32,
-    "operating_companies": 30
+    "operating_companies": 30,
+    "address": "세종특별자치시  전의면 신정리 624"
   },
   {
     "id": 157,
@@ -4656,7 +4735,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "세종특별자치시  연기면 연기리 519"
   },
   {
     "id": 158,
@@ -4688,7 +4768,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 37,
-    "operating_companies": 36
+    "operating_companies": 36,
+    "address": "세종특별자치시  연동면 내판리 693"
   },
   {
     "id": 159,
@@ -4746,7 +4827,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 24,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "세종특별자치시  전의면 양곡리 584"
   },
   {
     "id": 161,
@@ -4778,7 +4860,8 @@
     "dev_status": "조성중",
     "sale_rate": 98.87,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "세종특별자치시  전의면 서정리 6-2"
   },
   {
     "id": 162,
@@ -4810,7 +4893,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "세종특별자치시  전동면 심중리 759-1"
   },
   {
     "id": 163,
@@ -4842,7 +4926,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 25,
-    "operating_companies": 24
+    "operating_companies": 24,
+    "address": "세종특별자치시  소정면 고등리 744"
   },
   {
     "id": 164,
@@ -4871,7 +4956,8 @@
     "dev_status": "조성중",
     "sale_rate": 53.66,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "세종특별자치시  전동면 노장리 796"
   },
   {
     "id": 165,
@@ -4897,7 +4983,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "세종특별자치시  전의면 신방리 196"
   },
   {
     "id": 166,
@@ -4955,7 +5042,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "세종특별자치시 부강면 부강금호로 497"
   },
   {
     "id": 168,
@@ -4987,7 +5075,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "세종특별자치시  전동면 노장리 404-8"
   },
   {
     "id": 169,
@@ -5019,7 +5108,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "세종특별자치시 연동면 청연로 442-16"
   },
   {
     "id": 170,
@@ -5049,7 +5139,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "세종특별자치시 전동면 배일길 31"
   },
   {
     "id": 171,
@@ -5218,7 +5309,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 825,
-    "operating_companies": 823
+    "operating_companies": 823,
+    "address": "경기도 파주시 문발동 541-2"
   },
   {
     "id": 176,
@@ -5250,7 +5342,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 47,
-    "operating_companies": 45
+    "operating_companies": 45,
+    "address": "경기도 파주시 탄현면 금승리 592-3"
   },
   {
     "id": 177,
@@ -5426,7 +5519,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "경기도 김포시 대곶면 대벽리 1389-1"
   },
   {
     "id": 183,
@@ -5458,7 +5552,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 37,
-    "operating_companies": 37
+    "operating_companies": 37,
+    "address": "경기도 김포시 월곶면 고양로117번길 185"
   },
   {
     "id": 184,
@@ -5490,7 +5585,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 963,
-    "operating_companies": 960
+    "operating_companies": 960,
+    "address": "경기도 김포시 양촌읍 황금로127번길 69"
   },
   {
     "id": 185,
@@ -5522,7 +5618,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 13,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "경기도 김포시 대곶면 대명항로403번길 99"
   },
   {
     "id": 186,
@@ -5580,7 +5677,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 34,
-    "operating_companies": 34
+    "operating_companies": 34,
+    "address": "경기도 김포시 양촌읍 삼도로 10-30"
   },
   {
     "id": 188,
@@ -5612,7 +5710,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 126,
-    "operating_companies": 122
+    "operating_companies": 122,
+    "address": "경기도 김포시 양촌읍 학운리 3444"
   },
   {
     "id": 189,
@@ -5670,7 +5769,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 29,
-    "operating_companies": 29
+    "operating_companies": 29,
+    "address": "경기도 동두천시 동두천동 555-5"
   },
   {
     "id": 191,
@@ -5702,7 +5802,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "경기도 동두천시 상봉암동 146-8"
   },
   {
     "id": 192,
@@ -5734,7 +5835,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 103,
-    "operating_companies": 103
+    "operating_companies": 103,
+    "address": "경기도 부천시 오정구 오정동 717"
   },
   {
     "id": 193,
@@ -5792,7 +5894,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 103,
-    "operating_companies": 103
+    "operating_companies": 103,
+    "address": "경기도 안산시 상록구 팔곡이동 613-2"
   },
   {
     "id": 195,
@@ -5822,7 +5925,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경기도 안성시 보개면 가율리 492"
   },
   {
     "id": 196,
@@ -5854,7 +5958,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경기도 안성시 공도읍 서동대로 4279"
   },
   {
     "id": 197,
@@ -5950,7 +6055,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "경기도 안성시 양성면 동항리 820-5"
   },
   {
     "id": 200,
@@ -5982,7 +6088,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "경기도 안성시 죽산면 두교리 945-4"
   },
   {
     "id": 201,
@@ -6008,7 +6115,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경기도 안성시 미양면 안성맞춤대로 474-40"
   },
   {
     "id": 202,
@@ -6040,7 +6148,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "경기도 안성시 일죽면 방초리 1148"
   },
   {
     "id": 203,
@@ -6200,7 +6309,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "경기도 안성시 삼죽면 용월리 596-3"
   },
   {
     "id": 208,
@@ -6232,7 +6342,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경기도 안성시 원곡면 내가천리 282-4"
   },
   {
     "id": 209,
@@ -6258,7 +6369,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "경기도 안성시 죽산면 장원공단길 59"
   },
   {
     "id": 210,
@@ -6289,7 +6401,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경기도 안성시 일죽면 월정리 1838"
   },
   {
     "id": 211,
@@ -6318,7 +6431,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 양주시 남면 휴암로392번길 315"
   },
   {
     "id": 212,
@@ -6410,7 +6524,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "경기도 양주시 남면 휴암로284번길 403-122"
   },
   {
     "id": 215,
@@ -6468,7 +6583,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "경기도 파주시 문발동 468-4"
   },
   {
     "id": 217,
@@ -6494,7 +6610,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 17
+    "operating_companies": 17,
+    "address": "경기도 파주시 문발동 473"
   },
   {
     "id": 218,
@@ -6526,7 +6643,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 80,
-    "operating_companies": 67
+    "operating_companies": 67,
+    "address": "경기도 파주시 신촌2로 7-22 (신촌동)"
   },
   {
     "id": 219,
@@ -6558,7 +6676,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 77,
-    "operating_companies": 70
+    "operating_companies": 70,
+    "address": "경기도 파주시 조리읍 오산리 399-4"
   },
   {
     "id": 220,
@@ -6590,7 +6709,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 107,
-    "operating_companies": 91
+    "operating_companies": 91,
+    "address": "경기도 파주시 탄현면 축현산단로 56-8"
   },
   {
     "id": 221,
@@ -6622,7 +6742,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "경기도 파주시 월롱면 덕은리 1239"
   },
   {
     "id": 222,
@@ -6654,7 +6775,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 22
+    "operating_companies": 22,
+    "address": "경기도 파주시 법원읍 법원2산단1로 51"
   },
   {
     "id": 223,
@@ -6710,7 +6832,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 34,
-    "operating_companies": 30
+    "operating_companies": 30,
+    "address": "경기도 평택시 청북읍 청북산단로 37"
   },
   {
     "id": 225,
@@ -6768,7 +6891,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경기도 평택시 장당동 623"
   },
   {
     "id": 227,
@@ -6800,7 +6924,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 17
+    "operating_companies": 17,
+    "address": "경기도 평택시 진위면 청호리 1"
   },
   {
     "id": 228,
@@ -6832,7 +6957,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 32,
-    "operating_companies": 32
+    "operating_companies": 32,
+    "address": "경기도 평택시 팽성읍 추팔리 417"
   },
   {
     "id": 229,
@@ -6864,7 +6990,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "경기도 평택시 칠괴동 63-3"
   },
   {
     "id": 230,
@@ -6896,7 +7023,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 64,
-    "operating_companies": 62
+    "operating_companies": 62,
+    "address": "경기도 평택시 세교동 539-1"
   },
   {
     "id": 231,
@@ -6928,7 +7056,8 @@
     "dev_status": "완료",
     "sale_rate": 91.62,
     "total_companies": 27,
-    "operating_companies": 27
+    "operating_companies": 27,
+    "address": "경기도 평택시 청북읍 현곡리 457-4"
   },
   {
     "id": 232,
@@ -6991,7 +7120,8 @@
     "dev_status": "완료",
     "sale_rate": 91.51,
     "total_companies": 52,
-    "operating_companies": 52
+    "operating_companies": 52,
+    "address": "경기도 포천시 영중면 양문리 990"
   },
   {
     "id": 234,
@@ -7055,7 +7185,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 282,
-    "operating_companies": 176
+    "operating_companies": 176,
+    "address": "경기도 화성시 만세구 마도면 쌍송리 677-2"
   },
   {
     "id": 236,
@@ -7087,7 +7218,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 543,
-    "operating_companies": 385
+    "operating_companies": 385,
+    "address": "경기도 화성시 만세구 향남읍 구문천리 939"
   },
   {
     "id": 237,
@@ -7171,7 +7303,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 302,
-    "operating_companies": 237
+    "operating_companies": 237,
+    "address": "경기도 화성시 만세구 서신면 전곡산단로 162"
   },
   {
     "id": 240,
@@ -7229,7 +7362,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 51,
-    "operating_companies": 49
+    "operating_companies": 49,
+    "address": "경기도 화성시 만세구 향남읍 제약공단1길 52"
   },
   {
     "id": 242,
@@ -7257,7 +7391,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 40,
-    "operating_companies": 35
+    "operating_companies": 35,
+    "address": "경기도 화성시 만세구 서신면 송교리 42-128"
   },
   {
     "id": 243,
@@ -7318,7 +7453,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 연천군 장남면 원당리 1558"
   },
   {
     "id": 245,
@@ -7350,7 +7486,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 23,
-    "operating_companies": 22
+    "operating_companies": 22,
+    "address": "경기도 연천군 청산면 대전리 674"
   },
   {
     "id": 246,
@@ -7410,7 +7547,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 김포시 고촌읍 향산리 733"
   },
   {
     "id": 248,
@@ -7442,7 +7580,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "경기도 이천시 장호원읍 진암리 779-16"
   },
   {
     "id": 249,
@@ -7474,7 +7613,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경기도 이천시 설성면 대죽리 1087-14"
   },
   {
     "id": 250,
@@ -7502,7 +7642,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 이천시 모가면 소고리 1090"
   },
   {
     "id": 251,
@@ -7530,7 +7671,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경기도 여주시 삼교동 565"
   },
   {
     "id": 252,
@@ -7558,7 +7700,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 안성시 원곡면 지문리 771-12"
   },
   {
     "id": 253,
@@ -7590,7 +7733,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 172,
-    "operating_companies": 168
+    "operating_companies": 168,
+    "address": "경기도 김포시 양촌읍 황금3로 61"
   },
   {
     "id": 254,
@@ -7622,7 +7766,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 85,
-    "operating_companies": 84
+    "operating_companies": 84,
+    "address": "경기도 양주시 백석읍 홍죽리 940-2"
   },
   {
     "id": 255,
@@ -7654,7 +7799,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 70,
-    "operating_companies": 63
+    "operating_companies": 63,
+    "address": "경기도 오산시 가장동 389-2"
   },
   {
     "id": 256,
@@ -7683,7 +7829,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경기도 이천시 신둔면 서이천로 854-27"
   },
   {
     "id": 257,
@@ -7715,7 +7862,8 @@
     "dev_status": "완료",
     "sale_rate": 64.29,
     "total_companies": 9,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "경기도 평택시 청북읍 고렴산단로 51"
   },
   {
     "id": 258,
@@ -7747,7 +7895,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 123,
-    "operating_companies": 81
+    "operating_companies": 81,
+    "address": "경기도 포천시 군내면 용정리 493"
   },
   {
     "id": 259,
@@ -7773,7 +7922,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 평택시 진위면 청호리 363"
   },
   {
     "id": 260,
@@ -7799,7 +7949,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 317,
-    "operating_companies": 227
+    "operating_companies": 227,
+    "address": "경기도 화성시 만세구 마도면 청원산단3길 140-38"
   },
   {
     "id": 261,
@@ -7857,7 +8008,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 300,
-    "operating_companies": 287
+    "operating_companies": 287,
+    "address": "경기도 김포시 양촌읍 학운리 3883"
   },
   {
     "id": 263,
@@ -7889,7 +8041,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 574,
-    "operating_companies": 574
+    "operating_companies": 574,
+    "address": "경기도 시흥시 도창동 33-4"
   },
   {
     "id": 264,
@@ -7920,7 +8073,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 6,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경기도 용인시 처인구 원삼면 죽능리 587-2"
   },
   {
     "id": 265,
@@ -7952,7 +8106,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 33,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "경기도 평택시 진위면 갈곶리 96"
   },
   {
     "id": 266,
@@ -8042,7 +8197,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경기도 이천시 대월면 초지리 733-2"
   },
   {
     "id": 269,
@@ -8096,7 +8252,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 연천군 백학면 통구리 1074"
   },
   {
     "id": 271,
@@ -8124,7 +8281,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경기도 용인시 처인구 백암면 근곡리 956"
   },
   {
     "id": 272,
@@ -8188,7 +8346,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 64,
-    "operating_companies": 64
+    "operating_companies": 64,
+    "address": "경기도 남양주시 진건읍 진관산단로59번길 2"
   },
   {
     "id": 274,
@@ -8324,7 +8483,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 56,
-    "operating_companies": 52
+    "operating_companies": 52,
+    "address": "경기도 양주시 남면 상수리 664-14"
   },
   {
     "id": 279,
@@ -8356,7 +8516,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 132,
-    "operating_companies": 132
+    "operating_companies": 132,
+    "address": "경기도 의정부시 용현동 537"
   },
   {
     "id": 280,
@@ -8414,7 +8575,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 125,
-    "operating_companies": 111
+    "operating_companies": 111,
+    "address": "경기도 파주시 문산읍 돈유로 78 (진양(주))"
   },
   {
     "id": 282,
@@ -8446,7 +8608,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "경기도 파주시 파평면 금파리 536"
   },
   {
     "id": 283,
@@ -8477,7 +8640,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경기도 파주시 월롱면 능산리 657"
   },
   {
     "id": 284,
@@ -8509,7 +8673,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 53,
-    "operating_companies": 52
+    "operating_companies": 52,
+    "address": "경기도 파주시 탄현면 한록산길 149"
   },
   {
     "id": 285,
@@ -8535,7 +8700,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 파주시 법원읍 삼방리 산 23"
   },
   {
     "id": 286,
@@ -8567,7 +8733,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 141,
-    "operating_companies": 139
+    "operating_companies": 139,
+    "address": "경기도 평택시 모곡동 442-12"
   },
   {
     "id": 287,
@@ -8625,7 +8792,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "경기도 가평군 북면 목동리 699-14"
   },
   {
     "id": 289,
@@ -8689,7 +8857,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경기도 여주시 강천면 간매리 555-11"
   },
   {
     "id": 291,
@@ -8721,7 +8890,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 58,
-    "operating_companies": 43
+    "operating_companies": 43,
+    "address": "경기도 연천군 백학면 통구리 1065-1"
   },
   {
     "id": 292,
@@ -8811,7 +8981,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "경기도 이천시 신둔면 도암리 1310"
   },
   {
     "id": 295,
@@ -8839,7 +9010,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 이천시 설성면 장천리 941"
   },
   {
     "id": 296,
@@ -8870,7 +9042,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경기도 여주시 세종대왕면 여주남로 390-29"
   },
   {
     "id": 297,
@@ -8902,7 +9075,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 39,
-    "operating_companies": 39
+    "operating_companies": 39,
+    "address": "경기도 안산시 상록구 팔곡이동 50-18"
   },
   {
     "id": 298,
@@ -8931,7 +9105,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경기도 용인시 기흥구 농서동 469"
   },
   {
     "id": 299,
@@ -8962,7 +9137,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경기도 용인시 처인구 남사읍 완장리 530-23"
   },
   {
     "id": 300,
@@ -9020,7 +9196,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 안성시 보개면 남풍리 290-1"
   },
   {
     "id": 302,
@@ -9048,7 +9225,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 이천시 모가면 사실로 1000"
   },
   {
     "id": 303,
@@ -9080,7 +9258,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 안성시 미양면 신두만곡로 573"
   },
   {
     "id": 304,
@@ -9111,7 +9290,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "경기도 오산시 지곶중앙로 1-20 (지곶동,엘오티베큠 오산공장)"
   },
   {
     "id": 305,
@@ -9143,7 +9323,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "경기도 포천시 가산면 금현리 1159"
   },
   {
     "id": 306,
@@ -9201,7 +9382,8 @@
     "dev_status": "완료",
     "sale_rate": 82.5,
     "total_companies": 7,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경기도 안성시 죽산면 장원리 1391"
   },
   {
     "id": 308,
@@ -9233,7 +9415,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 평택시 장안동 742-40"
   },
   {
     "id": 309,
@@ -9264,7 +9447,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경기도 용인시 처인구 남사읍 통삼리 996"
   },
   {
     "id": 310,
@@ -9296,7 +9480,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 안성시 원곡면 남북대로 1048-15"
   },
   {
     "id": 311,
@@ -9356,7 +9541,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 양주시 봉양동 산 122-1"
   },
   {
     "id": 313,
@@ -9411,7 +9597,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 용인시 기흥구 지삼로201번길 52 (지곡동)"
   },
   {
     "id": 315,
@@ -9437,7 +9624,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 20,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "경기도 안성시 양성면 동항리 823-2"
   },
   {
     "id": 316,
@@ -9497,7 +9685,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경기도 이천시 마장면 관리 1408"
   },
   {
     "id": 318,
@@ -9552,7 +9741,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 용인시 처인구 양지읍 송문리 산 46"
   },
   {
     "id": 320,
@@ -9584,7 +9774,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 153,
-    "operating_companies": 99
+    "operating_companies": 99,
+    "address": "경기도 화성시 만세구 송산면 지화리 698"
   },
   {
     "id": 321,
@@ -9616,7 +9807,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 47,
-    "operating_companies": 32
+    "operating_companies": 32,
+    "address": "경기도 김포시 양촌읍 대포산단로 73"
   },
   {
     "id": 322,
@@ -9648,7 +9840,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 679,
-    "operating_companies": 679
+    "operating_companies": 679,
+    "address": "경기도 의왕시 삼동 747"
   },
   {
     "id": 323,
@@ -9674,7 +9867,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 양주시 은현면 도하리 산 75"
   },
   {
     "id": 324,
@@ -9700,7 +9894,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 화성시 만세구 팔탄면 덕우리 산 66-2"
   },
   {
     "id": 325,
@@ -9728,7 +9923,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 안성시 고삼면 가유리 777-1"
   },
   {
     "id": 326,
@@ -9760,7 +9956,8 @@
     "dev_status": "조성중",
     "sale_rate": 91.86,
     "total_companies": 167,
-    "operating_companies": 121
+    "operating_companies": 121,
+    "address": "경기도 김포시 양촌읍 황금산단로 66"
   },
   {
     "id": 327,
@@ -9792,7 +9989,8 @@
     "dev_status": "조성중",
     "sale_rate": 76.92,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 포천시 신북면 만세교리 455"
   },
   {
     "id": 328,
@@ -9818,7 +10016,8 @@
     "dev_status": "완료",
     "sale_rate": 21.48,
     "total_companies": 25,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 연천군 연천읍 통현리 1071-3"
   },
   {
     "id": 329,
@@ -9846,7 +10045,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 화성시 만세구 남양읍 무송리 645"
   },
   {
     "id": 330,
@@ -9878,7 +10078,8 @@
     "dev_status": "조성중",
     "sale_rate": 97.47,
     "total_companies": 45,
-    "operating_companies": 35
+    "operating_companies": 35,
+    "address": "경기도 김포시 양촌읍 학운리 3631"
   },
   {
     "id": 331,
@@ -9904,7 +10105,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 안성시 원곡면 지문리 785"
   },
   {
     "id": 332,
@@ -9930,7 +10132,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 1,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 포천시 내촌면 진목리 184-1"
   },
   {
     "id": 333,
@@ -9956,7 +10159,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 안성시 미양면 마산리 산 30-7"
   },
   {
     "id": 334,
@@ -9982,7 +10186,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 안성시 보개면 북좌리 산 19"
   },
   {
     "id": 335,
@@ -10008,7 +10213,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 파주시 탄현면 금승리 610"
   },
   {
     "id": 336,
@@ -10118,7 +10324,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 47,
-    "operating_companies": 29
+    "operating_companies": 29,
+    "address": "경기도 파주시 파주읍 봉암리 1361-10"
   },
   {
     "id": 340,
@@ -10260,7 +10467,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 21,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "경기도 안성시 원곡면 지문리 796-6"
   },
   {
     "id": 345,
@@ -10292,7 +10500,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 67,
-    "operating_companies": 24
+    "operating_companies": 24,
+    "address": "경기도 김포시 양촌읍 학운리 4449"
   },
   {
     "id": 346,
@@ -10324,7 +10533,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 화성시 만세구 양감면 요당리 625-4"
   },
   {
     "id": 347,
@@ -10350,7 +10560,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 김포시 양촌읍 학운리 744-41"
   },
   {
     "id": 348,
@@ -10428,7 +10639,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 이천시 모가면 두미리 1010"
   },
   {
     "id": 351,
@@ -10460,7 +10672,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 용인시 처인구 원삼면 독성리 539-1"
   },
   {
     "id": 352,
@@ -10492,7 +10705,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 안성시 양성면 추곡리 산 2-1"
   },
   {
     "id": 353,
@@ -10518,7 +10732,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 용인시 처인구 백암면 근창리 산 7-4"
   },
   {
     "id": 354,
@@ -10544,7 +10759,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 2,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 이천시 호법면 안평리 112-4"
   },
   {
     "id": 355,
@@ -10576,7 +10792,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 용인시 처인구 이동읍 덕성리 488-3"
   },
   {
     "id": 356,
@@ -10608,7 +10825,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 9,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 김포시 양촌읍 학운리 4461"
   },
   {
     "id": 357,
@@ -11004,7 +11222,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 364,
-    "operating_companies": 364
+    "operating_companies": 364,
+    "address": "경기도 용인시 기흥구 영덕동 95-47"
   },
   {
     "id": 372,
@@ -11030,7 +11249,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 양주시 산북동 419-2"
   },
   {
     "id": 373,
@@ -11056,7 +11276,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 865,
-    "operating_companies": 865
+    "operating_companies": 865,
+    "address": "경기도 용인시 기흥구 기흥로 58 (구갈동)"
   },
   {
     "id": 374,
@@ -11082,7 +11303,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 용인시 기흥구 하갈동 182-4"
   },
   {
     "id": 375,
@@ -11192,7 +11414,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 안산시 상록구 사동 1271"
   },
   {
     "id": 379,
@@ -11220,7 +11443,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 고양시 일산서구 법곳동 213-1"
   },
   {
     "id": 380,
@@ -11246,7 +11470,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 양주시 마전동 264-12"
   },
   {
     "id": 381,
@@ -11434,7 +11659,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경기도 안성시 미양면 구수리 264-4"
   },
   {
     "id": 388,
@@ -11466,7 +11692,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 56,
-    "operating_companies": 33
+    "operating_companies": 33,
+    "address": "강원특별자치도 동해시 구호동 229-33"
   },
   {
     "id": 389,
@@ -11530,7 +11757,8 @@
     "dev_status": "완료",
     "sale_rate": 93.93,
     "total_companies": 157,
-    "operating_companies": 149
+    "operating_companies": 149,
+    "address": "강원특별자치도 강릉시 과학단지로 106-11 (대전동)"
   },
   {
     "id": 391,
@@ -11562,7 +11790,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 36,
-    "operating_companies": 22
+    "operating_companies": 22,
+    "address": "강원특별자치도 강릉시 입암동 21-1"
   },
   {
     "id": 392,
@@ -11590,7 +11819,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "강원특별자치도 원주시 문막읍 동화리 1703"
   },
   {
     "id": 393,
@@ -11685,7 +11915,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "강원특별자치도 홍천군 북방면 하화계리 937-1"
   },
   {
     "id": 396,
@@ -11743,7 +11974,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 삼척시 원덕읍 호산리 531"
   },
   {
     "id": 398,
@@ -11775,7 +12007,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 25,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "강원특별자치도 춘천시 남산면 광판리 산 111-3"
   },
   {
     "id": 399,
@@ -11830,7 +12063,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 강릉시 옥계면 주수리 251-4"
   },
   {
     "id": 401,
@@ -11859,7 +12093,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "강원특별자치도 동해시 대동로 215 (송정동,LS전선동해공장)"
   },
   {
     "id": 402,
@@ -11917,7 +12152,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 원주시 부론면 노림리 1490-1"
   },
   {
     "id": 404,
@@ -11946,7 +12182,8 @@
     "dev_status": "조성중",
     "sale_rate": 3.37,
     "total_companies": 2,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 철원군 근남면 사곡리 1301-1"
   },
   {
     "id": 405,
@@ -12030,7 +12267,8 @@
     "dev_status": "조성중",
     "sale_rate": 91.92,
     "total_companies": 30,
-    "operating_companies": 28
+    "operating_companies": 28,
+    "address": "강원특별자치도 원주시 문막읍 반계리 2259-4"
   },
   {
     "id": 408,
@@ -12094,7 +12332,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 20,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "강원특별자치도 원주시 우산동 400-3"
   },
   {
     "id": 410,
@@ -12224,7 +12463,8 @@
     "dev_status": "완료",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 강릉시 옥계면 현내리 995"
   },
   {
     "id": 415,
@@ -12308,7 +12548,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "강원특별자치도 춘천시 서면 현암리 305-2"
   },
   {
     "id": 418,
@@ -12334,7 +12575,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "강원특별자치도 춘천시 근화동 808"
   },
   {
     "id": 419,
@@ -12414,7 +12656,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 춘천시 석사동 산 22-9"
   },
   {
     "id": 422,
@@ -12446,7 +12689,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 홍천군 북방면 중화계리 306-8"
   },
   {
     "id": 423,
@@ -12478,7 +12722,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 35
+    "operating_companies": 35,
+    "address": "강원특별자치도 강릉시 주문진읍 농공단지길 28-9"
   },
   {
     "id": 424,
@@ -12510,7 +12755,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 28,
-    "operating_companies": 28
+    "operating_companies": 28,
+    "address": "강원특별자치도 삼척시 근덕면 동막리 818-2"
   },
   {
     "id": 425,
@@ -12542,7 +12788,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "강원특별자치도 삼척시 도계읍 늑구리 574-1"
   },
   {
     "id": 426,
@@ -12670,7 +12917,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 143,
-    "operating_companies": 133
+    "operating_companies": 133,
+    "address": "강원특별자치도 원주시 태장동 1720-21"
   },
   {
     "id": 430,
@@ -12702,7 +12950,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 26,
-    "operating_companies": 26
+    "operating_companies": 26,
+    "address": "강원특별자치도 춘천시 동내면 거두단지2길 55"
   },
   {
     "id": 431,
@@ -12730,7 +12979,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "강원특별자치도 춘천시 서면 당림리 604"
   },
   {
     "id": 432,
@@ -12756,7 +13006,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 30,
-    "operating_companies": 30
+    "operating_companies": 30,
+    "address": "강원특별자치도 춘천시 남산면 창촌리 300-10"
   },
   {
     "id": 433,
@@ -12788,7 +13039,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 178,
-    "operating_companies": 174
+    "operating_companies": 174,
+    "address": "강원특별자치도 춘천시 퇴계공단1길 48 (퇴계동)"
   },
   {
     "id": 434,
@@ -12852,7 +13104,8 @@
     "dev_status": "완료",
     "sale_rate": 92.59,
     "total_companies": 17,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "강원특별자치도 태백시 장성동 268"
   },
   {
     "id": 436,
@@ -12884,7 +13137,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 29,
-    "operating_companies": 27
+    "operating_companies": 27,
+    "address": "강원특별자치도 태백시 철암동 389-29"
   },
   {
     "id": 437,
@@ -12948,7 +13202,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "강원특별자치도 고성군 죽왕면 향목리 235-9"
   },
   {
     "id": 439,
@@ -13012,7 +13267,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 39,
-    "operating_companies": 39
+    "operating_companies": 39,
+    "address": "강원특별자치도 양양군 양양읍 포월리 254"
   },
   {
     "id": 441,
@@ -13044,7 +13300,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "강원특별자치도 영월군 북면 문곡리 2058"
   },
   {
     "id": 442,
@@ -13108,7 +13365,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 34,
-    "operating_companies": 29
+    "operating_companies": 29,
+    "address": "강원특별자치도 영월군 영월읍 팔괴리 1249"
   },
   {
     "id": 444,
@@ -13140,7 +13398,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 36,
-    "operating_companies": 35
+    "operating_companies": 35,
+    "address": "강원특별자치도 인제군 북면 원통리 1707"
   },
   {
     "id": 445,
@@ -13172,7 +13431,8 @@
     "dev_status": "완료",
     "sale_rate": 89.04,
     "total_companies": 13,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "강원특별자치도 정선군 신동읍 예미리 899"
   },
   {
     "id": 446,
@@ -13204,7 +13464,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 22,
-    "operating_companies": 22
+    "operating_companies": 22,
+    "address": "강원특별자치도 정선군 남면 무릉리 824"
   },
   {
     "id": 447,
@@ -13236,7 +13497,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "강원특별자치도 정선군 신동읍 조동리 508"
   },
   {
     "id": 448,
@@ -13266,7 +13528,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "강원특별자치도 철원군 갈말읍 군탄리 505-8"
   },
   {
     "id": 449,
@@ -13298,7 +13561,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 27,
-    "operating_companies": 26
+    "operating_companies": 26,
+    "address": "강원특별자치도 철원군 김화읍 청양리 2885"
   },
   {
     "id": 450,
@@ -13330,7 +13594,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "강원특별자치도 평창군 방림면 방림리 611-14"
   },
   {
     "id": 451,
@@ -13362,7 +13627,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 35
+    "operating_companies": 35,
+    "address": "강원특별자치도 평창군 평창읍 주진리 516-12"
   },
   {
     "id": 452,
@@ -13394,7 +13660,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 24,
-    "operating_companies": 22
+    "operating_companies": 22,
+    "address": "강원특별자치도 홍천군 홍천읍 상오안리 688"
   },
   {
     "id": 453,
@@ -13422,7 +13689,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "강원특별자치도 홍천군 남면 양덕원리 114"
   },
   {
     "id": 454,
@@ -13486,7 +13754,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 28,
-    "operating_companies": 25
+    "operating_companies": 25,
+    "address": "강원특별자치도 화천군 하남면 원천리 산 148"
   },
   {
     "id": 456,
@@ -13518,7 +13787,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 31,
-    "operating_companies": 26
+    "operating_companies": 26,
+    "address": "강원특별자치도 횡성군 공근면 초원리 658-16"
   },
   {
     "id": 457,
@@ -13550,7 +13820,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 13,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "강원특별자치도 횡성군 횡성읍 청용길 35 ((주)신원식품)"
   },
   {
     "id": 458,
@@ -13678,7 +13949,8 @@
     "dev_status": "완료",
     "sale_rate": 83.33,
     "total_companies": 15,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "강원특별자치도 철원군 동송읍 이평리 1557-3"
   },
   {
     "id": 462,
@@ -13797,7 +14069,8 @@
     "dev_status": "완료",
     "sale_rate": 26.47,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 인제군 인제읍 귀둔리 1203"
   },
   {
     "id": 466,
@@ -13828,7 +14101,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 홍천군 북방면 상화계리 33-1"
   },
   {
     "id": 467,
@@ -14139,7 +14413,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 46,
-    "operating_companies": 45
+    "operating_companies": 45,
+    "address": "충청북도 제천시 왕암동 957"
   },
   {
     "id": 478,
@@ -14229,7 +14504,8 @@
     "dev_status": "조성중",
     "sale_rate": 93.19,
     "total_companies": 18,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "충청북도 청주시 흥덕구 화계동 257"
   },
   {
     "id": 481,
@@ -14261,7 +14537,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 30,
-    "operating_companies": 29
+    "operating_companies": 29,
+    "address": "충청북도 충주시 주덕읍 당우리 1488"
   },
   {
     "id": 482,
@@ -14291,7 +14568,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청북도 충주시 주덕읍 장록리 1002-1"
   },
   {
     "id": 483,
@@ -14320,7 +14598,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청북도 충주시 대소원면 만정리 503-2"
   },
   {
     "id": 484,
@@ -14447,7 +14726,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 61,
-    "operating_companies": 56
+    "operating_companies": 56,
+    "address": "충청북도 충주시 대소원면 본리 622"
   },
   {
     "id": 488,
@@ -14479,7 +14759,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "충청북도 괴산군 청안면 네패스로 30"
   },
   {
     "id": 489,
@@ -14639,7 +14920,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "충청북도 음성군 대소읍 대풍리 37"
   },
   {
     "id": 494,
@@ -14671,7 +14953,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 42,
-    "operating_companies": 41
+    "operating_companies": 41,
+    "address": "충청북도 음성군 맹동면 쌍정리 759"
   },
   {
     "id": 495,
@@ -14703,7 +14986,8 @@
     "dev_status": "완료",
     "sale_rate": 99.87,
     "total_companies": 71,
-    "operating_companies": 63
+    "operating_companies": 63,
+    "address": "충청북도 음성군 원남면 상당리 732"
   },
   {
     "id": 496,
@@ -14731,7 +15015,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 음성군 금왕읍 육령리 591-1"
   },
   {
     "id": 497,
@@ -14763,7 +15048,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 21,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "충청북도 음성군 감곡면 오갑길192번길 35"
   },
   {
     "id": 498,
@@ -14795,7 +15081,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청북도 음성군 삼성면 하이텍산단로 84"
   },
   {
     "id": 499,
@@ -14824,7 +15111,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청북도 음성군 대소읍 태생리 757"
   },
   {
     "id": 500,
@@ -14856,7 +15144,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "충청북도 증평군 증평읍 미암리 1044"
   },
   {
     "id": 501,
@@ -14888,7 +15177,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 31
+    "operating_companies": 31,
+    "address": "충청북도 증평군 도안면 노암리 901"
   },
   {
     "id": 502,
@@ -14952,7 +15242,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "충청북도 진천군 초평면 은암리 494"
   },
   {
     "id": 504,
@@ -14984,7 +15275,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "충청북도 음성군 금왕읍 리노산단길 21"
   },
   {
     "id": 505,
@@ -15014,7 +15306,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "충청북도 진천군 문백면 은탄리 874"
   },
   {
     "id": 506,
@@ -15121,7 +15414,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청북도 진천군 문백면 태락리 737"
   },
   {
     "id": 510,
@@ -15176,7 +15470,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청북도 충주시 산척면 송강리 2277"
   },
   {
     "id": 512,
@@ -15202,7 +15497,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 증평군 도안면 도당리 932"
   },
   {
     "id": 513,
@@ -15234,7 +15530,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 38,
-    "operating_companies": 31
+    "operating_companies": 31,
+    "address": "충청북도 음성군 생극면 신양리 907"
   },
   {
     "id": 514,
@@ -15263,7 +15560,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청북도 진천군 광혜원면 죽현리 1260"
   },
   {
     "id": 515,
@@ -15347,7 +15645,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "충청북도 음성군 금왕읍 봉곡리 648"
   },
   {
     "id": 518,
@@ -15379,7 +15678,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 221,
-    "operating_companies": 215
+    "operating_companies": 215,
+    "address": "충청북도 청주시 청원구 오창읍 각리 637-5"
   },
   {
     "id": 519,
@@ -15501,7 +15801,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 60,
-    "operating_companies": 53
+    "operating_companies": 53,
+    "address": "충청북도 청주시 흥덕구 옥산면 옥산산단로 76"
   },
   {
     "id": 523,
@@ -15559,7 +15860,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 41,
-    "operating_companies": 28
+    "operating_companies": 28,
+    "address": "충청북도 음성군 금왕읍 유촌리 800"
   },
   {
     "id": 525,
@@ -15587,7 +15889,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 청주시 흥덕구 강내면 태성리 533"
   },
   {
     "id": 526,
@@ -15619,7 +15922,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 72,
-    "operating_companies": 68
+    "operating_companies": 68,
+    "address": "충청북도 진천군 덕산읍 산수리 1066"
   },
   {
     "id": 527,
@@ -15674,7 +15978,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청북도 보은군 장안면 봉비리 795"
   },
   {
     "id": 529,
@@ -15830,7 +16135,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청북도 충주시 주덕읍 사락리 922"
   },
   {
     "id": 534,
@@ -15888,7 +16194,8 @@
     "dev_status": "완료",
     "sale_rate": 76.31,
     "total_companies": 56,
-    "operating_companies": 36
+    "operating_companies": 36,
+    "address": "충청북도 음성군 대소읍 성본리 1010"
   },
   {
     "id": 536,
@@ -15916,7 +16223,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청북도 진천군 광혜원면 죽현리 1289"
   },
   {
     "id": 537,
@@ -15972,7 +16280,8 @@
     "dev_status": "완료",
     "sale_rate": 83.33,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "충청북도 괴산군 괴산읍 대덕리 584"
   },
   {
     "id": 539,
@@ -15998,7 +16307,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 음성군 금왕읍 봉곡리 산 36-77"
   },
   {
     "id": 540,
@@ -16030,7 +16340,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 76,
-    "operating_companies": 54
+    "operating_companies": 54,
+    "address": "충청북도 음성군 금왕읍 봉곡리 687"
   },
   {
     "id": 541,
@@ -16056,7 +16367,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청북도 충주시 신니면 덕고개로 446 (한흥건철(주))"
   },
   {
     "id": 542,
@@ -16114,7 +16426,8 @@
     "dev_status": "조성중",
     "sale_rate": 85.1,
     "total_companies": 12,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 청주시 청원구 오창읍 후기리 789"
   },
   {
     "id": 544,
@@ -16328,7 +16641,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 충주시 산척면 송강리 산 54"
   },
   {
     "id": 552,
@@ -16360,7 +16674,8 @@
     "dev_status": "조성중",
     "sale_rate": 73.56,
     "total_companies": 29,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 청주시 서원구 현도면 선동리 399"
   },
   {
     "id": 553,
@@ -16424,7 +16739,8 @@
     "dev_status": "조성중",
     "sale_rate": 86.38,
     "total_companies": 74,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청북도 청주시 청원구 오창읍 용두리 414"
   },
   {
     "id": 555,
@@ -16450,7 +16766,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 청주시 흥덕구 오송읍 상정리 442"
   },
   {
     "id": 556,
@@ -16482,7 +16799,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 20,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 청주시 흥덕구 강내면 다락리 산 46-16"
   },
   {
     "id": 557,
@@ -16537,7 +16855,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 제천시 봉양읍 주포리 319"
   },
   {
     "id": 559,
@@ -16567,7 +16886,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 충주시 중앙탑면 하구암리 산 10-52"
   },
   {
     "id": 560,
@@ -16625,7 +16945,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 진천군 이월면 사당리 산 14-1"
   },
   {
     "id": 562,
@@ -16651,7 +16972,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 충주시 주덕읍 화곡리 산 8"
   },
   {
     "id": 563,
@@ -16677,7 +16999,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 음성군 맹동면 마산리 285-2"
   },
   {
     "id": 564,
@@ -16703,7 +17026,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 청주시 흥덕구 오송읍 연제리 625-50"
   },
   {
     "id": 565,
@@ -16735,7 +17059,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 진천군 문백면 옥성리 293-2"
   },
   {
     "id": 566,
@@ -17076,7 +17401,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 60,
-    "operating_companies": 60
+    "operating_companies": 60,
+    "address": "충청북도 청주시 청원구 내덕동 858"
   },
   {
     "id": 579,
@@ -17316,7 +17642,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "충청북도 충주시 풍동 568-1"
   },
   {
     "id": 588,
@@ -17348,7 +17675,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "충청북도 충주시 용탄동 168-1"
   },
   {
     "id": 589,
@@ -17380,7 +17708,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "충청북도 충주시 주덕읍 삼청리 248-63"
   },
   {
     "id": 590,
@@ -17464,7 +17793,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "충청북도 단양군 대강면 두음리 233-1"
   },
   {
     "id": 593,
@@ -17493,7 +17823,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청북도 단양군 매포읍 상괴리 203"
   },
   {
     "id": 594,
@@ -17557,7 +17888,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "충청북도 보은군 삼승면 우진리 533"
   },
   {
     "id": 596,
@@ -17621,7 +17953,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "충청북도 영동군 용산면 법화리 345-23"
   },
   {
     "id": 598,
@@ -17717,7 +18050,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "충청북도 옥천군 옥천읍 구일리 844"
   },
   {
     "id": 601,
@@ -17749,7 +18083,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "충청북도 옥천군 동이면 적하리 960-8"
   },
   {
     "id": 602,
@@ -17813,7 +18148,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "충청북도 옥천군 이원면 건진리 449"
   },
   {
     "id": 604,
@@ -17909,7 +18245,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "충청북도 음성군 삼성면 상곡로 55-36"
   },
   {
     "id": 607,
@@ -17941,7 +18278,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "충청북도 음성군 음성읍 평곡리 408-2"
   },
   {
     "id": 608,
@@ -18025,7 +18363,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "충청북도 진천군 광혜원면 죽현리 492-8"
   },
   {
     "id": 611,
@@ -18183,7 +18522,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 17
+    "operating_companies": 17,
+    "address": "충청북도 진천군 진천읍 신정리 517-7"
   },
   {
     "id": 616,
@@ -18215,7 +18555,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청북도 진천군 초평면 용정길 29-24 ((주)이천)"
   },
   {
     "id": 617,
@@ -18277,7 +18618,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청북도 청주시 청원구 내수읍 도원세교로 59-36"
   },
   {
     "id": 619,
@@ -18397,7 +18739,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "충청북도 옥천군 옥천읍 가풍리 1127"
   },
   {
     "id": 623,
@@ -18477,7 +18820,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청남도 보령시 주교면 고정리 440"
   },
   {
     "id": 626,
@@ -18503,7 +18847,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청남도 서산시 대산읍 대죽리 629"
   },
   {
     "id": 627,
@@ -18683,7 +19028,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 34,
-    "operating_companies": 28
+    "operating_companies": 28,
+    "address": "충청남도 공주시 탄천면 안영리 819"
   },
   {
     "id": 633,
@@ -18715,7 +19061,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "충청남도 공주시 유구읍 백교리 185-3"
   },
   {
     "id": 634,
@@ -18747,7 +19094,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 24,
-    "operating_companies": 24
+    "operating_companies": 24,
+    "address": "충청남도 논산시 성동면 원북리 산 6-1"
   },
   {
     "id": 635,
@@ -18773,7 +19121,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "충청남도 논산시 성동면 원남리 1221-1"
   },
   {
     "id": 636,
@@ -18837,7 +19186,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "충청남도 보령시 주교면 관창리 1224-1"
   },
   {
     "id": 638,
@@ -18863,7 +19213,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청남도 보령시 오천면 영보리 산 34-3"
   },
   {
     "id": 639,
@@ -18895,7 +19246,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "충청남도 서산시 대산읍 대죽리 640-58"
   },
   {
     "id": 640,
@@ -18927,7 +19279,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "충청남도 서산시 대산읍 대죽리 11-4"
   },
   {
     "id": 641,
@@ -18959,7 +19312,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 68,
-    "operating_companies": 49
+    "operating_companies": 49,
+    "address": "충청남도 서산시 성연면 왕정리 711"
   },
   {
     "id": 642,
@@ -18985,7 +19339,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 40,
-    "operating_companies": 36
+    "operating_companies": 36,
+    "address": "충청남도 아산시 인주면 걸매리 1033"
   },
   {
     "id": 643,
@@ -19069,7 +19424,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 83,
-    "operating_companies": 80
+    "operating_companies": 80,
+    "address": "충청남도 아산시 둔포면 석곡리 1597"
   },
   {
     "id": 646,
@@ -19101,7 +19457,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "충청남도 아산시 둔포면 아산밸리로 87-1"
   },
   {
     "id": 647,
@@ -19159,7 +19516,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 38,
-    "operating_companies": 36
+    "operating_companies": 36,
+    "address": "충청남도 천안시 서북구 백석공단7로 53 (백석동,한국첼리(주))"
   },
   {
     "id": 649,
@@ -19249,7 +19607,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 187,
-    "operating_companies": 187
+    "operating_companies": 187,
+    "address": "충청남도 천안시 서북구 직산읍 삼은리 506"
   },
   {
     "id": 652,
@@ -19281,7 +19640,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "충청남도 천안시 서북구 성거읍 천흥8길 18-9 (동아건설산업주식회사천안공장)"
   },
   {
     "id": 653,
@@ -19313,7 +19673,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 81,
-    "operating_companies": 80
+    "operating_companies": 80,
+    "address": "충청남도 천안시 동남구 풍세면 보성리 714"
   },
   {
     "id": 654,
@@ -19377,7 +19738,8 @@
     "dev_status": "완료",
     "sale_rate": 94.56,
     "total_companies": 9,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "충청남도 홍성군 갈산면 취생리 623"
   },
   {
     "id": 656,
@@ -19441,7 +19803,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 13,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "충청남도 예산군 고덕면 상몽산단2길 51"
   },
   {
     "id": 658,
@@ -19529,7 +19892,8 @@
     "dev_status": "완료",
     "sale_rate": 77.4,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "충청남도 당진시 합덕읍 석우리 1210"
   },
   {
     "id": 661,
@@ -19555,7 +19919,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "충청남도 당진시 송악읍 북부산업로 1480 (현대스틸)"
   },
   {
     "id": 662,
@@ -19586,7 +19951,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청남도 서산시 대산읍 대죽리 1212"
   },
   {
     "id": 663,
@@ -19884,7 +20250,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "충청남도 서산시 대산읍 대죽리 1191"
   },
   {
     "id": 674,
@@ -19916,7 +20283,8 @@
     "dev_status": "조성중",
     "sale_rate": 95.28,
     "total_companies": 22,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "충청남도 공주시 이인면 만수리 576"
   },
   {
     "id": 675,
@@ -20032,7 +20400,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 천안시 동남구 동면 송연리 596"
   },
   {
     "id": 679,
@@ -20194,7 +20563,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 22,
-    "operating_companies": 17
+    "operating_companies": 17,
+    "address": "충청남도 아산시 음봉면 산동로 278-2 (음봉면 산동리 215-26 공장 ((주)비에이치시스템))"
   },
   {
     "id": 685,
@@ -20350,7 +20720,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 공주시 쌍신동 산 1-12"
   },
   {
     "id": 691,
@@ -20381,7 +20752,8 @@
     "dev_status": "조성중",
     "sale_rate": 93.2,
     "total_companies": 5,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청남도 아산시 음봉면 신수리 485"
   },
   {
     "id": 692,
@@ -20407,7 +20779,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 아산시 인주면 걸매리 525-2"
   },
   {
     "id": 693,
@@ -20439,7 +20812,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 천안시 서북구 성환읍 신가리 586"
   },
   {
     "id": 694,
@@ -20465,7 +20839,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 공주시 동현동 산 51-10"
   },
   {
     "id": 695,
@@ -20497,7 +20872,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 천안시 서북구 성거읍 오목리 246"
   },
   {
     "id": 696,
@@ -20560,7 +20936,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 천안시 서북구 직산읍 남산리 300-6"
   },
   {
     "id": 698,
@@ -20592,7 +20969,8 @@
     "dev_status": "조성중",
     "sale_rate": 66.38,
     "total_companies": 5,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 아산시 음봉면 동암리 285-7"
   },
   {
     "id": 699,
@@ -20618,7 +20996,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 천안시 동남구 풍세면 용정리 산 76-8"
   },
   {
     "id": 700,
@@ -20696,7 +21075,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 예산군 고덕면 지곡리 252"
   },
   {
     "id": 703,
@@ -20728,7 +21108,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 부여군 홍산면 정동리 696-2"
   },
   {
     "id": 704,
@@ -20754,7 +21135,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 공주시 송선동 342-5"
   },
   {
     "id": 705,
@@ -20910,7 +21292,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 서산시 대산읍 독곶리 산 53"
   },
   {
     "id": 711,
@@ -20962,7 +21345,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 천안시 동남구 동면 수남리 산 98-5"
   },
   {
     "id": 713,
@@ -21236,7 +21620,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 천안시 서북구 직산읍 모시리 50-6"
   },
   {
     "id": 723,
@@ -21268,7 +21653,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 29,
-    "operating_companies": 27
+    "operating_companies": 27,
+    "address": "충청남도 공주시 검상동 725-10"
   },
   {
     "id": 724,
@@ -21300,7 +21686,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청남도 공주시 계룡면 봉명리 160-3"
   },
   {
     "id": 725,
@@ -21332,7 +21719,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "충청남도 공주시 정안면 보물리 522"
   },
   {
     "id": 726,
@@ -21390,7 +21778,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청남도 공주시 유구읍 유구리 662"
   },
   {
     "id": 728,
@@ -21422,7 +21811,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 39,
-    "operating_companies": 39
+    "operating_companies": 39,
+    "address": "충청남도 공주시 송선동 534-2"
   },
   {
     "id": 729,
@@ -21448,7 +21838,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "충청남도 공주시 정안면 사현리 515-1"
   },
   {
     "id": 730,
@@ -21510,7 +21901,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청남도 공주시 의당면 의당전의로 803-77"
   },
   {
     "id": 732,
@@ -21542,7 +21934,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "충청남도 논산시 가야곡면 가야공단길 24-8"
   },
   {
     "id": 733,
@@ -21606,7 +21999,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "충청남도 논산시 연무읍 양지길 45-18"
   },
   {
     "id": 735,
@@ -21666,7 +22060,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청남도 논산시 연무읍 죽본2길 16 (씨제이논산공장)"
   },
   {
     "id": 737,
@@ -21698,7 +22093,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "충청남도 논산시 연산면 계백로 2354-15"
   },
   {
     "id": 738,
@@ -21728,7 +22124,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청남도 논산시 은진면 토양리 33"
   },
   {
     "id": 739,
@@ -21818,7 +22215,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 21,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "충청남도 보령시 웅천읍 대창리 963-3"
   },
   {
     "id": 742,
@@ -21850,7 +22248,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청남도 보령시 주산면 충서로 531-12"
   },
   {
     "id": 743,
@@ -21882,7 +22281,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "충청남도 보령시 주포면 관산길 33"
   },
   {
     "id": 744,
@@ -21946,7 +22346,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 21,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "충청남도 보령시 청소면 장곡리 1167"
   },
   {
     "id": 746,
@@ -21978,7 +22379,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "충청남도 서산시 고북면 가구리 730-1"
   },
   {
     "id": 747,
@@ -22034,7 +22436,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "충청남도 서산시 성연면 갈현리 703-2"
   },
   {
     "id": 749,
@@ -22066,7 +22469,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 31,
-    "operating_companies": 30
+    "operating_companies": 30,
+    "address": "충청남도 서산시 수석동 1167"
   },
   {
     "id": 750,
@@ -22098,7 +22502,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "충청남도 아산시 도고면 신언리 817"
   },
   {
     "id": 751,
@@ -22130,7 +22535,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청남도 아산시 둔포면 관대리 36-27"
   },
   {
     "id": 752,
@@ -22191,7 +22597,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 25,
-    "operating_companies": 25
+    "operating_companies": 25,
+    "address": "충청남도 아산시 득산동 312-18"
   },
   {
     "id": 754,
@@ -22221,7 +22628,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청남도 아산시 배미동 145-3"
   },
   {
     "id": 755,
@@ -22249,7 +22657,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청남도 아산시 순천향로 560 (신인동)"
   },
   {
     "id": 756,
@@ -22281,7 +22690,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "충청남도 아산시 신창면 서부남로790번길 60"
   },
   {
     "id": 757,
@@ -22312,7 +22722,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "충청남도 아산시 영인면 영인로202번길 17"
   },
   {
     "id": 758,
@@ -22406,7 +22817,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청남도 천안시 동남구 목천읍 학수소사길 219-27 (연합정밀기술연구소)"
   },
   {
     "id": 761,
@@ -22438,7 +22850,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 120,
-    "operating_companies": 120
+    "operating_companies": 120,
+    "address": "충청남도 천안시 서북구 백석동 555-25"
   },
   {
     "id": 762,
@@ -22470,7 +22883,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "충청남도 천안시 서북구 직산읍 부송리 72-2"
   },
   {
     "id": 763,
@@ -22534,7 +22948,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "충청남도 금산군 복수면 용진리 115"
   },
   {
     "id": 765,
@@ -22598,7 +23013,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 31,
-    "operating_companies": 29
+    "operating_companies": 29,
+    "address": "충청남도 금산군 추부면 신평리 1005"
   },
   {
     "id": 767,
@@ -22630,7 +23046,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "충청남도 당진시 시곡동 81-11"
   },
   {
     "id": 768,
@@ -22662,7 +23079,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "충청남도 당진시 면천면 문봉리 904"
   },
   {
     "id": 769,
@@ -22726,7 +23144,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 25,
-    "operating_companies": 24
+    "operating_companies": 24,
+    "address": "충청남도 당진시 송악읍 가학리 686"
   },
   {
     "id": 771,
@@ -22786,7 +23205,8 @@
     "dev_status": "완료",
     "sale_rate": 88.7,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청남도 당진시 송악읍 한진리 416"
   },
   {
     "id": 773,
@@ -22876,7 +23296,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 33,
-    "operating_companies": 31
+    "operating_companies": 31,
+    "address": "충청남도 서천군 종천면 석촌리 441"
   },
   {
     "id": 776,
@@ -22902,7 +23323,8 @@
     "dev_status": "완료",
     "sale_rate": 73.28,
     "total_companies": 10,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "충청남도 서천군 종천면 석촌리 679"
   },
   {
     "id": 777,
@@ -22965,7 +23387,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "충청남도 예산군 예산읍 관작리 276-2"
   },
   {
     "id": 779,
@@ -22997,7 +23420,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "충청남도 예산군 삽교읍 두리 121-22"
   },
   {
     "id": 780,
@@ -23051,7 +23475,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청남도 예산군 고덕면 호음덕령길 60"
   },
   {
     "id": 782,
@@ -23115,7 +23540,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "충청남도 예산군 응봉면 지석리 523"
   },
   {
     "id": 784,
@@ -23143,7 +23569,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청남도 예산군 응봉면 충서로 250"
   },
   {
     "id": 785,
@@ -23175,7 +23602,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "충청남도 청양군 비봉면 방한리 85"
   },
   {
     "id": 786,
@@ -23238,7 +23666,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청남도 청양군 정산면 역촌리 671"
   },
   {
     "id": 788,
@@ -23268,7 +23697,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청남도 청양군 청양읍 충절로 1259-130 (ADM21(주)청양공장)"
   },
   {
     "id": 789,
@@ -23364,7 +23794,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "충청남도 홍성군 갈산면 취생리 602"
   },
   {
     "id": 792,
@@ -23390,7 +23821,8 @@
     "dev_status": "조성중",
     "sale_rate": 30.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 홍성군 갈산면 운곡리 713"
   },
   {
     "id": 793,
@@ -23422,7 +23854,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 26,
-    "operating_companies": 20
+    "operating_companies": 20,
+    "address": "충청남도 홍성군 결성면 성곡리 599"
   },
   {
     "id": 794,
@@ -23454,7 +23887,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "충청남도 홍성군 광천읍 신진리 614"
   },
   {
     "id": 795,
@@ -23516,7 +23950,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "충청남도 홍성군 구항면 청광리 26-22"
   },
   {
     "id": 797,
@@ -23548,7 +23983,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 홍성군 은하면 장척리 1126"
   },
   {
     "id": 798,
@@ -23574,7 +24010,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "충청남도 홍성군 은하면 화봉리 1008-3"
   },
   {
     "id": 799,
@@ -23696,7 +24133,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "충청남도 논산시 강경읍 채운리 527"
   },
   {
     "id": 803,
@@ -23754,7 +24192,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 31,
-    "operating_companies": 25
+    "operating_companies": 25,
+    "address": "충청남도 서천군 장항읍 원수리 450-10"
   },
   {
     "id": 805,
@@ -23780,7 +24219,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "충청남도 공주시 정안면 정안농공단지길 64"
   },
   {
     "id": 806,
@@ -23838,7 +24278,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 논산시 가야곡면 야촌리 산 7"
   },
   {
     "id": 808,
@@ -23994,7 +24435,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 청양군 정산면 신덕리 산 2-1"
   },
   {
     "id": 814,
@@ -24026,7 +24468,8 @@
     "dev_status": "완료",
     "sale_rate": 41.86,
     "total_companies": 3,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 보령시 청라면 내현리 929"
   },
   {
     "id": 815,
@@ -24052,7 +24495,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 공주시 계룡면 기산리 263-2"
   },
   {
     "id": 816,
@@ -24322,7 +24766,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전북특별자치도 전주시 덕진구 여의동2가 465-3"
   },
   {
     "id": 825,
@@ -24394,7 +24839,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 35
+    "operating_companies": 35,
+    "address": "전북특별자치도 김제시 순동산단1길 37 (순동)"
   },
   {
     "id": 827,
@@ -24696,7 +25142,8 @@
     "dev_status": "완료",
     "sale_rate": 69.75,
     "total_companies": 2,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "전북특별자치도 부안군 하서면 백련리 1235"
   },
   {
     "id": 837,
@@ -24760,7 +25207,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 222,
-    "operating_companies": 220
+    "operating_companies": 220,
+    "address": "전북특별자치도 완주군 봉동읍 둔산리 898-2"
   },
   {
     "id": 839,
@@ -24792,7 +25240,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 123,
-    "operating_companies": 119
+    "operating_companies": 119,
+    "address": "전북특별자치도 완주군 봉동읍 장구리 595"
   },
   {
     "id": 840,
@@ -24902,7 +25351,8 @@
     "dev_status": "조성중",
     "sale_rate": 91.18,
     "total_companies": 18,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "전북특별자치도 완주군 봉동읍 테크노밸리2로 117"
   },
   {
     "id": 844,
@@ -24960,7 +25410,8 @@
     "dev_status": "완료",
     "sale_rate": 93.04,
     "total_companies": 97,
-    "operating_companies": 80
+    "operating_companies": 80,
+    "address": "전북특별자치도 김제시 백산면 부거리 1572-4"
   },
   {
     "id": 846,
@@ -25018,7 +25469,8 @@
     "dev_status": "조성중",
     "sale_rate": 12.31,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "전북특별자치도 남원시 사매면 월평리 1149"
   },
   {
     "id": 848,
@@ -25166,7 +25618,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 51,
-    "operating_companies": 50
+    "operating_companies": 50,
+    "address": "전북특별자치도 군산시 서수면 마룡리 93-7"
   },
   {
     "id": 853,
@@ -25230,7 +25683,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 52,
-    "operating_companies": 52
+    "operating_companies": 52,
+    "address": "전북특별자치도 군산시 옥구읍 상평리 834"
   },
   {
     "id": 855,
@@ -25288,7 +25742,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 28,
-    "operating_companies": 28
+    "operating_companies": 28,
+    "address": "전북특별자치도 김제시 만경읍 만경공단1길 82"
   },
   {
     "id": 857,
@@ -25352,7 +25807,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 35
+    "operating_companies": 35,
+    "address": "전북특별자치도 김제시 서흥공단1길 57 (흥사동)"
   },
   {
     "id": 859,
@@ -25384,7 +25840,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 25,
-    "operating_companies": 25
+    "operating_companies": 25,
+    "address": "전북특별자치도 김제시 연정동 870"
   },
   {
     "id": 860,
@@ -25416,7 +25873,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "전북특별자치도 김제시 황산면 용마로 455-15"
   },
   {
     "id": 861,
@@ -25468,7 +25926,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 29,
-    "operating_companies": 28
+    "operating_companies": 28,
+    "address": "전북특별자치도 남원시 용정동 75-26"
   },
   {
     "id": 863,
@@ -25500,7 +25959,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 30,
-    "operating_companies": 30
+    "operating_companies": 30,
+    "address": "전북특별자치도 남원시 노암동 842-2"
   },
   {
     "id": 864,
@@ -25560,7 +26020,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전북특별자치도 남원시 쑥고개로 138-81 (어현동,태전방적)"
   },
   {
     "id": 866,
@@ -25590,7 +26051,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "전북특별자치도 남원시 인월면 천왕봉로 135-53 (영우냉동식품)"
   },
   {
     "id": 867,
@@ -25622,7 +26084,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "전북특별자치도 익산시 낭산면 석천리 1596-1"
   },
   {
     "id": 868,
@@ -25654,7 +26117,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 40,
-    "operating_companies": 40
+    "operating_companies": 40,
+    "address": "전북특별자치도 익산시 삼기면 기산리 325-16"
   },
   {
     "id": 869,
@@ -25686,7 +26150,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 17
+    "operating_companies": 17,
+    "address": "전북특별자치도 익산시 왕궁면 광암리 산 76-69"
   },
   {
     "id": 870,
@@ -25717,7 +26182,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 58,
-    "operating_companies": 58
+    "operating_companies": 58,
+    "address": "전북특별자치도 익산시 황등면 석재단지길 66-11"
   },
   {
     "id": 871,
@@ -25749,7 +26215,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 13,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "전북특별자치도 정읍시 고부면 덕안리 948"
   },
   {
     "id": 872,
@@ -25781,7 +26248,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "전북특별자치도 정읍시 공단2길 3 (망제동)"
   },
   {
     "id": 873,
@@ -25813,7 +26281,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 41,
-    "operating_companies": 41
+    "operating_companies": 41,
+    "address": "전북특별자치도 정읍시 북면 한교리 37-76"
   },
   {
     "id": 874,
@@ -25842,7 +26311,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "전북특별자치도 정읍시 신태인읍 신용리 1724"
   },
   {
     "id": 875,
@@ -25874,7 +26344,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "전북특별자치도 정읍시 신태인읍 백산리 1427-2"
   },
   {
     "id": 876,
@@ -25906,7 +26377,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 31,
-    "operating_companies": 30
+    "operating_companies": 30,
+    "address": "전북특별자치도 정읍시 태인면 오봉리 1263"
   },
   {
     "id": 877,
@@ -25938,7 +26410,8 @@
     "dev_status": "완료",
     "sale_rate": 96.39,
     "total_companies": 22,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "전북특별자치도 고창군 고수면 고수농공단지길 33 ((유)도건엔지니어링)"
   },
   {
     "id": 878,
@@ -25970,7 +26443,8 @@
     "dev_status": "완료",
     "sale_rate": 89.76,
     "total_companies": 14,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "전북특별자치도 고창군 부안면 용산리 820"
   },
   {
     "id": 879,
@@ -26002,7 +26476,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 26,
-    "operating_companies": 25
+    "operating_companies": 25,
+    "address": "전북특별자치도 고창군 아산면 하갑리 665"
   },
   {
     "id": 880,
@@ -26034,7 +26509,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "전북특별자치도 고창군 흥덕면 오호리 729-2"
   },
   {
     "id": 881,
@@ -26066,7 +26542,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "전북특별자치도 무주군 무주읍 당산리 1723"
   },
   {
     "id": 882,
@@ -26130,7 +26607,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "전북특별자치도 무주군 안성면 장기리 1937"
   },
   {
     "id": 884,
@@ -26162,7 +26640,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 32,
-    "operating_companies": 32
+    "operating_companies": 32,
+    "address": "전북특별자치도 부안군 행안면 역리 1121-6"
   },
   {
     "id": 885,
@@ -26226,7 +26705,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "전북특별자치도 부안군 줄포면 장동리 741-12"
   },
   {
     "id": 887,
@@ -26255,7 +26735,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "전북특별자치도 순창군 순창읍 가남리 203-3"
   },
   {
     "id": 888,
@@ -26287,7 +26768,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "전북특별자치도 순창군 인계면 쌍암리 719-1"
   },
   {
     "id": 889,
@@ -26345,7 +26827,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "전북특별자치도 완주군 이서면 은교리 842"
   },
   {
     "id": 891,
@@ -26409,7 +26892,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 23,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "전북특별자치도 임실군 오수면 금암1길 39-6 (세일 산업)"
   },
   {
     "id": 893,
@@ -26441,7 +26925,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "전북특별자치도 임실군 임실읍 이도리 962"
   },
   {
     "id": 894,
@@ -26473,7 +26958,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "전북특별자치도 장수군 장계면 송천리 943"
   },
   {
     "id": 895,
@@ -26505,7 +26991,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "전북특별자치도 장수군 천천면 남양리 156-7"
   },
   {
     "id": 896,
@@ -26601,7 +27088,8 @@
     "dev_status": "완료",
     "sale_rate": 95.43,
     "total_companies": 44,
-    "operating_companies": 40
+    "operating_companies": 40,
+    "address": "전북특별자치도 군산시 임피면 축산리 604"
   },
   {
     "id": 899,
@@ -26845,7 +27333,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "전북특별자치도 진안군 진안읍 연장리 1066-13"
   },
   {
     "id": 907,
@@ -26909,7 +27398,8 @@
     "dev_status": "완료",
     "sale_rate": 30.29,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "전북특별자치도 익산시 함열읍 와리 1543-3"
   },
   {
     "id": 909,
@@ -27027,7 +27517,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "전남광주통합특별시 여수시 낙포동 1100"
   },
   {
     "id": 913,
@@ -27323,7 +27814,8 @@
     "dev_status": "완료",
     "sale_rate": 91.48,
     "total_companies": 42,
-    "operating_companies": 35
+    "operating_companies": 35,
+    "address": "전남광주통합특별시 광양시 옥곡면 신금리 1616"
   },
   {
     "id": 922,
@@ -27354,7 +27846,8 @@
     "dev_status": "조성중",
     "sale_rate": 58.11,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "전남광주통합특별시 광양시 황금동 2334"
   },
   {
     "id": 923,
@@ -27386,7 +27879,8 @@
     "dev_status": "완료",
     "sale_rate": 93.75,
     "total_companies": 58,
-    "operating_companies": 53
+    "operating_companies": 53,
+    "address": "전남광주통합특별시 광양시 광양읍 익신리 746-7"
   },
   {
     "id": 924,
@@ -27418,7 +27912,8 @@
     "dev_status": "완료",
     "sale_rate": 98.76,
     "total_companies": 48,
-    "operating_companies": 32
+    "operating_companies": 32,
+    "address": "전남광주통합특별시 나주시 동수농공단지길 62-91 (운곡동)"
   },
   {
     "id": 925,
@@ -27482,7 +27977,8 @@
     "dev_status": "완료",
     "sale_rate": 98.67,
     "total_companies": 34,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "전남광주통합특별시 목포시 연산동 2008"
   },
   {
     "id": 927,
@@ -27514,7 +28010,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 46,
-    "operating_companies": 46
+    "operating_companies": 46,
+    "address": "전남광주통합특별시 목포시 삽진산단로 37 (연산동,(주)원당중공업)"
   },
   {
     "id": 928,
@@ -27546,7 +28043,8 @@
     "dev_status": "완료",
     "sale_rate": 91.16,
     "total_companies": 172,
-    "operating_companies": 155
+    "operating_companies": 155,
+    "address": "전남광주통합특별시 목포시 대양동 1192-20"
   },
   {
     "id": 929,
@@ -27604,7 +28102,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 45,
-    "operating_companies": 45
+    "operating_companies": 45,
+    "address": "전남광주통합특별시 순천시 해룡면 해룡산단1로 82-11"
   },
   {
     "id": 931,
@@ -27694,7 +28193,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 39,
-    "operating_companies": 36
+    "operating_companies": 36,
+    "address": "전남광주통합특별시 여수시 오천동 179-2"
   },
   {
     "id": 934,
@@ -27748,7 +28248,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "전남광주통합특별시 영암군 삼호읍 대불로 93 (현대삼호중공업)"
   },
   {
     "id": 936,
@@ -27774,7 +28275,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 231,
-    "operating_companies": 209
+    "operating_companies": 209,
+    "address": "전남광주통합특별시 장성군 남면 삼태리 851-10"
   },
   {
     "id": 937,
@@ -28000,7 +28502,8 @@
     "dev_status": "완료",
     "sale_rate": 92.42,
     "total_companies": 79,
-    "operating_companies": 46
+    "operating_companies": 46,
+    "address": "전남광주통합특별시 함평군 대동면 백호리 873-10"
   },
   {
     "id": 945,
@@ -28052,7 +28555,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 여수시 묘도동 산 165"
   },
   {
     "id": 947,
@@ -28084,7 +28588,8 @@
     "dev_status": "완료",
     "sale_rate": 88.05,
     "total_companies": 16,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "전남광주통합특별시 나주시 산포면 신도리 1313"
   },
   {
     "id": 948,
@@ -28110,7 +28615,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 무안군 운남면 성내리 334"
   },
   {
     "id": 949,
@@ -28142,7 +28648,8 @@
     "dev_status": "완료",
     "sale_rate": 60.73,
     "total_companies": 32,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "전남광주통합특별시 강진군 성전면 송학리 841-6"
   },
   {
     "id": 950,
@@ -28308,7 +28815,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "전남광주통합특별시 나주시 금천면 영산로 5785 (남양유업)"
   },
   {
     "id": 956,
@@ -28340,7 +28848,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 23
+    "operating_companies": 23,
+    "address": "전남광주통합특별시 나주시 노안면 노안로 455-84"
   },
   {
     "id": 957,
@@ -28372,7 +28881,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 56,
-    "operating_companies": 34
+    "operating_companies": 34,
+    "address": "전남광주통합특별시 나주시 동수농공단지길 137-5 (동수동,(주)이현산업)"
   },
   {
     "id": 958,
@@ -28468,7 +28978,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 53,
-    "operating_companies": 35
+    "operating_companies": 35,
+    "address": "전남광주통합특별시 나주시 동수농공단지길 99-28 (동수동,세진산업)"
   },
   {
     "id": 961,
@@ -28500,7 +29011,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 147,
-    "operating_companies": 147
+    "operating_companies": 147,
+    "address": "전남광주통합특별시 목포시 연산동 1239-1"
   },
   {
     "id": 962,
@@ -28532,7 +29044,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 33,
-    "operating_companies": 33
+    "operating_companies": 33,
+    "address": "전남광주통합특별시 순천시 주암면 궁각리 486-1"
   },
   {
     "id": 963,
@@ -28564,7 +29077,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 21,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "전남광주통합특별시 여수시 화양면 화동리 297-1"
   },
   {
     "id": 964,
@@ -28595,7 +29109,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "전남광주통합특별시 강진군 마량면 마량공단길 35"
   },
   {
     "id": 965,
@@ -28627,7 +29142,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "전남광주통합특별시 고흥군 풍양면 상림리 147"
   },
   {
     "id": 966,
@@ -28659,7 +29175,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "전남광주통합특별시 곡성군 겸면 마전농공길 35"
   },
   {
     "id": 967,
@@ -28691,7 +29208,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 13,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "전남광주통합특별시 곡성군 석곡면 연반리 699-2"
   },
   {
     "id": 968,
@@ -28719,7 +29237,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "전남광주통합특별시 곡성군 입면 금호길 85-63"
   },
   {
     "id": 969,
@@ -28751,7 +29270,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "전남광주통합특별시 구례군 간전면 간전농공단지길 16"
   },
   {
     "id": 970,
@@ -28815,7 +29335,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 41,
-    "operating_companies": 37
+    "operating_companies": 37,
+    "address": "전남광주통합특별시 담양군 무정면 봉안리 389-7"
   },
   {
     "id": 972,
@@ -28847,7 +29368,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 50,
-    "operating_companies": 45
+    "operating_companies": 45,
+    "address": "전남광주통합특별시 무안군 삼향읍 지산리 890-10"
   },
   {
     "id": 973,
@@ -28879,7 +29401,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 30,
-    "operating_companies": 29
+    "operating_companies": 29,
+    "address": "전남광주통합특별시 무안군 일로읍 상신기리 756"
   },
   {
     "id": 974,
@@ -28911,7 +29434,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 58,
-    "operating_companies": 57
+    "operating_companies": 57,
+    "address": "전남광주통합특별시 무안군 청계면 청수리 559-6"
   },
   {
     "id": 975,
@@ -28937,7 +29461,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 27,
-    "operating_companies": 25
+    "operating_companies": 25,
+    "address": "전남광주통합특별시 무안군 청계면 송현리 640-2"
   },
   {
     "id": 976,
@@ -28969,7 +29494,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 25,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "전남광주통합특별시 보성군 미력면 도개리 957-2"
   },
   {
     "id": 977,
@@ -29001,7 +29527,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 18,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "전남광주통합특별시 보성군 벌교읍 연산리 607"
   },
   {
     "id": 978,
@@ -29033,7 +29560,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 31,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "전남광주통합특별시 보성군 조성면 귀산리 825"
   },
   {
     "id": 979,
@@ -29063,7 +29591,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "전남광주통합특별시 신안군 지도읍 감정리 2005"
   },
   {
     "id": 980,
@@ -29191,7 +29720,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "전남광주통합특별시 영암군 신북면 갈곡리 38-74"
   },
   {
     "id": 984,
@@ -29223,7 +29753,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 78,
-    "operating_companies": 77
+    "operating_companies": 77,
+    "address": "전남광주통합특별시 완도군 완도읍 농공단지7길 24"
   },
   {
     "id": 985,
@@ -29255,7 +29786,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 69,
-    "operating_companies": 64
+    "operating_companies": 64,
+    "address": "전남광주통합특별시 완도군 완도읍 농공단지8길 23"
   },
   {
     "id": 986,
@@ -29351,7 +29883,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 18,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "전남광주통합특별시 장성군 삼계면 부성리 788-2"
   },
   {
     "id": 989,
@@ -29383,7 +29916,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 20,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "전남광주통합특별시 장흥군 장평면 농공단지길 33"
   },
   {
     "id": 990,
@@ -29415,7 +29949,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 27,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "전남광주통합특별시 진도군 고군면 고성리 833-3"
   },
   {
     "id": 991,
@@ -29479,7 +30014,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 25,
-    "operating_companies": 23
+    "operating_companies": 23,
+    "address": "전남광주통합특별시 함평군 학교면 죽정리 85-25"
   },
   {
     "id": 993,
@@ -29511,7 +30047,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "전남광주통합특별시 함평군 함평읍 장년리 1349"
   },
   {
     "id": 994,
@@ -29575,7 +30112,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 42,
-    "operating_companies": 42
+    "operating_companies": 42,
+    "address": "전남광주통합특별시 화순군 능주면 잠정리 7-16"
   },
   {
     "id": 996,
@@ -29607,7 +30145,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 48,
-    "operating_companies": 48
+    "operating_companies": 48,
+    "address": "전남광주통합특별시 화순군 도곡면 대곡리 262"
   },
   {
     "id": 997,
@@ -29671,7 +30210,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 13,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "전남광주통합특별시 화순군 이양면 품평리 1198"
   },
   {
     "id": 999,
@@ -29699,7 +30239,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 1,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 나주시 남평읍 서산리 534"
   },
   {
     "id": 1000,
@@ -29731,7 +30272,8 @@
     "dev_status": "완료",
     "sale_rate": 19.79,
     "total_companies": 5,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "전남광주통합특별시 장흥군 부산면 금자리 1175"
   },
   {
     "id": 1001,
@@ -29763,7 +30305,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 44,
-    "operating_companies": 40
+    "operating_companies": 40,
+    "address": "전남광주통합특별시 함평군 해보면 용산리 1240-7"
   },
   {
     "id": 1002,
@@ -30027,7 +30570,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 48,
-    "operating_companies": 46
+    "operating_companies": 46,
+    "address": "전남광주통합특별시 담양군 담양읍 삼만리 1029-4"
   },
   {
     "id": 1011,
@@ -30110,7 +30654,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "전남광주통합특별시 화순군 능주면 원지리 526-1"
   },
   {
     "id": 1014,
@@ -30136,7 +30681,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 여수시 화양면 옥적리 47-4"
   },
   {
     "id": 1015,
@@ -30279,7 +30825,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 23,
-    "operating_companies": 22
+    "operating_companies": 22,
+    "address": "전남광주통합특별시 강진군 칠량면 송로리 1191"
   },
   {
     "id": 1020,
@@ -30335,7 +30882,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 영광군 묘량면 신천리 1368"
   },
   {
     "id": 1022,
@@ -30504,7 +31052,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 구미시 옥계동 936"
   },
   {
     "id": 1028,
@@ -30530,7 +31079,8 @@
     "dev_status": "완료",
     "sale_rate": 66.15,
     "total_companies": 24,
-    "operating_companies": 23
+    "operating_companies": 23,
+    "address": "경상북도 구미시 산동읍 봉산리 567-1"
   },
   {
     "id": 1029,
@@ -30595,7 +31145,8 @@
     "dev_status": "조성중",
     "sale_rate": 99.04,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 구미시 해평면 금산리 산 23-1"
   },
   {
     "id": 1031,
@@ -30666,7 +31217,8 @@
     "dev_status": "조성중",
     "sale_rate": 62.79,
     "total_companies": 41,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "경상북도 포항시 남구 동해면 공당리 1012"
   },
   {
     "id": 1033,
@@ -30722,7 +31274,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 194,
-    "operating_companies": 166
+    "operating_companies": 166,
+    "address": "경상북도 경산시 진량읍 공단6로24길 21 (진량어린이집)"
   },
   {
     "id": 1035,
@@ -30748,7 +31301,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 105,
-    "operating_companies": 97
+    "operating_companies": 97,
+    "address": "경상북도 경산시 자인면 자인공단2로4길 15"
   },
   {
     "id": 1036,
@@ -30873,7 +31427,8 @@
     "dev_status": "완료",
     "sale_rate": 32.81,
     "total_companies": 2,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상북도 경주시 내남면 명계리 1835"
   },
   {
     "id": 1040,
@@ -30905,7 +31460,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 26,
-    "operating_companies": 26
+    "operating_companies": 26,
+    "address": "경상북도 경주시 외동읍 문산리 992"
   },
   {
     "id": 1041,
@@ -31027,7 +31583,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 39,
-    "operating_companies": 39
+    "operating_companies": 39,
+    "address": "경상북도 경주시 외동읍 문산리 916"
   },
   {
     "id": 1045,
@@ -31059,7 +31616,8 @@
     "dev_status": "조성중",
     "sale_rate": 97.72,
     "total_companies": 117,
-    "operating_companies": 116
+    "operating_companies": 116,
+    "address": "경상북도 경주시 천북면 오야리 1381-3"
   },
   {
     "id": 1046,
@@ -31155,7 +31713,8 @@
     "dev_status": "완료",
     "sale_rate": 97.71,
     "total_companies": 9,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상북도 상주시 청리면 마공리 1236"
   },
   {
     "id": 1049,
@@ -31183,7 +31742,8 @@
     "dev_status": "완료",
     "sale_rate": 96.86,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경상북도 상주시 은척면 남곡리 675"
   },
   {
     "id": 1050,
@@ -31215,7 +31775,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 39,
-    "operating_companies": 33
+    "operating_companies": 33,
+    "address": "경상북도 안동시 풍산읍 괴정리 1010"
   },
   {
     "id": 1051,
@@ -31241,7 +31802,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 포항시 북구 청하면 신흥리 478-5"
   },
   {
     "id": 1052,
@@ -31273,7 +31835,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "경상북도 포항시 북구 흥해읍 해안로 1111 (강림중공업)"
   },
   {
     "id": 1053,
@@ -31299,7 +31862,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 98,
-    "operating_companies": 83
+    "operating_companies": 83,
+    "address": "경상북도 포항시 남구 대송면 송덕로126번길 19 (삼정철강(주))"
   },
   {
     "id": 1054,
@@ -31427,7 +31991,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경상북도 영주시 장수면 두전리 1141-12"
   },
   {
     "id": 1058,
@@ -31459,7 +32024,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 53,
-    "operating_companies": 53
+    "operating_companies": 53,
+    "address": "경상북도 영주시 봉현면 대촌리 418-7"
   },
   {
     "id": 1059,
@@ -31517,7 +32083,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 284,
-    "operating_companies": 267
+    "operating_companies": 267,
+    "address": "경상북도 칠곡군 왜관읍 공단로5길 59-31"
   },
   {
     "id": 1061,
@@ -31543,7 +32110,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 93,
-    "operating_companies": 87
+    "operating_companies": 87,
+    "address": "경상북도 칠곡군 왜관읍 낙산리 산 103"
   },
   {
     "id": 1062,
@@ -31569,7 +32137,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 51,
-    "operating_companies": 50
+    "operating_companies": 50,
+    "address": "경상북도 칠곡군 왜관읍 3산업단지3길 53"
   },
   {
     "id": 1063,
@@ -31601,7 +32170,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "경상북도 영주시 상줄동 716"
   },
   {
     "id": 1064,
@@ -31633,7 +32203,8 @@
     "dev_status": "조성중",
     "sale_rate": 79.02,
     "total_companies": 10,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상북도 포항시 남구 오천읍 광명리 산 72-1"
   },
   {
     "id": 1065,
@@ -31663,7 +32234,8 @@
     "dev_status": "완료",
     "sale_rate": 55.48,
     "total_companies": 5,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경상북도 포항시 북구 흥해읍 해안로1106번길 54"
   },
   {
     "id": 1066,
@@ -31695,7 +32267,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상북도 포항시 북구 흥해읍 용한리 944"
   },
   {
     "id": 1067,
@@ -31727,7 +32300,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 43,
-    "operating_companies": 43
+    "operating_companies": 43,
+    "address": "경상북도 경주시 외동읍 모화리 1804"
   },
   {
     "id": 1068,
@@ -31753,7 +32327,8 @@
     "dev_status": "완료",
     "sale_rate": 93.34,
     "total_companies": 75,
-    "operating_companies": 45
+    "operating_companies": 45,
+    "address": "경상북도 경산시 진량읍 신제리 753"
   },
   {
     "id": 1069,
@@ -31785,7 +32360,8 @@
     "dev_status": "완료",
     "sale_rate": 87.13,
     "total_companies": 5,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경상북도 영주시 장수면 갈산리 1086"
   },
   {
     "id": 1070,
@@ -31817,7 +32393,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "경상북도 포항시 북구 흥해읍 죽천리 700-1"
   },
   {
     "id": 1071,
@@ -31869,7 +32446,8 @@
     "dev_status": "조성중",
     "sale_rate": 97.96,
     "total_companies": 4,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상북도 경주시 외동읍 제내리 908-25"
   },
   {
     "id": 1073,
@@ -31898,7 +32476,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상북도 경주시 양남면 동남로 167-42 ((주)세진)"
   },
   {
     "id": 1074,
@@ -31924,7 +32503,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 44,
-    "operating_companies": 32
+    "operating_companies": 32,
+    "address": "경상북도 경주시 외동읍 구어리 1409-4"
   },
   {
     "id": 1075,
@@ -31956,7 +32536,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상북도 경주시 건천읍 용명리 1216-10"
   },
   {
     "id": 1076,
@@ -31988,7 +32569,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "경상북도 칠곡군 지천면 연화리 1027"
   },
   {
     "id": 1077,
@@ -32014,7 +32596,8 @@
     "dev_status": "조성중",
     "sale_rate": 12.96,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상북도 경주시 천북면 화산리 산 184"
   },
   {
     "id": 1078,
@@ -32046,7 +32629,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "경상북도 경주시 외동읍 녹동리 108-3"
   },
   {
     "id": 1079,
@@ -32072,7 +32656,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 봉화군 석포면 석포리 산 31-8"
   },
   {
     "id": 1080,
@@ -32098,7 +32683,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 27,
-    "operating_companies": 27
+    "operating_companies": 27,
+    "address": "경상북도 성주군 성주읍 학산리 915"
   },
   {
     "id": 1081,
@@ -32124,7 +32710,8 @@
     "dev_status": "조성중",
     "sale_rate": 69.77,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 경주시 양남면 나아리 산 71-1"
   },
   {
     "id": 1082,
@@ -32150,7 +32737,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 경주시 외동읍 제내리 692-11"
   },
   {
     "id": 1083,
@@ -32182,7 +32770,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 포항시 남구 연일읍 우복리 산 35"
   },
   {
     "id": 1084,
@@ -32208,7 +32797,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상북도 경주시 외동읍 석계리 2074"
   },
   {
     "id": 1085,
@@ -32292,7 +32882,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 경주시 양남면 신서리 산 183-1"
   },
   {
     "id": 1088,
@@ -32318,7 +32909,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 고령군 개진면 직리 산 156-2"
   },
   {
     "id": 1089,
@@ -32376,7 +32968,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상북도 문경시 유곡동 704"
   },
   {
     "id": 1091,
@@ -32460,7 +33053,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 13,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경상북도 안동시 풍산읍 매곡리 1181"
   },
   {
     "id": 1094,
@@ -32486,7 +33080,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 경주시 건천읍 용명리 산 164-1"
   },
   {
     "id": 1095,
@@ -32518,7 +33113,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경상북도 경주시 내남면 명계리 1906"
   },
   {
     "id": 1096,
@@ -32544,7 +33140,8 @@
     "dev_status": "완료",
     "sale_rate": 84.38,
     "total_companies": 28,
-    "operating_companies": 28
+    "operating_companies": 28,
+    "address": "경상북도 김천시 어모면 산업단지5로 60"
   },
   {
     "id": 1097,
@@ -32570,7 +33167,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 경주시 건천읍 대곡리 산 31-1"
   },
   {
     "id": 1098,
@@ -32752,7 +33350,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 고령군 다산면 송곡리 산 10-1"
   },
   {
     "id": 1105,
@@ -32784,7 +33383,8 @@
     "dev_status": "완료",
     "sale_rate": 63.29,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경상북도 상주시 헌신산단로 127 (헌신동)"
   },
   {
     "id": 1106,
@@ -32810,7 +33410,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 경주시 외동읍 냉천리 산 8-12"
   },
   {
     "id": 1107,
@@ -32862,7 +33463,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 영천시 대창면 대창리 913"
   },
   {
     "id": 1109,
@@ -32916,7 +33518,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 영천시 금호읍 삼호리 산 21-12"
   },
   {
     "id": 1111,
@@ -32942,7 +33545,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 의성군 의성읍 철파리 437-49"
   },
   {
     "id": 1112,
@@ -33156,7 +33760,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "경상북도 경주시 건천읍 신평리 94-6"
   },
   {
     "id": 1120,
@@ -33186,7 +33791,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경상북도 경주시 내남면 노곡리 1023"
   },
   {
     "id": 1121,
@@ -33218,7 +33824,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "경상북도 경주시 서면 아화리 210-8"
   },
   {
     "id": 1122,
@@ -33250,7 +33857,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 13,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "경상북도 경주시 안강읍 갑산리 590-4"
   },
   {
     "id": 1123,
@@ -33314,7 +33922,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 47,
-    "operating_companies": 44
+    "operating_companies": 44,
+    "address": "경상북도 구미시 고아읍 오로리 60-23"
   },
   {
     "id": 1125,
@@ -33346,7 +33955,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "경상북도 구미시 산동읍 동곡리 683"
   },
   {
     "id": 1126,
@@ -33378,7 +33988,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "경상북도 구미시 해평면 월호3길 73"
   },
   {
     "id": 1127,
@@ -33410,7 +34021,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "경상북도 김천시 감문면 보광리 387"
   },
   {
     "id": 1128,
@@ -33442,7 +34054,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 33,
-    "operating_companies": 33
+    "operating_companies": 33,
+    "address": "경상북도 김천시 공단로 103-19 (대광동)"
   },
   {
     "id": 1129,
@@ -33474,7 +34087,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 32,
-    "operating_companies": 32
+    "operating_companies": 32,
+    "address": "경상북도 김천시 아포읍 인리 1250"
   },
   {
     "id": 1130,
@@ -33505,7 +34119,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경상북도 김천시 지례면 도곡리 55-4"
   },
   {
     "id": 1131,
@@ -33537,7 +34152,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "경상북도 문경시 가은읍 왕능리 614"
   },
   {
     "id": 1132,
@@ -33601,7 +34217,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "경상북도 문경시 마성면 오천리 905"
   },
   {
     "id": 1134,
@@ -33665,7 +34282,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경상북도 문경시 영순면 율곡리 1097"
   },
   {
     "id": 1136,
@@ -33729,7 +34347,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "경상북도 상주시 공성면 평천리 1086"
   },
   {
     "id": 1138,
@@ -33761,7 +34380,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 27,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "경상북도 상주시 헌신공단길 41 (헌신동)"
   },
   {
     "id": 1139,
@@ -33793,7 +34413,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "경상북도 상주시 함창읍 오동리 411"
   },
   {
     "id": 1140,
@@ -33857,7 +34478,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경상북도 상주시 화동면 신촌유계길 72-3"
   },
   {
     "id": 1142,
@@ -33889,7 +34511,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경상북도 상주시 화서면 상용리 28"
   },
   {
     "id": 1143,
@@ -33951,7 +34574,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "경상북도 안동시 남선면 농공단지길 17"
   },
   {
     "id": 1145,
@@ -33983,7 +34607,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 39,
-    "operating_companies": 39
+    "operating_companies": 39,
+    "address": "경상북도 안동시 남후면 농공길 36-7"
   },
   {
     "id": 1146,
@@ -34047,7 +34672,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "경상북도 영주시 문수면 권선리 836"
   },
   {
     "id": 1148,
@@ -34111,7 +34737,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 25,
-    "operating_companies": 25
+    "operating_companies": 25,
+    "address": "경상북도 영주시 봉현면 오현리 27-7"
   },
   {
     "id": 1150,
@@ -34171,7 +34798,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상북도 영주시 적서공단로 23 (적서동)"
   },
   {
     "id": 1152,
@@ -34265,7 +34893,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "경상북도 영천시 도남동 201"
   },
   {
     "id": 1155,
@@ -34329,7 +34958,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "경상북도 영천시 북안면 북안공단길 20"
   },
   {
     "id": 1157,
@@ -34393,7 +35023,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 25,
-    "operating_companies": 24
+    "operating_companies": 24,
+    "address": "경상북도 포항시 북구 청하면 하대리 559-10"
   },
   {
     "id": 1159,
@@ -34457,7 +35088,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 46,
-    "operating_companies": 40
+    "operating_companies": 40,
+    "address": "경상북도 고령군 쌍림면 고곡리 209-6"
   },
   {
     "id": 1161,
@@ -34489,7 +35121,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "경상북도 봉화군 봉화읍 거촌리 774"
   },
   {
     "id": 1162,
@@ -34553,7 +35186,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "경상북도 성주군 선남면 선남농공단지길 34 (동신섬유)"
   },
   {
     "id": 1164,
@@ -34649,7 +35283,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "경상북도 영덕군 영덕읍 남산리 551-7"
   },
   {
     "id": 1167,
@@ -34681,7 +35316,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "경상북도 예천군 예천읍 지내리 311-7"
   },
   {
     "id": 1168,
@@ -34713,7 +35349,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "경상북도 울진군 울진읍 온양리 534"
   },
   {
     "id": 1169,
@@ -34745,7 +35382,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 18,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "경상북도 의성군 다인면 가원리 133-9"
   },
   {
     "id": 1170,
@@ -34777,7 +35415,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 23,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "경상북도 의성군 봉양면 도원리 1053"
   },
   {
     "id": 1171,
@@ -34809,7 +35448,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 23,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "경상북도 의성군 의성읍 용연1길 30-11"
   },
   {
     "id": 1172,
@@ -34841,7 +35481,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "경상북도 의성군 단밀면 낙정리 839"
   },
   {
     "id": 1173,
@@ -34873,7 +35514,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "경상북도 청도군 청도읍 월곡리 300-5"
   },
   {
     "id": 1174,
@@ -34905,7 +35547,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 27,
-    "operating_companies": 25
+    "operating_companies": 25,
+    "address": "경상북도 청도군 풍각면 봉기리 1136"
   },
   {
     "id": 1175,
@@ -34937,7 +35580,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 23,
-    "operating_companies": 23
+    "operating_companies": 23,
+    "address": "경상북도 칠곡군 기산면 영리 315"
   },
   {
     "id": 1176,
@@ -35001,7 +35645,8 @@
     "dev_status": "완료",
     "sale_rate": 83.87,
     "total_companies": 24,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "경상북도 울진군 평해읍 평해리 1466-1"
   },
   {
     "id": 1178,
@@ -35033,7 +35678,8 @@
     "dev_status": "완료",
     "sale_rate": 59.4,
     "total_companies": 13,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "경상북도 봉화군 봉화읍 유곡리 1106-3"
   },
   {
     "id": 1179,
@@ -35191,7 +35837,8 @@
     "dev_status": "완료",
     "sale_rate": 78.57,
     "total_companies": 4,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경상북도 영양군 입암면 청기로 367-20"
   },
   {
     "id": 1184,
@@ -35335,7 +35982,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 거제시 장평동 1232"
   },
   {
     "id": 1189,
@@ -35361,7 +36009,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 거제시 일운면 지세포리 51-3"
   },
   {
     "id": 1190,
@@ -35477,7 +36126,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경상남도 창원시 진해구 제덕동 538"
   },
   {
     "id": 1194,
@@ -35615,7 +36265,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경상남도 거제시 연초면 오비리 1211"
   },
   {
     "id": 1199,
@@ -35679,7 +36330,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 35
+    "operating_companies": 35,
+    "address": "경상남도 김해시 주촌면 덕암리 784"
   },
   {
     "id": 1201,
@@ -35743,7 +36395,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 20,
-    "operating_companies": 20
+    "operating_companies": 20,
+    "address": "경상남도 김해시 진영읍 본산로 153-20"
   },
   {
     "id": 1203,
@@ -35775,7 +36428,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 46,
-    "operating_companies": 46
+    "operating_companies": 46,
+    "address": "경상남도 밀양시 부북면 사포산단1길 77"
   },
   {
     "id": 1204,
@@ -35807,7 +36461,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 23,
-    "operating_companies": 23
+    "operating_companies": 23,
+    "address": "경상남도 밀양시 삼랑진읍 용전리 988-25"
   },
   {
     "id": 1205,
@@ -35865,7 +36520,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 사천시 곤양면 흥사리 산 118"
   },
   {
     "id": 1207,
@@ -35897,7 +36553,8 @@
     "dev_status": "완료",
     "sale_rate": 95.02,
     "total_companies": 34,
-    "operating_companies": 34
+    "operating_companies": 34,
+    "address": "경상남도 양산시 그린공단3길 30 (매곡동)"
   },
   {
     "id": 1208,
@@ -35961,7 +36618,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 216,
-    "operating_companies": 216
+    "operating_companies": 216,
+    "address": "경상남도 양산시 호계동 793-49"
   },
   {
     "id": 1210,
@@ -35993,7 +36651,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 163,
-    "operating_companies": 163
+    "operating_companies": 163,
+    "address": "경상남도 양산시 어곡동 923"
   },
   {
     "id": 1211,
@@ -36057,7 +36716,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 100,
-    "operating_companies": 100
+    "operating_companies": 100,
+    "address": "경상남도 진주시 정촌면 예하리 1298-1"
   },
   {
     "id": 1213,
@@ -36089,7 +36749,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 440,
-    "operating_companies": 440
+    "operating_companies": 440,
+    "address": "경상남도 진주시 공단로139번길 17-2 (상평동)"
   },
   {
     "id": 1214,
@@ -36205,7 +36866,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 46,
-    "operating_companies": 43
+    "operating_companies": 43,
+    "address": "경상남도 거창군 남상면 대산리 1565-6"
   },
   {
     "id": 1218,
@@ -36233,7 +36895,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 고성군 동해면 내산리 산 76-1"
   },
   {
     "id": 1219,
@@ -36262,7 +36925,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 고성군 동해면 용정리 1294"
   },
   {
     "id": 1220,
@@ -36293,7 +36957,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 고성군 고성읍 대독산업로 83-12"
   },
   {
     "id": 1221,
@@ -36353,7 +37018,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 고성군 동해면 장좌리 145-13"
   },
   {
     "id": 1223,
@@ -36385,7 +37051,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경상남도 산청군 금서면 매촌리 1367"
   },
   {
     "id": 1224,
@@ -36445,7 +37112,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 창녕군 대합면 대동월포로 291"
   },
   {
     "id": 1226,
@@ -36505,7 +37173,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 창녕군 고암면 억만리 1599"
   },
   {
     "id": 1228,
@@ -36557,7 +37226,8 @@
     "dev_status": "조성중",
     "sale_rate": 12.13,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 하동군 금남면 대송리 912"
   },
   {
     "id": 1230,
@@ -36589,7 +37259,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상남도 함안군 군북면 월촌리 2044"
   },
   {
     "id": 1231,
@@ -36621,7 +37292,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "경상남도 함안군 법수면 우거리 1027"
   },
   {
     "id": 1232,
@@ -36653,7 +37325,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 104,
-    "operating_companies": 104
+    "operating_companies": 104,
+    "address": "경상남도 함안군 칠서면 대치리 353-2"
   },
   {
     "id": 1233,
@@ -36685,7 +37358,8 @@
     "dev_status": "완료",
     "sale_rate": 90.2,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경상남도 함양군 수동면 우명리 91"
   },
   {
     "id": 1234,
@@ -36747,7 +37421,8 @@
     "dev_status": "완료",
     "sale_rate": 95.1,
     "total_companies": 31,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "경상남도 함안군 대산면 대사리 1363"
   },
   {
     "id": 1236,
@@ -36805,7 +37480,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 20,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "경상남도 함안군 법수면 강주리 1409-2"
   },
   {
     "id": 1238,
@@ -36837,7 +37513,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 39,
-    "operating_companies": 39
+    "operating_companies": 39,
+    "address": "경상남도 창원시 성산구 성주동 550"
   },
   {
     "id": 1239,
@@ -36869,7 +37546,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "경상남도 창원시 마산회원구 내서읍 용담리 842-4"
   },
   {
     "id": 1240,
@@ -36897,7 +37575,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 창원시 마산합포구 진전면 평암리 1879"
   },
   {
     "id": 1241,
@@ -36987,7 +37666,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 114,
-    "operating_companies": 114
+    "operating_companies": 114,
+    "address": "경상남도 창원시 진해구 남양동 362"
   },
   {
     "id": 1244,
@@ -37117,7 +37797,8 @@
     "dev_status": "조성중",
     "sale_rate": 60.26,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 김해시 생림면 나전리 산 213-12"
   },
   {
     "id": 1248,
@@ -37145,7 +37826,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경상남도 진주시 지수면 압사리 1634"
   },
   {
     "id": 1249,
@@ -37177,7 +37859,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 21,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "경상남도 김해시 진영읍 하계리 795"
   },
   {
     "id": 1250,
@@ -37241,7 +37924,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 거제시 연초면 한내리 848-79"
   },
   {
     "id": 1252,
@@ -37304,7 +37988,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "경상남도 창원시 성산구 신촌동 506-3"
   },
   {
     "id": 1254,
@@ -37336,7 +38021,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경상남도 사천시 축동면 사다리 1256"
   },
   {
     "id": 1255,
@@ -37400,7 +38086,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 함안군 군북면 장지리 1416"
   },
   {
     "id": 1257,
@@ -37432,7 +38119,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 388,
-    "operating_companies": 388
+    "operating_companies": 388,
+    "address": "경상남도 김해시 진례면 테크노밸리로 78-13"
   },
   {
     "id": 1258,
@@ -37458,7 +38146,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 의령군 대의면 추산리 산 93-5"
   },
   {
     "id": 1259,
@@ -37490,7 +38179,8 @@
     "dev_status": "완료",
     "sale_rate": 92.78,
     "total_companies": 43,
-    "operating_companies": 43
+    "operating_companies": 43,
+    "address": "경상남도 김해시 서김해산단로 63-9 (풍유동)"
   },
   {
     "id": 1260,
@@ -37574,7 +38264,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경상남도 김해시 주촌면 덕암리 996"
   },
   {
     "id": 1263,
@@ -37600,7 +38291,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 김해시 주촌면 덕암리 765-1"
   },
   {
     "id": 1264,
@@ -37632,7 +38324,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 김해시 한림면 명동리 산 140"
   },
   {
     "id": 1265,
@@ -37664,7 +38357,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경상남도 함안군 칠북면 영동리 926-1"
   },
   {
     "id": 1266,
@@ -37696,7 +38390,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "경상남도 김해시 한림면 신천리 990"
   },
   {
     "id": 1267,
@@ -37727,7 +38422,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 함안군 가야읍 사내리 1258"
   },
   {
     "id": 1268,
@@ -37756,7 +38452,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "경상남도 사천시 용현면 종포산단로 160"
   },
   {
     "id": 1269,
@@ -37782,7 +38479,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 양산시 어곡동 산 93-4"
   },
   {
     "id": 1270,
@@ -37843,7 +38541,8 @@
     "dev_status": "완료",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 함안군 칠북면 가연리 1283"
   },
   {
     "id": 1272,
@@ -37869,7 +38568,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 거제시 연초면 오비리 산 4"
   },
   {
     "id": 1273,
@@ -37901,7 +38601,8 @@
     "dev_status": "완료",
     "sale_rate": 85.29,
     "total_companies": 75,
-    "operating_companies": 75
+    "operating_companies": 75,
+    "address": "경상남도 창원시 의창구 북면 화천리 914-1"
   },
   {
     "id": 1274,
@@ -37933,7 +38634,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 49,
-    "operating_companies": 49
+    "operating_companies": 49,
+    "address": "경상남도 양산시 주남산단3로 6 (주남동)"
   },
   {
     "id": 1275,
@@ -37991,7 +38693,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 창원시 진해구 안골동 산 153"
   },
   {
     "id": 1277,
@@ -38017,7 +38720,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 거제시 하청면 덕곡리 832"
   },
   {
     "id": 1278,
@@ -38075,7 +38779,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 통영시 도산면 법송리 1403"
   },
   {
     "id": 1280,
@@ -38103,7 +38808,8 @@
     "dev_status": "완료",
     "sale_rate": 73.77,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 고성군 동해면 봉암리 1516"
   },
   {
     "id": 1281,
@@ -38129,7 +38835,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 사천시 곤양면 대진리 산 70-4"
   },
   {
     "id": 1282,
@@ -38161,7 +38868,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 함안군 칠북면 화천리 855"
   },
   {
     "id": 1283,
@@ -38219,7 +38927,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 11,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 밀양시 삼랑진읍 우곡리 산 320-4"
   },
   {
     "id": 1285,
@@ -38309,7 +39018,8 @@
     "dev_status": "완료",
     "sale_rate": 41.86,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상남도 창원시 성산구 웅남동 74-2"
   },
   {
     "id": 1288,
@@ -38335,7 +39045,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 72,
-    "operating_companies": 72
+    "operating_companies": 72,
+    "address": "경상남도 진주시 사봉면 산업단지로 72"
   },
   {
     "id": 1289,
@@ -38367,7 +39078,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 38,
-    "operating_companies": 38
+    "operating_companies": 38,
+    "address": "경상남도 김해시 진례면 산본리 1194"
   },
   {
     "id": 1290,
@@ -38393,7 +39105,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 김해시 주촌면 천곡리 1416"
   },
   {
     "id": 1291,
@@ -38419,7 +39132,8 @@
     "dev_status": "완료",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 사천시 사등동 281"
   },
   {
     "id": 1292,
@@ -38445,7 +39159,8 @@
     "dev_status": "완료",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 산청군 금서면 평촌리 979"
   },
   {
     "id": 1293,
@@ -38564,7 +39279,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 창녕군 대합면 대동리 822-4"
   },
   {
     "id": 1297,
@@ -38596,7 +39312,8 @@
     "dev_status": "완료",
     "sale_rate": 93.64,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 김해시 대동면 대동산단2로 192"
   },
   {
     "id": 1298,
@@ -38654,7 +39371,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 함안군 대산면 부목리 산 111-3"
   },
   {
     "id": 1300,
@@ -38764,7 +39482,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 함안군 군북면 유현리 산 30"
   },
   {
     "id": 1304,
@@ -38792,7 +39511,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 사천시 사천읍 용당리 217-2"
   },
   {
     "id": 1305,
@@ -38818,7 +39538,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 창녕군 대합면 이방리 583-1"
   },
   {
     "id": 1306,
@@ -38846,7 +39567,8 @@
     "dev_status": "조성중",
     "sale_rate": 85.51,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 고성군 고성읍 사동길 185"
   },
   {
     "id": 1307,
@@ -38872,7 +39594,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 창원시 마산회원구 내서읍 평성리 368-1"
   },
   {
     "id": 1308,
@@ -39026,7 +39749,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 사천시 곤양면 서정리 871"
   },
   {
     "id": 1313,
@@ -39052,7 +39776,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 거창군 남상면 대산리 산 147"
   },
   {
     "id": 1314,
@@ -39184,7 +39909,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 거제시 연초면 한내리 912"
   },
   {
     "id": 1319,
@@ -39248,7 +39974,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 39,
-    "operating_companies": 39
+    "operating_companies": 39,
+    "address": "경상남도 김해시 주촌면 내삼리 1079-1"
   },
   {
     "id": 1321,
@@ -39342,7 +40069,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경상남도 김해시 생림면 봉림리 산 22"
   },
   {
     "id": 1324,
@@ -39374,7 +40102,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 46,
-    "operating_companies": 46
+    "operating_companies": 46,
+    "address": "경상남도 김해시 한림면 안하리 2002-11"
   },
   {
     "id": 1325,
@@ -39400,7 +40129,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 79,
-    "operating_companies": 79
+    "operating_companies": 79,
+    "address": "경상남도 김해시 진영읍 서부로179번길 39-86"
   },
   {
     "id": 1326,
@@ -39464,7 +40194,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 23,
-    "operating_companies": 23
+    "operating_companies": 23,
+    "address": "경상남도 밀양시 삼랑진읍 미전농공단지길 83"
   },
   {
     "id": 1328,
@@ -39490,7 +40221,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경상남도 밀양시 부북면 춘화로 85"
   },
   {
     "id": 1329,
@@ -39516,7 +40248,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경상남도 밀양시 상남면 연금리 382-5"
   },
   {
     "id": 1330,
@@ -39548,7 +40281,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경상남도 밀양시 부북면 점필재로 229"
   },
   {
     "id": 1331,
@@ -39574,7 +40308,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 44,
-    "operating_companies": 44
+    "operating_companies": 44,
+    "address": "경상남도 밀양시 초동면 초동농공단지길 33"
   },
   {
     "id": 1332,
@@ -39638,7 +40373,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 22,
-    "operating_companies": 22
+    "operating_companies": 22,
+    "address": "경상남도 밀양시 부북면 춘화리 851"
   },
   {
     "id": 1334,
@@ -39670,7 +40406,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "경상남도 사천시 곤양면 서정리 1139-7"
   },
   {
     "id": 1335,
@@ -39702,7 +40439,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 24,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "경상남도 사천시 사천읍 두량리 1678"
   },
   {
     "id": 1336,
@@ -39734,7 +40472,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 46,
-    "operating_companies": 41
+    "operating_companies": 41,
+    "address": "경상남도 사천시 사남면 월성리 410"
   },
   {
     "id": 1337,
@@ -39766,7 +40505,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "경상남도 사천시 송포동 1539-4"
   },
   {
     "id": 1338,
@@ -39798,7 +40538,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "경상남도 사천시 축동면 구호리 934-2"
   },
   {
     "id": 1339,
@@ -39829,7 +40570,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 35
+    "operating_companies": 35,
+    "address": "경상남도 사천시 향촌동 1343"
   },
   {
     "id": 1340,
@@ -39861,7 +40603,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "경상남도 양산시 덕계동 89-4"
   },
   {
     "id": 1341,
@@ -39893,7 +40636,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 17,
-    "operating_companies": 17
+    "operating_companies": 17,
+    "address": "경상남도 진주시 대곡면 대화로 38"
   },
   {
     "id": 1342,
@@ -39925,7 +40669,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 18,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "경상남도 진주시 사봉면 봉곡리 1093"
   },
   {
     "id": 1343,
@@ -39957,7 +40702,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 22,
-    "operating_companies": 22
+    "operating_companies": 22,
+    "address": "경상남도 진주시 문산읍 이곡리 1131"
   },
   {
     "id": 1344,
@@ -40015,7 +40761,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "경상남도 진주시 이반성면 길성리 946"
   },
   {
     "id": 1346,
@@ -40047,7 +40794,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "경상남도 진주시 진성면 상촌리 691"
   },
   {
     "id": 1347,
@@ -40079,7 +40827,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "경상남도 거창군 위천면 화리골길 55 (거창석재소)"
   },
   {
     "id": 1348,
@@ -40111,7 +40860,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "경상남도 거창군 위천면 당산리 207-3"
   },
   {
     "id": 1349,
@@ -40171,7 +40921,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "경상남도 거창군 가조면 석강리 1406"
   },
   {
     "id": 1351,
@@ -40203,7 +40954,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "경상남도 거창군 거창읍 정장리 95-2"
   },
   {
     "id": 1352,
@@ -40266,7 +41018,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "경상남도 고성군 거류면 신용리 1857"
   },
   {
     "id": 1354,
@@ -40298,7 +41051,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경상남도 고성군 고성읍 율대리 1018"
   },
   {
     "id": 1355,
@@ -40362,7 +41116,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경상남도 고성군 회화면 배둔리 71"
   },
   {
     "id": 1357,
@@ -40394,7 +41149,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "경상남도 남해군 고현면 오곡리 196-5"
   },
   {
     "id": 1358,
@@ -40426,7 +41182,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "경상남도 산청군 금서면 친환경로 2484 ((주)구니카판매소)"
   },
   {
     "id": 1359,
@@ -40490,7 +41247,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "경상남도 산청군 산청읍 차탄리 680"
   },
   {
     "id": 1361,
@@ -40522,7 +41280,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 22,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "경상남도 의령군 의령읍 만천리 산 24"
   },
   {
     "id": 1362,
@@ -40554,7 +41313,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 31,
-    "operating_companies": 30
+    "operating_companies": 30,
+    "address": "경상남도 의령군 봉수면 삼가리 77"
   },
   {
     "id": 1363,
@@ -40618,7 +41378,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경상남도 의령군 정곡면 중교리 244"
   },
   {
     "id": 1365,
@@ -40650,7 +41411,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상남도 창녕군 남지읍 학계리 1042-4"
   },
   {
     "id": 1366,
@@ -40682,7 +41444,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "경상남도 창녕군 대지면 본초리 1261"
   },
   {
     "id": 1367,
@@ -40740,7 +41503,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "경상남도 창녕군 영산면 서리 551"
   },
   {
     "id": 1369,
@@ -40766,7 +41530,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경상남도 창녕군 도천면 송진리 868"
   },
   {
     "id": 1370,
@@ -40798,7 +41563,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상남도 하동군 고전면 대덕리 324-15"
   },
   {
     "id": 1371,
@@ -40824,7 +41590,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 하동군 금성면 갈사리 204-1"
   },
   {
     "id": 1372,
@@ -40856,7 +41623,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경상남도 하동군 적량면 동산리 1110"
   },
   {
     "id": 1373,
@@ -40888,7 +41656,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상남도 하동군 진교면 백련리 802"
   },
   {
     "id": 1374,
@@ -40920,7 +41689,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경상남도 함안군 가야읍 남문길 86 ((주)원일함안가야)"
   },
   {
     "id": 1375,
@@ -40982,7 +41752,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경상남도 함안군 군북면 모로리 705-1"
   },
   {
     "id": 1377,
@@ -41014,7 +41785,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 21,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "경상남도 함안군 법수면 윤외공단길 75 (대륭(주))"
   },
   {
     "id": 1378,
@@ -41046,7 +41818,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 22,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "경상남도 함안군 산인면 신산로 39"
   },
   {
     "id": 1379,
@@ -41142,7 +41915,8 @@
     "dev_status": "완료",
     "sale_rate": 97.22,
     "total_companies": 59,
-    "operating_companies": 56
+    "operating_companies": 56,
+    "address": "경상남도 함안군 칠원읍 운서리 1117"
   },
   {
     "id": 1382,
@@ -41174,7 +41948,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 36,
-    "operating_companies": 29
+    "operating_companies": 29,
+    "address": "경상남도 함안군 함안면 파수리 465-4"
   },
   {
     "id": 1383,
@@ -41206,7 +41981,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "경상남도 함안군 법수면 황사공단로 37"
   },
   {
     "id": 1384,
@@ -41294,7 +42070,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경상남도 함양군 수동면 원평리 181"
   },
   {
     "id": 1387,
@@ -41326,7 +42103,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상남도 함양군 함양읍 이은리 387-8"
   },
   {
     "id": 1388,
@@ -41358,7 +42136,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "경상남도 합천군 야로면 매촌리 675-132"
   },
   {
     "id": 1389,
@@ -41390,7 +42169,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 24,
-    "operating_companies": 24
+    "operating_companies": 24,
+    "address": "경상남도 합천군 율곡면 임북리 산 24"
   },
   {
     "id": 1390,
@@ -41422,7 +42202,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경상남도 합천군 적중면 죽고리 888"
   },
   {
     "id": 1391,
@@ -41454,7 +42235,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 밀양시 삼랑진읍 미전리 1087"
   },
   {
     "id": 1392,
@@ -41549,7 +42331,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "경상남도 거창군 남상면 대산리 2402"
   },
   {
     "id": 1395,
@@ -41607,7 +42390,8 @@
     "dev_status": "완료",
     "sale_rate": 73.33,
     "total_companies": 7,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경상남도 산청군 생비량면 화현리 713-1"
   },
   {
     "id": 1397,
@@ -41777,7 +42561,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 21,
-    "operating_companies": 20
+    "operating_companies": 20,
+    "address": "제주특별자치도 제주시 구좌읍 한동리 4849-22"
   },
   {
     "id": 1403,
@@ -41835,7 +42620,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 24,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "제주특별자치도 서귀포시 대정읍 일과리 551-7"
   },
   {
     "id": 1405,
@@ -41867,7 +42653,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 18,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "제주특별자치도 제주시 구좌읍 행원리 542-3"
   },
   {
     "id": 1406,
@@ -41899,6 +42686,7 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "제주특별자치도 제주시 한림읍 금능농공길 50"
   }
 ]

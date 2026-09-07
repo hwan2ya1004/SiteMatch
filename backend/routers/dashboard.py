@@ -196,6 +196,10 @@ def get_parks(db: Session = Depends(get_db)):
             "region": p.region,
             "type": p.type or "",
             "dev_status": p.dev_status or "완료",
+            "address": p.address or "",
+            # 가동률·가용면적·조성상태를 매번 조합 해석하지 않아도 되도록 "입주 가능/불가"로
+            # 정리 — match.py의 move_in_status()와 동일 기준(조성상태 미완료 또는 가용면적 0이면 불가)
+            "move_in_status": "입주 가능" if (p.dev_status or "완료") == "완료" and p.available_area and p.available_area > 0 else "입주 불가",
             "management_org": _management_org(p),
             "vacancy_rate": p.vacancy_rate or 0,
             "available_area": f"{p.available_area:,.0f}㎡" if p.available_area else "0㎡",
@@ -293,6 +297,16 @@ def reply_inquiry(inquiry_id: int, body: InquiryReply, db: Session = Depends(get
 def whoami(role: str = Depends(require_access)):
     """접근 키 검증 + 역할 확인 (프론트엔드 로그인 게이트에서 사용)"""
     return {"role": role}
+
+
+@router.get("/dashboard/vacancy-trend")
+def vacancy_trend(days: int = 30, db: Session = Depends(get_db)):
+    """전체 평균 공실 현황 추이 (일별 스냅샷, services/public_data.py의
+    daily_etl_job이 매일 새벽 2시에 기록). API 장애로 그날 갱신이 안 됐어도
+    직전 값이 그대로 스냅샷에 남아 그래프에 공백이 생기지 않는다."""
+    from services.public_data import PublicDataService
+    svc = PublicDataService()
+    return {"trend": svc.get_vacancy_trend(db, days=days)}
 
 
 @router.get("/dashboard/admin/system-status")

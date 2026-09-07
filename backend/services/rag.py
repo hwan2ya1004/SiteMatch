@@ -30,9 +30,19 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
    언급해도 됩니다). 답변은 질문에 대한 내용으로 끝내세요 — "문의하세요", "확인해드립니다",
    "신청하시면 도와드립니다" 같은 안내·유도성 마무리 문장을 답변 끝에 덧붙이지 마세요. 아는 내용은
    바로 답하고, 모르는 내용은 모른다고 답하면 그걸로 끝입니다.
-5. 그 외 일반적으로 모르는 내용은 추측하지 말고 솔직히 "해당 정보는 없습니다"라고 답하세요
-6. 아래 참고 문서를 활용하여 정확한 정보를 제공하세요
-7. 참고 문서 맨 앞에 "[단지명 실측 데이터]" 블록이 있다면, 그건 SiteMatch DB에서 방금 조회한
+5. 참고 문서에 구체적인 내용(금액·조건·절차 등)이 없는 질문이라도, 무조건 "해당 정보는
+   없습니다"로 끝내지 마세요. 용어의 뜻이나 일반 개념(예: "행정사가 뭐야?", "공장등록이 뭐야?")처럼
+   시간이 지나도 안 바뀌는 정의·개념 수준이면 아는 대로 설명해주고, 그 다음에 "다만 구체적인
+   금액·조건·절차는 확인되지 않았습니다"라고 이어가세요. 정말 아무 실마리도 없는 질문에서만
+   "해당 정보는 없습니다"라고 답하세요.
+6. 5번의 "일반 개념 설명"은 절대로 교통편·경로·요금·시간표·전화번호·주소·거리·날짜처럼 실시간으로
+   바뀌고 사실 확인이 필요한 "운영 정보"에는 적용하지 마세요. 예를 들어 "OO에서 OO산단까지
+   어떻게 가?"처럼 구체적 이동 경로·버스터미널명·요금·소요시간을 묻는 질문에 참고 문서·실측 데이터에
+   없는 답을 그럴듯하게 만들어내면 절대 안 됩니다 — 이런 종류는 100% 사실이거나 100% 지어낸 것 중
+   하나이지 "일반 상식"이 아닙니다. 이 경우 "정확한 교통편 정보는 확인되지 않았습니다. 관리기관
+   또는 지도 서비스에서 확인해보시기 바랍니다"처럼 솔직하게 답하세요.
+7. 아래 참고 문서를 활용하여 정확한 정보를 제공하세요
+8. 참고 문서 맨 앞에 "[단지명 실측 데이터]" 블록이 있다면, 그건 SiteMatch DB에서 방금 조회한
    실제 수치입니다 — 질문한 단지에 대한 답변은 반드시 이 블록의 수치를 그대로 인용하세요.
    이 블록이 없다면, 또는 블록은 있어도 물어본 항목(예: 가동률)이 그 안에 안 적혀 있다면,
    절대로 다른 수치(면적 등)로부터 계산·추정해서 만들어내지 말고 "해당 정보는 없습니다"라고
@@ -71,6 +81,7 @@ _TRAILING_PARTICLES = sorted(
 
 
 _TRAILING_PUNCT = "?!.,~·…\"'()[]{}:;"
+_PARTICLES_SET = set(_TRAILING_PARTICLES)
 
 
 def _strip_trailing_particle(word: str) -> str:
@@ -100,7 +111,14 @@ def _keyword_filter_context(docs_text: str, query: str) -> str:
 
     paragraphs = [p.strip() for p in docs_text.split("\n\n") if p.strip()]
     raw_words = [w.strip(_TRAILING_PUNCT) for w in query.split()]
-    raw_words = [w for w in raw_words if len(w) >= 2 and w not in _STOPWORDS]
+    # "길이 2자 이상"만 키워드로 인정하면 "법"·"세"·"돈"·"땅"처럼 실제 의미 있는 한 글자
+    # 한국어 명사가 통째로 걸러진다 — 실제로 "산업단지 법 알아?"가 "법"이 사라진 채
+    # "산업단지"만 남아 법률 조문 문단을 못 찾고 "해당 정보는 없습니다"로 답한 사례가 있었음.
+    # 1글자 단어는 그 자체가 순수 조사(_PARTICLES_SET)일 때만 제외하고, 나머지는 살린다.
+    raw_words = [
+        w for w in raw_words
+        if w not in _STOPWORDS and (len(w) >= 2 or (len(w) == 1 and w not in _PARTICLES_SET))
+    ]
     # 원형 토큰과 조사 제거 토큰을 모두 후보로 사용 (조사 제거판이 원형과 다를 때만 추가)
     query_words = [
         w for w in dict.fromkeys(raw_words + [_strip_trailing_particle(w) for w in raw_words])
@@ -109,11 +127,24 @@ def _keyword_filter_context(docs_text: str, query: str) -> str:
 
     # 키워드 포함 단락 우선 정렬 (단락 내 공백을 제거한 버전에도 대조해
     # "안산사이언스밸리"(질문) vs "안산 사이언스밸리"(문서) 같은 띄어쓰기 차이도 흡수)
+    #
+    # 제목("[...]")에 걸리면 가중치를 더 준다 — 실제 사고 사례: "산업단지 법 알아?"를 물으면
+    # "법"이 본문 어딘가에 우연히 한 번 인용된("...지원법 제45조") 여러 문단이 전부 동점으로
+    # 묶여, 정작 제목 자체가 "[산업입지 및 개발에 관한 법률]"인 진짜 법률 문단은 파일 뒤쪽에
+    # 있다는 이유만으로 밀려나 컨텍스트 예산 안에 못 들어간 적이 있었다. 제목 매치는 그 문단이
+    # "무엇에 관한 문단인지"를 직접 말해주므로 본문 우연한 언급보다 훨씬 신뢰도 높은 신호다.
+    # "GW" 같은 영문 단지명을 소문자로 물어보면 대소문자 차이로 매칭이 안 되던 버그가
+    # 있었다(_find_mentioned_park에서 실제 확인됨) — 여기도 동일하게 소문자로 비교한다.
+    query_words_lower = [w.lower() for w in query_words]
     scored = []
     for para in paragraphs:
-        para_nospace = para.replace(" ", "")
-        hits = sum(1 for w in query_words if w in para or w.replace(" ", "") in para_nospace)
-        scored.append((hits, para))
+        para_lower = para.lower()
+        para_nospace = para_lower.replace(" ", "")
+        header_end = para.find("]")
+        header = para_lower[: header_end + 1] if para.startswith("[") and header_end != -1 else ""
+        body_hits = sum(1 for w in query_words_lower if w in para_lower or w.replace(" ", "") in para_nospace)
+        header_hits = sum(1 for w in query_words_lower if header and (w in header or w.replace(" ", "") in header.replace(" ", "")))
+        scored.append((body_hits + header_hits * 3, para))
     scored.sort(key=lambda x: x[0], reverse=True)
 
     # 상위 단락들을 합쳐서 반환 (최대 2200자 — 1500자였을 때 신청서류 안내처럼
@@ -157,11 +188,13 @@ class RAGService:
 
     def _find_mentioned_park(self, query: str) -> Optional[Dict]:
         """사용자 질문에 등장한 산업단지를 실제 DB 목록에서 찾는다.
-        여러 개가 걸리면(예: "구미"가 여러 구미 단지명에 다 포함) 가장 이름이 긴(구체적인) 걸 고른다."""
-        q = query.replace(" ", "")
+        여러 개가 걸리면(예: "구미"가 여러 구미 단지명에 다 포함) 가장 이름이 긴(구체적인) 걸 고른다.
+        "GW"(단지명)를 소문자로 "gw"라고 물어보면 못 찾던 버그가 실제로 있었음 — 영문 단지명이
+        꽤 있어서(GW, I-FoodPark 등) 대소문자 구분 없이 비교해야 한다."""
+        q = query.replace(" ", "").lower()
         best = None
         for p in self.parks:
-            name = (p.get("name") or "").replace(" ", "")
+            name = (p.get("name") or "").replace(" ", "").lower()
             if len(name) < 2:
                 continue
             if name in q or q in name:
@@ -176,6 +209,8 @@ class RAGService:
         loc = " ".join(x for x in [park.get("region"), park.get("city")] if x)
         if loc:
             lines.append(f"위치: {loc}")
+        if park.get("address"):
+            lines.append(f"주소: {park['address']}")
         if park.get("type"):
             lines.append(f"유형: {park['type']}")
         dev_status = park.get("dev_status") or "완료"

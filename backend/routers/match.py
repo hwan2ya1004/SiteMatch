@@ -48,6 +48,21 @@ def _josa_i_ga(word: str) -> str:
     return "가"
 
 
+def move_in_status(park: dict) -> str:
+    """가동률·가용면적·조성상태를 사람이 매번 조합해서 해석하지 않아도 되도록,
+    "입주 가능"/"입주 불가" 하나로 정리해서 보여준다 — 가동률(등록기업 중 몇 %가
+    가동중인지)과 가용면적(실제 빈 부지가 있는지)은 서로 다른 지표라 헷갈리기 쉽다는
+    지적을 받고 추가함. 판단 기준은 _apply_availability_penalty(embedding.py)의
+    감점 로직과 동일하다."""
+    dev_status = park.get("dev_status") or "완료"
+    if dev_status != "완료":
+        return "입주 불가"
+    available_area = park.get("available_area")
+    if not available_area or available_area <= 0:
+        return "입주 불가"
+    return "입주 가능"
+
+
 def build_infra_note(park: dict) -> str:
     """단지 유형·업종 기준의 일반적 확인사항. 공단별 실측 인프라 스펙(전력 용량 등)이 아니라
     입지 선정 시 놓치기 쉬운 체크포인트를 안내하는 용도."""
@@ -140,6 +155,8 @@ async def run_match(req: MatchRequest, db: Session = Depends(get_db)):
             "reason": r.get("reason", ""),
             "breakdown": r.get("breakdown", {}),
             "dev_status": park.get("dev_status") or "완료",
+            "address": park.get("address") or "",
+            "move_in_status": move_in_status(park),
             "infra_note": build_infra_note(park),
             "available_area": park.get("available_area", 0),
             "vacancy_rate": park.get("vacancy_rate", 0),

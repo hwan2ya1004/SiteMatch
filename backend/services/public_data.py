@@ -318,31 +318,43 @@ class PublicDataService:
             return json.load(f)
 
     def sync_to_db(self, db_session, year_month: str = None) -> int:
-        """공공데이터를 DB에 동기화"""
+        """공공데이터를 DB에 동기화.
+
+        API가 실패(키 없음·응답 0건)하면 정적 JSON 기본값으로 되돌리지 않고 DB에 이미
+        있는 값(직전 성공 시점의 최신값, 혹은 최초 init 값)을 그대로 둔다 — 예전에는
+        실패해도 매번 내장 JSON 기본값으로 덮어써버려서, API 장애가 나면 오히려
+        "초기 상태로 리셋"되는 문제가 있었다(3-3 리스크 항목 참조, 이번에 수정).
+        성공 여부와 무관하게 매일 스냅샷(VacancySnapshot/ParkVacancySnapshot)을 남겨
+        추이 조회와 장애 시 최종 확인용 이력을 확보한다.
+        """
         from database import IndustrialPark
 
-        # 내장 데이터 로드 (기본 공단 정보)
+        # 내장 데이터 로드 (기본 공단 정보 — 최초 DB 생성 시에만 실질적으로 쓰임)
         parks = self.load_local_data()
         if not parks:
             print("⚠️ 내장 데이터 없음")
             return 0
 
         # 공공데이터 API 수집
+        api_succeeded = False
         if self.api_key:
             stats = self.fetch_all_stats(year_month)
             total_fetched = sum(len(v) for v in stats.values())
             if total_fetched > 0:
                 print(f"✅ 공공데이터 수집 완료: 총 {total_fetched}건")
                 parks = [self._merge_stats_to_park(p, stats) for p in parks]
+                api_succeeded = True
             else:
-                print("⚠️ 공공데이터 API 응답 0건 → 내장 데이터 사용")
+                print("⚠️ 공공데이터 API 응답 0건 → DB 기존값 유지(정적 기본값으로 되돌리지 않음)")
         else:
-            print("⚠️ 공공데이터 API 키 없음 → 내장 데이터만 사용")
+            print("⚠️ 공공데이터 API 키 없음 → DB 기존값 유지(정적 기본값으로 되돌리지 않음)")
 
         updated = 0
-        for p in parks:
-            existing = db_session.query(IndustrialPark).filter_by(name=p["name"]).first()
-            if existing:
+        if api_succeeded:
+            for p in parks:
+                existing = db_session.query(IndustrialPark).filter_by(name=p["name"]).first()
+                if not existing:
+                    continue
                 existing.available_area = p.get("available_area", existing.available_area)
                 existing.vacancy_rate = p.get("vacancy_rate", existing.vacancy_rate)
                 existing.rent_per_sqm = p.get("rent_per_sqm", existing.rent_per_sqm)
@@ -350,10 +362,74 @@ class PublicDataService:
                 if p.get("industries"):
                     existing.industries = json.dumps(p["industries"], ensure_ascii=False)
                 updated += 1
+            db_session.commit()
+
+        # API 성공/실패와 무관하게 오늘자 스냅샷을 남긴다 — 실패한 날은 어제와 같은 값이
+        # 그대로 기록되어(=DB를 안 건드렸으므로) 추이 그래프에 공백이 생기지 않는다.
+        self._save_snapshot(db_session)
+
+        print(f"✅ DB 동기화 완료: {updated}개 공단 업데이트" if api_succeeded
+              else "⚠️ API 실패 — DB 갱신은 건너뛰고 스냅샷만 기록")
+        return updated
+
+    def _save_snapshot(self, db_session) -> None:
+        """오늘자 공실 현황 스냅샷을 기록한다(하루 1회, 같은 날 재실행 시 갱신).
+        VacancySnapshot(전체 평균)과 ParkVacancySnapshot(단지별)에 각각 남긴다."""
+        from database import IndustrialPark, VacancySnapshot, ParkVacancySnapshot
+
+        parks = db_session.query(IndustrialPark).all()
+        if not parks:
+            return
+        today = datetime.now().strftime("%Y-%m-%d")
+
+        total_available = sum(p.available_area or 0 for p in parks)
+        avg_vacancy = sum(p.vacancy_rate or 0 for p in parks) / len(parks)
+
+        snap = db_session.query(VacancySnapshot).filter_by(snapshot_date=today).first()
+        if snap:
+            snap.avg_vacancy_rate = round(avg_vacancy, 1)
+            snap.total_available_area = round(total_available)
+        else:
+            db_session.add(VacancySnapshot(
+                snapshot_date=today,
+                avg_vacancy_rate=round(avg_vacancy, 1),
+                total_available_area=round(total_available),
+            ))
+
+        existing_park_snaps = {
+            s.park_id: s for s in db_session.query(ParkVacancySnapshot)
+            .filter_by(snapshot_date=today).all()
+        }
+        for p in parks:
+            if p.id in existing_park_snaps:
+                existing_park_snaps[p.id].vacancy_rate = p.vacancy_rate
+            else:
+                db_session.add(ParkVacancySnapshot(
+                    park_id=p.id,
+                    snapshot_date=today,
+                    vacancy_rate=p.vacancy_rate,
+                ))
 
         db_session.commit()
-        print(f"✅ DB 동기화 완료: {updated}개 공단 업데이트")
-        return updated
+        print(f"✅ 스냅샷 저장 완료: {today} ({len(parks)}개 단지)")
+
+    def get_vacancy_trend(self, db_session, days: int = 30) -> List[Dict]:
+        """최근 N일 전체 평균 공실 현황 추이 (스냅샷 기반)."""
+        from database import VacancySnapshot
+        rows = (
+            db_session.query(VacancySnapshot)
+            .order_by(VacancySnapshot.snapshot_date.desc())
+            .limit(days)
+            .all()
+        )
+        return [
+            {
+                "date": r.snapshot_date,
+                "avg_vacancy_rate": r.avg_vacancy_rate,
+                "total_available_area": r.total_available_area,
+            }
+            for r in reversed(rows)
+        ]
 
     def get_vacancy_stats(self, db_session) -> Dict:
         """공실 통계 집계"""

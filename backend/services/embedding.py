@@ -334,7 +334,20 @@ class EmbeddingService:
             for p in pool
         ]
         scored.sort(key=lambda x: x[0], reverse=True)
-        return [p for _, p in scored[:MAX_LLM_CANDIDATES]]
+
+        # 키워드 점수만으로 상위 40개를 뽑으면, "지금 입주 가능한"(완료+가용면적>0) 단지가
+        # 소수인 지역·업종 조합에서는 그 단지들이 키워드 매칭이 약하다는 이유로 전부 40위
+        # 밖으로 밀려나 LLM이 아예 보지도 못하는 문제가 실제로 있었다(경기도 217개 중
+        # 입주가능 10개가 후보 40개에서 전부 탈락해, 결과 5개가 전부 입주불가로 나온 사례).
+        # 입주 가능 단지는 키워드 점수와 무관하게 우선 포함시켜서 이 문제를 근본적으로 막는다.
+        available_scored = [(s, p) for s, p in scored if self._is_available(p)]
+        unavailable_scored = [(s, p) for s, p in scored if not self._is_available(p)]
+
+        selected = [p for _, p in available_scored[:MAX_LLM_CANDIDATES]]
+        remaining_slots = MAX_LLM_CANDIDATES - len(selected)
+        if remaining_slots > 0:
+            selected += [p for _, p in unavailable_scored[:remaining_slots]]
+        return selected
 
     def search(self, industry: str, size: str, area: str,
                region: str, budget: str, logistics: str, extra: str,
@@ -373,7 +386,20 @@ class EmbeddingService:
 
         self._apply_availability_penalty(results)
         results.sort(key=lambda x: x["score"], reverse=True)
-        return results[:top_k]
+
+        # 점수만 깎아서 후순위로 미루는 정도로는, 경쟁이 약한 조건(필터가 좁아 후보가
+        # 몇 개 안 남는 경우)에서는 여전히 "지금 못 들어가는" 단지가 상위 5개 안에 들어올
+        # 수 있었다(실사용 중 확인) — 그래서 아예 "입주 가능"한 곳을 먼저 다 채우고,
+        # top_k를 못 채울 만큼 부족할 때만 "입주 불가"인 곳으로 나머지를 보충한다.
+        available = [r for r in results if self._is_available(r["park"])]
+        unavailable = [r for r in results if not self._is_available(r["park"])]
+        return (available + unavailable)[:top_k]
+
+    @staticmethod
+    def _is_available(park: Dict) -> bool:
+        dev_status = park.get("dev_status") or "완료"
+        avail = park.get("available_area")
+        return dev_status == "완료" and bool(avail) and avail > 0
 
     @staticmethod
     def _apply_availability_penalty(results: List[Dict]) -> None:

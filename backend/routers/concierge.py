@@ -12,7 +12,7 @@ MINWON_AGENT_LICENSED=true를 설정하기 전까지는 두 유형 모두 신청
 "확인대행"(단순 전화로 정보만 확인·전달)만 서류 작성·제출이 아니므로 이 제약과 무관.
 """
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Depends
@@ -32,13 +32,27 @@ MINWON_AGENT_LICENSED = os.getenv("MINWON_AGENT_LICENSED", "false").lower() == "
 # ("확인대행"은 자격 불필요한 자체 직원 업무라 이 배분 구조와 무관 — 정규직 급여로 지급)
 PLATFORM_MARGIN_RATIO = 0.30  # SiteMatch 몫. 나머지 70%는 프리랜서 행정사 몫
 
+# 원스톱동행 시간당 단가는 업무시간대냐 아니냐로 갈린다 — 관공서·관리기관 자체가
+# 평일 오전 10시~오후 6시에만 운영되므로 실제 노동시간 대부분은 이 구간에 해당하고,
+# 이동 등으로 이 구간을 벗어난 시간만 낮은 단가가 적용된다.
+BUSINESS_HOUR_START = 10  # 오전 10시
+BUSINESS_HOUR_END = 18    # 오후 6시
+BUSINESS_RATE_WON = 20_000     # 업무시간대(10~18시) 시간당 단가
+AFTER_HOURS_RATE_WON = 10_000  # 그 외 시간대 시간당 단가
+
+# 의뢰 접수(created_at)~완료(completed_at) 시각 차이는 쓰지 않는다 — 산업단지 입주계약
+# 처리기간은 공식 기준 6~10영업일(산업집적법 시행규칙 제34조)이라 그대로 시간 환산하면
+# 수백 시간이 되어버려 시간당 단가와 맞지 않음. 대신 행정사가 실제로 붙어 일한 시작~종료
+# 시각(work_started_at~work_ended_at)만 관리자가 온라인(관리자 대시보드)에서 직접 입력하고,
+# 그 구간이 업무시간대와 겹치는 만큼만 계산한다.
 FEE_NOTE_BY_TYPE = {
     "확인대행": "건당 3만원",
-    # 정액이 아니라 연간 임대료의 1% — 주택(아파트) 임대차 중개보수는 소비자 보호용
-    # 법정 상한요율(0.3~0.9%)이 있지만, 비주택(공장·산업용지) 부동산은 이 캡이 적용되지
-    # 않아 실무상 더 높게 협의되는 경우가 많다. 실제 계약 완료 시 담당자가 임대료를
-    # 확인해 수수료를 계산·기재한다(자동 계산 아님, result 필드에 기록).
-    "원스톱동행": f"연간 임대료의 1%(입주 성사 시 1회, 중형 거래 기준 약 40만원) — SiteMatch {int(PLATFORM_MARGIN_RATIO*100)}% / 행정사 {int((1-PLATFORM_MARGIN_RATIO)*100)}% 배분(가정치)",
+    "원스톱동행": (
+        f"업무시간(10~18시) 시간당 {BUSINESS_RATE_WON:,}원 · 그 외 시간당 {AFTER_HOURS_RATE_WON:,}원 "
+        f"× 실투입시간(관리자가 시작~종료 시각을 온라인으로 직접 기록) — "
+        f"SiteMatch {int(PLATFORM_MARGIN_RATIO*100)}% / 행정사 {int((1-PLATFORM_MARGIN_RATIO)*100)}% 배분(가정치), "
+        "왕복 교통비·식비 등 실비는 별도 정산"
+    ),
     # 팩토리온(factoryon.go.kr)에 실제로 접수하는 행위를 담당자가 대신 수행한다.
     # 팩토리온과 시스템 연동은 없음 — 담당자가 사람 손으로 직접 접수(자동화 아님).
     "민원대행": f"건당 10만원 — SiteMatch {int(PLATFORM_MARGIN_RATIO*100)}% / 행정사 {int((1-PLATFORM_MARGIN_RATIO)*100)}% 배분(가정치)",
@@ -53,6 +67,39 @@ def split_fee(total_fee_krw: float) -> dict:
         "platform_share": platform_share,
         "agent_share": total_fee_krw - platform_share,
     }
+
+
+def split_business_hours(start: datetime, end: datetime) -> tuple:
+    """[start, end) 구간을 날짜별로 나눠 업무시간(10~18시) 안/밖 시간을 각각 합산한다."""
+    if end <= start:
+        return 0.0, 0.0
+    business_seconds = 0.0
+    cur = start
+    while cur < end:
+        day_biz_start = cur.replace(hour=BUSINESS_HOUR_START, minute=0, second=0, microsecond=0)
+        day_biz_end = cur.replace(hour=BUSINESS_HOUR_END, minute=0, second=0, microsecond=0)
+        next_midnight = (cur.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1))
+        seg_end = min(end, next_midnight)
+        overlap_start = max(cur, day_biz_start)
+        overlap_end = min(seg_end, day_biz_end)
+        if overlap_end > overlap_start:
+            business_seconds += (overlap_end - overlap_start).total_seconds()
+        cur = seg_end
+    total_hours = (end - start).total_seconds() / 3600
+    business_hours = business_seconds / 3600
+    after_hours = max(total_hours - business_hours, 0)
+    return round(business_hours, 2), round(after_hours, 2)
+
+
+def calc_onestop_fee(work_started_at: datetime, work_ended_at: datetime) -> dict:
+    """원스톱동행 수수료 = 관리자가 입력한 실제 작업 시작~종료 시각을 업무시간대(10~18시,
+    시간당 2만원)와 그 외(시간당 1만원)로 나눠 계산. 왕복 교통비·식비 등 실비는 별도."""
+    business_hours, after_hours = split_business_hours(work_started_at, work_ended_at)
+    total_fee = round(business_hours * BUSINESS_RATE_WON + after_hours * AFTER_HOURS_RATE_WON)
+    split = split_fee(total_fee)
+    split["hours_business"] = business_hours
+    split["hours_after_hours"] = after_hours
+    return split
 
 # 팩토리온 민원 유형 (산업단지 외/개별입지, 산업단지 내/계획입지) — subsidy_docs.txt의
 # [공장설립·입주 민원 절차 안내] 항목과 동일한 목록. request_type="민원대행"일 때 이 중 하나를 고른다.
@@ -81,6 +128,8 @@ class ConciergeCreate(BaseModel):
 class ConciergeUpdate(BaseModel):
     status: str  # 접수 / 확인중 / 완료
     result: Optional[str] = None
+    work_started_at: Optional[datetime] = None  # request_type="원스톱동행"이고 완료 처리할 때 사용
+    work_ended_at: Optional[datetime] = None
 
 
 @router.get("/concierge/minwon-types")
@@ -123,7 +172,8 @@ def create_concierge_request(body: ConciergeCreate, db: Session = Depends(get_db
     resp = {"id": req.id, "status": req.status, "fee_note": req.fee_note}
     if body.request_type == "민원대행":
         resp["split"] = split_fee(100_000)  # 정액이라 신청 시점에 바로 계산 가능
-    # "원스톱동행"은 실제 임대료를 알아야 총액이 나오므로, 완료 처리 시 운영진이 계산해 result에 기록한다.
+    # "원스톱동행"은 실제 투입 시간을 알아야 총액이 나오므로, 완료 처리 시 관리자가
+    # work_started_at/work_ended_at을 입력하면 그때 자동 계산된다(calc_onestop_fee 참조).
     return resp
 
 
@@ -149,6 +199,11 @@ def list_concierge_requests(status: str = "", db: Session = Depends(get_db)):
                 "status": r.status,
                 "result": r.result,
                 "fee_note": r.fee_note,
+                "work_started_at": r.work_started_at.isoformat() if r.work_started_at else "",
+                "work_ended_at": r.work_ended_at.isoformat() if r.work_ended_at else "",
+                "hours_business": r.hours_business,
+                "hours_after_hours": r.hours_after_hours,
+                "fee_krw": r.fee_krw,
                 "created_at": r.created_at.isoformat() if r.created_at else "",
                 "completed_at": r.completed_at.isoformat() if r.completed_at else "",
             }
@@ -171,7 +226,25 @@ def update_concierge_request(request_id: int, body: ConciergeUpdate, db: Session
     req.status = body.status
     if body.result is not None:
         req.result = body.result.strip()
+    if body.work_started_at is not None:
+        req.work_started_at = body.work_started_at
+    if body.work_ended_at is not None:
+        req.work_ended_at = body.work_ended_at
     if body.status == "완료" and not req.completed_at:
         req.completed_at = datetime.now()
+
+    resp = {"id": req.id, "status": req.status}
+    if (
+        req.request_type == "원스톱동행"
+        and req.status == "완료"
+        and req.work_started_at
+        and req.work_ended_at
+    ):
+        split = calc_onestop_fee(req.work_started_at, req.work_ended_at)
+        req.hours_business = split["hours_business"]
+        req.hours_after_hours = split["hours_after_hours"]
+        req.fee_krw = split["total"]
+        resp["split"] = split
+
     db.commit()
-    return {"id": req.id, "status": req.status}
+    return resp

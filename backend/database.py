@@ -40,6 +40,7 @@ class IndustrialPark(Base):
     website = Column(String(200))
     lat = Column(Float)
     lng = Column(Float)
+    address = Column(String(300))   # 브이월드 좌표->주소 변환(reverse geocoding) 결과, 없으면 null
     updated_at = Column(DateTime, default=datetime.utcnow)
 
 
@@ -102,6 +103,13 @@ class ConciergeRequest(Base):
     fee_note = Column(String(50))  # 예: "건당 3만원", "성공수수료 40만원"
     created_at = Column(DateTime, default=datetime.utcnow)
     completed_at = Column(DateTime)
+    # 원스톱동행 전용 — 관리자가 온라인으로 직접 기록하는 실제 작업 시작~종료 시각과
+    # 그 구간을 업무시간(10~18시)/그 외로 나눈 시간, 계산된 총 수수료 (routers/concierge.py 참조)
+    work_started_at = Column(DateTime)
+    work_ended_at = Column(DateTime)
+    hours_business = Column(Float)
+    hours_after_hours = Column(Float)
+    fee_krw = Column(Integer)
 
 
 class ParkInquiry(Base):
@@ -174,6 +182,7 @@ def init_db():
                     website=p["website"],
                     lat=p["lat"],
                     lng=p["lng"],
+                    address=p.get("address"),
                 )
                 db.add(park)
             db.commit()
