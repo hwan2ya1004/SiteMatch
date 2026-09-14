@@ -209,15 +209,7 @@
     </button>
     <button class="nav-btn" onclick="showPage('gov', this)">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      관공서
-    </button>
-    <button class="nav-btn" onclick="showPage('admin', this)">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>
-      관리자
-    </button>
-    <button class="nav-btn" onclick="showPage('concierge', this)">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      원스톱 안내
+      대시보드
     </button>
   </nav>
   <span class="api-status checking" id="api-status">● 연결 확인 중</span>
@@ -370,19 +362,14 @@
             <div class="quick-item" onclick="quickAsk('창업 기업이 산업단지에 입주할 때 받을 수 있는 혜택은?')">창업 기업 혜택</div>
           </div>
         </div>
-        <div class="sidebar-card">
-          <div class="sidebar-title">관리기관에 직접 확인이 필요하신가요?</div>
-          <div style="font-size:13px;color:var(--text-sub);margin-bottom:10px">전화·서류 확인은 챗봇으로는 어려운 부분입니다. 원스톱 안내에서 확인대행을 신청하시면 담당자가 직접 확인해드립니다.</div>
-          <button class="btn-primary" style="width:100%" onclick="goConcierge()">🛎️ 원스톱 안내로 이동</button>
-        </div>
       </div>
     </div>
   </div>
 
-  <!-- ── 대시보드 (관공서/관리자 공용, 접근 키로 게이트) ── -->
+  <!-- ── 대시보드 (접근 키로 게이트) ── -->
   <div class="page" id="page-dashboard">
     <div class="page-header">
-      <div class="page-title" id="dashboard-title">공실 현황 대시보드</div>
+      <div class="page-title" id="dashboard-title">대시보드</div>
       <div class="page-desc" id="dashboard-desc">전국 산업단지 공실 현황 및 매칭 통계를 실시간으로 모니터링합니다.</div>
     </div>
 
@@ -393,19 +380,10 @@
       </div>
       <button class="match-btn" style="margin-top:10px" onclick="submitDashboardKey()">확인</button>
       <div id="gate-error" style="color:var(--red-text);font-size:13px;margin-top:8px;display:none"></div>
-      <div style="font-size:12px;color:var(--text-sub);margin-top:10px">공단·지자체 담당자용 화면입니다. 접근 키는 서비스 운영자에게 문의하세요.<br>※ 계정 기반 로그인 기능은 아직 없으며, 향후 구현 예정입니다. 지금은 접근 키 하나로 관리자·관공서 역할을 구분하는 임시 방식입니다.</div>
+      <div style="font-size:12px;color:var(--text-sub);margin-top:10px">공단·지자체 담당자용 화면입니다. 접근 키는 서비스 운영자에게 문의하세요.<br>※ 계정 기반 로그인 기능은 아직 없으며, 향후 구현 예정입니다.</div>
     </div>
 
     <div id="dashboard-content" style="display:none">
-    <div id="admin-status-panel" style="display:none;margin-bottom:16px"></div>
-    <div style="margin-top:0;margin-bottom:16px">
-      <div class="table-wrap" id="concierge-panel" style="display:none">
-        <div class="table-header">원스톱 안내 처리 현황 <span style="font-size:11px;color:var(--text-sub);font-weight:400">(관리자 전용 — 고객 회사명·연락처 포함)</span></div>
-        <div id="concierge-list" style="padding:16px 20px">
-          <div style="color:var(--text-sub);font-size:13px">불러오는 중...</div>
-        </div>
-      </div>
-    </div>
     <div class="card" id="parks-filter-section" style="margin-bottom:16px">
       <div class="card-title">산업단지 필터</div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
@@ -430,10 +408,6 @@
           <option value="여유">여유 (15% 미만)</option>
           <option value="보통">보통 (15~25%)</option>
           <option value="주의">주의 (25% 이상)</option>
-        </select>
-        <select id="pf-org" onchange="applyParksFilter()"
-                style="flex:1 1 160px;min-width:140px;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:var(--white)">
-          <option value="">전체 관리기관</option>
         </select>
         <button class="btn-ghost" onclick="resetParksFilter()" style="flex:0 0 auto;padding:9px 14px;white-space:nowrap">초기화</button>
       </div>
@@ -462,69 +436,14 @@
             <th>임대료(월)</th>
             <th>주요 업종</th>
             <th>상태</th>
-            <th id="th-org">관리기관</th>
             <th>이달 문의</th>
           </tr>
         </thead>
         <tbody id="parks-tbody">
-          <tr><td colspan="9" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 로딩 중...</td></tr>
+          <tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 로딩 중...</td></tr>
         </tbody>
       </table>
     </div>
-    </div>
-  </div>
-
-  <!-- ── 원스톱 안내 (확인대행·원스톱 동행 — 사람이 직접 처리하는 프리미엄 서비스) ── -->
-  <div class="page" id="page-concierge">
-    <div class="page-header">
-      <div class="page-title">원스톱 안내</div>
-      <div class="page-desc">사람이 직접 관리기관에 확인하거나 입주 과정을 끝까지 챙겨드리는 유료 서비스입니다. 신청하면 아래 처리 현황에 접수됩니다.</div>
-    </div>
-
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-title">확인대행 · 원스톱 동행 · 민원대행 신청</div>
-      <div class="form-grid">
-        <div class="field">
-          <label>요청 유형 *</label>
-          <select id="cr-type" onchange="onConciergeTypeChange()">
-            <option value="확인대행">확인대행 (건당 3만원) — 관리기관에 직접 확인 후 회신</option>
-            <option value="원스톱동행">원스톱 동행 (업무시간 시간당 2만원 · 그 외 시간당 1만원, 실투입시간 기준) — 문의부터 계약까지 끝까지 동행 [행정사 채용 전까지 비활성]</option>
-            <option value="민원대행">민원대행 (건당 10만원) — 팩토리온 민원(입주계약·업종변경 등) 접수를 담당자가 대신 처리 [행정사 채용 전까지 비활성]</option>
-          </select>
-        </div>
-        <div class="field" id="cr-minwon-field" style="display:none">
-          <label>민원 유형 *</label>
-          <select id="cr-minwon-type">
-            <option value="">불러오는 중...</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>산업단지명 *</label>
-          <input type="text" id="cr-park" placeholder="예: 구미 국가산단">
-        </div>
-        <div class="field">
-          <label>회사명 (선택)</label>
-          <input type="text" id="cr-company" placeholder="예: OO전자">
-        </div>
-        <div class="field">
-          <label>연락처 *</label>
-          <input type="text" id="cr-contact" placeholder="전화 또는 이메일">
-        </div>
-        <div class="field form-full">
-          <label>확인하고 싶은 내용</label>
-          <input type="text" id="cr-message" placeholder="예: 3상 전력 사용 가능 여부, 최근 분양 조건 등">
-        </div>
-      </div>
-      <div style="margin-top:12px;font-size:13px;color:var(--text-sub)">
-        <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
-          <input type="checkbox" id="cr-privacy-agree">
-          <span><a href="javascript:void(0)" onclick="event.preventDefault();openPrivacyModal()" style="color:var(--teal-dark);text-decoration:underline">개인정보처리방침</a>에 동의합니다 (필수)</span>
-        </label>
-      </div>
-      <button class="match-btn" style="margin-top:12px" onclick="submitConciergeRequest()">신청하기</button>
-      <div id="cr-error" style="color:var(--red-text);font-size:13px;margin-top:8px;display:none"></div>
-      <div id="cr-success" style="color:var(--teal-dark);font-size:13px;margin-top:8px;display:none"></div>
-      <div style="font-size:12px;color:var(--text-sub);margin-top:10px">신청 처리 현황은 고객 개인정보가 포함되어 있어 이 화면에는 표시되지 않으며, 운영진이 관리자 화면에서 별도로 확인합니다.</div>
     </div>
   </div>
 
@@ -545,61 +464,29 @@
   </div>
 </footer>
 
-<div id="privacy-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,20,0.45);z-index:210;align-items:center;justify-content:center">
-  <div class="card" style="width:100%;max-width:520px;margin:0;max-height:80vh;overflow-y:auto">
-    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
-      <span>개인정보처리방침</span>
-      <button onclick="closePrivacyModal()" style="border:none;background:none;cursor:pointer;font-size:18px;color:var(--text-sub);line-height:1">×</button>
-    </div>
-    <div style="font-size:13px;color:var(--text-main);line-height:1.7">
-      <p>서희연구소(이하 "회사")는 확인대행·원스톱동행·민원대행 서비스 신청 처리를 위해 아래와 같이 개인정보를 처리합니다.</p>
-      <p><b>1. 수집 항목</b><br>회사명(선택), 연락처(필수), 산업단지명, 요청 유형, 문의 내용</p>
-      <p><b>2. 수집 목적</b><br>확인대행·원스톱동행·민원대행 신청 접수 및 처리 결과 회신</p>
-      <p><b>3. 보유 및 이용 기간</b><br>요청 처리 완료 후 1년간 보관 후 파기. 단, 관계 법령에 따라 보관 의무가 있는 경우 그 기간 동안 보관</p>
-      <p><b>4. 제3자 제공</b><br>제공하지 않음. 관리기관 확인 시에도 신청자의 개인정보는 전달하지 않고, 담당자가 일반적인 입주 조건만 문의함</p>
-      <p><b>5. 처리위탁(국외 이전)</b><br>서버 호스팅을 위해 Render(미국 소재)에 위탁</p>
-      <p><b>6. 정보주체의 권리</b><br>개인정보 열람·정정·삭제·처리정지를 요청할 수 있으며, 아래 연락처로 문의 가능</p>
-      <p><b>7. 파기 절차</b><br>보유 기간 경과 시 데이터베이스에서 즉시 삭제</p>
-      <p><b>8. 개인정보 보호책임자</b><br>김성환(대표), seohilab@naver.com</p>
-    </div>
-  </div>
-</div>
-
 <script>
 // ── 설정 ──
 const API_BASE = window.location.origin;
 const WS_BASE = window.location.origin.replace('https://', 'wss://').replace('http://', 'ws://');
 
 // ── 페이지 전환 ──
-let dashboardRole = null; // 'gov' | 'admin' — 현재 열려있는 대시보드 탭이 요구하는 최소 권한
+let dashboardRole = null; // 'gov' — 현재 열려있는 대시보드 탭이 요구하는 최소 권한
 function showPage(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const pageId = (id === 'gov' || id === 'admin') ? 'dashboard' : id;
+  const pageId = (id === 'gov') ? 'dashboard' : id;
   document.getElementById('page-' + pageId).classList.add('active');
   btn.classList.add('active');
-  if (id === 'gov' || id === 'admin') {
+  if (id === 'gov') {
     dashboardRole = id;
-    document.getElementById('dashboard-title').textContent = id === 'admin' ? '관리자 대시보드' : '공실 현황 대시보드 (관공서)';
-    document.getElementById('dashboard-desc').textContent = id === 'admin'
-      ? 'SiteMatch 운영진 전용 화면입니다. 전체 산업단지 데이터와 시스템 운영 현황을 관리합니다.'
-      : '전국 산업단지 공실 현황 및 매칭 통계를 실시간으로 모니터링합니다.';
-    // 로그인 기능 미구현 — 지금 단계에서는 키 입력 없이 공개. 관리자 화면의 콘시어지
-    // 처리 큐(회사명·연락처 포함)도 현재는 접근 통제 없이 노출됨 — 로그인 기능 구현 시 반드시 보호 필요.
+    // 로그인 기능 미구현 — 지금 단계에서는 키 입력 없이 공개.
     document.getElementById('dashboard-gate').style.display = 'none';
     document.getElementById('dashboard-content').style.display = 'block';
-    document.getElementById('admin-status-panel').style.display = id === 'admin' ? 'block' : 'none';
-    document.getElementById('concierge-panel').style.display = id === 'admin' ? 'block' : 'none';
-    // 관리기관 필터·컬럼은 관리자 전용 요청이었음 — 관공서 탭에는 노출하지 않는다
-    document.getElementById('pf-org').style.display = id === 'admin' ? '' : 'none';
-    document.getElementById('th-org').style.display = id === 'admin' ? '' : 'none';
     loadDashboard();
-    if (id === 'admin') { loadAdminStatus(); loadConciergeQueue(); }
   }
 }
 
 // ── 대시보드 접근 게이트 (현재 미사용 — 로그인 화면 만들 때 showPage에서 다시 호출) ──
-// 세션 저장소에 역할별로 키를 따로 보관 (관리자 키는 관공서 화면도 열 수 있음)
 function getStoredKey(role) {
   try { return sessionStorage.getItem('accessKey_' + role) || ''; } catch(e) { return ''; }
 }
@@ -610,29 +497,21 @@ function storeKey(role, key) {
 async function checkDashboardGate() {
   const gate = document.getElementById('dashboard-gate');
   const content = document.getElementById('dashboard-content');
-  // 이미 이 화면 권한으로 인증된 키가 세션에 있으면 바로 통과
-  const candidateKeys = dashboardRole === 'admin'
-    ? [getStoredKey('admin')]
-    : [getStoredKey('gov'), getStoredKey('admin')];
-
-  for (const key of candidateKeys) {
-    if (!key) continue;
+  const key = getStoredKey('gov');
+  if (key) {
     const role = await verifyAccessKey(key);
-    if (role && (dashboardRole === 'gov' ? true : role === 'admin')) {
+    if (role) {
       window.dashboardAccessKey = key;
       gate.style.display = 'none';
       content.style.display = 'block';
-      document.getElementById('admin-status-panel').style.display = role === 'admin' ? 'block' : 'none';
-      document.getElementById('concierge-panel').style.display = role === 'admin' ? 'block' : 'none';
       loadDashboard();
-      if (role === 'admin') { loadAdminStatus(); loadConciergeQueue(); }
       return;
     }
   }
   // 인증된 키 없음 — 게이트 표시
   gate.style.display = 'block';
   content.style.display = 'none';
-  document.getElementById('gate-title').textContent = dashboardRole === 'admin' ? '관리자 접근 키를 입력하세요' : '관공서 접근 키를 입력하세요';
+  document.getElementById('gate-title').textContent = '접근 키를 입력하세요';
   document.getElementById('gate-key-input').value = '';
   document.getElementById('gate-error').style.display = 'none';
 }
@@ -651,36 +530,13 @@ async function submitDashboardKey() {
   const errEl = document.getElementById('gate-error');
   if (!key) return;
   const role = await verifyAccessKey(key);
-  const allowed = role && (dashboardRole === 'gov' ? true : role === 'admin');
-  if (!allowed) {
+  if (!role) {
     errEl.textContent = '접근 키가 올바르지 않습니다.';
     errEl.style.display = 'block';
     return;
   }
-  storeKey(role, key);
+  storeKey('gov', key);
   checkDashboardGate();
-}
-
-async function loadAdminStatus() {
-  const el = document.getElementById('admin-status-panel');
-  try {
-    const resp = await fetch(`${API_BASE}/api/dashboard/admin/system-status`, { headers: { 'X-Access-Key': window.dashboardAccessKey || '' } });
-    if (!resp.ok) return;
-    const s = await resp.json();
-    el.innerHTML = `
-      <div class="card" style="margin-bottom:0">
-        <div class="card-title">시스템 운영 현황 (관리자 전용)</div>
-        <div style="font-size:13px;color:var(--text-sub);line-height:1.8">
-          AI 매칭 엔진: <strong style="color:${s.ai_matching_ready?'var(--teal)':'var(--red-text)'}">${s.ai_matching_ready?'정상':'중단'}</strong> &nbsp;|&nbsp;
-          RAG 챗봇: <strong style="color:${s.rag_chatbot_ready?'var(--teal)':'var(--red-text)'}">${s.rag_chatbot_ready?'정상':'중단'}</strong> &nbsp;|&nbsp;
-          Groq 키 설정: <strong>${s.groq_key_set?'예':'아니오'}</strong><br>
-          매칭 모델: <strong>${s.match_model}</strong> &nbsp;|&nbsp;
-          DB: <strong>${s.database}</strong> &nbsp;|&nbsp;
-          전체 공단 수: <strong>${s.total_parks}</strong> &nbsp;|&nbsp;
-          누적 매칭 이력: <strong>${s.total_matches_all_time}건</strong>
-        </div>
-      </div>`;
-  } catch(e) { console.warn('관리자 상태 로드 실패:', e.message); }
 }
 
 // ── API 상태 확인 ── (초록 = 온라인, 빨강 = 오프라인 — 2색으로 단순화)
@@ -809,7 +665,7 @@ function renderResults(results, ind, ar) {
     <div style="background:var(--red-bg);color:var(--red-text);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;line-height:1.6">
       ⚠️ 이 조건에 맞으면서 <strong>지금 실제로 입주 가능한</strong> 산업단지를 찾지 못했습니다.
       아래는 조건이 가장 비슷한 곳을 참고용으로 보여드리는 것이며, 전부 현재는 입주가 어려운 상태(조성 중이거나 가용면적 없음)입니다.
-      조건(지역·예산 등)을 넓혀서 다시 매칭해보시거나, 확인대행으로 최신 공실 여부를 재확인해보세요.
+      조건(지역·예산 등)을 넓혀서 다시 매칭해보세요.
     </div>` : '';
   res.innerHTML = `<div style="font-size:14px;color:var(--text-sub);margin-bottom:16px;display:flex;align-items:center;gap:8px">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -873,7 +729,6 @@ function renderResults(results, ind, ar) {
     </div>` : ''}
     <div class="result-actions">
       <button class="btn-primary" onclick="goChat('${r.name}')">챗봇에서 상세 문의</button>
-      <button class="btn-primary" onclick="goConcierge('${r.name}')">🛎️ 확인 대행 요청</button>
     </div>
   </div>`;
   }).join('');
@@ -890,13 +745,19 @@ function inlineMd(s) {
   // escapeHtml()이 이미 <,>를 엔티티로 바꿔놔서 "&lt;br&gt;" 형태로 남아있다 —
   // 이걸 실제 줄바꿈 태그로 되돌려줘야 표 셀 안에서 제대로 개행된다.
   s = s.replace(/&lt;br\s*\/?&gt;/gi, '<br>');
-  // [텍스트](url) 마크다운 링크 먼저 처리한 뒤, 남은 맨 URL(문서에 그냥 괄호로 적어둔
-  // 다운로드 링크 등)도 클릭 가능하게 자동 링크 처리 — href 속성 안의 URL은 다시
-  // 감싸지 않도록 음의 lookbehind로 제외
+  // [텍스트](url) 마크다운 링크 먼저 처리한 뒤, 남은 맨 URL이나 프로토콜 없이
+  // 적힌 도메인(팩토리온 문서 등에서 "factoryon.go.kr"처럼 https:// 없이 쓰는
+  // 경우가 많음)도 한 번에 클릭 가능한 링크로 바꾼다. 이미 만들어진 <a>...</a>
+  // 블록은 통째로 건너뛰어 중첩 태그가 생기지 않도록 한다.
   s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
     '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-  s = s.replace(/(?<!href=")(https?:\/\/[^\s<)]+)/g,
-    '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+  s = s.replace(
+    /<a\b[^>]*>[\s\S]*?<\/a>|(?:https?:\/\/[^\s<)]+|(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.(?:go\.kr|or\.kr|co\.kr|ac\.kr|ne\.kr|com|net|org|kr)(?:\/[^\s<)]*)?)/g,
+    (m) => {
+      if (m.startsWith('<a')) return m;
+      const href = /^https?:\/\//.test(m) ? m : 'https://' + m;
+      return `<a href="${href}" target="_blank" rel="noopener noreferrer">${m}</a>`;
+    });
   s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   s = s.replace(/__(.+?)__/g, '<strong>$1</strong>');
   s = s.replace(/`([^`]+?)`/g, '<code>$1</code>');
@@ -1016,7 +877,7 @@ let currentBotText = '';
 function handleWsMessage(data) {
   if (data.type === 'start') {
     currentBotText = '';
-    currentBotEl = appendMsg('bot', '<span style="font-size:13px;color:var(--text-sub);margin-right:6px">생각 중입니다…</span><span class="dot"></span><span class="dot"></span><span class="dot"></span>');
+    currentBotEl = appendMsg('bot', '<span style="font-size:13px;color:var(--text-sub);margin-right:6px">질문 분석중...</span><span class="dot"></span><span class="dot"></span><span class="dot"></span>');
     document.getElementById('send-btn').disabled = true;
     isStreaming = true;
   } else if (data.type === 'chunk') {
@@ -1065,7 +926,7 @@ async function sendChat() {
 async function sendChatHttp(msg) {
   // WebSocket 연결 실패 시 HTTP API 사용
   document.getElementById('send-btn').disabled = true;
-  const typingEl = appendMsg('bot', '<span style="font-size:13px;color:var(--text-sub);margin-right:6px">생각 중입니다…</span><span class="dot"></span><span class="dot"></span><span class="dot"></span>');
+  const typingEl = appendMsg('bot', '<span style="font-size:13px;color:var(--text-sub);margin-right:6px">질문 분석중...</span><span class="dot"></span><span class="dot"></span><span class="dot"></span>');
 
   try {
     const resp = await fetch(`${API_BASE}/api/chat`, {
@@ -1111,162 +972,6 @@ function goChat(name) {
 }
 
 // ── 입주 문의 모달 (소비자 → 관공서 대시보드로 접수) ──
-// ── 원스톱 안내 (확인대행 · 원스톱 동행 — 사람이 직접 처리하는 프리미엄 서비스) ──
-function goConcierge(parkName) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-concierge').classList.add('active');
-  document.querySelectorAll('.nav-btn')[4].classList.add('active');
-  if (parkName) document.getElementById('cr-park').value = parkName;
-}
-
-let _minwonTypesLoaded = false;
-
-function onConciergeTypeChange() {
-  const isMinwon = document.getElementById('cr-type').value === '민원대행';
-  document.getElementById('cr-minwon-field').style.display = isMinwon ? 'flex' : 'none';
-  if (isMinwon && !_minwonTypesLoaded) loadMinwonTypes();
-}
-
-async function loadMinwonTypes() {
-  const sel = document.getElementById('cr-minwon-type');
-  try {
-    const resp = await fetch(`${API_BASE}/api/concierge/minwon-types`);
-    const data = await resp.json();
-    sel.innerHTML = '<option value="">선택하세요</option>' +
-      (data.types || []).map(t => `<option value="${t}">${t}</option>`).join('');
-    _minwonTypesLoaded = true;
-  } catch (e) {
-    sel.innerHTML = '<option value="">목록을 불러오지 못했습니다</option>';
-  }
-}
-
-function openPrivacyModal() {
-  document.getElementById('privacy-modal-overlay').style.display = 'flex';
-}
-function closePrivacyModal() {
-  document.getElementById('privacy-modal-overlay').style.display = 'none';
-}
-
-async function submitConciergeRequest() {
-  const type = document.getElementById('cr-type').value;
-  const park = document.getElementById('cr-park').value.trim();
-  const contact = document.getElementById('cr-contact').value.trim();
-  const minwonType = document.getElementById('cr-minwon-type').value;
-  const privacyAgreed = document.getElementById('cr-privacy-agree').checked;
-  const errEl = document.getElementById('cr-error');
-  const okEl = document.getElementById('cr-success');
-  errEl.style.display = 'none';
-  okEl.style.display = 'none';
-
-  if (!park) { errEl.textContent = '산업단지명을 입력해주세요.'; errEl.style.display = 'block'; return; }
-  if (!contact) { errEl.textContent = '연락처를 입력해주세요.'; errEl.style.display = 'block'; return; }
-  if (type === '민원대행' && !minwonType) { errEl.textContent = '민원 유형을 선택해주세요.'; errEl.style.display = 'block'; return; }
-  if (!privacyAgreed) { errEl.textContent = '개인정보처리방침에 동의해주세요.'; errEl.style.display = 'block'; return; }
-
-  try {
-    const resp = await fetch(`${API_BASE}/api/concierge`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        request_type: type,
-        minwon_type: type === '민원대행' ? minwonType : null,
-        park_name: park,
-        company_name: document.getElementById('cr-company').value.trim(),
-        contact,
-        message: document.getElementById('cr-message').value.trim(),
-      }),
-    });
-    if (!resp.ok) {
-      const data = await resp.json().catch(() => ({}));
-      throw new Error(data.detail || '신청에 실패했습니다.');
-    }
-    const data = await resp.json();
-    okEl.textContent = `접수되었습니다 (${data.fee_note}). 처리 현황에서 진행 상태를 확인하실 수 있습니다.`;
-    okEl.style.display = 'block';
-    document.getElementById('cr-park').value = '';
-    document.getElementById('cr-company').value = '';
-    document.getElementById('cr-contact').value = '';
-    document.getElementById('cr-privacy-agree').checked = false;
-    document.getElementById('cr-message').value = '';
-  } catch (e) {
-    errEl.textContent = e.message;
-    errEl.style.display = 'block';
-  }
-}
-
-// 관리자 대시보드 전용 — checkDashboardGate()에서 admin 인증 후에만 호출됨
-async function loadConciergeQueue() {
-  const el = document.getElementById('concierge-list');
-  try {
-    const resp = await fetch(`${API_BASE}/api/dashboard/concierge`, { headers: dashAuthHeaders() });
-    if (!resp.ok) throw new Error('조회 실패');
-    const data = await resp.json();
-    renderConciergeQueue(data.requests || []);
-  } catch (e) {
-    el.innerHTML = '<div style="color:var(--text-sub);font-size:13px">처리 현황을 불러오지 못했습니다.</div>';
-  }
-}
-
-function renderConciergeQueue(requests) {
-  const el = document.getElementById('concierge-list');
-  if (!requests.length) {
-    el.innerHTML = '<div style="color:var(--text-sub);font-size:13px">접수된 요청이 없습니다.</div>';
-    return;
-  }
-  const statusClass = { '접수': 'mid', '확인중': 'mid', '완료': 'low' };
-  el.innerHTML = requests.map(r => `
-    <div class="recent-item" style="flex-direction:column;align-items:stretch;gap:8px;padding:12px 0;border-bottom:1px solid var(--border)">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
-        <div>
-          <div class="recent-company">${r.park_name} · ${r.request_type}${r.minwon_type ? ' ('+r.minwon_type+')' : ''} <span style="color:var(--text-sub);font-weight:400">(${r.fee_note})</span></div>
-          <div class="recent-detail">${r.company_name} · ${r.contact} · ${r.created_at ? r.created_at.slice(0,10) : ''}</div>
-        </div>
-        <span class="badge ${statusClass[r.status] || 'mid'}">${r.status}</span>
-      </div>
-      ${r.message ? `<div style="font-size:13px;color:var(--text)">요청 내용: ${r.message}</div>` : ''}
-      ${r.result ? `<div style="font-size:12px;color:var(--teal-dark);background:var(--teal-light);border-radius:8px;padding:8px 10px">확인 결과: ${r.result}</div>` : ''}
-      ${r.fee_krw != null ? `<div style="font-size:12px;color:var(--teal-dark);background:var(--teal-light);border-radius:8px;padding:8px 10px">정산 수수료: ${r.fee_krw.toLocaleString()}원 (업무시간 ${r.hours_business ?? 0}h · 그 외 ${r.hours_after_hours ?? 0}h)</div>` : ''}
-      ${r.request_type === '원스톱동행' ? `
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--text-sub)">
-        <label>작업 시작 <input type="datetime-local" id="cr-start-${r.id}" value="${(r.work_started_at||'').slice(0,16)}" style="padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:12px"></label>
-        <label>작업 종료 <input type="datetime-local" id="cr-end-${r.id}" value="${(r.work_ended_at||'').slice(0,16)}" style="padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:12px"></label>
-      </div>` : ''}
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        <select id="cr-status-${r.id}" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px">
-          <option value="접수" ${r.status==='접수'?'selected':''}>접수</option>
-          <option value="확인중" ${r.status==='확인중'?'selected':''}>확인중</option>
-          <option value="완료" ${r.status==='완료'?'selected':''}>완료</option>
-        </select>
-        <input type="text" id="cr-result-${r.id}" placeholder="확인 결과 입력..." value="${r.result || ''}" style="flex:1;min-width:160px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px">
-        <button class="btn-primary" style="padding:6px 12px;font-size:12px" onclick="updateConciergeRequest(${r.id}, '${r.request_type}')">저장</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-async function updateConciergeRequest(id, requestType) {
-  const status = document.getElementById(`cr-status-${id}`).value;
-  const result = document.getElementById(`cr-result-${id}`).value.trim();
-  const body = { status, result };
-  if (requestType === '원스톱동행') {
-    const startEl = document.getElementById(`cr-start-${id}`);
-    const endEl = document.getElementById(`cr-end-${id}`);
-    if (startEl && startEl.value) body.work_started_at = startEl.value;
-    if (endEl && endEl.value) body.work_ended_at = endEl.value;
-  }
-  try {
-    const resp = await fetch(`${API_BASE}/api/dashboard/concierge/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', ...dashAuthHeaders() },
-      body: JSON.stringify(body),
-    });
-    if (!resp.ok) throw new Error('저장 실패');
-    loadConciergeQueue();
-  } catch (e) {
-    alert('저장에 실패했습니다.');
-  }
-}
 
 // ── 대시보드 ──
 function dashAuthHeaders() {
@@ -1332,11 +1037,6 @@ function populateParksFilterOptions(parks) {
   industrySel.innerHTML = '<option value="">전체 업종</option>' +
     [...industries].sort((a, b) => a.localeCompare(b, 'ko')).map(i => `<option value="${i}">${i}</option>`).join('');
 
-  const orgSel = document.getElementById('pf-org');
-  const orgs = new Set();
-  parks.forEach(p => { if (p.management_org) orgs.add(p.management_org); });
-  orgSel.innerHTML = '<option value="">전체 관리기관</option>' +
-    [...orgs].sort((a, b) => a.localeCompare(b, 'ko')).map(o => `<option value="${o}">${o}</option>`).join('');
 }
 
 function applyParksFilter() {
@@ -1346,7 +1046,6 @@ function applyParksFilter() {
   const type = document.getElementById('pf-type').value;
   const industry = document.getElementById('pf-industry').value;
   const status = document.getElementById('pf-status').value;
-  const org = document.getElementById('pf-org').value;
 
   const filtered = parks.filter(p => {
     if (search && !p.name.toLowerCase().includes(search)) return false;
@@ -1356,7 +1055,6 @@ function applyParksFilter() {
     if (type && p.type !== type) return false;
     if (industry && !(p.industries || []).includes(industry)) return false;
     if (status && p.status !== status) return false;
-    if (org && p.management_org !== org) return false;
     return true;
   });
 
@@ -1371,7 +1069,6 @@ function resetParksFilter() {
   document.getElementById('pf-type').value = '';
   document.getElementById('pf-industry').value = '';
   document.getElementById('pf-status').value = '';
-  document.getElementById('pf-org').value = '';
   applyParksFilter();
 }
 
@@ -1410,7 +1107,6 @@ function renderParksTable(parks) {
       <td>${p.rent_per_sqm}</td>
       <td style="color:var(--text-sub)">${(p.industries||[]).slice(0,2).join('·')}</td>
       <td><span class="badge ${p.status_class}">${p.status}</span></td>
-      ${dashboardRole === 'admin' ? `<td style="color:var(--text-sub);font-size:12px">${p.management_org || '-'}</td>` : ''}
       <td style="font-weight:600;color:var(--teal)">${p.monthly_inquiries}건</td>
     </tr>
   `).join('');
