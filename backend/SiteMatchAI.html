@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <title>SiteMatch AI — 산업단지 공실 AI 매칭 플랫폼</title>
 
@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
 <link rel="icon" href="/static/icons/icon-192.png" type="image/png">
 
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=__KAKAO_MAP_KEY__&autoload=false"></script>
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=__KAKAO_MAP_KEY__&autoload=false" onerror="window.__kakaoSdkLoadFailed=true"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -196,6 +196,17 @@
   /* ── 하단 앱 네비 (모바일 전용, PC에서는 항상 숨김) ── */
   .bottom-nav { display: none; }
 
+  /* ── 홈 화면에 추가 안내 배너 (모바일에서만 JS로 노출) ── */
+  #install-banner {
+    background: var(--teal-dark); color: #fff; font-size: 12.5px; line-height: 1.5;
+    padding: 10px 16px; display: none; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  #install-banner button {
+    background: transparent; border: none; color: #fff; opacity: 0.75; font-size: 14px;
+    cursor: pointer; padding: 2px 4px; flex-shrink: 0;
+  }
+  #install-banner button:hover { opacity: 1; }
+
   /* ── 반응형 ── */
   @media (max-width: 768px) {
     .layout { padding: 20px 16px; }
@@ -258,6 +269,14 @@
     </button>
   </nav>
   <span class="api-status checking" id="api-status"><span class="status-text">● 연결 확인 중</span></span>
+</div>
+
+<!-- ── 홈 화면에 추가 안내 배너 (모바일 브라우저 탭에서만, 이미 홈화면 앱으로
+     실행 중이면 숨김 — iOS는 안드로이드와 달리 자동 설치 안내가 없어서
+     직접 알려주지 않으면 이 기능이 있는 줄 아무도 모른다) ── -->
+<div id="install-banner" style="display:none">
+  <span id="install-banner-text"></span>
+  <button onclick="dismissInstallBanner()" aria-label="닫기">✕</button>
 </div>
 
 <!-- ── 모바일 전용 하단 앱 네비 (PC에서는 CSS로 숨김) ── -->
@@ -1158,22 +1177,88 @@ function showInfoWindow(info, marker) {
   currentInfoWindow = info;
 }
 
+function showMapLoadError(reason) {
+  const container = document.getElementById('parks-map');
+  if (!container) return;
+  container.textContent = '';
+  container.style.display = 'flex';
+  container.innerHTML = `<div style="text-align:center;color:var(--text-sub);font-size:13px;padding:20px">`
+    + `지도를 불러오지 못했습니다.<br>네트워크 연결이나 콘텐츠 차단(광고 차단) 앱/확장기능을 확인해주세요.`
+    + `<div style="font-size:11px;color:var(--text-hint);margin-top:6px">${escapeHtml(reason || '')}</div>`
+    + `</div>`;
+}
+
 function initKakaoMapIfNeeded() {
-  if (kakaoMap || typeof kakao === 'undefined' || !kakao.maps) return;
-  kakao.maps.load(() => {
-    const container = document.getElementById('parks-map');
-    container.textContent = '';
-    kakaoMap = new kakao.maps.Map(container, {
-      center: new kakao.maps.LatLng(36.5, 127.8), // 대한민국 대략 중심
-      level: 13,
+  if (kakaoMap) return;
+
+  // 스크립트 태그 자체가 네트워크 문제로 로드 실패한 경우 (광고 차단기 등이
+  // dapi.kakao.com을 막는 경우가 실제로 있다) — 무한 "로딩 중"으로 방치하지
+  // 않고 바로 에러를 보여준다.
+  if (window.__kakaoSdkLoadFailed) {
+    showMapLoadError('카카오맵 스크립트 로드 실패 (script onerror)');
+    return;
+  }
+  if (typeof kakao === 'undefined' || !kakao.maps) {
+    // 스크립트가 아직 로드 중일 수 있으니 잠깐 재시도하고, 그래도 안 되면 에러 표시
+    let tries = 0;
+    const timer = setInterval(() => {
+      tries++;
+      if (window.__kakaoSdkLoadFailed) {
+        clearInterval(timer);
+        showMapLoadError('카카오맵 스크립트 로드 실패 (script onerror)');
+        return;
+      }
+      if (typeof kakao !== 'undefined' && kakao.maps) {
+        clearInterval(timer);
+        initKakaoMapIfNeeded();
+        return;
+      }
+      if (tries >= 10) { // 5초
+        clearInterval(timer);
+        showMapLoadError('카카오맵 SDK를 찾을 수 없음 (window.kakao undefined)');
+      }
+    }, 500);
+    return;
+  }
+
+  // kakao.maps.load()의 콜백이 (스크립트 자체는 로드됐는데) 네트워크 지연이나
+  // 알 수 없는 이유로 영영 안 불리는 경우를 대비한 워치독 — 이게 없으면
+  // "지도 로딩 중..."에서 영원히 멈춰있어도 아무 단서가 안 남는다.
+  let mapLoadSettled = false;
+  const watchdog = setTimeout(() => {
+    if (!mapLoadSettled) {
+      mapLoadSettled = true;
+      showMapLoadError('카카오맵 로드 시간 초과 (kakao.maps.load 콜백 미호출, 8초)');
+    }
+  }, 8000);
+
+  try {
+    kakao.maps.load(() => {
+      if (mapLoadSettled) return; // 워치독이 이미 에러를 띄운 뒤 뒤늦게 불린 경우 무시
+      mapLoadSettled = true;
+      clearTimeout(watchdog);
+      try {
+        const container = document.getElementById('parks-map');
+        container.textContent = '';
+        kakaoMap = new kakao.maps.Map(container, {
+          center: new kakao.maps.LatLng(36.5, 127.8), // 대한민국 대략 중심
+          level: 13,
+        });
+        // 지도의 빈 곳을 클릭하면 열려있던 정보창을 닫는다
+        kakao.maps.event.addListener(kakaoMap, 'click', () => {
+          if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
+        });
+        // 지도가 이제 막 준비됐는데 데이터가 이미 로드돼 있었다면 바로 그려준다
+        if (window.allParks) applyParksFilter();
+      } catch (e) {
+        showMapLoadError('지도 초기화 오류: ' + e.message);
+      }
     });
-    // 지도의 빈 곳을 클릭하면 열려있던 정보창을 닫는다
-    kakao.maps.event.addListener(kakaoMap, 'click', () => {
-      if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
-    });
-    // 지도가 이제 막 준비됐는데 데이터가 이미 로드돼 있었다면 바로 그려준다
-    if (window.allParks) applyParksFilter();
-  });
+  } catch (e) {
+    mapLoadSettled = true;
+    clearTimeout(watchdog);
+    showMapLoadError('kakao.maps.load 호출 오류: ' + e.message);
+  }
 }
 
 function markerSvgDataUrl(color) {
@@ -1403,9 +1488,43 @@ function renderStaticDashboard() {
 }
 
 // ── 초기화 ──
+// ── 홈 화면에 추가 안내 배너 ──
+// 안드로이드 Chrome은 서비스워커가 없으면(지금 이 앱엔 없음) 자동 설치
+// 배너가 잘 안 뜨고, iOS Safari는 애초에 자동 안내 자체가 없다. 그래서
+// 두 경우 다 직접 안내 문구를 보여준다. 이미 홈화면 앱(standalone)으로
+// 실행 중이면 당연히 안 보여주고, 한 번 닫으면 이 브라우저에서는 다시
+// 안 띄운다.
+function initInstallBanner() {
+  const isStandalone = window.navigator.standalone === true
+    || window.matchMedia('(display-mode: standalone)').matches;
+  if (isStandalone) return;
+
+  let dismissed = false;
+  try { dismissed = localStorage.getItem('installBannerDismissed') === '1'; } catch(e) {}
+  if (dismissed) return;
+
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  const isAndroid = /Android/.test(ua);
+  if (!isIOS && !isAndroid) return; // PC에서는 안 보여줌
+
+  const text = isIOS
+    ? '📲 홈 화면에 추가하면 주소창 없이 앱처럼 쓸 수 있어요 — 하단 공유 버튼 → "홈 화면에 추가"'
+    : '📲 홈 화면에 추가하면 주소창 없이 앱처럼 쓸 수 있어요 — 우측 상단 메뉴(⋮) → "홈 화면에 추가"';
+
+  document.getElementById('install-banner-text').textContent = text;
+  document.getElementById('install-banner').style.display = 'flex';
+}
+
+function dismissInstallBanner() {
+  document.getElementById('install-banner').style.display = 'none';
+  try { localStorage.setItem('installBannerDismissed', '1'); } catch(e) {}
+}
+
 window.addEventListener('load', () => {
   checkApiStatus();
   connectWebSocket();
+  initInstallBanner();
 });
 </script>
 </body>
