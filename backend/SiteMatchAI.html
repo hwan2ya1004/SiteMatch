@@ -180,6 +180,9 @@
   .recent-detail { color: var(--text-sub); }
   .recent-status { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 99px; background: var(--teal-light); color: var(--teal-dark); white-space: nowrap; }
 
+  /* ── 하단 앱 네비 (모바일 전용, PC에서는 항상 숨김) ── */
+  .bottom-nav { display: none; }
+
   /* ── 반응형 ── */
   @media (max-width: 768px) {
     .layout { padding: 20px 16px; }
@@ -189,27 +192,35 @@
     .chat-sidebar { display: none; }
     .stats-grid { grid-template-columns: 1fr 1fr; }
     .dashboard-grid { grid-template-columns: 1fr; }
-    .topbar { padding: 0 12px; gap: 6px; }
-    .logo { font-size: 14px; white-space: nowrap; }
-    .logo-badge { display: none; }
-    .nav { gap: 2px; }
-    .nav-btn { padding: 7px 8px; font-size: 12px; gap: 4px; white-space: nowrap; }
-    .nav-icon { width: 14px; height: 14px; }
-    .api-status { margin-left: 4px; padding: 4px 8px; }
-    .api-status .status-text { display: none; }
+
+    /* 모바일에서는 상단 바의 텍스트 네비를 감추고 하단 앱 네비로 대체 —
+       상단에는 로고와 연결 상태만 남긴다. */
+    .topbar .nav { display: none; }
+    .topbar { padding: 0 16px; }
+    .api-status { margin-left: auto; }
+
+    /* 화면 하단에 앱처럼 고정된 아이콘 네비 바를 둔다. 콘텐츠(본문+푸터)가
+       이 바에 가려지지 않도록 body 하단에 여유 공간을 준다. */
+    body { padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)); }
+    .bottom-nav {
+      display: flex;
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
+      background: var(--white); border-top: 1px solid var(--border);
+      padding: 4px 4px calc(4px + env(safe-area-inset-bottom, 0px));
+    }
+    .bottom-nav .nav-btn {
+      flex: 1 1 0; flex-direction: column; gap: 3px;
+      padding: 7px 4px; border-radius: 10px; font-size: 11px; font-weight: 500;
+    }
+    .bottom-nav .nav-icon { width: 21px; height: 21px; }
+    .bottom-nav .nav-btn.active { background: var(--teal-light); color: var(--teal-dark); }
+
     /* 대시보드 표: 1,406개 행을 좁은 화면에서 줄바꿈시키면 셀마다 세로 높이가
        폭증해 페이지가 수만~수십만 px로 늘어지므로, 표를 가로 스크롤시켜
        셀 폭을 유지한다. */
     .table-wrap { overflow-x: auto; }
     .data-table { min-width: 720px; }
     .data-table td, .data-table td div { white-space: nowrap; }
-  }
-  @media (max-width: 420px) {
-    .logo-sub { display: none; }
-    .topbar { padding: 0 8px; gap: 3px; }
-    .nav { gap: 0; }
-    .nav-btn { padding: 6px 5px; font-size: 11px; gap: 3px; }
-    .api-status { margin-left: 2px; padding: 4px 6px; }
   }
   @keyframes spin { to { transform: rotate(360deg) } }
 </style>
@@ -219,21 +230,37 @@
 <div class="topbar">
   <div class="logo">SiteMatch <span class="logo-sub">AI</span><span class="logo-badge">Beta</span></div>
   <nav class="nav">
-    <button class="nav-btn active" onclick="showPage('match', this)">
+    <button class="nav-btn active" data-page="match" onclick="showPage('match')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M9 21V7l-6 6M21 21V4l-6 6M13 21V11"/></svg>
       <span class="nav-label">AI 매칭</span>
     </button>
-    <button class="nav-btn" onclick="showPage('chat', this)">
+    <button class="nav-btn" data-page="chat" onclick="showPage('chat')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       <span class="nav-label">AI 상담</span>
     </button>
-    <button class="nav-btn" onclick="showPage('gov', this)">
+    <button class="nav-btn" data-page="gov" onclick="showPage('gov')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       <span class="nav-label">대시보드</span>
     </button>
   </nav>
   <span class="api-status checking" id="api-status"><span class="status-text">● 연결 확인 중</span></span>
 </div>
+
+<!-- ── 모바일 전용 하단 앱 네비 (PC에서는 CSS로 숨김) ── -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-page="match" onclick="showPage('match')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M9 21V7l-6 6M21 21V4l-6 6M13 21V11"/></svg>
+    <span class="nav-label">AI 매칭</span>
+  </button>
+  <button class="nav-btn" data-page="chat" onclick="showPage('chat')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    <span class="nav-label">AI 상담</span>
+  </button>
+  <button class="nav-btn" data-page="gov" onclick="showPage('gov')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    <span class="nav-label">대시보드</span>
+  </button>
+</nav>
 
 <div class="layout">
 
@@ -491,12 +518,12 @@ const WS_BASE = window.location.origin.replace('https://', 'wss://').replace('ht
 
 // ── 페이지 전환 ──
 let dashboardRole = null; // 'gov' — 현재 열려있는 대시보드 탭이 요구하는 최소 권한
-function showPage(id, btn) {
+function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   const pageId = (id === 'gov') ? 'dashboard' : id;
   document.getElementById('page-' + pageId).classList.add('active');
-  btn.classList.add('active');
+  document.querySelectorAll(`.nav-btn[data-page="${id}"]`).forEach(b => b.classList.add('active'));
   if (id === 'gov') {
     dashboardRole = id;
     // 로그인 기능 미구현 — 지금 단계에서는 키 입력 없이 공개.
@@ -986,7 +1013,7 @@ function goChat(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('page-chat').classList.add('active');
-  document.querySelectorAll('.nav-btn')[1].classList.add('active');
+  document.querySelectorAll('.nav-btn[data-page="chat"]').forEach(b => b.classList.add('active'));
   document.getElementById('chat-input').value = name + '의 입주 절차와 지원금 조건을 자세히 알려주세요.';
   sendChat();
 }
