@@ -473,9 +473,16 @@
     <div class="table-wrap" style="margin-bottom:20px">
       <div class="table-header">
         지도로 보기
-        <span style="font-size:12px;color:var(--text-sub);font-weight:400" id="map-legend">🟢 여유 · 🟡 보통 · 🔴 주의/포화 (좌표 있는 단지만 표시)</span>
+        <span style="font-size:12px;color:var(--text-sub);font-weight:400" id="map-legend">🟢 여유 · 🟡 보통 · 🔴 주의/포화 · 🔵 내 위치 (좌표 있는 단지만 표시)</span>
       </div>
-      <div id="parks-map" style="width:100%;height:420px;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;color:var(--text-sub);font-size:13px">지도 로딩 중...</div>
+      <div class="map-toolbar" style="display:flex;flex-wrap:wrap;gap:8px;padding:14px 16px 0">
+        <input type="text" id="map-search" placeholder="산업단지명으로 지도에서 찾기"
+               style="flex:1;min-width:160px;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none"
+               onkeydown="if(event.key==='Enter'){event.preventDefault();mapSearchGo();}">
+        <button class="btn-ghost" onclick="mapSearchGo()" style="white-space:nowrap">🔍 찾기</button>
+        <button class="btn-ghost" id="map-locate-btn" onclick="locateMe()" style="white-space:nowrap">📍 내 위치</button>
+      </div>
+      <div id="parks-map" style="width:100%;height:420px;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;color:var(--text-sub);font-size:13px;margin-top:14px">지도 로딩 중...</div>
     </div>
 
     <div class="table-wrap">
@@ -1125,6 +1132,9 @@ function applyParksFilter() {
 // ── 산업단지 지도 (카카오맵) ──
 let kakaoMap = null;
 let kakaoMarkers = [];
+let kakaoMarkersById = {};   // id -> { marker, info, park } — 검색 결과 클릭/자동 이동에 사용
+let myLocationLatLng = null; // { lat, lng } — "내 위치" 버튼으로 확인된 현재 위치 (길찾기 출발지로 재사용)
+let myLocationMarker = null;
 
 function initKakaoMapIfNeeded() {
   if (kakaoMap || typeof kakao === 'undefined' || !kakao.maps) return;
@@ -1147,39 +1157,137 @@ function markerSvgDataUrl(color) {
   return 'data:image/svg+xml;base64,' + btoa(svg);
 }
 
+// 카카오맵 자체 길찾기로 넘기는 링크 — 별도 길찾기 API 키/과금 없이 카카오맵
+// 앱/웹이 실제 경로 안내를 대신 처리하게 한다. 출발지가 있으면 바로 경로,
+// 없으면 도착지만 넘겨서 카카오맵이 알아서 현재 위치를 물어보게 한다.
+function directionsUrl(park) {
+  const dest = `${encodeURIComponent(park.name)},${park.lat},${park.lng}`;
+  if (myLocationLatLng) {
+    const origin = `${encodeURIComponent('내 위치')},${myLocationLatLng.lat},${myLocationLatLng.lng}`;
+    return `https://map.kakao.com/link/from/${origin}/to/${dest}`;
+  }
+  return `https://map.kakao.com/link/to/${dest}`;
+}
+
+function openDirections(parkId) {
+  const p = kakaoMarkersById[parkId] && kakaoMarkersById[parkId].park;
+  if (!p) return;
+  window.open(directionsUrl(p), '_blank', 'noopener');
+}
+
+// 마커+정보창 하나를 만들어 kakaoMarkersById에 등록한다. 이미 있으면 재사용.
+// 표 필터 때문에 renderParksMap에서 그려지지 않은 단지라도, 지도 검색으로
+// 찾을 때는 임시로 만들어서 보여준다 (숨겨진 필터 상태에 검색이 막히지 않도록).
+function ensureMarkerFor(p) {
+  if (kakaoMarkersById[p.id]) return kakaoMarkersById[p.id];
+  const pos = new kakao.maps.LatLng(p.lat, p.lng);
+  const marker = new kakao.maps.Marker({
+    position: pos,
+    map: kakaoMap,
+    image: new kakao.maps.MarkerImage(
+      markerSvgDataUrl(p.bar_color || '#639922'),
+      new kakao.maps.Size(26, 34),
+      { offset: new kakao.maps.Point(13, 34) }
+    ),
+  });
+  const info = new kakao.maps.InfoWindow({
+    content: `<div style="padding:8px 10px;font-size:12px;line-height:1.7;min-width:180px">`
+      + `<strong>${escapeHtml(p.name)}</strong><br>`
+      + `${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}<br>`
+      + `가동률 ${(100 - p.vacancy_rate).toFixed(1)}% · <span style="color:${p.bar_color};font-weight:600">${escapeHtml(p.status)}</span><br>`
+      + `가용면적 ${escapeHtml(p.available_area)}<br>`
+      + `<button onclick="openDirections(${p.id})" style="margin-top:6px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--teal-light);color:var(--teal-dark);font-size:12px;font-weight:600;cursor:pointer">🧭 길찾기</button>`
+      + `</div>`,
+  });
+  kakao.maps.event.addListener(marker, 'click', () => info.open(kakaoMap, marker));
+  const entry = { marker, info, park: p };
+  kakaoMarkers.push(marker);
+  kakaoMarkersById[p.id] = entry;
+  return entry;
+}
+
+function openParkInfo(parkId) {
+  if (!kakaoMap) return;
+  let entry = kakaoMarkersById[parkId];
+  if (!entry) {
+    const p = (window.allParks || []).find(x => x.id === parkId);
+    if (!p || !p.lat || !p.lng) return;
+    entry = ensureMarkerFor(p);
+  }
+  kakaoMap.setCenter(entry.marker.getPosition());
+  kakaoMap.setLevel(5);
+  entry.info.open(kakaoMap, entry.marker);
+}
+
 function renderParksMap(parks) {
   if (!kakaoMap) return; // 지도가 아직 준비 전이면 initKakaoMapIfNeeded 콜백에서 다시 그린다
   kakaoMarkers.forEach(m => m.setMap(null));
   kakaoMarkers = [];
+  kakaoMarkersById = {};
 
   const withCoords = parks.filter(p => p.lat && p.lng);
   if (withCoords.length === 0) return;
 
   const bounds = new kakao.maps.LatLngBounds();
   withCoords.forEach(p => {
-    const pos = new kakao.maps.LatLng(p.lat, p.lng);
-    const marker = new kakao.maps.Marker({
-      position: pos,
-      map: kakaoMap,
-      image: new kakao.maps.MarkerImage(
-        markerSvgDataUrl(p.bar_color || '#639922'),
-        new kakao.maps.Size(26, 34),
-        { offset: new kakao.maps.Point(13, 34) }
-      ),
-    });
-    const info = new kakao.maps.InfoWindow({
-      content: `<div style="padding:8px 10px;font-size:12px;line-height:1.7;min-width:170px">`
-        + `<strong>${escapeHtml(p.name)}</strong><br>`
-        + `${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}<br>`
-        + `가동률 ${(100 - p.vacancy_rate).toFixed(1)}% · <span style="color:${p.bar_color};font-weight:600">${escapeHtml(p.status)}</span><br>`
-        + `가용면적 ${escapeHtml(p.available_area)}`
-        + `</div>`,
-    });
-    kakao.maps.event.addListener(marker, 'click', () => info.open(kakaoMap, marker));
-    kakaoMarkers.push(marker);
-    bounds.extend(pos);
+    ensureMarkerFor(p);
+    bounds.extend(new kakao.maps.LatLng(p.lat, p.lng));
   });
   kakaoMap.setBounds(bounds);
+}
+
+// "내 위치" — 브라우저 위치 권한으로 현재 좌표를 얻어 지도에 별도 마커로 표시하고,
+// 이후 길찾기 링크의 출발지로 재사용한다.
+function locateMe() {
+  if (!navigator.geolocation) { alert('이 브라우저는 위치 확인을 지원하지 않습니다.'); return; }
+  if (!kakaoMap) { alert('지도가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.'); return; }
+  const btn = document.getElementById('map-locate-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '위치 확인 중...'; }
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      myLocationLatLng = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      const latlng = new kakao.maps.LatLng(myLocationLatLng.lat, myLocationLatLng.lng);
+      if (myLocationMarker) myLocationMarker.setMap(null);
+      myLocationMarker = new kakao.maps.Marker({
+        position: latlng,
+        map: kakaoMap,
+        image: new kakao.maps.MarkerImage(
+          markerSvgDataUrl('#2563EB'),
+          new kakao.maps.Size(26, 34),
+          { offset: new kakao.maps.Point(13, 34) }
+        ),
+        zIndex: 10,
+      });
+      kakaoMap.setCenter(latlng);
+      kakaoMap.setLevel(6);
+      if (btn) { btn.disabled = false; btn.textContent = '📍 내 위치'; }
+    },
+    () => {
+      alert('현재 위치를 가져올 수 없습니다. 브라우저의 위치 권한 설정을 확인해주세요.');
+      if (btn) { btn.disabled = false; btn.textContent = '📍 내 위치'; }
+    },
+    { enableHighAccuracy: true, timeout: 8000 }
+  );
+}
+
+// 지도 검색 — 이름으로 찾아서 결과가 1개면 바로 확대+정보창, 여러 개면 그 범위로 화면을 맞춘다.
+function mapSearchGo() {
+  const q = document.getElementById('map-search').value.trim().toLowerCase();
+  if (!q) return;
+  if (!kakaoMap) { alert('지도가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.'); return; }
+  const matches = (window.allParks || []).filter(p => p.lat && p.lng && p.name.toLowerCase().includes(q));
+  if (matches.length === 0) {
+    alert('좌표 정보가 있는 단지 중에는 일치하는 결과가 없습니다.');
+    return;
+  }
+  if (matches.length === 1) {
+    openParkInfo(matches[0].id);
+  } else {
+    const bounds = new kakao.maps.LatLngBounds();
+    matches.forEach(p => bounds.extend(new kakao.maps.LatLng(p.lat, p.lng)));
+    kakaoMap.setBounds(bounds);
+  }
+  document.getElementById('parks-map').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function resetParksFilter() {
