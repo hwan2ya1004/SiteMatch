@@ -1257,6 +1257,22 @@ function renderParksMap(parks) {
 function locateMe() {
   if (!navigator.geolocation) { alert('이 브라우저는 위치 확인을 지원하지 않습니다.'); return; }
   if (!kakaoMap) { alert('지도가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.'); return; }
+
+  // 브라우저의 위치 권한 팝업은 "허용/차단" 기술적 동의일 뿐, 위치정보법이 요구하는
+  // 수집 목적 고지가 빠져있다. 그 팝업이 뜨기 전에 먼저 목적을 설명하고 별도로
+  // 동의를 받는다 — 세션당 한 번만 물어보고, 거부하면 다음 클릭 때 다시 물어본다.
+  let consented = false;
+  try { consented = sessionStorage.getItem('locationConsent') === 'yes'; } catch(e) {}
+  if (!consented) {
+    const ok = confirm(
+      '내 위치 확인 안내\n\n' +
+      '확인된 위치는 지도 표시와 "길찾기" 출발지 계산에만 사용되며, 서버로 전송하거나 저장하지 않습니다.\n\n' +
+      '위치 확인을 진행하시겠습니까?'
+    );
+    if (!ok) return;
+    try { sessionStorage.setItem('locationConsent', 'yes'); } catch(e) {}
+  }
+
   const btn = document.getElementById('map-locate-btn');
   if (btn) { btn.disabled = true; btn.textContent = '위치 확인 중...'; }
   navigator.geolocation.getCurrentPosition(
