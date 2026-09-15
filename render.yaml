@@ -12,6 +12,8 @@ services:
         sync: false
       - key: PUBLIC_DATA_API_KEY
         sync: false
+      - key: KAKAO_MAP_KEY
+        sync: false
       - key: HOST
         value: 0.0.0.0
       - key: PORT
