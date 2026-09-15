@@ -103,9 +103,10 @@ async def lifespan(app: FastAPI):
         print("⚠️ GROQ_API_KEY 미설정 → AI 기능 비활성화")
         print("   backend/.env 파일에 GROQ_API_KEY를 설정하세요")
 
+    _port = os.environ.get("PORT", "8000")
     print("🎉 SiteMatch AI 백엔드 준비 완료!")
-    print(f"   API 문서: http://localhost:8000/docs")
-    print(f"   프론트엔드: http://localhost:8000")
+    print(f"   API 문서: http://localhost:{_port}/docs")
+    print(f"   프론트엔드: http://localhost:{_port}")
 
     yield
 
