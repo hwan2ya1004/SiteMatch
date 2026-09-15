@@ -189,7 +189,27 @@
     .chat-sidebar { display: none; }
     .stats-grid { grid-template-columns: 1fr 1fr; }
     .dashboard-grid { grid-template-columns: 1fr; }
-    .topbar { padding: 0 16px; }
+    .topbar { padding: 0 12px; gap: 6px; }
+    .logo { font-size: 14px; white-space: nowrap; }
+    .logo-badge { display: none; }
+    .nav { gap: 2px; }
+    .nav-btn { padding: 7px 8px; font-size: 12px; gap: 4px; white-space: nowrap; }
+    .nav-icon { width: 14px; height: 14px; }
+    .api-status { margin-left: 4px; padding: 4px 8px; }
+    .api-status .status-text { display: none; }
+    /* 대시보드 표: 1,406개 행을 좁은 화면에서 줄바꿈시키면 셀마다 세로 높이가
+       폭증해 페이지가 수만~수십만 px로 늘어지므로, 표를 가로 스크롤시켜
+       셀 폭을 유지한다. */
+    .table-wrap { overflow-x: auto; }
+    .data-table { min-width: 720px; }
+    .data-table td, .data-table td div { white-space: nowrap; }
+  }
+  @media (max-width: 420px) {
+    .logo-sub { display: none; }
+    .topbar { padding: 0 8px; gap: 3px; }
+    .nav { gap: 0; }
+    .nav-btn { padding: 6px 5px; font-size: 11px; gap: 3px; }
+    .api-status { margin-left: 2px; padding: 4px 6px; }
   }
   @keyframes spin { to { transform: rotate(360deg) } }
 </style>
@@ -201,18 +221,18 @@
   <nav class="nav">
     <button class="nav-btn active" onclick="showPage('match', this)">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M9 21V7l-6 6M21 21V4l-6 6M13 21V11"/></svg>
-      AI 매칭
+      <span class="nav-label">AI 매칭</span>
     </button>
     <button class="nav-btn" onclick="showPage('chat', this)">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      AI 상담
+      <span class="nav-label">AI 상담</span>
     </button>
     <button class="nav-btn" onclick="showPage('gov', this)">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      대시보드
+      <span class="nav-label">대시보드</span>
     </button>
   </nav>
-  <span class="api-status checking" id="api-status">● 연결 확인 중</span>
+  <span class="api-status checking" id="api-status"><span class="status-text">● 연결 확인 중</span></span>
 </div>
 
 <div class="layout">
@@ -546,14 +566,14 @@ async function checkApiStatus() {
     const resp = await fetch(`${API_BASE}/health`, { signal: AbortSignal.timeout(3000) });
     const data = await resp.json();
     if (data.status === 'ok' && data.ai_matching && data.rag_chatbot) {
-      el.textContent = 'AI 온라인';
+      el.innerHTML = '<span class="status-text">AI 온라인</span>';
       el.className = 'api-status online';
       return; // 온라인 확인되면 재확인 불필요
     }
-    el.textContent = data.groq_key_set ? 'AI 초기화 중' : 'AI 오프라인 (키 미설정)';
+    el.innerHTML = `<span class="status-text">${data.groq_key_set ? 'AI 초기화 중' : 'AI 오프라인 (키 미설정)'}</span>`;
     el.className = 'api-status offline';
   } catch(e) {
-    el.textContent = 'AI 오프라인';
+    el.innerHTML = '<span class="status-text">AI 오프라인</span>';
     el.className = 'api-status offline';
   }
   setTimeout(checkApiStatus, 5000);
