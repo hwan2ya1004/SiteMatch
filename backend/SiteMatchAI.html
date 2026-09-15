@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <title>SiteMatch AI — 산업단지 공실 AI 매칭 플랫폼</title>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=__KAKAO_MAP_KEY__&autoload=false"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -191,6 +192,7 @@
     .chat-layout { grid-template-columns: 1fr; }
     .chat-sidebar { display: none; }
     .stats-grid { grid-template-columns: 1fr 1fr; }
+    #parks-map { height: 280px !important; }
     .dashboard-grid { grid-template-columns: 1fr; }
 
     /* 모바일에서는 상단 바의 텍스트 네비를 감추고 하단 앱 네비로 대체 —
@@ -468,6 +470,14 @@
       <div class="stat-card"><div class="stat-label">누적 매칭 요청 수</div><div class="stat-value" id="stat-companies">-</div><div class="stat-change up" id="stat-companies-sub">로딩 중...</div></div>
     </div>
 
+    <div class="table-wrap" style="margin-bottom:20px">
+      <div class="table-header">
+        지도로 보기
+        <span style="font-size:12px;color:var(--text-sub);font-weight:400" id="map-legend">🟢 여유 · 🟡 보통 · 🔴 주의/포화 (좌표 있는 단지만 표시)</span>
+      </div>
+      <div id="parks-map" style="width:100%;height:420px;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;color:var(--text-sub);font-size:13px">지도 로딩 중...</div>
+    </div>
+
     <div class="table-wrap">
       <div class="table-header">
         주요 산업단지 공실 현황
@@ -529,6 +539,7 @@ function showPage(id) {
     // 로그인 기능 미구현 — 지금 단계에서는 키 입력 없이 공개.
     document.getElementById('dashboard-gate').style.display = 'none';
     document.getElementById('dashboard-content').style.display = 'block';
+    initKakaoMapIfNeeded();
     loadDashboard();
   }
 }
@@ -1106,8 +1117,69 @@ function applyParksFilter() {
   });
 
   renderParksTable(filtered);
+  renderParksMap(filtered);
   document.getElementById('pf-result-count').textContent =
     `전체 ${parks.length}개 중 ${filtered.length}개 표시`;
+}
+
+// ── 산업단지 지도 (카카오맵) ──
+let kakaoMap = null;
+let kakaoMarkers = [];
+
+function initKakaoMapIfNeeded() {
+  if (kakaoMap || typeof kakao === 'undefined' || !kakao.maps) return;
+  kakao.maps.load(() => {
+    const container = document.getElementById('parks-map');
+    container.textContent = '';
+    kakaoMap = new kakao.maps.Map(container, {
+      center: new kakao.maps.LatLng(36.5, 127.8), // 대한민국 대략 중심
+      level: 13,
+    });
+    // 지도가 이제 막 준비됐는데 데이터가 이미 로드돼 있었다면 바로 그려준다
+    if (window.allParks) applyParksFilter();
+  });
+}
+
+function markerSvgDataUrl(color) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="34" viewBox="0 0 26 34">`
+    + `<path d="M13 0C5.8 0 0 5.8 0 13c0 9.7 13 21 13 21s13-11.3 13-21C26 5.8 20.2 0 13 0z" fill="${color}"/>`
+    + `<circle cx="13" cy="13" r="5.5" fill="#fff"/></svg>`;
+  return 'data:image/svg+xml;base64,' + btoa(svg);
+}
+
+function renderParksMap(parks) {
+  if (!kakaoMap) return; // 지도가 아직 준비 전이면 initKakaoMapIfNeeded 콜백에서 다시 그린다
+  kakaoMarkers.forEach(m => m.setMap(null));
+  kakaoMarkers = [];
+
+  const withCoords = parks.filter(p => p.lat && p.lng);
+  if (withCoords.length === 0) return;
+
+  const bounds = new kakao.maps.LatLngBounds();
+  withCoords.forEach(p => {
+    const pos = new kakao.maps.LatLng(p.lat, p.lng);
+    const marker = new kakao.maps.Marker({
+      position: pos,
+      map: kakaoMap,
+      image: new kakao.maps.MarkerImage(
+        markerSvgDataUrl(p.bar_color || '#639922'),
+        new kakao.maps.Size(26, 34),
+        { offset: new kakao.maps.Point(13, 34) }
+      ),
+    });
+    const info = new kakao.maps.InfoWindow({
+      content: `<div style="padding:8px 10px;font-size:12px;line-height:1.7;min-width:170px">`
+        + `<strong>${escapeHtml(p.name)}</strong><br>`
+        + `${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}<br>`
+        + `가동률 ${(100 - p.vacancy_rate).toFixed(1)}% · <span style="color:${p.bar_color};font-weight:600">${escapeHtml(p.status)}</span><br>`
+        + `가용면적 ${escapeHtml(p.available_area)}`
+        + `</div>`,
+    });
+    kakao.maps.event.addListener(marker, 'click', () => info.open(kakaoMap, marker));
+    kakaoMarkers.push(marker);
+    bounds.extend(pos);
+  });
+  kakaoMap.setBounds(bounds);
 }
 
 function resetParksFilter() {
@@ -1173,6 +1245,9 @@ function renderStaticDashboard() {
     <div style="font-size:15px;font-weight:600;margin-bottom:8px">백엔드 서버에 연결할 수 없습니다</div>
     <div style="font-size:13px">서버를 실행하면 실시간 데이터가 표시됩니다: <code style="background:var(--gray-bg);padding:2px 8px;border-radius:4px">cd backend && python main.py</code></div>
   </td></tr>`;
+
+  const mapEl = document.getElementById('parks-map');
+  if (mapEl) mapEl.textContent = '백엔드 서버에 연결되면 지도가 표시됩니다.';
 }
 
 // ── 초기화 ──

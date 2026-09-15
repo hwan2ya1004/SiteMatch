@@ -197,6 +197,8 @@ def get_parks(db: Session = Depends(get_db)):
             "type": p.type or "",
             "dev_status": p.dev_status or "완료",
             "address": p.address or "",
+            "lat": p.lat,
+            "lng": p.lng,
             # 가동률·가용면적·조성상태를 매번 조합 해석하지 않아도 되도록 "입주 가능/불가"로
             # 정리 — match.py의 move_in_status()와 동일 기준(조성상태 미완료 또는 가용면적 0이면 불가)
             "move_in_status": "입주 가능" if (p.dev_status or "완료") == "완료" and p.available_area and p.available_area > 0 else "입주 불가",

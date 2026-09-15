@@ -20,7 +20,7 @@ for _stream in (sys.stdout, sys.stderr):
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from dotenv import load_dotenv
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
@@ -184,9 +184,12 @@ if not os.path.exists(FRONTEND_PATH):
 
 @app.get("/")
 async def serve_frontend():
-    """프론트엔드 HTML 서빙"""
+    """프론트엔드 HTML 서빙 — 카카오맵 키는 .env에서 읽어 플레이스홀더에 주입"""
     if os.path.exists(FRONTEND_PATH):
-        return FileResponse(FRONTEND_PATH)
+        with open(FRONTEND_PATH, "r", encoding="utf-8") as f:
+            html = f.read()
+        html = html.replace("__KAKAO_MAP_KEY__", os.environ.get("KAKAO_MAP_KEY", ""))
+        return HTMLResponse(content=html)
     return {"message": "SiteMatch AI API", "docs": "/docs"}
 
 
