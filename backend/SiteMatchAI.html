@@ -198,9 +198,13 @@
 
   /* ── 홈 화면에 추가 안내 배너 (모바일에서만 JS로 노출) ── */
   #install-banner {
-    background: var(--teal-dark); color: #fff; font-size: 12.5px; line-height: 1.5;
-    padding: 10px 16px; display: none; align-items: center; justify-content: space-between; gap: 10px;
+    background: var(--teal-dark); color: #fff; font-size: 12.5px; line-height: 1.6;
+    padding: 12px 16px; display: none; align-items: center; justify-content: space-between; gap: 10px;
   }
+  /* word-break: keep-all 없으면 "버튼", "메뉴" 같은 단어가 화면 폭에 따라
+     중간에서 잘려 "버\n튼"처럼 보기 흉하게 줄바꿈된다 */
+  #install-banner-text { word-break: keep-all; }
+  #install-banner-text strong { font-weight: 700; }
   #install-banner button {
     background: transparent; border: none; color: #fff; opacity: 0.75; font-size: 14px;
     cursor: pointer; padding: 2px 4px; flex-shrink: 0;
@@ -1530,11 +1534,12 @@ function initInstallBanner() {
   const isAndroid = /Android/.test(ua);
   if (!isIOS && !isAndroid) return; // PC에서는 안 보여줌
 
-  const text = isIOS
-    ? '📲 홈 화면에 추가하면 주소창 없이 앱처럼 쓸 수 있어요 — 하단 공유 버튼 → "홈 화면에 추가"'
-    : '📲 홈 화면에 추가하면 주소창 없이 앱처럼 쓸 수 있어요 — 우측 상단 메뉴(⋮) → "홈 화면에 추가"';
+  const step = isIOS
+    ? '하단의 공유 아이콘 <strong>⬆️</strong> 을 누르고 <strong>"홈 화면에 추가"</strong>를 선택해주세요'
+    : '오른쪽 위 메뉴 <strong>⋮</strong> 를 누르고 <strong>"홈 화면에 추가"</strong>를 선택해주세요';
 
-  document.getElementById('install-banner-text').textContent = text;
+  document.getElementById('install-banner-text').innerHTML =
+    `🏠 이 앱, 홈 화면에 추가해두면 다음부턴 훨씬 편하게 쓰실 수 있어요<br>${step}`;
   document.getElementById('install-banner').style.display = 'flex';
 }
 
