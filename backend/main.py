@@ -20,7 +20,7 @@ for _stream in (sys.stdout, sys.stderr):
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.responses import FileResponse, Response
 from dotenv import load_dotenv
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
@@ -192,12 +192,10 @@ if os.path.isdir(_static_dir):
 
 @app.get("/")
 async def serve_frontend():
-    """프론트엔드 HTML 서빙 — 카카오맵 키는 .env에서 읽어 플레이스홀더에 주입"""
+    """프론트엔드 HTML 서빙. 카카오맵 키는 /kakao-sdk.js 프록시 라우트에서
+    서버 쪽에서만 사용하므로 HTML 자체에는 더 이상 주입할 게 없다."""
     if os.path.exists(FRONTEND_PATH):
-        with open(FRONTEND_PATH, "r", encoding="utf-8") as f:
-            html = f.read()
-        html = html.replace("__KAKAO_MAP_KEY__", os.environ.get("KAKAO_MAP_KEY", ""))
-        return HTMLResponse(content=html)
+        return FileResponse(FRONTEND_PATH)
     return {"message": "SiteMatch AI API", "docs": "/docs"}
 
 
@@ -205,6 +203,32 @@ async def serve_frontend():
 async def serve_manifest():
     """PWA manifest — 관례상 루트 경로로도 접근 가능하게 함"""
     return FileResponse(os.path.join(_static_dir, "manifest.json"), media_type="application/manifest+json")
+
+
+_kakao_sdk_cache = {"body": None, "content_type": "text/javascript"}
+
+
+@app.get("/kakao-sdk.js")
+async def proxy_kakao_sdk():
+    """카카오맵 SDK를 dapi.kakao.com에서 직접 브라우저가 받지 않고, 우리 서버가
+    대신 받아와서 같은 출처(same-origin)로 내려준다.
+
+    실제로 겪은 문제: 크롬의 ORB(Opaque Response Blocking) 보안 기능이 이 스크립트를
+    크로스오리진 <script> 태그로 불러올 때 net::ERR_BLOCKED_BY_ORB로 막는 사례가
+    PC/모바일 가리지 않고 실제로 발생했다 (배포 사이트에서도 재현됨). 광고 차단
+    확장기능이 "kakao.com" 도메인 패턴을 걸러내는 경우도 있어, 두 문제 다 같은
+    출처로 우회하면 근본적으로 피해간다. 매 요청마다 다시 받아오지 않도록
+    프로세스 메모리에 캐시한다(이 파일은 자주 안 바뀜, 서버 재시작하면 다시 받아옴)."""
+    if _kakao_sdk_cache["body"] is None:
+        import httpx
+        key = os.environ.get("KAKAO_MAP_KEY", "")
+        url = f"https://dapi.kakao.com/v2/maps/sdk.js?appkey={key}&autoload=false"
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(url, timeout=10.0)
+        resp.raise_for_status()
+        _kakao_sdk_cache["body"] = resp.content
+        _kakao_sdk_cache["content_type"] = resp.headers.get("content-type", "text/javascript")
+    return Response(content=_kakao_sdk_cache["body"], media_type=_kakao_sdk_cache["content_type"])
 
 
 @app.get("/health")
