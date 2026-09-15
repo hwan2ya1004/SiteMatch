@@ -2,9 +2,21 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <title>SiteMatch AI — 산업단지 공실 AI 매칭 플랫폼</title>
+
+<!-- PWA: "홈 화면에 추가"로 설치하면 주소창·브라우저 네비바 없이 전체화면
+     앱처럼 실행됨 (Safari 탭으로 일반 방문할 때는 이 설정과 무관하게
+     브라우저 UI가 항상 보임 — 브라우저 자체 동작이라 웹페이지가 바꿀 수 없음) -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0F6E56">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SiteMatch AI">
+<link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+<link rel="icon" href="/static/icons/icon-192.png" type="image/png">
+
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=__KAKAO_MAP_KEY__&autoload=false"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }

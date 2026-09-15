@@ -181,6 +181,13 @@ FRONTEND_PATH = os.path.join(_backend_dir, "SiteMatchAI.html")
 if not os.path.exists(FRONTEND_PATH):
     FRONTEND_PATH = os.path.join(os.path.dirname(_backend_dir), "SiteMatchAI.html")
 
+# PWA 아이콘·manifest.json — "홈 화면에 추가"로 설치했을 때 주소창/네비바 없이
+# 전체화면 앱처럼 열리게 하는 데 필요 (일반 브라우저 탭으로 볼 때는 이 설정과
+# 무관하게 항상 브라우저 UI가 보임 — 웹페이지가 그걸 없앨 방법은 없음)
+_static_dir = os.path.join(_backend_dir, "static")
+if os.path.isdir(_static_dir):
+    app.mount("/static", StaticFiles(directory=_static_dir), name="static")
+
 
 @app.get("/")
 async def serve_frontend():
@@ -191,6 +198,12 @@ async def serve_frontend():
         html = html.replace("__KAKAO_MAP_KEY__", os.environ.get("KAKAO_MAP_KEY", ""))
         return HTMLResponse(content=html)
     return {"message": "SiteMatch AI API", "docs": "/docs"}
+
+
+@app.get("/manifest.json")
+async def serve_manifest():
+    """PWA manifest — 관례상 루트 경로로도 접근 가능하게 함"""
+    return FileResponse(os.path.join(_static_dir, "manifest.json"), media_type="application/manifest+json")
 
 
 @app.get("/health")
