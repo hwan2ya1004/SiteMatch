@@ -8,6 +8,8 @@ from typing import List, AsyncGenerator, Dict, Optional
 from groq import Groq
 from langchain_groq import ChatGroq
 
+from services.park_docs import get_park_documents_text
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS_PATH = os.path.join(BASE_DIR, "data", "subsidy_docs.txt")
 
@@ -47,6 +49,10 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
    이 블록이 없다면, 또는 블록은 있어도 물어본 항목(예: 가동률)이 그 안에 안 적혀 있다면,
    절대로 다른 수치(면적 등)로부터 계산·추정해서 만들어내지 말고 "해당 정보는 없습니다"라고
    솔직히 답하세요. 없는 수치를 그럴듯하게 계산해서 답하는 것이 가장 나쁜 답변입니다.
+9. "[단지명 관리기관 공식 고시문서 발췌]" 블록이 있다면, 이건 해당 관리기관(시청 등)이 실제로
+   발행한 관리기본계획·지형도면 고시문 원문 일부입니다 — 입주업체 목록, 업종별 배치, 입주제한
+   업종, 추진경위 등을 물으면 이 블록을 근거로 답하세요. 이 블록이 없다면 그 단지의 공식
+   고시문서를 아직 확보하지 못한 것뿐이니, 없다고 솔직히 답하고 DB 실측 데이터로만 답하세요.
 
 참고 문서:
 {context}
@@ -236,11 +242,18 @@ class RAGService:
         return "\n".join(lines)
 
     def _get_context(self, query: str) -> str:
-        """쿼리 관련 문서 검색 (키워드 필터링) + 질문에 등장한 특정 단지의 실측 데이터를 함께 제공."""
+        """쿼리 관련 문서 검색 (키워드 필터링) + 질문에 등장한 특정 단지의 실측 데이터,
+        그리고 그 단지의 관리기관 공식 고시문서(있으면)를 함께 제공."""
         doc_context = _keyword_filter_context(self._docs_text, query)
         park = self._find_mentioned_park(query)
         if park:
-            return self._format_park_facts(park) + "\n\n" + doc_context
+            facts = self._format_park_facts(park)
+            official = get_park_documents_text(
+                park.get("region", ""), park.get("city", ""), park.get("name", "")
+            )
+            if official:
+                facts += f"\n\n[{park.get('name')} 관리기관 공식 고시문서 발췌]\n{official}"
+            return facts + "\n\n" + doc_context
         return doc_context
 
     def chat(self, messages: List[dict]) -> str:

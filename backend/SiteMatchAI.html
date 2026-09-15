@@ -823,11 +823,33 @@ function renderResults(results, ind, ar) {
       ${r.contact && r.website ? ' &nbsp;|&nbsp; ' : ''}
       ${r.website ? `🔗 <a href="${r.website}" target="_blank" rel="noopener noreferrer">공단 홈페이지</a>` : ''}
     </div>` : ''}
+    <div id="park-docs-${r.id}" class="park-docs" style="display:none"></div>
     <div class="result-actions">
       <button class="btn-primary" onclick="goChat('${r.name}')">챗봇에서 상세 문의</button>
     </div>
   </div>`;
   }).join('');
+
+  // 결과가 그려진 뒤, 단지별로 관련 공문이 있는지 각각 조용히 조회한다 (없는 게 정상인
+  // 단지가 대다수라 실패/빈 목록을 에러로 취급하지 않고 그냥 아무것도 안 보여준다).
+  results.forEach(r => loadParkDocs(r.id));
+}
+
+async function loadParkDocs(parkId) {
+  const el = document.getElementById(`park-docs-${parkId}`);
+  if (!el) return;
+  try {
+    const resp = await fetch(`${API_BASE}/api/parks/${parkId}/documents`);
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const docs = data.documents || [];
+    if (docs.length === 0) return;
+    el.style.display = 'block';
+    el.innerHTML = `<div style="font-size:12px;color:var(--text-sub);margin-bottom:6px">📄 관리기관 공식 공문</div>`
+      + docs.map(d => `<a href="${API_BASE}${d.url}" target="_blank" rel="noopener noreferrer" class="tag" style="text-decoration:none;margin:2px 4px 8px 0;display:inline-block">${d.kind === 'image' ? '🖼️' : '📎'} ${escapeHtml(d.filename)}</a>`).join('');
+  } catch (e) {
+    // 로컬에 "전국산업단지 공문" 폴더가 없는 배포 환경 등 — 조용히 무시
+  }
 }
 
 // ── 마크다운 → HTML (챗봇 답변이 **굵게**/목록/헤더 형식으로 오므로 예쁘게 렌더링) ──

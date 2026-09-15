@@ -367,3 +367,37 @@ def list_parks(
         })
 
     return {"parks": result, "total": len(result)}
+
+
+@router.get("/parks/{park_id}/documents")
+def get_park_documents(park_id: int, db: Session = Depends(get_db)):
+    """해당 단지의 "전국산업단지 공문" 폴더에 있는 문서/이미지 목록.
+    로컬 실행 시에만 폴더가 존재하므로(배포 환경엔 없음) 없으면 그냥 빈 목록을 반환한다."""
+    from services.park_docs import list_park_documents
+
+    park = db.query(IndustrialPark).filter(IndustrialPark.id == park_id).first()
+    if not park:
+        raise HTTPException(status_code=404, detail="해당 산업단지를 찾을 수 없습니다.")
+
+    docs = list_park_documents(park.region or "", park.city or "", park.name or "")
+    for d in docs:
+        d["url"] = f"/api/parks/{park_id}/documents/{d['filename']}"
+    return {"park_id": park_id, "park_name": park.name, "documents": docs}
+
+
+@router.get("/parks/{park_id}/documents/{filename}")
+def download_park_document(park_id: int, filename: str, db: Session = Depends(get_db)):
+    """개별 문서 다운로드. list_park_documents가 반환한 파일명과 정확히 일치할 때만
+    서빙한다 — 임의의 filename으로 폴더 밖 파일에 접근(경로 조작)하는 것을 막기 위함."""
+    from fastapi.responses import FileResponse
+    from services.park_docs import resolve_document_path
+
+    park = db.query(IndustrialPark).filter(IndustrialPark.id == park_id).first()
+    if not park:
+        raise HTTPException(status_code=404, detail="해당 산업단지를 찾을 수 없습니다.")
+
+    path = resolve_document_path(park.region or "", park.city or "", park.name or "", filename)
+    if not path or not path.is_file():
+        raise HTTPException(status_code=404, detail="해당 문서를 찾을 수 없습니다.")
+
+    return FileResponse(str(path), filename=filename)
