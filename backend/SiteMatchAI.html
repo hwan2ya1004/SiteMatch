@@ -1135,6 +1135,16 @@ let kakaoMarkers = [];
 let kakaoMarkersById = {};   // id -> { marker, info, park } — 검색 결과 클릭/자동 이동에 사용
 let myLocationLatLng = null; // { lat, lng } — "내 위치" 버튼으로 확인된 현재 위치 (길찾기 출발지로 재사용)
 let myLocationMarker = null;
+let currentInfoWindow = null; // 지금 열려있는 정보창 — 새로 열거나 지도 빈 곳을 클릭하면 이걸 닫는다
+
+// 정보창을 열 때는 항상 이 함수를 거쳐서, 이전에 열려있던 정보창이 안 닫힌 채
+// 계속 쌓이는 일이 없게 한다 (전에는 마커 클릭 시 그냥 open()만 호출해서
+// 한 번 연 정보창이 다시는 안 닫이는 버그가 있었다).
+function showInfoWindow(info, marker) {
+  if (currentInfoWindow) currentInfoWindow.close();
+  info.open(kakaoMap, marker);
+  currentInfoWindow = info;
+}
 
 function initKakaoMapIfNeeded() {
   if (kakaoMap || typeof kakao === 'undefined' || !kakao.maps) return;
@@ -1144,6 +1154,10 @@ function initKakaoMapIfNeeded() {
     kakaoMap = new kakao.maps.Map(container, {
       center: new kakao.maps.LatLng(36.5, 127.8), // 대한민국 대략 중심
       level: 13,
+    });
+    // 지도의 빈 곳을 클릭하면 열려있던 정보창을 닫는다
+    kakao.maps.event.addListener(kakaoMap, 'click', () => {
+      if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
     });
     // 지도가 이제 막 준비됐는데 데이터가 이미 로드돼 있었다면 바로 그려준다
     if (window.allParks) applyParksFilter();
@@ -1191,6 +1205,7 @@ function ensureMarkerFor(p) {
     ),
   });
   const info = new kakao.maps.InfoWindow({
+    removable: true, // 정보창 우측 상단에 닫기(X) 버튼 표시
     content: `<div style="padding:8px 10px;font-size:12px;line-height:1.7;min-width:180px">`
       + `<strong>${escapeHtml(p.name)}</strong><br>`
       + `${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}<br>`
@@ -1199,7 +1214,7 @@ function ensureMarkerFor(p) {
       + `<button onclick="openDirections(${p.id})" style="margin-top:6px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--teal-light);color:var(--teal-dark);font-size:12px;font-weight:600;cursor:pointer">🧭 길찾기</button>`
       + `</div>`,
   });
-  kakao.maps.event.addListener(marker, 'click', () => info.open(kakaoMap, marker));
+  kakao.maps.event.addListener(marker, 'click', () => showInfoWindow(info, marker));
   const entry = { marker, info, park: p };
   kakaoMarkers.push(marker);
   kakaoMarkersById[p.id] = entry;
@@ -1216,11 +1231,12 @@ function openParkInfo(parkId) {
   }
   kakaoMap.setCenter(entry.marker.getPosition());
   kakaoMap.setLevel(5);
-  entry.info.open(kakaoMap, entry.marker);
+  showInfoWindow(entry.info, entry.marker);
 }
 
 function renderParksMap(parks) {
   if (!kakaoMap) return; // 지도가 아직 준비 전이면 initKakaoMapIfNeeded 콜백에서 다시 그린다
+  if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
   kakaoMarkers.forEach(m => m.setMap(null));
   kakaoMarkers = [];
   kakaoMarkersById = {};
