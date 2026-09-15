@@ -1192,6 +1192,9 @@ let kakaoMarkers = [];
 let kakaoMarkersById = {};   // id -> { marker, info, park } — 검색 결과 클릭/자동 이동에 사용
 let myLocationLatLng = null; // { lat, lng } — "내 위치" 버튼으로 확인된 현재 위치 (길찾기 출발지로 재사용)
 let myLocationMarker = null;
+let hasCenteredOnUser = false; // true가 되면 renderParksMap이 전체 마커 범위로 다시 안 맞춘다 —
+                                 // 안 그러면 데이터 새로고침(loadDashboard 등)이 내 위치로
+                                 // 맞춰놓은 화면을 도로 전국 화면으로 되돌리는 경쟁 상태가 생김
 let currentInfoWindow = null; // 지금 열려있는 정보창 — 새로 열거나 지도 빈 곳을 클릭하면 이걸 닫는다
 
 // 정보창을 열 때는 항상 이 함수를 거쳐서, 이전에 열려있던 정보창이 안 닫힌 채
@@ -1276,6 +1279,11 @@ function initKakaoMapIfNeeded() {
         });
         // 지도가 이제 막 준비됐는데 데이터가 이미 로드돼 있었다면 바로 그려준다
         if (window.allParks) applyParksFilter();
+        // 지도 시작 위치를 내 위치로 — 동의 절차는 그대로 거치되(위치정보법 대응),
+        // 처음 지도를 열 때 자동으로 한 번 시도한다. 거부/실패해도 조용히
+        // 넘어가고(전국 전체가 보이는 기존 기본 화면 유지) 굳이 알림을 띄우지
+        // 않는다 — 사용자가 직접 누른 동작이 아니라서 실패를 알리면 오히려 방해된다.
+        locateMe(true);
       } catch (e) {
         showMapLoadError('지도 초기화 오류: ' + e.message);
       }
@@ -1372,14 +1380,16 @@ function renderParksMap(parks) {
     ensureMarkerFor(p);
     bounds.extend(new kakao.maps.LatLng(p.lat, p.lng));
   });
-  kakaoMap.setBounds(bounds);
+  // 내 위치로 이미 화면을 맞춘 뒤라면, 데이터가 다시 로드되거나 필터가 바뀌어도
+  // 전체 마커 범위로 화면을 도로 확대해버리지 않는다 (사용자가 보던 위치 유지).
+  if (!hasCenteredOnUser) kakaoMap.setBounds(bounds);
 }
 
 // "내 위치" — 브라우저 위치 권한으로 현재 좌표를 얻어 지도에 별도 마커로 표시하고,
 // 이후 길찾기 링크의 출발지로 재사용한다.
-function locateMe() {
-  if (!navigator.geolocation) { alert('이 브라우저는 위치 확인을 지원하지 않습니다.'); return; }
-  if (!kakaoMap) { alert('지도가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.'); return; }
+function locateMe(silent) {
+  if (!navigator.geolocation) { if (!silent) alert('이 브라우저는 위치 확인을 지원하지 않습니다.'); return; }
+  if (!kakaoMap) { if (!silent) alert('지도가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.'); return; }
 
   // 브라우저의 위치 권한 팝업은 "허용/차단" 기술적 동의일 뿐, 위치정보법이 요구하는
   // 수집 목적 고지가 빠져있다. 그 팝업이 뜨기 전에 먼저 목적을 설명하고 별도로
@@ -1415,10 +1425,11 @@ function locateMe() {
       });
       kakaoMap.setCenter(latlng);
       kakaoMap.setLevel(6);
+      hasCenteredOnUser = true;
       if (btn) { btn.disabled = false; btn.textContent = '📍 내 위치'; }
     },
     () => {
-      alert('현재 위치를 가져올 수 없습니다. 브라우저의 위치 권한 설정을 확인해주세요.');
+      if (!silent) alert('현재 위치를 가져올 수 없습니다. 브라우저의 위치 권한 설정을 확인해주세요.');
       if (btn) { btn.disabled = false; btn.textContent = '📍 내 위치'; }
     },
     { enableHighAccuracy: true, timeout: 8000 }
@@ -1518,15 +1529,18 @@ function renderStaticDashboard() {
 // 안드로이드 Chrome은 서비스워커가 없으면(지금 이 앱엔 없음) 자동 설치
 // 배너가 잘 안 뜨고, iOS Safari는 애초에 자동 안내 자체가 없다. 그래서
 // 두 경우 다 직접 안내 문구를 보여준다. 이미 홈화면 앱(standalone)으로
-// 실행 중이면 당연히 안 보여주고, 한 번 닫으면 이 브라우저에서는 다시
-// 안 띄운다.
+// 실행 중이면 당연히 안 보여준다. "닫기"는 이번 방문(세션)에서만 숨기고
+// — 강제로 못 닫게 막거나 계속 화면을 가리는 건 나쁜 UX라 안 함 —
+// sessionStorage를 쓰기 때문에, 실제로 홈 화면에 추가하기 전까지는
+// 다음에 새로 들어올 때마다 다시 안내한다 (영구 dismiss였던 이전 버전은
+// 한 번 닫으면 설치 전이어도 다시는 안 보여서 "유도" 효과가 없었음).
 function initInstallBanner() {
   const isStandalone = window.navigator.standalone === true
     || window.matchMedia('(display-mode: standalone)').matches;
   if (isStandalone) return;
 
   let dismissed = false;
-  try { dismissed = localStorage.getItem('installBannerDismissed') === '1'; } catch(e) {}
+  try { dismissed = sessionStorage.getItem('installBannerDismissed') === '1'; } catch(e) {}
   if (dismissed) return;
 
   const ua = navigator.userAgent;
@@ -1545,7 +1559,7 @@ function initInstallBanner() {
 
 function dismissInstallBanner() {
   document.getElementById('install-banner').style.display = 'none';
-  try { localStorage.setItem('installBannerDismissed', '1'); } catch(e) {}
+  try { sessionStorage.setItem('installBannerDismissed', '1'); } catch(e) {}
 }
 
 window.addEventListener('load', () => {
