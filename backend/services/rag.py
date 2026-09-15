@@ -53,6 +53,18 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
    발행한 관리기본계획·지형도면 고시문 원문 일부입니다 — 입주업체 목록, 업종별 배치, 입주제한
    업종, 추진경위 등을 물으면 이 블록을 근거로 답하세요. 이 블록이 없다면 그 단지의 공식
    고시문서를 아직 확보하지 못한 것뿐이니, 없다고 솔직히 답하고 DB 실측 데이터로만 답하세요.
+10. 정확도가 가장 중요합니다. 그 블록 안에는 "[출처: 문서 제목]" 형태의 표시가 문서마다
+    붙어있습니다 — 그 블록의 내용을 근거로 답할 때는 반드시 문장 끝에 그 출처를 그대로
+    괄호로 표시하세요. 예: "31개 업체가 입주해 있습니다. (출처: 김해시 고시 제2025-216호)".
+    여러 출처의 내용을 같이 썼다면 관련된 출처를 전부 표시하세요. 숫자·업체명·조항 번호는
+    문서 원문에 적힌 그대로 옮기고, 어림잡거나 반올림·요약하지 마세요 — "30개사쯤", "대략"처럼
+    부정확하게 답하지 말고, 원문 표현이 애매하면("OOO 외 30개사" 등) 그 애매함까지 그대로
+    설명하세요 (예: "㈜구보 외 30개사로 표기되어 있어 구보를 포함하면 총 31개사입니다").
+    절대로 원문에 없는 예시(업종명, 회사명, 수치 등)를 만들어 덧붙이고 그걸 같은 출처로
+    표시하지 마세요 — 예를 들어 원문이 "도금시설은 입주 제한"이라고만 했는데 "타이어
+    제조업, 시멘트 제조업" 같은 예시를 스스로 지어내 같은 출처 표시로 답하면 안 됩니다.
+    원문에 있는 항목만 그대로 나열하고, 이해를 돕는 일반적 설명을 덧붙이고 싶으면 그
+    부분은 출처 표시 없이 "(참고로 일반적으로는 ~)"처럼 원문과 명확히 구분해서 쓰세요.
 
 참고 문서:
 {context}
@@ -110,7 +122,7 @@ _STOPWORDS = {
 }
 
 
-def _keyword_filter_context(docs_text: str, query: str) -> str:
+def _keyword_filter_context(docs_text: str, query: str, max_chars: int = 2200) -> str:
     """쿼리 키워드가 포함된 단락을 우선 반환 (간단한 관련성 필터)"""
     if not docs_text:
         return "관련 문서 없음"
@@ -159,11 +171,11 @@ def _keyword_filter_context(docs_text: str, query: str) -> str:
     # 못 들어가도 2~3위 단락이라도 채울 수 있다(예전엔 break라 아예 빈 컨텍스트가 됨).
     context = ""
     for _, para in scored:
-        if len(context) + len(para) > 2200:
+        if len(context) + len(para) > max_chars:
             continue
         context += para + "\n\n"
 
-    return context.strip() or docs_text[:1500]
+    return context.strip() or docs_text[:min(1500, max_chars)]
 
 
 class RAGService:
@@ -244,17 +256,33 @@ class RAGService:
     def _get_context(self, query: str) -> str:
         """쿼리 관련 문서 검색 (키워드 필터링) + 질문에 등장한 특정 단지의 실측 데이터,
         그리고 그 단지의 관리기관 공식 고시문서(있으면)를 함께 제공."""
-        doc_context = _keyword_filter_context(self._docs_text, query)
         park = self._find_mentioned_park(query)
+
         if park:
+            # 특정 단지가 특정된 질문은, 그 단지 자체의 공식 문서가 전국 단위
+            # subsidy_docs.txt보다 훨씬 더 관련성이 높다 — 전국 문서 예산을 크게
+            # 줄이고 그만큼을 그 단지 문서 쪽으로 몰아준다 (질문 자체가 이미 그
+            # 단지로 좁혀졌으니 전국 문서가 필요한 경우는 드물다).
+            #
+            # 단지 공식 문서는 키워드 매칭을 안 쓰고 그냥 앞에서부터 순서대로
+            # 자른다 — 실제로 겪은 문제: "입주업체가 몇 개사야?"라고 물으면
+            # 정답이 있는 페이지(표 헤더가 "업체수"/"㈜구보 외 30개사")에는 정작
+            # "입주업체"라는 글자가 그대로 없고, 엉뚱한 페이지("입주업체에 대한
+            # 지원활동" 같은 문장)에만 그 글자가 우연히 들어있어서 키워드 매칭이
+            # 오히려 틀린 페이지를 골랐다. 단지 공식 문서는 하나같이 그 단지
+            # 얘기뿐이라 "관련 없는 내용을 걸러낼 필요"가 애초에 거의 없으므로,
+            # 이 경우엔 정밀 필터링보다 통째로 넣는 쪽이 더 정확하다.
+            doc_context = _keyword_filter_context(self._docs_text, query, max_chars=700)
             facts = self._format_park_facts(park)
-            official = get_park_documents_text(
+            official_full = get_park_documents_text(
                 park.get("region", ""), park.get("city", ""), park.get("name", "")
             )
-            if official:
+            if official_full:
+                official = official_full[:6000]
                 facts += f"\n\n[{park.get('name')} 관리기관 공식 고시문서 발췌]\n{official}"
             return facts + "\n\n" + doc_context
-        return doc_context
+
+        return _keyword_filter_context(self._docs_text, query)
 
     def chat(self, messages: List[dict]) -> str:
         """동기 챗봇 응답"""
