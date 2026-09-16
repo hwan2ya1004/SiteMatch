@@ -189,7 +189,10 @@ class RAGService:
             model=CHAT_MODEL,
             groq_api_key=api_key,
             temperature=0.3,
-            max_tokens=900,  # 단계별 상세 설명을 위해 상향(기존 400자 제한 규칙 폐지에 맞춤)
+            # 900이었을 때 GW 같은 공식 문서 근거 답변(표+여러 항목)이 중간 단어에서
+            # 뚝 끊기는 문제가 실제로 있었다 — 1500으로 올리고, 그만큼 TPM 예산을
+            # 맞추려고 _get_context()의 컨텍스트 쪽 예산을 줄였다(아래 chat_stream도 동일).
+            max_tokens=1500,
             reasoning_effort="low",  # gpt-oss는 추론 모델 — effort를 낮추지 않으면 토큰 예산을 "생각"에 다 씀
         )
         # 문서 로드 (시작 시 1회)
@@ -276,7 +279,11 @@ class RAGService:
             # 하므로 여기서 다시 자르지 않는다 — 한 단지에 PDF+txt처럼 문서가
             # 여러 개일 때 앞 파일이 예산을 다 써서 뒤 파일이 통째로 사라지는
             # 문제가 실제로 있었음)
-            doc_context = _keyword_filter_context(self._docs_text, query, max_chars=700)
+            # 예산 수치는 max_tokens를 900→1500으로 올리면서 같이 줄인 것 —
+            # 컨텍스트를 그대로 두고 완성 토큰만 늘리면 Groq 무료 티어 TPM(분당
+            # 8000토큰) 한도를 넘겨 요청 자체가 거부되므로, 전체 합이 비슷하게
+            # 유지되도록 컨텍스트 쪽에서 줄였다.
+            doc_context = _keyword_filter_context(self._docs_text, query, max_chars=500)
             facts = self._format_park_facts(park)
             official = get_park_documents_text(
                 park.get("region", ""), park.get("city", ""), park.get("name", ""), budget=6000
@@ -347,7 +354,7 @@ AI:"""
                 {"role": "user", "content": user_content},
             ],
             temperature=0.3,
-            max_tokens=900,  # 단계별 상세 설명을 위해 상향(기존 400자 제한 규칙 폐지에 맞춤)
+            max_tokens=1500,  # 사유는 위 chat()의 동일 옵션 주석 참고
             reasoning_effort="low",
             stream=True,
         )
