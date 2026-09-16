@@ -228,6 +228,11 @@
   }
   #install-banner button:hover { color: var(--text-sub); }
 
+  /* ── 푸터 사업자정보 (기본은 접힌 상태, 클릭하면 펼쳐짐) ── */
+  #footer-biz-info summary { list-style: none; }
+  #footer-biz-info summary::-webkit-details-marker { display: none; }
+  #footer-biz-info[open] summary .chevron { transform: rotate(180deg); }
+
   /* ── 반응형 ── */
   @media (max-width: 768px) {
     .layout { padding: 20px 16px; }
@@ -440,7 +445,7 @@
   <div class="page" id="page-chat">
     <div class="page-header">
       <div class="page-title">AI 입주 상담</div>
-      <div class="page-desc">지원금, 인허가 절차, 세금 혜택, 입지 분석 등 궁금한 것을 자유롭게 질문하세요. (RAG 기반 실시간 스트리밍)</div>
+      <div class="page-desc">지원금, 인허가 절차, 세금 혜택, 입지 분석 등 궁금한 것을 자유롭게 질문하세요.</div>
     </div>
     <div class="chat-layout">
       <div class="chat-box">
@@ -550,7 +555,8 @@
           <tr>
             <th>산업단지명</th>
             <th>위치</th>
-            <th>가동률</th>
+            <th title="등록된 입주기업 중 실제로 운영 중인 기업의 비율 — 빈 부지(가용면적) 여부와는 다른 지표입니다">입주기업 운영률 ⓘ</th>
+            <th title="지정면적 대비 분양이 완료된 면적의 비율 (한국산업단지공단 공식 통계 기준)">분양률 ⓘ</th>
             <th>가용 면적</th>
             <th>임대료(월)</th>
             <th>주요 업종</th>
@@ -559,7 +565,7 @@
           </tr>
         </thead>
         <tbody id="parks-tbody">
-          <tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 로딩 중...</td></tr>
+          <tr><td colspan="9" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 로딩 중...</td></tr>
         </tbody>
       </table>
     </div>
@@ -568,18 +574,22 @@
 
 </div>
 
-<footer style="border-top:1px solid var(--border);padding:24px 32px;font-size:12px;color:var(--text-sub);line-height:1.8;flex-shrink:0">
+<footer style="border-top:1px solid var(--border);padding:16px 32px;font-size:12px;color:var(--text-sub);flex-shrink:0">
   <div style="max-width:1100px;margin:0 auto">
-    <strong style="color:var(--text)">서희연구소</strong>
-    &nbsp;|&nbsp; 대표자: 김성환
-    &nbsp;|&nbsp; 사업자등록번호: 832-29-01692 (간이과세자)
-    &nbsp;|&nbsp; 통신판매업: 제2026-화성동탄-2143호
-    <br>
-    주소: 경기도 화성시 동탄순환대로17길 15, 2423동 802호
-    &nbsp;|&nbsp; 연락처: 070-4177-1210
-    &nbsp;|&nbsp; 이메일: seohilab@naver.com
-    <br>
-    © 2026 서희연구소. All rights reserved.
+    <details id="footer-biz-info">
+      <summary style="cursor:pointer;display:flex;align-items:center;gap:8px;user-select:none">
+        <strong style="color:var(--text)">서희연구소</strong>
+        <span>© 2026</span>
+        <span style="display:inline-flex;align-items:center;gap:3px;color:var(--teal);font-weight:500;margin-left:2px">
+          사업자정보
+          <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition:transform 0.2s"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </summary>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);line-height:1.8">
+        대표자: 김성환 &nbsp;|&nbsp; 사업자등록번호: 832-29-01692 (간이과세자) &nbsp;|&nbsp; 통신판매업: 제2026-화성동탄-2143호<br>
+        주소: 경기도 화성시 동탄순환대로17길 15, 2423동 802호 &nbsp;|&nbsp; 연락처: 070-4177-1210 &nbsp;|&nbsp; 이메일: seohilab@naver.com
+      </div>
+    </details>
   </div>
 </footer>
 
@@ -828,7 +838,8 @@ function renderResults(results, ind, ar) {
     </div>
     <div class="tags">
       ${(r.features||[]).slice(0,4).map(t=>`<span class="tag">${t}</span>`).join('')}
-      ${r.vacancy_rate != null ? `<span class="tag">가동률 ${(100 - r.vacancy_rate).toFixed(1)}%</span>` : ''}
+      ${r.vacancy_rate != null ? `<span class="tag" title="등록된 입주기업 중 실제로 운영 중인 기업의 비율">운영률 ${(100 - r.vacancy_rate).toFixed(1)}%</span>` : ''}
+      ${r.sale_rate != null ? `<span class="tag" title="지정면적 대비 분양이 완료된 면적의 비율">분양률 ${r.sale_rate.toFixed(1)}%</span>` : ''}
     </div>
     ${(r.reason || r.description) ? `<div class="result-reason">${r.reason || r.description}</div>` : ''}
     ${breakdownLine}
@@ -1127,7 +1138,7 @@ async function loadDashboard() {
     if (statsResp.ok) {
       const stats = await statsResp.json();
       document.getElementById('stat-area').textContent = stats.total_available_area || '-';
-      document.getElementById('stat-area-sub').textContent = `▲ 평균 가동률 ${(100 - stats.avg_vacancy_rate).toFixed(1)}%`;
+      document.getElementById('stat-area-sub').textContent = `▲ 평균 운영률 ${(100 - stats.avg_vacancy_rate).toFixed(1)}%`;
       document.getElementById('stat-matches').textContent = `${stats.monthly_matches}건`;
       document.getElementById('stat-matches-sub').textContent = `전체 ${stats.total_parks}개 산단 모니터링`;
       document.getElementById('stat-companies').textContent = `${stats.total_companies}개사`;
@@ -1360,7 +1371,8 @@ function ensureMarkerFor(p) {
     content: `<div style="padding:8px 10px;font-size:12px;line-height:1.7;min-width:180px">`
       + `<strong>${escapeHtml(p.name)}</strong><br>`
       + `${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}<br>`
-      + `가동률 ${(100 - p.vacancy_rate).toFixed(1)}% · <span style="color:${p.bar_color};font-weight:600">${escapeHtml(p.status)}</span><br>`
+      + `운영률 ${(100 - p.vacancy_rate).toFixed(1)}% · <span style="color:${p.bar_color};font-weight:600">${escapeHtml(p.status)}</span><br>`
+      + (p.sale_rate != null ? `분양률 ${p.sale_rate.toFixed(1)}%<br>` : '')
       + `가용면적 ${escapeHtml(p.available_area)}<br>`
       + `<button onclick="openDirections(${p.id})" style="margin-top:6px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--teal-light);color:var(--teal-dark);font-size:12px;font-weight:600;cursor:pointer">🧭 길찾기</button>`
       + `</div>`,
@@ -1516,6 +1528,7 @@ function renderParksTable(parks) {
         <div class="progress"><div class="progress-fill" style="width:${Math.min(100 - p.vacancy_rate, 100)}%;background:${p.bar_color}"></div></div>
         <span style="font-size:12px"> ${(100 - p.vacancy_rate).toFixed(1)}%</span>
       </td>
+      <td>${p.sale_rate != null ? p.sale_rate.toFixed(1) + '%' : '정보없음'}</td>
       <td>${p.available_area}</td>
       <td>${p.rent_per_sqm}</td>
       <td style="color:var(--text-sub)">${(p.industries||[]).slice(0,2).join('·')}</td>

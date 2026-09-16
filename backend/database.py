@@ -29,6 +29,10 @@ class IndustrialPark(Base):
     total_area = Column(Float)
     available_area = Column(Float)
     vacancy_rate = Column(Float)
+    sale_rate = Column(Float)       # 분양률(%) — 한국산업단지공단 공식 통계 "분양/전체면적" 기준. 임대 여부를
+                                     # 별도로 구분하는 공식 필드는 원본 데이터에 없어서(분양 중심으로만 관리됨),
+                                     # 임대는 rent_per_sqm 존재 여부로만 참고 표시한다 — 없는 걸 "임대 아님"으로
+                                     # 단정하지 않음
     rent_per_sqm = Column(Integer)
     industries = Column(Text)       # JSON 문자열
     logistics = Column(Text)        # JSON 문자열
@@ -171,6 +175,7 @@ def init_db():
                     total_area=p["total_area"],
                     available_area=p["available_area"],
                     vacancy_rate=p["vacancy_rate"],
+                    sale_rate=p.get("sale_rate"),
                     rent_per_sqm=p["rent_per_sqm"],
                     industries=json.dumps(p["industries"], ensure_ascii=False),
                     logistics=json.dumps(p["logistics"], ensure_ascii=False),
