@@ -272,13 +272,16 @@ class RAGService:
             # 오히려 틀린 페이지를 골랐다. 단지 공식 문서는 하나같이 그 단지
             # 얘기뿐이라 "관련 없는 내용을 걸러낼 필요"가 애초에 거의 없으므로,
             # 이 경우엔 정밀 필터링보다 통째로 넣는 쪽이 더 정확하다.
+            # (budget 배분은 get_park_documents_text 안에서 파일별로 균등하게
+            # 하므로 여기서 다시 자르지 않는다 — 한 단지에 PDF+txt처럼 문서가
+            # 여러 개일 때 앞 파일이 예산을 다 써서 뒤 파일이 통째로 사라지는
+            # 문제가 실제로 있었음)
             doc_context = _keyword_filter_context(self._docs_text, query, max_chars=700)
             facts = self._format_park_facts(park)
-            official_full = get_park_documents_text(
-                park.get("region", ""), park.get("city", ""), park.get("name", "")
+            official = get_park_documents_text(
+                park.get("region", ""), park.get("city", ""), park.get("name", ""), budget=6000
             )
-            if official_full:
-                official = official_full[:6000]
+            if official:
                 facts += f"\n\n[{park.get('name')} 관리기관 공식 고시문서 발췌]\n{official}"
             return facts + "\n\n" + doc_context
 
