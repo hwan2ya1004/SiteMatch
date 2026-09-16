@@ -1,11 +1,13 @@
 """
-"전국산업단지 공문" 폴더(산업통산부/전국산업단지 공문/{시도}/{시군구}/{산업단지명}/파일...)에서
+"전국산업단지 공문" 폴더(backend/data/park_docs/{시도}/{시군구}/{산업단지명}/파일...)에서
 산업단지별 공문·고시문서를 찾아 목록화하고, PDF는 텍스트를 추출해 챗봇 컨텍스트로 재사용한다.
 
-주의: 이 폴더는 사용자 로컬 컴퓨터에만 있고 git 저장소(SiteMatch)에는 포함되지 않는다.
-Render 등 배포 환경에는 이 폴더 자체가 없으므로, 로컬에서 실행할 때만 문서가 보이고
-배포된 사이트에서는 조용히 빈 결과를 반환한다 (에러로 취급하지 않음 — 있으면 보여주고
-없으면 생략하는 것이 원칙).
+이 폴더는 backend/data/ 아래(git 저장소 안)에 있어 코드와 함께 커밋·배포된다 —
+처음엔 저장소 밖(산업통산부/전국산업단지 공문)에 있어서 로컬에서만 보이고 배포
+사이트(Render)에는 반영이 안 됐는데, 그러면 "로컬에서 답 잘 하는 걸 확인했다"가
+배포 사이트에서는 그대로 재현이 안 되는 문제가 있어 저장소 안으로 옮겼다.
+앞으로 새 단지 문서는 이 backend/data/park_docs/ 아래에 바로 추가해야
+git push로 배포 사이트에도 반영된다.
 """
 import os
 import re
@@ -15,9 +17,7 @@ from typing import Dict, List, Optional
 
 _SERVICES_DIR = os.path.dirname(os.path.abspath(__file__))
 _BACKEND_DIR = os.path.dirname(_SERVICES_DIR)
-_SITEMATCH_DIR = os.path.dirname(_BACKEND_DIR)
-_SANUPTONGSANBU_DIR = os.path.dirname(_SITEMATCH_DIR)
-DOCS_ROOT = os.path.join(_SANUPTONGSANBU_DIR, "전국산업단지 공문")
+DOCS_ROOT = os.path.join(_BACKEND_DIR, "data", "park_docs")
 
 DOC_EXTENSIONS = {".pdf", ".hwp", ".hwpx", ".doc", ".docx"}
 TEXT_EXTENSIONS = {".txt"}  # PDF만 지원했더니 사용자가 직접 정리해 넣은 .txt 문서가
