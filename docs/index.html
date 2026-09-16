@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="light">
+<title>SiteMatch AI 접속 중</title>
+<link rel="icon" href="https://sitematch.onrender.com/static/icons/icon-192.png" type="image/png">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --teal: #0F6E56;
+    --teal-mid: #1D9E75;
+    --teal-light: #E1F5EE;
+    --navy: #0F243E;
+    --gray-bg: #F7F8FA;
+    --text: #1A1A1A;
+    --text-sub: #6B7280;
+  }
+  html, body {
+    height: 100%;
+    font-family: 'Pretendard', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+    background: var(--gray-bg);
+    color: var(--text);
+  }
+  body {
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    width: 100%; max-width: 380px;
+    text-align: center;
+  }
+  /* 공장 실루엣 + AI 시그널 아크 로고 — 앱 아이콘과 동일한 모티브 */
+  .logo-wrap {
+    width: 96px; height: 96px; margin: 0 auto 28px;
+    display: flex; align-items: center; justify-content: center;
+    animation: breathe 2.4s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.06); opacity: 0.85; }
+  }
+  .logo-wrap svg { width: 100%; height: 100%; }
+
+  h1 { font-size: 19px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.2px; word-break: keep-all; }
+  .sub { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 28px; word-break: keep-all; }
+
+  .dots { display: inline-flex; gap: 6px; margin-bottom: 22px; }
+  .dot { width: 9px; height: 9px; background: var(--teal-mid); border-radius: 50%; animation: bounce 1.2s ease-in-out infinite; }
+  .dot:nth-child(2) { animation-delay: 0.15s; }
+  .dot:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+
+  .status {
+    font-size: 12.5px; color: var(--text-sub);
+    background: var(--teal-light); color: var(--teal);
+    display: inline-block; padding: 6px 14px; border-radius: 99px;
+    font-weight: 600; transition: all 0.3s;
+  }
+
+  .manual-link { margin-top: 28px; font-size: 12px; }
+  .manual-link a { color: var(--text-sub); text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo-wrap">
+    <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- AI 시그널 아크 -->
+      <path d="M95 118 A55 55 0 0 1 205 118" stroke="#0D9488" stroke-width="10" stroke-linecap="round" opacity="0.35"/>
+      <path d="M110 122 A40 40 0 0 1 190 122" stroke="#0D9488" stroke-width="10" stroke-linecap="round"/>
+      <circle cx="150" cy="72" r="9" fill="#0D9488"/>
+      <!-- 공장 몸체 -->
+      <rect x="80" y="150" width="140" height="70" rx="6" fill="#0F243E"/>
+      <!-- 톱니 지붕 -->
+      <path d="M80 150 L103 118 L126 150 L149 118 L172 150 L195 118 L220 150 Z" fill="#0F243E"/>
+      <!-- 창문 -->
+      <rect x="100" y="172" width="18" height="24" fill="#F7F8FA"/>
+      <rect x="141" y="172" width="18" height="24" fill="#F7F8FA"/>
+      <rect x="182" y="172" width="18" height="24" fill="#F7F8FA"/>
+    </svg>
+  </div>
+
+  <h1>SiteMatch AI를 불러오는 중입니다</h1>
+  <p class="sub" id="sub-text">
+    잠시만 기다려주세요 — 처음 접속하시는 경우 서버를 깨우는 데 최대 1분 정도 걸릴 수 있어요.
+  </p>
+
+  <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+  <br>
+  <span class="status" id="status-pill">연결 확인 중...</span>
+
+  <div class="manual-link">
+    자동으로 안 넘어가면 <a href="https://sitematch.onrender.com/">여기를 눌러주세요</a>
+  </div>
+</div>
+
+<script>
+const TARGET = 'https://sitematch.onrender.com/';
+const startedAt = Date.now();
+let attempts = 0;
+
+async function checkAndRedirect() {
+  attempts++;
+  const elapsed = Date.now() - startedAt;
+
+  // 시간이 지날수록 안심시키는 문구로 교체 (계속 "연결 확인 중"만 뜨면
+  // 멈춘 것처럼 느껴질 수 있어서)
+  const subEl = document.getElementById('sub-text');
+  const pillEl = document.getElementById('status-pill');
+  if (elapsed > 40000) {
+    subEl.innerHTML = '조금만 더 기다려주세요 — 거의 다 됐어요!';
+    pillEl.textContent = '거의 완료...';
+  } else if (elapsed > 15000) {
+    subEl.innerHTML = '서버를 깨우고 있어요, 조금만 더요...';
+    pillEl.textContent = '서버 기동 중...';
+  }
+
+  try {
+    const resp = await fetch(TARGET + 'health', { cache: 'no-store', mode: 'cors' });
+    // Render 콜드 스타트 중에는 200이 와도 우리 서버의 실제 JSON이 아니라
+    // 중계 페이지가 응답할 수 있어 — JSON 파싱과 status 필드까지 확인해야
+    // "진짜 준비 완료"로 판단할 수 있다.
+    const data = await resp.json();
+    if (resp.ok && data && data.status === 'ok') {
+      pillEl.textContent = '접속 중...';
+      window.location.href = TARGET;
+      return;
+    }
+  } catch (e) {
+    // 아직 안 깨어남 — 무시하고 재시도
+  }
+
+  setTimeout(checkAndRedirect, 3000);
+}
+
+checkAndRedirect();
+</script>
+
+</body>
+</html>
