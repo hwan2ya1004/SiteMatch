@@ -61,6 +61,17 @@
 
   .manual-link { margin-top: 28px; font-size: 12px; }
   .manual-link a { color: var(--text-sub); text-decoration: underline; }
+
+  /* 홈 화면 추가 안내 — 이 로딩 페이지 자체를 홈 화면에 추가해야 다음부턴
+     이 페이지를 거쳐 앱처럼 열린다 (원래 앱 화면에서 추가하면 sitematch.
+     onrender.com이 그대로 저장돼서 콜드스타트 화면을 다시 만나게 됨) */
+  .install-hint {
+    display: none; margin-top: 20px; padding: 12px 14px;
+    background: var(--teal-light); color: var(--teal);
+    border-radius: 12px; font-size: 12.5px; line-height: 1.6;
+    text-align: left; word-break: keep-all;
+  }
+  .install-hint strong { color: var(--navy); }
 </style>
 </head>
 <body>
@@ -95,12 +106,36 @@
   <div class="manual-link">
     자동으로 안 넘어가면 <a href="https://sitematch.onrender.com/">여기를 눌러주세요</a>
   </div>
+
+  <div class="install-hint" id="install-hint">
+    <span id="install-hint-text"></span>
+  </div>
 </div>
 
 <script>
 const TARGET = 'https://sitematch.onrender.com/';
 const startedAt = Date.now();
 let attempts = 0;
+
+// 홈 화면에 추가 안내 — 이미 홈 화면 앱(standalone)으로 실행 중이면 당연히
+// 필요 없고, iOS/Android가 아니면(PC) 의미가 없어서 그때만 보여준다.
+const isStandalone = window.navigator.standalone === true
+  || window.matchMedia('(display-mode: standalone)').matches;
+const ua = navigator.userAgent;
+const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+const isAndroid = /Android/.test(ua);
+const showInstallHint = !isStandalone && (isIOS || isAndroid);
+// 안내를 보여줄 땐, 서버가 이미 깨어있어서 순식간에 넘어가더라도 최소
+// 이만큼은 이 화면에 머물게 해서 안내를 알아챌 시간을 준다.
+const MIN_STAY_MS = 5000;
+
+if (showInstallHint) {
+  const text = isIOS
+    ? '📲 <strong>이 화면을 홈 화면에 추가</strong>해두면 다음부턴 이 로딩 화면을 거쳐 앱처럼 바로 열려요 — 하단 공유 아이콘 ⬆️ 을 누르고 "홈 화면에 추가"를 선택해주세요'
+    : '📲 <strong>이 화면을 홈 화면에 추가</strong>해두면 다음부턴 이 로딩 화면을 거쳐 앱처럼 바로 열려요 — 우측 상단 메뉴 ⋮ 를 누르고 "홈 화면에 추가"를 선택해주세요';
+  document.getElementById('install-hint-text').innerHTML = text;
+  document.getElementById('install-hint').style.display = 'block';
+}
 
 async function checkAndRedirect() {
   attempts++;
@@ -125,6 +160,11 @@ async function checkAndRedirect() {
     // "진짜 준비 완료"로 판단할 수 있다.
     const data = await resp.json();
     if (resp.ok && data && data.status === 'ok') {
+      if (showInstallHint && elapsed < MIN_STAY_MS) {
+        // 서버는 이미 준비됐지만, 설치 안내를 볼 시간을 조금 더 준다
+        setTimeout(checkAndRedirect, MIN_STAY_MS - elapsed);
+        return;
+      }
       pillEl.textContent = '접속 중...';
       window.location.href = TARGET;
       return;
