@@ -10838,7 +10838,15 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속 가공제품 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "전기장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "창고 및 운송관련 서비스업",
+      "전기, 가스, 증기 및 공기 조절 공급업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -10852,7 +10860,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 화성시 양감면 요당리, 신왕리 일원"
   },
   {
     "id": 358,
