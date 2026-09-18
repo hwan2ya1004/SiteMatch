@@ -1185,6 +1185,8 @@ let hasCenteredOnUser = false; // true가 되면 renderParksMap이 전체 마커
                                  // 안 그러면 데이터 새로고침(loadDashboard 등)이 내 위치로
                                  // 맞춰놓은 화면을 도로 전국 화면으로 되돌리는 경쟁 상태가 생김
 let currentInfoWindow = null; // 지금 열려있는 정보창 — 새로 열거나 지도 빈 곳을 클릭하면 이걸 닫는다
+let currentBoundaryPolygons = []; // 지금 그려진 경계 폴리곤(단지 하나가 여러 링일 수 있어 배열) — 다음 클릭 시 지운다
+const boundaryCache = {}; // park id -> rings (null이면 "조회했지만 데이터 없음"으로 재조회 방지)
 
 // 정보창을 열 때는 항상 이 함수를 거쳐서, 이전에 열려있던 정보창이 안 닫힌 채
 // 계속 쌓이는 일이 없게 한다 (전에는 마커 클릭 시 그냥 open()만 호출해서
@@ -1193,6 +1195,42 @@ function showInfoWindow(info, marker) {
   if (currentInfoWindow) currentInfoWindow.close();
   info.open(kakaoMap, marker);
   currentInfoWindow = info;
+}
+
+function clearBoundaryPolygons() {
+  currentBoundaryPolygons.forEach(poly => poly.setMap(null));
+  currentBoundaryPolygons = [];
+}
+
+// 국토교통부 산업단지 경계도면 고시 기준 실제 경계 폴리곤을 지도에 그린다.
+// 전체 단지를 한 번에 다 불러오면 무거워서(1MB+), 마커를 클릭한 단지 것만 그때그때 불러온다.
+async function showParkBoundary(parkId) {
+  clearBoundaryPolygons();
+  try {
+    let rings = boundaryCache[parkId];
+    if (rings === undefined) {
+      const resp = await fetch(`${API_BASE}/api/parks/${parkId}/boundary`);
+      const data = await resp.json();
+      rings = data.rings || null;
+      boundaryCache[parkId] = rings;
+    }
+    if (!rings) return; // 매칭된 경계 데이터가 없는 단지 — 마커만 표시
+    rings.forEach(ring => {
+      const path = ring.map(([lng, lat]) => new kakao.maps.LatLng(lat, lng));
+      const polygon = new kakao.maps.Polygon({
+        map: kakaoMap,
+        path,
+        strokeWeight: 2,
+        strokeColor: '#00A99D',
+        strokeOpacity: 0.9,
+        fillColor: '#00A99D',
+        fillOpacity: 0.15,
+      });
+      currentBoundaryPolygons.push(polygon);
+    });
+  } catch (e) {
+    // 경계선은 부가 정보라 실패해도 마커/정보창 표시엔 지장 없게 조용히 넘어간다
+  }
 }
 
 function showMapLoadError(reason) {
@@ -1265,6 +1303,7 @@ function initKakaoMapIfNeeded() {
         // 지도의 빈 곳을 클릭하면 열려있던 정보창을 닫는다
         kakao.maps.event.addListener(kakaoMap, 'click', () => {
           if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
+          clearBoundaryPolygons();
         });
         // 지도가 이제 막 준비됐는데 데이터가 이미 로드돼 있었다면 바로 그려준다
         if (window.allParks) applyParksFilter();
@@ -1335,7 +1374,10 @@ function ensureMarkerFor(p) {
       + `<button onclick="openDirections(${p.id})" style="margin-top:6px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--teal-light);color:var(--teal-dark);font-size:12px;font-weight:600;cursor:pointer">🧭 길찾기</button>`
       + `</div>`,
   });
-  kakao.maps.event.addListener(marker, 'click', () => showInfoWindow(info, marker));
+  kakao.maps.event.addListener(marker, 'click', () => {
+    showInfoWindow(info, marker);
+    showParkBoundary(p.id);
+  });
   const entry = { marker, info, park: p };
   kakaoMarkers.push(marker);
   kakaoMarkersById[p.id] = entry;
@@ -1353,6 +1395,7 @@ function openParkInfo(parkId) {
   kakaoMap.setCenter(entry.marker.getPosition());
   kakaoMap.setLevel(5);
   showInfoWindow(entry.info, entry.marker);
+  showParkBoundary(parkId);
 }
 
 function renderParksMap(parks) {

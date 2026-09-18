@@ -402,3 +402,17 @@ def download_park_document(park_id: int, filename: str, db: Session = Depends(ge
         raise HTTPException(status_code=404, detail="해당 문서를 찾을 수 없습니다.")
 
     return FileResponse(str(path), filename=filename)
+
+
+@router.get("/parks/{park_id}/boundary")
+def get_park_boundary_endpoint(park_id: int, db: Session = Depends(get_db)):
+    """해당 단지의 실제 경계 폴리곤(국토교통부 산업단지 경계도면 고시 기준).
+    매칭되는 경계 데이터가 없으면 rings: null을 반환한다(추측 좌표를 만들지 않음)."""
+    from services.park_boundaries import get_park_boundary
+
+    park = db.query(IndustrialPark).filter(IndustrialPark.id == park_id).first()
+    if not park:
+        raise HTTPException(status_code=404, detail="해당 산업단지를 찾을 수 없습니다.")
+
+    rings = get_park_boundary(park_id)
+    return {"park_id": park_id, "park_name": park.name, "rings": rings}
