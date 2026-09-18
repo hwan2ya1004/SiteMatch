@@ -216,17 +216,14 @@ def get_parks(db: Session = Depends(get_db)):
             # 정리 — match.py의 move_in_status()와 동일 기준(조성상태 미완료 또는 가용면적 0이면 불가)
             "move_in_status": "입주 가능" if (p.dev_status or "완료") == "완료" and p.available_area and p.available_area > 0 else "입주 불가",
             "management_org": _management_org(p),
-            # 조성중/미개발 단지에 실측 공실률이 아예 없으면(=아직 등록된 입주기업이
-            # 없음) "데이터 없음"이 아니라 "운영률 0%"로 명확히 보여준다 — 등록된
-            # 기업이 0개면 그중 운영 중인 비율도 확정적으로 0%이지, 모르는 값이
-            # 아니다(사용자 확인). 단, 공실률 실측치가 있으면(예: 1공구는 이미
-            # 준공돼 일부 입주해 있는 양산 가산처럼 조성중이어도 일부 데이터가
-            # 있는 경우) 그 실측치를 그대로 쓴다 — 조성중이라고 무조건 0을
-            # 덮어쓰면 이런 부분 준공 단지의 실제 데이터를 지워버리게 된다.
-            "vacancy_rate": (
-                100.0 if p.vacancy_rate is None and (p.dev_status or "완료") != "완료"
-                else p.vacancy_rate
-            ),
+            # 조성중/미개발 단지는 등록된 입주기업 자체가 없어 운영률이 확정적으로
+            # 0%다(사용자 확인) — "데이터 없음"으로 두지 않고 명확히 0%로 보여준다.
+            # 처음엔 "실측 공실률이 있으면 그대로 쓴다"는 예외를 뒀는데, 실제로
+            # 양산 가산(조성중)이 가용면적 90,000㎡가 있으면서 공실률은 0%(=운영률
+            # 100%)로 나오는 자기모순 사례가 나왔다 — 원본 공실률 자체가 이 단지들
+            # 에서는 신뢰할 수 없는 값이라는 뜻이므로, 예외 없이 조성중/미개발이면
+            # 무조건 0%로 표시한다.
+            "vacancy_rate": 100.0 if (p.dev_status or "완료") != "완료" else p.vacancy_rate,
             "sale_rate": p.sale_rate,  # 분양률(%) — None이면 정보없음(0으로 대신하지 않음)
             "available_area": f"{p.available_area:,.0f}㎡" if p.available_area else "0㎡",
             "available_area_raw": p.available_area or 0,
