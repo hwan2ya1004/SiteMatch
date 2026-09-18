@@ -236,12 +236,19 @@
     .bottom-nav .nav-icon { width: 21px; height: 21px; }
     .bottom-nav .nav-btn.active { background: var(--teal-light); color: var(--teal-dark); }
 
-    /* 대시보드 표: 1,406개 행을 좁은 화면에서 줄바꿈시키면 셀마다 세로 높이가
-       폭증해 페이지가 수만~수십만 px로 늘어지므로, 표를 가로 스크롤시켜
-       셀 폭을 유지한다. */
-    .table-wrap { overflow-x: auto; }
-    .data-table { min-width: 720px; }
-    .data-table td, .data-table td div { white-space: nowrap; }
+    /* 대시보드 표: 최대 1,406행을 좁은 화면에서 줄바꿈시키면 셀마다 세로 높이가
+       폭증해 페이지가 수만~수십만 px로 늘어진다 — 그렇다고 가로 스크롤을 시키면
+       스마트폰에서 보기 불편하다는 피드백이 있었다. 절충안으로, 모바일에서는
+       부차적인 열(분양률·가용면적·임대료·주요업종)을 아예 숨기고 핵심 열
+       (단지명·위치·운영률·상태)만 남겨 한 화면 너비 안에 들어오게 한다 —
+       행 높이는 그대로 유지되고 가로 스크롤도 필요 없어진다.
+       (나머지 정보는 행을 눌러 "AI 매칭"/챗봇에서 상세히 확인 가능) */
+    .data-table th:nth-child(4), .data-table td:nth-child(4),
+    .data-table th:nth-child(5), .data-table td:nth-child(5),
+    .data-table th:nth-child(6), .data-table td:nth-child(6),
+    .data-table th:nth-child(7), .data-table td:nth-child(7) {
+      display: none;
+    }
   }
   @keyframes spin { to { transform: rotate(360deg) } }
 </style>
