@@ -130,6 +130,10 @@ def resolve_document_path(region: str, city: str, name: str, filename: str) -> O
 
 _NOTICE_NO_RE = re.compile(r"([가-힣]{2,6}(?:시|군|구))\s*(고시|공고)\s*제\s*(\d{4})\s*-\s*(\d+)\s*호")
 
+# 관리기관 전화번호·문의처 안내를 담은 페이지를 찾아내는 패턴 — get_park_documents_text()가
+# 예산 배분 시 이런 블록을 먼저 챙기는 데 쓴다.
+_CONTACT_HINT_RE = re.compile(r"\d{2,3}-\d{3,4}-\d{4}|열람방법|관계도서|문의처|연락처")
+
 
 def _guess_doc_title(first_page_text: str, fallback: str) -> str:
     """PDF 표제부에서 "김해시 고시 제2025-216호"처럼 인용 가능한 제목을 추출한다.
@@ -246,8 +250,18 @@ def get_park_documents_text(region: str, city: str, name: str, budget: int = 600
     per_file_budget = budget // len(file_blocks)
     final_blocks = []
     for blocks in file_blocks:
+        # 관공서 고시문은 관리기관 전화번호·문의처 같은 안내가 어디에 나오는지
+        # 페이지 위치가 문서마다 다르다(가남신해1은 끝에서 세 번째 페이지였고,
+        # 항상 마지막 페이지인 것도 아니었다 — "맨 마지막 블록만 챙긴다"는
+        # 앞선 수정으로는 못 잡았음). 위치가 아니라 "전화번호처럼 보이는
+        # 패턴이 있는가"로 직접 찾아서, 그런 블록을 예산 배분에서 먼저 챙기고
+        # 나머지를 순서대로 채운다 — 문서 앞부분만 들어가고 정작 물어본
+        # 연락처는 잘려나가 챗봇이 "확인 안 됨"으로 잘못 답하는 걸 막는다.
+        priority = [b for b in blocks if _CONTACT_HINT_RE.search(b)]
+        rest = [b for b in blocks if b not in priority]
+
         used = 0
-        for b in blocks:
+        for b in priority + rest:
             if used + len(b) > per_file_budget:
                 continue  # 이 블록만 건너뛰고 계속 — 다음 블록이 더 작아 들어갈 수도 있음
             final_blocks.append(b)

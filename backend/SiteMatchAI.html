@@ -183,6 +183,7 @@
   .badge.high { background: var(--red-bg); color: var(--red-text); }
   .badge.mid { background: var(--amber-bg); color: var(--amber-text); }
   .badge.low { background: var(--green-bg); color: var(--green-text); }
+  .badge.dev { background: var(--gray-bg); color: var(--text-sub); } /* 조성중/미개발 — 아직 가동률 개념이 적용 안 되는 단지 */
   .progress { width: 72px; height: 6px; background: var(--border); border-radius: 3px; display: inline-block; vertical-align: middle; overflow: hidden; }
   .progress-fill { height: 100%; border-radius: 3px; }
   .dashboard-grid { display: grid; grid-template-columns: 1fr 340px; gap: 20px; margin-top: 24px; }
@@ -1383,7 +1384,8 @@ function ensureMarkerFor(p) {
     content: `<div style="padding:8px 10px;font-size:12px;line-height:1.7;min-width:180px">`
       + `<strong>${escapeHtml(p.name)}</strong><br>`
       + `${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}<br>`
-      + `운영률 ${(100 - p.vacancy_rate).toFixed(1)}% · <span style="color:${p.bar_color};font-weight:600">${escapeHtml(p.status)}</span><br>`
+      + (p.vacancy_rate != null ? `운영률 ${(100 - p.vacancy_rate).toFixed(1)}% · ` : '')
+      + `<span style="color:${p.bar_color};font-weight:600">${escapeHtml(p.status)}</span><br>`
       + (p.sale_rate != null ? `분양률 ${p.sale_rate.toFixed(1)}%<br>` : '')
       + `가용면적 ${escapeHtml(p.available_area)}<br>`
       + `<button onclick="openDirections(${p.id})" style="margin-top:6px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--teal-light);color:var(--teal-dark);font-size:12px;font-weight:600;cursor:pointer">🧭 길찾기</button>`
@@ -1584,8 +1586,10 @@ function renderParksTable(parks) {
       <td style="font-weight:600">${p.name}${devStatusBadge(p.dev_status)}${moveInBadge(p.move_in_status)}</td>
       <td style="color:var(--text-sub)">${[p.region, p.city].filter(Boolean).join(' ')}${p.address ? `<div style="font-size:11px;color:var(--text-hint)">${p.address}</div>` : ''}</td>
       <td>
-        <div class="progress"><div class="progress-fill" style="width:${Math.min(100 - p.vacancy_rate, 100)}%;background:${p.bar_color}"></div></div>
-        <span style="font-size:12px"> ${(100 - p.vacancy_rate).toFixed(1)}%</span>
+        ${p.vacancy_rate != null
+          ? `<div class="progress"><div class="progress-fill" style="width:${Math.min(100 - p.vacancy_rate, 100)}%;background:${p.bar_color}"></div></div>`
+            + `<span style="font-size:12px"> ${(100 - p.vacancy_rate).toFixed(1)}%</span>`
+          : `<span style="font-size:12px;color:var(--text-sub)">데이터 없음</span>`}
       </td>
       <td>${p.sale_rate != null ? p.sale_rate.toFixed(1) + '%' : '정보없음'}</td>
       <td>${p.available_area}</td>

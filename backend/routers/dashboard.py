@@ -63,7 +63,11 @@ def get_stats(db: Session = Depends(get_db)):
     parks = db.query(IndustrialPark).all()
 
     total_available = sum(p.available_area or 0 for p in parks)
-    avg_vacancy = (sum(p.vacancy_rate or 0 for p in parks) / len(parks)) if parks else 0
+    # 조성중/미개발 단지(등록 입주기업 자체가 없어 운영률 개념이 성립 안 함)와
+    # 공실률 데이터가 아예 없는 단지를 0으로 셈해 평균에 넣으면 "운영률 100%"로
+    # 잘못 취급되어 평균이 실제보다 높게 나온다 — 완공되고 데이터가 있는 단지만으로 평균낸다.
+    rated = [p.vacancy_rate for p in parks if (p.dev_status or "완료") == "완료" and p.vacancy_rate is not None]
+    avg_vacancy = (sum(rated) / len(rated)) if rated else 0
 
     # 이달 매칭 건수
     this_month = datetime.now().replace(day=1, hour=0, minute=0, second=0)
@@ -168,11 +172,20 @@ def get_parks(db: Session = Depends(get_db)):
 
     result = []
     for p in parks:
+        # 아직 완공 전(조성중·미개발)인 단지는 등록된 입주기업 자체가 없어 "운영률"
+        # 개념이 성립하지 않는다. 이 경우를 먼저 걸러내지 않으면 vacancy_rate가
+        # 비어있는(None) 걸 그냥 0으로 취급해서 "운영률 100%·여유"로 표시되는
+        # 모순이 생긴다 — 바로 옆에 뜨는 "입주 불가" 배지와 정면으로 충돌해서
+        # 실제로 혼란을 준 사례(가남신해1~5, 2025년 신규 지정)가 있었다.
+        if (p.dev_status or "완료") != "완료":
+            status = p.dev_status
+            status_class = "dev"
+            bar_color = "#8A8F98"
         # 공실률(등록 대비 미가동 비율)만 보고 "여유"를 매기면, 이미 완공되어
         # 분양·입주가 다 끝난(가용면적 0) 단지도 "여유"로 표시되는 모순이 생긴다
         # (실제로 발생 — 가용면적 0㎡인데 "여유"로 떠서 혼란을 준 사례). 가용면적이
         # 없으면 공실률 수치와 무관하게 "포화"를 최우선으로 표시한다.
-        if p.dev_status == "완료" and not (p.available_area and p.available_area > 0):
+        elif not (p.available_area and p.available_area > 0):
             status = "포화"
             status_class = "high"
             bar_color = "#E24B4A"
@@ -203,7 +216,10 @@ def get_parks(db: Session = Depends(get_db)):
             # 정리 — match.py의 move_in_status()와 동일 기준(조성상태 미완료 또는 가용면적 0이면 불가)
             "move_in_status": "입주 가능" if (p.dev_status or "완료") == "완료" and p.available_area and p.available_area > 0 else "입주 불가",
             "management_org": _management_org(p),
-            "vacancy_rate": p.vacancy_rate or 0,
+            # 조성중/미개발 단지는 실제로 "운영률 데이터가 없는" 상태이지, "공실률 0%
+            # (=운영률 100%)"가 아니다 — 0으로 대신하면 위 status 로직과 똑같은 모순이
+            # 프론트엔드 계산에서도 재현되므로 sale_rate와 동일하게 None을 그대로 둔다.
+            "vacancy_rate": p.vacancy_rate,
             "sale_rate": p.sale_rate,  # 분양률(%) — None이면 정보없음(0으로 대신하지 않음)
             "available_area": f"{p.available_area:,.0f}㎡" if p.available_area else "0㎡",
             "available_area_raw": p.available_area or 0,
