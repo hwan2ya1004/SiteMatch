@@ -128,7 +128,7 @@ def resolve_document_path(region: str, city: str, name: str, filename: str) -> O
     return (folder / filename) if folder else None
 
 
-_NOTICE_NO_RE = re.compile(r"([가-힣]{2,6}(?:시|군|구))\s*(고시|공고)\s*제\s*(\d{4}-\d+)\s*호")
+_NOTICE_NO_RE = re.compile(r"([가-힣]{2,6}(?:시|군|구))\s*(고시|공고)\s*제\s*(\d{4})\s*-\s*(\d+)\s*호")
 
 
 def _guess_doc_title(first_page_text: str, fallback: str) -> str:
@@ -137,11 +137,18 @@ def _guess_doc_title(first_page_text: str, fallback: str) -> str:
     나오는 경우가 있어서(이 프로젝트에서 실제로 발생) 줄 단위로 나누는 방식은
     못 쓰고, 정규식으로 "OO시 고시 제2025-216호" 패턴 자체를 찾아낸다. 원문에
     띄어쓰기가 없어도(같은 이유) 표준 형태로 재조립해서 사람이 읽기 좋게 만든다.
-    못 찾으면 파일명으로 대체한다 (파일명은 사람이 알아보기 어려운 코드라 최후의 수단)."""
-    m = _NOTICE_NO_RE.search(first_page_text)
+    못 찾으면 파일명으로 대체한다 (파일명은 사람이 알아보기 어려운 코드라 최후의 수단).
+
+    문서 자신의 표제 고시번호는 거의 항상 맨 첫머리 제목 줄에 나온다 — 뒤쪽
+    "추진경위"류 이력 목록에는 과거에 개정됐던 다른 고시번호들이 잔뜩 나열돼
+    있어서, 전체 페이지에서 그냥 첫 매치를 집으면 그 중 하나를 잘못 고를 수
+    있다(실제로 KCC울산 문서에서 발생: 본문 표제는 "제2024-231호"인데 뒤쪽
+    추진경위의 "제2009-73호"가 먼저 매치돼 그걸로 잘못 인용했음). 그래서
+    먼저 첫머리 200자 안에서만 찾고, 거기 없을 때만 전체로 검색 범위를 넓힌다."""
+    m = _NOTICE_NO_RE.search(first_page_text[:200]) or _NOTICE_NO_RE.search(first_page_text)
     if m:
-        org, kind, no = m.groups()
-        return f"{org} {kind} 제{no}호"
+        org, kind, year, no = m.groups()
+        return f"{org} {kind} 제{year}-{no}호"
     return fallback
 
 
