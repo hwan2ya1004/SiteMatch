@@ -223,7 +223,15 @@ def get_parks(db: Session = Depends(get_db)):
             # 100%)로 나오는 자기모순 사례가 나왔다 — 원본 공실률 자체가 이 단지들
             # 에서는 신뢰할 수 없는 값이라는 뜻이므로, 예외 없이 조성중/미개발이면
             # 무조건 0%로 표시한다.
-            "vacancy_rate": 100.0 if (p.dev_status or "완료") != "완료" else p.vacancy_rate,
+            # "완료"된 단지라도 total_companies(한국산업단지공단 등록업체 수)가 0이면
+            # 마찬가지로 운영률을 확정적으로 0%로 보여준다 — 공실률 자체는 비어있어도
+            # "입주기업이 0개"라는 사실은 이미 알고 있으므로 "데이터 없음"이 아니다
+            # (가연농공단지 사례로 확인).
+            "vacancy_rate": (
+                100.0 if (p.dev_status or "완료") != "완료"
+                or (p.total_companies is not None and p.total_companies == 0)
+                else p.vacancy_rate
+            ),
             "sale_rate": p.sale_rate,  # 분양률(%) — None이면 정보없음(0으로 대신하지 않음)
             "available_area": f"{p.available_area:,.0f}㎡" if p.available_area else "0㎡",
             "available_area_raw": p.available_area or 0,

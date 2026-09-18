@@ -45,6 +45,9 @@ class IndustrialPark(Base):
     lat = Column(Float)
     lng = Column(Float)
     address = Column(String(300))   # 브이월드 좌표->주소 변환(reverse geocoding) 결과, 없으면 null
+    total_companies = Column(Integer)      # 등록업체 수(한국산업단지공단 공식 통계) — 이게 0이면
+    operating_companies = Column(Integer)  # vacancy_rate가 없어도(정보없음) 운영률을 확정적으로 0%로
+                                            # 보여줄 수 있다("입주기업 자체가 없다"는 사실이 명확하므로)
     updated_at = Column(DateTime, default=datetime.utcnow)
 
 
@@ -188,6 +191,8 @@ def init_db():
                     lat=p["lat"],
                     lng=p["lng"],
                     address=p.get("address"),
+                    total_companies=p.get("total_companies"),
+                    operating_companies=p.get("operating_companies"),
                 )
                 db.add(park)
             db.commit()
