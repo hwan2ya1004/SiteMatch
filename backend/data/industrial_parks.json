@@ -114,13 +114,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "육상 금속 골조 구조재 제조업",
-      "그 외 기타 금속가공업",
-      "강주물 주조업",
-      "금속류 해체 및 선별업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -315,13 +309,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "일반 창고업",
-      "비주거용 건물 임대업",
-      "가금류 가공 및 저장 처리업",
-      "운송장비용 이차전지 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -906,13 +894,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "일반 창고업",
-      "태양력 발전업",
-      "화학섬유직물 직조업",
-      "그 외 기타 일반목적용 기계 제조업",
-      "비내화 모르타르 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -1331,13 +1313,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "반려동물용 사료 제조업",
-      "판지 상자 및 용기 제조업",
-      "화장품 제조업",
-      "라이터, 연소물 및 흡연용품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -1624,13 +1600,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.5,
     "rent_per_sqm": null,
-    "industries": [
-      "그 외 자동차용 신품 부품 제조업",
-      "그 외 기타 일반목적용 기계 제조업",
-      "구조용 금속 판제품 및 공작물 제조업",
-      "배전반 및 전기 자동제어반 제조업",
-      "톱 및 호환성 공구 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -2064,13 +2034,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "화학섬유직물 직조업",
-      "그 외 기타 달리 분류되지 않은 제품 제조업",
-      "탭, 밸브 및 유사장치 제조업",
-      "면직물 직조업",
-      "구조용 금속 판제품 및 공작물 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -2891,13 +2855,7 @@
     "available_area": 256000.0,
     "vacancy_rate": 22.4,
     "rent_per_sqm": null,
-    "industries": [
-      "조선·해양",
-      "서비스·기타",
-      "바이오·의료기기",
-      "로봇·스마트팩토리",
-      "기계·금속 장비"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -3047,13 +3005,7 @@
     "available_area": 0.0,
     "vacancy_rate": 7.5,
     "rent_per_sqm": null,
-    "industries": [
-      "기타 보관 및 창고업",
-      "비주거용 건물 임대업",
-      "육상 금속 골조 구조재 제조업",
-      "기타 직물제품 제조업",
-      "그 외 기타 가구 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -3421,10 +3373,7 @@
     "available_area": 0.0,
     "vacancy_rate": 8.9,
     "rent_per_sqm": null,
-    "industries": [
-      "로봇·스마트팩토리",
-      "서비스·기타"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -5986,13 +5935,7 @@
     "available_area": 0.0,
     "vacancy_rate": 18.8,
     "rent_per_sqm": null,
-    "industries": [
-      "배전반 및 전기 자동제어반 제조업",
-      "인삼식품 제조업",
-      "문구용 종이제품 제조업",
-      "가정용 전기 난방기기 제조업",
-      "일반용 도료 및 관련제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -6018,13 +5961,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "그 외 기타 분류 안된 화학제품 제조업",
-      "폴리스티렌 발포 성형제품 제조업",
-      "합성수지 및 기타 플라스틱 물질 제조업",
-      "그 외 기타 전자부품 제조업",
-      "반려동물용 사료 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -6459,13 +6396,7 @@
     "available_area": 0.0,
     "vacancy_rate": 14.8,
     "rent_per_sqm": null,
-    "industries": [
-      "표면처리 및 적층 직물 제조업",
-      "도금업",
-      "그 외 기타 금속가공업",
-      "일반철물 제조업",
-      "금속 가구 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -6552,13 +6483,7 @@
     "available_area": 0.0,
     "vacancy_rate": 7.1,
     "rent_per_sqm": null,
-    "industries": [
-      "화장품 제조업",
-      "기타 표시장치 제조업",
-      "그 외 기타 특수목적용 기계 제조업",
-      "반도체 제조용 기계 제조업",
-      "디스플레이 제조용 기계 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -6671,13 +6596,7 @@
     "available_area": 0.0,
     "vacancy_rate": 9.1,
     "rent_per_sqm": null,
-    "industries": [
-      "화장품 제조업",
-      "기타 표시장치 제조업",
-      "그 외 기타 특수목적용 기계 제조업",
-      "반도체 제조용 기계 제조업",
-      "디스플레이 제조용 기계 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -7084,13 +7003,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "금속 가구 제조업",
-      "구조용 금속 판제품 및 공작물 제조업",
-      "도시락류 제조업",
-      "위생용 종이제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -7362,9 +7275,7 @@
     "available_area": 0.0,
     "vacancy_rate": 12.5,
     "rent_per_sqm": null,
-    "industries": [
-      "육상 금속 골조 구조재 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -7391,13 +7302,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "배전반 및 전기 자동제어반 제조업",
-      "라이터, 연소물 및 흡연용품 제조업",
-      "차체 및 특장차 제조업",
-      "전동기 및 발전기 제조업",
-      "생물 의약품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -7423,10 +7328,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "플라스틱 창호 제조업",
-      "태양력 발전업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -7486,13 +7388,7 @@
     "available_area": 0.0,
     "vacancy_rate": 10.4,
     "rent_per_sqm": null,
-    "industries": [
-      "골판지 제조업",
-      "염료, 조제 무기안료, 유연제 및 기타 착색제 제조업",
-      "골판지 상자 및 가공제품 제조업",
-      "금속류 원료 재생업",
-      "일반 창고업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -7613,9 +7509,7 @@
     "available_area": 0.0,
     "vacancy_rate": 50.0,
     "rent_per_sqm": null,
-    "industries": [
-      "생물 의약품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -7766,13 +7660,7 @@
     "available_area": 0.0,
     "vacancy_rate": 10.0,
     "rent_per_sqm": null,
-    "industries": [
-      "화장품 제조업",
-      "기타 표시장치 제조업",
-      "그 외 기타 특수목적용 기계 제조업",
-      "반도체 제조용 기계 제조업",
-      "디스플레이 제조용 기계 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -8225,9 +8113,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "생물 의약품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -8254,13 +8140,7 @@
     "available_area": 0.0,
     "vacancy_rate": 3.0,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "반려동물용 사료 제조업",
-      "판지 상자 및 용기 제조업",
-      "화장품 제조업",
-      "라이터, 연소물 및 흡연용품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -8765,13 +8645,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "일반 창고업",
-      "태양력 발전업",
-      "화학섬유직물 직조업",
-      "그 외 기타 일반목적용 기계 제조업",
-      "비내화 모르타르 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -8889,13 +8763,7 @@
     "available_area": 0.0,
     "vacancy_rate": 13.3,
     "rent_per_sqm": null,
-    "industries": [
-      "그 외 자동차용 신품 부품 제조업",
-      "기타 가공 공작기계 제조업",
-      "주형 및 금형 제조업",
-      "태양력 발전업",
-      "플라스틱 필름 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -9110,13 +8978,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "금속탱크 및 저장용기 제조업",
-      "그 외 기타 특수목적용 기계 제조업",
-      "육상 금속 골조 구조재 제조업",
-      "그외기타분류안된특수목적용기계제조업",
-      "그 외 기타 플라스틱 제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -9453,9 +9315,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "액상시유 및 기타 낙농제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -9481,13 +9341,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "의학 및 약학 연구개발업",
-      "그 외 기타 의료용 기기 제조업",
-      "응용 소프트웨어 개발 및 공급업",
-      "기타 식품 첨가물 제조업",
-      "기타 공학 연구개발업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -9629,9 +9483,7 @@
     "available_area": 0.0,
     "vacancy_rate": 50.0,
     "rent_per_sqm": null,
-    "industries": [
-      "반도체 제조용 기계 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -9837,9 +9689,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "반도체 제조용 기계 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -9959,9 +9809,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "생물 의약품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -10345,13 +10193,7 @@
     "available_area": 37000.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "육류 포장육 및 냉동육 가공업 (가금류 제외)",
-      "그 외 기타 콘크리트 제품 및 유사제품 제조업",
-      "복합비료 및 기타 화학비료 제조업",
-      "콘크리트 관 및 기타 구조용 콘크리트 제품 제조업",
-      "육류 도축업(가금류 제외)"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -10985,7 +10827,13 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": ["목재 및 나무제품 제조업; 가구제외", "화학물질 및 화학제품 제조업; 의약품제외", "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업", "의료, 정밀, 광학 기기 및 시계 제조업", "기타 기계 및 장비 제조업"],
+    "industries": [
+      "목재 및 나무제품 제조업; 가구제외",
+      "화학물질 및 화학제품 제조업; 의약품제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학 기기 및 시계 제조업",
+      "기타 기계 및 장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -11012,7 +10860,13 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": ["목재 및 나무제품 제조업; 가구제외", "화학물질 및 화학제품 제조업; 의약품제외", "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업", "의료, 정밀, 광학 기기 및 시계 제조업", "기타 기계 및 장비 제조업"],
+    "industries": [
+      "목재 및 나무제품 제조업; 가구제외",
+      "화학물질 및 화학제품 제조업; 의약품제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학 기기 및 시계 제조업",
+      "기타 기계 및 장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -11039,7 +10893,13 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": ["목재 및 나무제품 제조업; 가구제외", "화학물질 및 화학제품 제조업; 의약품제외", "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업", "의료, 정밀, 광학 기기 및 시계 제조업", "기타 기계 및 장비 제조업"],
+    "industries": [
+      "목재 및 나무제품 제조업; 가구제외",
+      "화학물질 및 화학제품 제조업; 의약품제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학 기기 및 시계 제조업",
+      "기타 기계 및 장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -11066,7 +10926,13 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": ["목재 및 나무제품 제조업; 가구제외", "화학물질 및 화학제품 제조업; 의약품제외", "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업", "의료, 정밀, 광학 기기 및 시계 제조업", "기타 기계 및 장비 제조업"],
+    "industries": [
+      "목재 및 나무제품 제조업; 가구제외",
+      "화학물질 및 화학제품 제조업; 의약품제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학 기기 및 시계 제조업",
+      "기타 기계 및 장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -11093,7 +10959,13 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": ["목재 및 나무제품 제조업; 가구제외", "화학물질 및 화학제품 제조업; 의약품제외", "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업", "의료, 정밀, 광학 기기 및 시계 제조업", "기타 기계 및 장비 제조업"],
+    "industries": [
+      "목재 및 나무제품 제조업; 가구제외",
+      "화학물질 및 화학제품 제조업; 의약품제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학 기기 및 시계 제조업",
+      "기타 기계 및 장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -11371,9 +11243,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "방사선 장치 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -11776,13 +11646,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "표면처리 및 적층 직물 제조업",
-      "도금업",
-      "그 외 기타 금속가공업",
-      "일반철물 제조업",
-      "금속 가구 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -12050,13 +11914,7 @@
     "available_area": 0.0,
     "vacancy_rate": 3.6,
     "rent_per_sqm": null,
-    "industries": [
-      "그 외 기타 의료용 기기 제조업",
-      "태양력 발전업",
-      "기타 가정용 전기기기 제조업",
-      "비주거용 건물 임대업",
-      "전시 및 광고용 조명장치 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -12723,13 +12581,7 @@
     "available_area": 0.0,
     "vacancy_rate": 4.3,
     "rent_per_sqm": null,
-    "industries": [
-      "그 외 기타 의료용 기기 제조업",
-      "태양력 발전업",
-      "기타 가정용 전기기기 제조업",
-      "비주거용 건물 임대업",
-      "전시 및 광고용 조명장치 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -12942,13 +12794,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "금속선 가공제품 제조업",
-      "특수 직물 및 기타 직물 직조업",
-      "기타 비알코올 음료 제조업",
-      "그 외 기타 분류 안된 금속 가공 제품 제조업",
-      "배전반 및 전기 자동제어반 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -12974,13 +12820,7 @@
     "available_area": 6000.0,
     "vacancy_rate": 23.5,
     "rent_per_sqm": null,
-    "industries": [
-      "운송장비 조립용 플라스틱제품 제조업",
-      "합성수지 및 기타 플라스틱 물질 제조업",
-      "복합비료 및 기타 화학비료 제조업",
-      "운송장비용 조명장치 제조업",
-      "기체 여과기 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -13105,13 +12945,7 @@
     "available_area": 0.0,
     "vacancy_rate": 9.7,
     "rent_per_sqm": null,
-    "industries": [
-      "기타 직물제품 제조업",
-      "구조용 금속 판제품 및 공작물 제조업",
-      "액체 여과기 제조업",
-      "장식용 목제품 제조업",
-      "주방용 및 음식점용 목재가구 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -13563,9 +13397,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "방사선 장치 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -13624,13 +13456,7 @@
     "available_area": 0.0,
     "vacancy_rate": 10.7,
     "rent_per_sqm": null,
-    "industries": [
-      "배전반 및 전기 자동제어반 제조업",
-      "금속 절삭기계 제조업",
-      "절삭가공 및 유사처리업",
-      "태양력 발전업",
-      "그 외 자동차용 신품 부품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -14662,13 +14488,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "그 외 자동차용 신품 부품 제조업",
-      "기타 가공 공작기계 제조업",
-      "주형 및 금형 제조업",
-      "태양력 발전업",
-      "플라스틱 필름 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -15343,10 +15163,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "플라스틱 창호 제조업",
-      "태양력 발전업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -15766,13 +15583,7 @@
     "available_area": 0.0,
     "vacancy_rate": 5.6,
     "rent_per_sqm": null,
-    "industries": [
-      "자동차용 신품 의자 제조업",
-      "육상 금속 골조 구조재 제조업",
-      "콘크리트 타일, 기와, 벽돌 및 블록 제조업",
-      "콘크리트 관 및 기타 구조용 콘크리트 제품 제조업",
-      "그 외 자동차용 신품 부품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -16071,9 +15882,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "육상 금속 골조 구조재 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -16551,13 +16360,7 @@
     "available_area": 25000.0,
     "vacancy_rate": 87.5,
     "rent_per_sqm": null,
-    "industries": [
-      "항공기용 부품 제조업",
-      "유인 항공기, 항공우주선 및 보조장치 제조업",
-      "태양력 발전업",
-      "기타 공학 연구개발업",
-      "도장 및 기타 피막처리업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -17765,13 +17568,7 @@
     "available_area": 0.0,
     "vacancy_rate": 25.0,
     "rent_per_sqm": null,
-    "industries": [
-      "일반 창고업",
-      "태양력 발전업",
-      "화학섬유직물 직조업",
-      "그 외 기타 일반목적용 기계 제조업",
-      "비내화 모르타르 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -17960,13 +17757,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "자동차용 신품 의자 제조업",
-      "농업 및 임업용 기계 제조업",
-      "항공 및 육상 화물 취급업",
-      "개인 화물자동차 운송업",
-      "반려동물용 사료 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -18122,13 +17913,7 @@
     "available_area": 0.0,
     "vacancy_rate": 26.3,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "기타 직물제품 제조업",
-      "생물 의약품 제조업",
-      "그 외 기타 의료용 기기 제조업",
-      "가금류 가공 및 저장 처리업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -18240,13 +18025,7 @@
     "available_area": 0.0,
     "vacancy_rate": 37.5,
     "rent_per_sqm": null,
-    "industries": [
-      "그 외 기타 분류 안된 화학제품 제조업",
-      "폴리스티렌 발포 성형제품 제조업",
-      "합성수지 및 기타 플라스틱 물질 제조업",
-      "그 외 기타 전자부품 제조업",
-      "반려동물용 사료 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -18366,13 +18145,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "생물 의약품 제조업",
-      "육류 기타 가공 및 저장처리업 (가금류 제외)",
-      "두부 및 유사식품 제조업",
-      "떡류 제조업",
-      "금속 단조제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -18432,13 +18205,7 @@
     "available_area": 0.0,
     "vacancy_rate": 44.4,
     "rent_per_sqm": null,
-    "industries": [
-      "골판지 제조업",
-      "염료, 조제 무기안료, 유연제 및 기타 착색제 제조업",
-      "골판지 상자 및 가공제품 제조업",
-      "금속류 원료 재생업",
-      "일반 창고업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -18938,13 +18705,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "운송장비용 이차전지 제조업",
-      "비주거용 건물 임대업",
-      "플라스틱 선, 봉, 관 및 호스 제조업",
-      "강관 가공품 및 관 연결구류 제조업",
-      "천연 및 혼합조제 조미료 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -20108,13 +19869,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "금속탱크 및 저장용기 제조업",
-      "그 외 기타 특수목적용 기계 제조업",
-      "육상 금속 골조 구조재 제조업",
-      "그외기타분류안된특수목적용기계제조업",
-      "그 외 기타 플라스틱 제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -20140,13 +19895,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "배전반 및 전기 자동제어반 제조업",
-      "인삼식품 제조업",
-      "문구용 종이제품 제조업",
-      "가정용 전기 난방기기 제조업",
-      "일반용 도료 및 관련제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -21700,7 +21449,16 @@
     "available_area": 0.0,
     "vacancy_rate": 11.8,
     "rent_per_sqm": null,
-    "industries": ["식료품 제조업", "고무제품 및 플라스틱제품 제조업", "금속 가공제품 제조업", "전기장비 제조업", "기타 기계 및 장비 제조업", "섬유제품 제조업(의복 제외)", "1차 금속 제조업", "기타 제품 제조업"],
+    "industries": [
+      "식료품 제조업",
+      "고무제품 및 플라스틱제품 제조업",
+      "금속 가공제품 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "섬유제품 제조업(의복 제외)",
+      "1차 금속 제조업",
+      "기타 제품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22229,13 +21987,7 @@
     "available_area": 0.0,
     "vacancy_rate": 3.2,
     "rent_per_sqm": null,
-    "industries": [
-      "자동차용 신품 의자 제조업",
-      "육상 금속 골조 구조재 제조업",
-      "콘크리트 타일, 기와, 벽돌 및 블록 제조업",
-      "콘크리트 관 및 기타 구조용 콘크리트 제품 제조업",
-      "그 외 자동차용 신품 부품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22421,9 +22173,7 @@
     "available_area": 0.0,
     "vacancy_rate": 50.0,
     "rent_per_sqm": null,
-    "industries": [
-      "화장품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22547,13 +22297,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "배전반 및 전기 자동제어반 제조업",
-      "플라스틱 선, 봉, 관 및 호스 제조업",
-      "플라스틱 창호 제조업",
-      "구조용 금속 판제품 및 공작물 제조업",
-      "금속 문, 창, 셔터 및 관련제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22676,13 +22420,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "배전반 및 전기 자동제어반 제조업",
-      "인삼식품 제조업",
-      "문구용 종이제품 제조업",
-      "가정용 전기 난방기기 제조업",
-      "일반용 도료 및 관련제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22937,13 +22675,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "금속 가구 제조업",
-      "구조용 금속 판제품 및 공작물 제조업",
-      "도시락류 제조업",
-      "위생용 종이제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22969,9 +22701,7 @@
     "available_area": 13000.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "생물 의약품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -23333,9 +23063,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "생물 의약품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -23490,13 +23218,7 @@
     "available_area": 0.0,
     "vacancy_rate": 5.0,
     "rent_per_sqm": null,
-    "industries": [
-      "배전반 및 전기 자동제어반 제조업",
-      "라이터, 연소물 및 흡연용품 제조업",
-      "차체 및 특장차 제조업",
-      "전동기 및 발전기 제조업",
-      "생물 의약품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -24044,7 +23766,17 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": ["고무제품 및 플라스틱제품 제조업", "1차 금속 제조업", "금속 가공제품 제조업", "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업", "의료, 정밀, 광학 기기 및 시계 제조업", "전기장비 제조업", "자동차 및 트레일러 제조업", "기타 운송장비 제조업", "폐기물 수집, 운반, 처리 및 원료 재생업"],
+    "industries": [
+      "고무제품 및 플라스틱제품 제조업",
+      "1차 금속 제조업",
+      "금속 가공제품 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학 기기 및 시계 제조업",
+      "전기장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업",
+      "폐기물 수집, 운반, 처리 및 원료 재생업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -25535,13 +25267,7 @@
     "available_area": 0.0,
     "vacancy_rate": 2.3,
     "rent_per_sqm": null,
-    "industries": [
-      "육상 금속 골조 구조재 제조업",
-      "배전반 및 전기 자동제어반 제조업",
-      "혼성 및 재생 플라스틱 소재 물질 제조업",
-      "일반용 전기 조명장치 제조업",
-      "금속선 가공제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -26561,13 +26287,7 @@
     "available_area": 11000.0,
     "vacancy_rate": 11.1,
     "rent_per_sqm": null,
-    "industries": [
-      "구조용 금속 판제품 및 공작물 제조업",
-      "육상 금속 골조 구조재 제조업",
-      "화학섬유직물 직조업",
-      "분사기 및 소화기 제조업",
-      "기타 측정, 시험, 항해, 제어 및 정밀기기 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -26620,13 +26340,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "금속 가구 제조업",
-      "구조용 금속 판제품 및 공작물 제조업",
-      "도시락류 제조업",
-      "위생용 종이제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -26939,13 +26653,7 @@
     "available_area": 4000.0,
     "vacancy_rate": 30.0,
     "rent_per_sqm": null,
-    "industries": [
-      "구조용 금속 판제품 및 공작물 제조업",
-      "곡물 제분업",
-      "속도계 및 적산계기 제조업",
-      "플라스틱 포대, 봉투 및 유사제품 제조업",
-      "골판지 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -27477,13 +27185,7 @@
     "available_area": 12000.0,
     "vacancy_rate": 44.4,
     "rent_per_sqm": null,
-    "industries": [
-      "조선·해양",
-      "서비스·기타",
-      "바이오·의료기기",
-      "로봇·스마트팩토리",
-      "기계·금속 장비"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -27509,13 +27211,7 @@
     "available_area": 38000.0,
     "vacancy_rate": 16.9,
     "rent_per_sqm": 12500,
-    "industries": [
-      "태양력 발전업",
-      "일반 화물자동차 운송업",
-      "육상 금속 골조 구조재 제조업",
-      "그 외 기타 특수목적용 기계 제조업",
-      "레미콘 제조업"
-    ],
+    "industries": [],
     "logistics": [
       "광양항 컨테이너부두 인접",
       "율촌산단 연계"
@@ -28012,9 +27708,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "강선 건조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -28230,13 +27924,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "그 외 자동차용 신품 부품 제조업",
-      "골판지 원지 제조업",
-      "기체 여과기 제조업",
-      "절삭가공 및 유사처리업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -28467,9 +28155,7 @@
     "available_area": 156000.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "기타 일반 기계 및 장비 수리업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -28579,9 +28265,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "액상시유 및 기타 낙농제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -28706,13 +28390,7 @@
     "available_area": 0.0,
     "vacancy_rate": 55.0,
     "rent_per_sqm": null,
-    "industries": [
-      "육상 금속 골조 구조재 제조업",
-      "배전반 및 전기 자동제어반 제조업",
-      "혼성 및 재생 플라스틱 소재 물질 제조업",
-      "일반용 전기 조명장치 제조업",
-      "금속선 가공제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -29063,13 +28741,7 @@
     "available_area": 0.0,
     "vacancy_rate": 10.8,
     "rent_per_sqm": null,
-    "industries": [
-      "배전반 및 전기 자동제어반 제조업",
-      "인삼식품 제조업",
-      "문구용 종이제품 제조업",
-      "가정용 전기 난방기기 제조업",
-      "일반용 도료 및 관련제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -29384,13 +29056,7 @@
     "available_area": 0.0,
     "vacancy_rate": 24.0,
     "rent_per_sqm": null,
-    "industries": [
-      "혼성 및 재생 플라스틱 소재 물질 제조업",
-      "콘크리트 관 및 기타 구조용 콘크리트 제품 제조업",
-      "플라스틱 선, 봉, 관 및 호스 제조업",
-      "수산동물 건조 및 염장품 제조업",
-      "금속 문, 창, 셔터 및 관련제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -29416,13 +29082,7 @@
     "available_area": 0.0,
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
-    "industries": [
-      "기타 과실ㆍ채소 가공 및 저장 처리업",
-      "골판지 제조업",
-      "포장용 플라스틱 성형용기 제조업",
-      "부직포 및 펠트 제조업",
-      "플라스틱 포대, 봉투 및 유사제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -29448,13 +29108,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "혼성 및 재생 플라스틱 소재 물질 제조업",
-      "콘크리트 관 및 기타 구조용 콘크리트 제품 제조업",
-      "플라스틱 선, 봉, 관 및 호스 제조업",
-      "수산동물 건조 및 염장품 제조업",
-      "금속 문, 창, 셔터 및 관련제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -29579,13 +29233,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "그 외 기타 의료용 기기 제조업",
-      "태양력 발전업",
-      "기타 가정용 전기기기 제조업",
-      "비주거용 건물 임대업",
-      "전시 및 광고용 조명장치 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -29840,13 +29488,7 @@
     "available_area": 0.0,
     "vacancy_rate": 20.0,
     "rent_per_sqm": null,
-    "industries": [
-      "자동차용 신품 의자 제조업",
-      "농업 및 임업용 기계 제조업",
-      "항공 및 육상 화물 취급업",
-      "개인 화물자동차 운송업",
-      "반려동물용 사료 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -29938,13 +29580,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "배전반 및 전기 자동제어반 제조업",
-      "플라스틱 선, 봉, 관 및 호스 제조업",
-      "플라스틱 창호 제조업",
-      "구조용 금속 판제품 및 공작물 제조업",
-      "금속 문, 창, 셔터 및 관련제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -31094,13 +30730,7 @@
     "available_area": 5000.0,
     "vacancy_rate": 22.1,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "육상 금속 골조 구조재 제조업",
-      "그 외 기타 금속가공업",
-      "강주물 주조업",
-      "금속류 해체 및 선별업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -31285,13 +30915,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "절삭가공 및 유사처리업",
-      "육상 금속 골조 구조재 제조업",
-      "그 외 자동차용 신품 부품 제조업",
-      "선박 구성 부분품 제조업",
-      "볼트 및 너트류 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -31409,13 +31033,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "그 외 자동차용 신품 부품 제조업",
-      "차체 및 특장차 제조업",
-      "자동차용 신품 동력전달장치 제조업",
-      "기타 일반 기계 및 장비 수리업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -32530,13 +32148,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "기타 공학 연구개발업",
-      "그 외 기타 특수목적용 기계 제조업",
-      "태양력 발전업",
-      "비디오 및 기타 영상기기 제조업",
-      "육상 금속 골조 구조재 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -32590,13 +32202,7 @@
     "available_area": 249000.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "그 외 자동차용 신품 부품 제조업",
-      "그 외 기타 일반목적용 기계 제조업",
-      "구조용 금속 판제품 및 공작물 제조업",
-      "배전반 및 전기 자동제어반 제조업",
-      "톱 및 호환성 공구 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -33230,9 +32836,7 @@
     "available_area": 33000.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "화장품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -33984,13 +33588,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "일반 창고업",
-      "비주거용 건물 임대업",
-      "가금류 가공 및 저장 처리업",
-      "운송장비용 이차전지 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -34374,13 +33972,7 @@
     "available_area": 0.0,
     "vacancy_rate": 7.4,
     "rent_per_sqm": null,
-    "industries": [
-      "구조용 금속 판제품 및 공작물 제조업",
-      "육상 금속 골조 구조재 제조업",
-      "화학섬유직물 직조업",
-      "분사기 및 소화기 제조업",
-      "기타 측정, 시험, 항해, 제어 및 정밀기기 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -34504,13 +34096,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "구조용 금속 판제품 및 공작물 제조업",
-      "곡물 제분업",
-      "속도계 및 적산계기 제조업",
-      "플라스틱 포대, 봉투 및 유사제품 제조업",
-      "골판지 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -34565,11 +34151,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "담배제품 제조업",
-      "호스팅 및 관련 서비스업",
-      "강주물 주조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -34660,13 +34242,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "기타 보관 및 창고업",
-      "비주거용 건물 임대업",
-      "육상 금속 골조 구조재 제조업",
-      "기타 직물제품 제조업",
-      "그 외 기타 가구 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -34725,13 +34301,7 @@
     "available_area": 0.0,
     "vacancy_rate": 17.6,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "그 외 자동차용 신품 부품 제조업",
-      "차체 및 특장차 제조업",
-      "자동차용 신품 동력전달장치 제조업",
-      "기타 일반 기계 및 장비 수리업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -35314,13 +34884,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "기타 과실ㆍ채소 가공 및 저장 처리업",
-      "골판지 제조업",
-      "포장용 플라스틱 성형용기 제조업",
-      "부직포 및 펠트 제조업",
-      "플라스틱 포대, 봉투 및 유사제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -35688,13 +35252,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "화학섬유직물 직조업",
-      "그 외 기타 달리 분류되지 않은 제품 제조업",
-      "탭, 밸브 및 유사장치 제조업",
-      "면직물 직조업",
-      "구조용 금속 판제품 및 공작물 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -35720,9 +35278,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "강선 건조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -35860,13 +35416,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "구조용 금속 판제품 및 공작물 제조업",
-      "태양력 발전업",
-      "선박 구성 부분품 제조업",
-      "기타 가공 공작기계 제조업",
-      "그 외 기타 금속가공업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -36003,9 +35553,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "선박 구성 부분품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -36418,13 +35966,7 @@
     "available_area": 73000.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "항공기용 부품 제조업",
-      "선박 구성 부분품 제조업",
-      "절삭가공 및 유사처리업",
-      "육상 금속 골조 구조재 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -36634,9 +36176,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "선박 구성 부분품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -36757,9 +36297,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "강선 건조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -37097,11 +36635,7 @@
     "available_area": 0.0,
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
-    "industries": [
-      "담배제품 제조업",
-      "호스팅 및 관련 서비스업",
-      "강주물 주조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -37219,13 +36753,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "배전반 및 전기 자동제어반 제조업",
-      "금속 절삭기계 제조업",
-      "절삭가공 및 유사처리업",
-      "태양력 발전업",
-      "그 외 자동차용 신품 부품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -37437,13 +36965,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": 21000,
-    "industries": [
-      "기타 공학 연구개발업",
-      "절삭가공 및 유사처리업",
-      "태양력 발전업",
-      "경영 컨설팅업",
-      "건설 및 채광용 기계장비 제조업"
-    ],
+    "industries": [],
     "logistics": [
       "고속도로 IC 15분 이내",
       "항만 인접 (30분 이내)"
@@ -37634,9 +37156,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "선박 구성 부분품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -37663,13 +37183,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "기타 직물제품 제조업",
-      "구조용 금속 판제품 및 공작물 제조업",
-      "액체 여과기 제조업",
-      "장식용 목제품 제조업",
-      "주방용 및 음식점용 목재가구 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -37760,13 +37274,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "자동차 차체용 신품 부품 제조업",
-      "그 외 자동차용 신품 부품 제조업",
-      "차체 및 특장차 제조업",
-      "금속 문, 창, 셔터 및 관련제품 제조업",
-      "자동차용 신품 조향장치 및 현가 장치 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -37944,7 +37452,13 @@
     "available_area": 0.0,
     "vacancy_rate": 50.0,
     "rent_per_sqm": null,
-    "industries": ["금속 가공제품 제조업", "기타 기계 및 장비 제조업", "기타 운송장비 제조업", "창고 및 운송관련 서비스업", "부동산 임대업"],
+    "industries": [
+      "금속 가공제품 제조업",
+      "기타 기계 및 장비 제조업",
+      "기타 운송장비 제조업",
+      "창고 및 운송관련 서비스업",
+      "부동산 임대업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -38156,10 +37670,7 @@
     "available_area": 0.0,
     "vacancy_rate": 16.7,
     "rent_per_sqm": null,
-    "industries": [
-      "항공기용 부품 제조업",
-      "유인 항공기, 항공우주선 및 보조장치 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -38213,13 +37724,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "태양력 발전업",
-      "그 외 자동차용 신품 부품 제조업",
-      "골판지 원지 제조업",
-      "기체 여과기 제조업",
-      "절삭가공 및 유사처리업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -38454,13 +37959,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "절삭가공 및 유사처리업",
-      "육상 금속 골조 구조재 제조업",
-      "그 외 자동차용 신품 부품 제조업",
-      "선박 구성 부분품 제조업",
-      "볼트 및 너트류 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -38513,9 +38012,7 @@
     "available_area": 48000.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "선박 구성 부분품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -39046,7 +38543,34 @@
     "available_area": 90000.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": ["의료용 물질 및 의약품 제조업", "1차 금속 제조업", "금속 가공제품 제조업", "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업", "의료, 정밀, 광학 기기 및 시계 제조업", "전기장비 제조업", "기타 기계 및 장비 제조업", "자동차 및 트레일러 제조업", "기타 운송장비 제조업", "전기, 가스, 증기 및 공기조절 공급업", "창고 및 운송관련 서비스업", "출판업", "영상·오디오 기록물 제작 및 배급업", "방송업", "우편 및 통신업", "컴퓨터 프로그래밍, 시스템 통합 및 관리업", "정보서비스업", "부동산업", "연구개발업", "전문서비스업", "건축기술, 엔지니어링 및 기타 과학기술 서비스업", "기타 전문, 과학 및 기술 서비스업", "사업시설 관리 및 조경 서비스업", "사업지원 서비스업", "임대업(부동산 제외)", "교육서비스업"],
+    "industries": [
+      "의료용 물질 및 의약품 제조업",
+      "1차 금속 제조업",
+      "금속 가공제품 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학 기기 및 시계 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업",
+      "전기, 가스, 증기 및 공기조절 공급업",
+      "창고 및 운송관련 서비스업",
+      "출판업",
+      "영상·오디오 기록물 제작 및 배급업",
+      "방송업",
+      "우편 및 통신업",
+      "컴퓨터 프로그래밍, 시스템 통합 및 관리업",
+      "정보서비스업",
+      "부동산업",
+      "연구개발업",
+      "전문서비스업",
+      "건축기술, 엔지니어링 및 기타 과학기술 서비스업",
+      "기타 전문, 과학 및 기술 서비스업",
+      "사업시설 관리 및 조경 서비스업",
+      "사업지원 서비스업",
+      "임대업(부동산 제외)",
+      "교육서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -39211,9 +38735,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "기타 일반 기계 및 장비 수리업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -39323,13 +38845,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [
-      "그 외 기타 분류 안된 화학제품 제조업",
-      "폴리스티렌 발포 성형제품 제조업",
-      "합성수지 및 기타 플라스틱 물질 제조업",
-      "그 외 기타 전자부품 제조업",
-      "반려동물용 사료 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -39609,9 +39125,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "강선 건조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -39977,13 +39491,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "자동차 차체용 신품 부품 제조업",
-      "그 외 자동차용 신품 부품 제조업",
-      "차체 및 특장차 제조업",
-      "금속 문, 창, 셔터 및 관련제품 제조업",
-      "자동차용 신품 조향장치 및 현가 장치 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -40589,9 +40097,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "액상시유 및 기타 낙농제품 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -41385,13 +40891,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "운송장비용 이차전지 제조업",
-      "비주거용 건물 임대업",
-      "플라스틱 선, 봉, 관 및 호스 제조업",
-      "강관 가공품 및 관 연결구류 제조업",
-      "천연 및 혼합조제 조미료 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -41710,13 +41210,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "금속선 가공제품 제조업",
-      "특수 직물 및 기타 직물 직조업",
-      "기타 비알코올 음료 제조업",
-      "그 외 기타 분류 안된 금속 가공 제품 제조업",
-      "배전반 및 전기 자동제어반 제조업"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -41996,13 +41490,7 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [
-      "육류 포장육 및 냉동육 가공업 (가금류 제외)",
-      "그 외 기타 콘크리트 제품 및 유사제품 제조업",
-      "복합비료 및 기타 화학비료 제조업",
-      "콘크리트 관 및 기타 구조용 콘크리트 제품 제조업",
-      "육류 도축업(가금류 제외)"
-    ],
+    "industries": [],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
