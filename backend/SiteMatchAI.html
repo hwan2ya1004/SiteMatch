@@ -494,9 +494,14 @@
         <span style="font-size:12px;color:var(--text-sub);font-weight:400" id="map-legend">🟢 여유 · 🟡 보통 · 🔴 주의/포화 · 🔵 내 위치 (좌표 있는 단지만 표시)</span>
       </div>
       <div class="map-toolbar" style="display:flex;flex-wrap:wrap;gap:8px;padding:14px 16px 0">
-        <input type="text" id="map-search" placeholder="산업단지명으로 지도에서 찾기"
-               style="flex:1;min-width:160px;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none"
-               onkeydown="if(event.key==='Enter'){event.preventDefault();mapSearchGo();}">
+        <div style="position:relative;flex:1;min-width:160px">
+          <input type="text" id="map-search" placeholder="산업단지명으로 지도에서 찾기" autocomplete="off"
+                 style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;box-sizing:border-box"
+                 oninput="mapSearchSuggest()"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault();mapSearchGo();} else if(event.key==='Escape'){hideMapSearchSuggestions();}"
+                 onblur="setTimeout(hideMapSearchSuggestions, 150)">
+          <div id="map-search-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:8px;margin-top:4px;max-height:260px;overflow-y:auto;z-index:20;box-shadow:0 4px 14px rgba(0,0,0,.12)"></div>
+        </div>
         <button class="btn-ghost" onclick="mapSearchGo()" style="white-space:nowrap">🔍 찾기</button>
         <button class="btn-ghost" id="map-locate-btn" onclick="locateMe()" style="white-space:nowrap">📍 내 위치</button>
       </div>
@@ -1330,6 +1335,16 @@ function markerSvgDataUrl(color) {
   return 'data:image/svg+xml;base64,' + btoa(svg);
 }
 
+// "내 위치"는 산업단지 핀과 똑같은 물방울 모양이면 색만 봐서는 눈에 잘 안 띈다
+// (실제로 구분이 어렵다는 지적) — 지도 앱들에서 흔히 쓰는 "현재 위치" 점+테두리
+// +바깥 후광 모양으로 확실히 다르게 만든다.
+function myLocationSvgDataUrl() {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">`
+    + `<circle cx="17" cy="17" r="15" fill="#2563EB" fill-opacity="0.18"/>`
+    + `<circle cx="17" cy="17" r="8" fill="#2563EB" stroke="#fff" stroke-width="3"/></svg>`;
+  return 'data:image/svg+xml;base64,' + btoa(svg);
+}
+
 // 카카오맵 자체 길찾기로 넘기는 링크 — 별도 길찾기 API 키/과금 없이 카카오맵
 // 앱/웹이 실제 경로 안내를 대신 처리하게 한다. 출발지가 있으면 바로 경로,
 // 없으면 도착지만 넘겨서 카카오맵이 알아서 현재 위치를 물어보게 한다.
@@ -1450,9 +1465,9 @@ function locateMe(silent) {
         position: latlng,
         map: kakaoMap,
         image: new kakao.maps.MarkerImage(
-          markerSvgDataUrl('#2563EB'),
-          new kakao.maps.Size(26, 34),
-          { offset: new kakao.maps.Point(13, 34) }
+          myLocationSvgDataUrl(),
+          new kakao.maps.Size(34, 34),
+          { offset: new kakao.maps.Point(17, 17) } // 핀이 아니라 점이라 중심 좌표에 맞춘다
         ),
         zIndex: 10,
       });
@@ -1469,24 +1484,67 @@ function locateMe(silent) {
   );
 }
 
-// 지도 검색 — 이름으로 찾아서 결과가 1개면 바로 확대+정보창, 여러 개면 그 범위로 화면을 맞춘다.
+// 입력하는 대로 후보 목록을 보여준다(연관 검색어). 같은 이름이 여러 지역에
+// 있을 수 있어(예: "가남" = 전북 순창군 / 경기 여주시 5곳) 지역까지 같이
+// 보여줘서 사용자가 원하는 곳을 직접 골라 들어갈 수 있게 한다.
+function mapSearchSuggest() {
+  const box = document.getElementById('map-search-suggestions');
+  const q = document.getElementById('map-search').value.trim().toLowerCase();
+  if (!q) { box.style.display = 'none'; box.innerHTML = ''; return; }
+  const matches = (window.allParks || []).filter(p => p.lat && p.lng && p.name.toLowerCase().includes(q)).slice(0, 8);
+  if (matches.length === 0) { box.style.display = 'none'; box.innerHTML = ''; return; }
+  box.innerHTML = matches.map(p => `<div onmousedown="mapSearchPick(${p.id})" `
+    + `style="padding:9px 12px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border)" `
+    + `onmouseover="this.style.background='var(--gray-bg)'" onmouseout="this.style.background=''">`
+    + `<strong>${escapeHtml(p.name)}</strong> `
+    + `<span style="color:var(--text-sub);font-size:12px">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}</span>`
+    + `</div>`).join('');
+  box.style.display = 'block';
+}
+
+function hideMapSearchSuggestions() {
+  const box = document.getElementById('map-search-suggestions');
+  if (box) box.style.display = 'none';
+}
+
+// 후보 목록에서 하나를 직접 골랐을 때 — 동명이지만 다른 지역인 단지들 사이에서
+// 헷갈릴 필요 없이 바로 그 단지로 이동한다.
+function mapSearchPick(parkId) {
+  hideMapSearchSuggestions();
+  const p = (window.allParks || []).find(x => x.id === parkId);
+  if (!p) return;
+  document.getElementById('map-search').value = p.name;
+  renderParksMap([p]);
+  openParkInfo(parkId);
+  document.getElementById('parks-map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// 지도 검색(Enter/찾기 버튼) — 결과가 1개면 바로 확대+정보창. 여러 개면(동명
+// 이지만 다른 지역인 경우가 실제로 있다 — 예: "가남" = 전북 순창군 / 경기
+// 여주시 5곳) 전부 지도에 뿌리면 서로 멀리 떨어진 지역을 다 담으려고 화면이
+// 크게 줌아웃되면서 원래 떠 있던 다른 800여 개 마커까지 같이 보여 "검색이
+// 안 됐다"고 오해하기 쉬웠다(실제 사용자 혼동 사례) — 그래서 여러 개일 때는
+// 지도에 바로 뿌리지 않고 연관 검색어와 같은 선택 목록을 보여줘서 사용자가
+// 직접 지역을 골라 들어가게 한다.
 function mapSearchGo() {
   const q = document.getElementById('map-search').value.trim().toLowerCase();
-  if (!q) return;
   if (!kakaoMap) { alert('지도가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.'); return; }
+  if (!q) {
+    renderParksMap(window.allParks || []); // 검색어를 지우고 다시 찾으면 전체 목록으로 복원
+    return;
+  }
   const matches = (window.allParks || []).filter(p => p.lat && p.lng && p.name.toLowerCase().includes(q));
   if (matches.length === 0) {
     alert('좌표 정보가 있는 단지 중에는 일치하는 결과가 없습니다.');
     return;
   }
   if (matches.length === 1) {
+    renderParksMap(matches);
     openParkInfo(matches[0].id);
+    document.getElementById('parks-map').scrollIntoView({ behavior: 'smooth', block: 'center' });
   } else {
-    const bounds = new kakao.maps.LatLngBounds();
-    matches.forEach(p => bounds.extend(new kakao.maps.LatLng(p.lat, p.lng)));
-    kakaoMap.setBounds(bounds);
+    mapSearchSuggest(); // 여러 지역에 동명 단지가 있는 경우 직접 고르게 한다
   }
-  document.getElementById('parks-map').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function resetParksFilter() {
