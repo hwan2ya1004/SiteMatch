@@ -2575,7 +2575,7 @@
     "available_area": 0.0,
     "vacancy_rate": 17.6,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": ["식료품 제조업", "음료 제조업", "창고 및 운송관련 서비스업"],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
