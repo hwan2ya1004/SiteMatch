@@ -764,20 +764,18 @@ async function runMatch() {
 function renderResults(results, ind, ar) {
   const res = document.getElementById('match-results');
   const areaSqm = parseAreaMidpointSqm(ar);
-  // 후보 풀 자체에 "지금 입주 가능"한 곳이 하나도 없는 경우(조건이 너무 좁을 때 실제로
-  // 발생함) — 순위만 바꿔서는 해결이 안 되므로, 전부 입주 불가라는 사실을 숨기지 않고
-  // 상단에 눈에 띄게 알린다. 억지로 그럴듯하게 보여주는 게 가장 나쁜 답이다.
-  const noneAvailable = results.length > 0 && results.every(r => r.move_in_status === '입주 불가');
-  const warningBanner = noneAvailable ? `
-    <div style="background:var(--red-bg);color:var(--red-text);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;line-height:1.6">
-      ⚠️ 이 조건에 맞으면서 <strong>지금 실제로 입주 가능한</strong> 산업단지를 찾지 못했습니다.
-      아래는 조건이 가장 비슷한 곳을 참고용으로 보여드리는 것이며, 전부 현재는 입주가 어려운 상태(조성 중이거나 가용면적 없음)입니다.
-      조건(지역·예산 등)을 넓혀서 다시 매칭해보세요.
-    </div>` : '';
+  if (!results.length) {
+    res.innerHTML = `<div style="background:var(--amber-bg);color:var(--amber-text);border-radius:12px;padding:20px;font-size:14px;line-height:1.7">
+      <strong>조건에 맞는 입주 가능한 산업단지를 찾지 못했습니다.</strong><br>
+      선택하신 업종(<strong>${ind}</strong>)으로 지금 입주할 수 있는 단지(조성 완료·가용면적 있음)가 없거나, 공식 고시문서상 입주가 제한된 업종입니다.
+      지역이나 업종 조건을 넓혀서 다시 매칭해보세요.
+    </div>`;
+    return;
+  }
   res.innerHTML = `<div style="font-size:14px;color:var(--text-sub);margin-bottom:16px;display:flex;align-items:center;gap:8px">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
     <span><strong style="color:var(--text)">${ind}</strong> 조건에 맞는 산업단지 ${results.length}곳을 추천합니다 (AI 분석 기반)</span>
-  </div>` + warningBanner + results.map((r, i) => {
+  </div>` + results.map((r, i) => {
     let monthlyRentLine = '';
     if (areaSqm && r.rent_per_sqm) {
       const billedSqm = Math.min(areaSqm, r.available_area || areaSqm);
@@ -803,10 +801,10 @@ function renderResults(results, ind, ar) {
       </div>` : '';
 
     return `
-  <div class="result-card ${i===0 && !noneAvailable?'top-pick':''}">
+  <div class="result-card ${i===0?'top-pick':''}">
     <div class="result-row1">
       <div>
-        <div class="result-rank">${i===0 && !noneAvailable?'★ 최우선 추천':'#'+r.rank+' 참고'}</div>
+        <div class="result-rank">${i===0?'★ 최우선 추천':'#'+r.rank+' 추천'}</div>
         <div class="result-name">${r.name}${devStatusBadge(r.dev_status)}${moveInBadge(r.move_in_status)}</div>
         <div class="result-region">${[r.region, r.city].filter(Boolean).join(' ')}</div>
         ${r.address ? `<div style="font-size:12px;color:var(--text-hint);margin-top:1px">${r.address}</div>` : ''}

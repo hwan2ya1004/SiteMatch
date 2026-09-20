@@ -59,23 +59,32 @@ def _region_matches(folder_name: str, db_region: str) -> bool:
     return fn in {_norm(x) for x in full_names}
 
 
+# 단지명 끝에 붙는 일반 명칭 — "AM하이테크" 와 "AM하이테크일반산업단지"는 같은 단지로 본다.
+_GENERIC_SUFFIXES = ("도시첨단산업단지", "일반산업단지", "국가산업단지", "농공단지", "산업단지",
+                     "일반산단", "농공산단", "국가산단", "산단", "단지")
+
+
+def _core_name(name_n: str) -> str:
+    for suf in _GENERIC_SUFFIXES:
+        if name_n.endswith(suf) and len(name_n) > len(suf):
+            return name_n[: -len(suf)]
+    return name_n
+
+
 def _find_name_match(parent: Path, name_n: str) -> Optional[Path]:
-    """이름이 정확히 같은 폴더를 먼저 고르고, 없으면 느슨하게 매칭한다.
-    예전엔 "포함되는 폴더 중 가장 긴 이름"을 그냥 골랐는데, 그러면 "가은" 단지가
-    "가은제2" 폴더로, "가장" 단지가 "가장2" 폴더로 잘못 연결됐다(같은 시에 이름이
-    접두 관계인 단지가 있는 경우)."""
+    """단지명과 같은(끝의 "일반산업단지"/"농공단지" 같은 일반 명칭만 다른) 폴더만 고른다.
+    예전엔 "이름이 서로 포함되면" 매칭해서 다음 오연결이 났다: "가은"→"가은제2" 폴더,
+    "가장"→"가장2" 폴더, "오산가장제3"→"가장" 폴더, "화성"/"논산"/"영주"/"오산"→ 같은 이름의
+    시(市) 폴더, "인천"→"IHP(인천경제자유구역)" 폴더. 문서가 다른 단지 것으로 표시·인용되므로
+    부분 문자열 매칭은 하지 않는다."""
     dirs = [(d, _norm(d.name)) for d in parent.iterdir() if d.is_dir()]
     for d, dn in dirs:
         if dn == name_n:
             return d
-    # 폴더명이 단지명의 일부(예: 폴더 "AM하이테크" / 단지 "AM하이테크일반산업단지") → 가장 긴 것
-    inside = [(d, dn) for d, dn in dirs if dn and dn in name_n]
-    if inside:
-        return max(inside, key=lambda x: len(x[1]))[0]
-    # 단지명이 폴더명의 일부(예: 단지 "가남" / 폴더 "가남농공단지") → 가장 짧은 것(가장 가까운 것)
-    contains = [(d, dn) for d, dn in dirs if name_n in dn]
-    if contains:
-        return min(contains, key=lambda x: len(x[1]))[0]
+    core = _core_name(name_n)
+    same_core = [(d, dn) for d, dn in dirs if dn and _core_name(dn) == core]
+    if same_core:
+        return min(same_core, key=lambda x: len(x[1]))[0]
     return None
 
 

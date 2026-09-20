@@ -12,6 +12,8 @@ from typing import List, Dict, Any, Optional
 
 from groq import Groq
 
+from services import industry_rules
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MATCH_MODEL = "openai/gpt-oss-120b"
@@ -326,6 +328,12 @@ class EmbeddingService:
             if region_pool:
                 pool = region_pool
 
+        # 지금 입주할 수 없는 단지(조성중/미개발/가용면적 없음)와, 공식 고시문서상 선택한
+        # 업종이 입주 불가로 확인된 단지는 후보에서 아예 뺀다.
+        division = industry_rules.guess_division(industry)
+        pool = [p for p in pool
+                if self._is_available(p) and not industry_rules.is_blocked(p.get("id"), division)]
+
         if len(pool) <= MAX_LLM_CANDIDATES:
             return pool
 
@@ -387,13 +395,15 @@ class EmbeddingService:
         self._apply_availability_penalty(results)
         results.sort(key=lambda x: x["score"], reverse=True)
 
-        # 점수만 깎아서 후순위로 미루는 정도로는, 경쟁이 약한 조건(필터가 좁아 후보가
-        # 몇 개 안 남는 경우)에서는 여전히 "지금 못 들어가는" 단지가 상위 5개 안에 들어올
-        # 수 있었다(실사용 중 확인) — 그래서 아예 "입주 가능"한 곳을 먼저 다 채우고,
-        # top_k를 못 채울 만큼 부족할 때만 "입주 불가"인 곳으로 나머지를 보충한다.
-        available = [r for r in results if self._is_available(r["park"])]
-        unavailable = [r for r in results if not self._is_available(r["park"])]
-        return (available + unavailable)[:top_k]
+        # 입주 가능한 단지만 반환한다. 조건에 맞는 곳이 top_k보다 적으면 적은 대로,
+        # 없으면 빈 목록을 돌려준다(입주 불가 단지로 채우지 않는다).
+        division = industry_rules.guess_division(industry)
+        final = [r for r in results if self._is_available(r["park"])][:top_k]
+        for r in final:
+            status, note = industry_rules.check(r["park"].get("id"), division)
+            if note:
+                r["reason"] = f"{r['reason']} · {note}" if r.get("reason") else note
+        return final
 
     @staticmethod
     def _is_available(park: Dict) -> bool:
