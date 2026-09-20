@@ -9689,7 +9689,7 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": ["화학물질 및 화학제품 제조업(의약품 제외)", "금속 가공제품 제조업", "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업", "의료, 정밀, 광학 기기 및 시계 제조업", "전기장비 제조업", "기타 기계 및 장비 제조업", "자동차 및 트레일러 제조업", "기타 운송장비 제조업", "기타 제품 제조업"],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
