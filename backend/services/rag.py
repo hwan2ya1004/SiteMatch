@@ -2,7 +2,9 @@
 LangChain RAG + Groq 기반 챗봇 서비스
 임베딩/FAISS 없이 subsidy_docs.txt를 직접 컨텍스트로 활용 (Render 무료 플랜 최적화)
 """
+import asyncio
 import os
+import re
 from typing import List, AsyncGenerator, Dict, Optional
 
 from groq import Groq
@@ -80,6 +82,47 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
 참고 문서:
 {context}
 """
+
+# 챗봇은 "이름이 언급된 특정 단지"의 자료만 받는다(_get_context). "더 추천할 곳 있나?"처럼
+# 단지 이름 없이 추천을 물으면 단지 자료가 하나도 안 들어가는데도 LLM이 앞선 대화에 나온
+# 단지만 "문서에 있는 전부"라고 답하는 오답이 실제로 있었다. 그래서 추천 요청은 LLM 대화가
+# 아니라 매칭 엔진(EmbeddingService.search)으로 실제 DB에서 찾아 답하고, 조건이 하나도 없으면
+# 조건을 되묻는다.
+_RECOMMEND_RE = re.compile(
+    r"추천.*(곳|단지|산단|입지|지역)|(곳|단지|산단|입지).*추천"
+    r"|(다른|더|또).*(곳|단지|산단).*(있|없|추천|알려|소개)|어디(가|로|에).*(좋|입주|들어|갈)|어느.*(단지|산단|곳).*(좋|나을)"
+)
+
+# 지역 표기: 사용자는 "충남"/"충청남도" 둘 다 쓴다. 공단 데이터의 시도 표기는 약칭이다.
+_REGION_ALIASES = {
+    "서울": ["서울"], "경기": ["경기"], "인천": ["인천"], "강원": ["강원"],
+    "충남": ["충남", "충청남도"], "충북": ["충북", "충청북도"], "대전": ["대전"], "세종": ["세종"],
+    "전남": ["전남", "전라남도"], "전북": ["전북", "전라북도", "전북특별자치도"], "광주": ["광주"],
+    "경남": ["경남", "경상남도"], "경북": ["경북", "경상북도"],
+    "부산": ["부산"], "대구": ["대구"], "울산": ["울산"], "제주": ["제주"],
+}
+# 업종 힌트 — 지역이 없어도 "식품 공장 어디가 좋아?"처럼 업종만 있으면 추천 검색을 돌릴 수 있게 한다.
+_INDUSTRY_HINTS = (
+    "식품", "식료", "음료", "화학", "전자", "반도체", "기계", "금속", "자동차", "섬유", "의약", "바이오",
+    "물류", "창고", "플라스틱", "고무", "조선", "배터리", "이차전지", "목재", "가구", "인쇄", "제지",
+    "철강", "비금속", "로봇", "디스플레이", "의료", "정밀", "전기장비", "운송장비", "제조업", "공장",
+)
+_AREA_RE = re.compile(r"\d[\d,\.]*\s*(㎡|m2|평)")
+
+RECOMMEND_ASK_MSG = (
+    "추천을 위해 조건을 알려주세요. 희망 **지역**, **업종**, 필요한 **면적** 중 하나 이상이면 됩니다.\n\n"
+    "예) \"충남에서 식품 공장 1,000㎡ 정도 들어갈 곳 추천해줘\"\n\n"
+    "이미 관심 있는 단지가 있으면 단지 이름을 알려주세요. 그 단지의 상세 정보를 안내해 드립니다."
+)
+
+
+def _detect_region(text: str) -> str:
+    """텍스트에서 희망 지역(공단 데이터 표기, 예: "충남")을 찾는다. 없으면 빈 문자열."""
+    for abbr, names in _REGION_ALIASES.items():
+        if any(n in text for n in names):
+            return abbr
+    return ""
+
 
 def _load_docs() -> str:
     """subsidy_docs.txt 전체 로드 (없으면 빈 문자열).
@@ -319,10 +362,88 @@ class RAGService:
 
         return _keyword_filter_context(self._docs_text, query)
 
+    def _recommend(self, messages: List[dict]) -> Optional[str]:
+        """단지 추천 요청이면 매칭 엔진으로 실제 DB를 검색해 답을 만들어 반환한다(아니면 None).
+        LLM 대화로 처리하면 단지 자료 없이 앞선 대화 내용만 보고 "문서에 있는 단지는 이게 전부"라고
+        답하는 오답이 났기 때문에, 추천은 검색 결과를 코드로 직접 포맷해 답한다(지어낼 여지 없음)."""
+        last = ""
+        for m in reversed(messages):
+            if m.get("role") == "user":
+                last = m.get("content", "")
+                break
+        if not last or not _RECOMMEND_RE.search(last) or self._find_mentioned_park(last):
+            return None
+
+        # "더 추천할 곳 있나?"처럼 조건이 앞선 질문에 있는 경우가 많아 최근 사용자 발화 3개에서 찾는다.
+        recent = " ".join([m.get("content", "") for m in messages if m.get("role") == "user"][-3:])
+        region = _detect_region(recent)
+        area_m = _AREA_RE.search(recent)
+        if not (region or area_m or any(h in recent for h in _INDUSTRY_HINTS)):
+            return RECOMMEND_ASK_MSG
+
+        from services.embedding import get_embedding_service
+        svc = get_embedding_service()
+        if svc is None:
+            return "지금은 추천 검색을 사용할 수 없습니다. 상단 **AI 매칭** 메뉴에서 조건을 입력해 주세요."
+        try:
+            results = svc.search(
+                industry=recent, size="무관", area=area_m.group(0) if area_m else "무관",
+                region=region, budget="", logistics="", extra=recent, top_k=8,
+            )
+        except Exception as e:
+            print(f"⚠️ 챗봇 추천 검색 실패: {e}")
+            return "추천 검색 중 오류가 발생했습니다. 잠시 후 다시 시도하시거나 상단 **AI 매칭** 메뉴를 이용해 주세요."
+        if not results:
+            return "조건에 맞는 단지를 찾지 못했습니다. 지역이나 업종 조건을 바꿔서 다시 알려주세요."
+
+        # "더 추천"이면 앞서 안내한 단지는 빼고 보여준다
+        seen = " ".join(m.get("content", "") for m in messages[:-1] if m.get("role") == "assistant")
+        fresh = [r for r in results if (r["park"].get("name") or "") not in seen]
+        # 엔진이 "업종 부적합"이라고 판단한 단지를 추천처럼 보여주면 어색하다 — 적합한 곳만 남긴다.
+        fresh_good = [r for r in fresh if "부적합" not in (r.get("reason") or "")]
+        if seen.strip() and not fresh_good:
+            return ("앞서 안내드린 단지 외에는 지역·업종 조건에 잘 맞는 곳을 더 찾지 못했습니다. "
+                    "업종이나 면적 조건을 바꿔 다시 알려주시거나, 상단 **AI 매칭** 메뉴에서 세부 조건으로 찾아보세요.")
+        picked = (fresh_good or fresh or results)[:5]
+
+        cond = f"지역: {region}" if region else "지역 무관"
+        if area_m:
+            cond += f" · 면적: {area_m.group(0)}"
+        head = f"조건({cond})에 맞춰 전국 산업단지 DB에서 찾은 단지입니다."
+        lines = [head, ""]
+        for i, r in enumerate(picked, 1):
+            park = r["park"]
+            dev = park.get("dev_status") or "완료"
+            avail = park.get("available_area") or 0
+            if svc._is_available(park):
+                status = "입주 가능"
+            elif dev != "완료":
+                status = f"입주 불가({dev})"
+            else:
+                status = "입주 불가(가용면적 없음)"
+            loc = " ".join(x for x in [park.get("region"), park.get("city")] if x)
+            lines.append(f"{i}. **{park.get('name')}** ({loc}) — {status}")
+            detail = [f"가용면적 {avail:,.0f}㎡"]
+            if park.get("sale_rate") is not None:
+                detail.append(f"분양률 {park['sale_rate']:.1f}%")
+            inds = park.get("industries") or []
+            if inds:
+                detail.append("주요업종: " + ", ".join(inds[:3]))
+            lines.append("   - " + " · ".join(detail))
+            if r.get("reason"):
+                lines.append(f"   - {r['reason']}")
+        lines += ["", "면적·예산·물류 같은 세부 조건까지 반영하려면 상단 **AI 매칭** 메뉴를, "
+                      "특정 단지의 상세 정보는 단지 이름으로 물어보세요."]
+        return "\n".join(lines)
+
     def chat(self, messages: List[dict]) -> str:
         """동기 챗봇 응답"""
         if not messages:
             return "질문을 입력해주세요."
+
+        rec = self._recommend(messages)
+        if rec is not None:
+            return rec
 
         last_user_msg = ""
         for msg in reversed(messages):
@@ -353,6 +474,11 @@ AI:"""
         """스트리밍 챗봇 응답 (Groq 스트리밍)"""
         if not messages:
             yield "질문을 입력해주세요."
+            return
+
+        rec = await asyncio.to_thread(self._recommend, messages)
+        if rec is not None:
+            yield rec
             return
 
         last_user_msg = ""
