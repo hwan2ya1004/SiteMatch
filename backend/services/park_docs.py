@@ -60,15 +60,23 @@ def _region_matches(folder_name: str, db_region: str) -> bool:
 
 
 def _find_name_match(parent: Path, name_n: str) -> Optional[Path]:
-    best = None
-    for d in parent.iterdir():
-        if not d.is_dir():
-            continue
-        dn = _norm(d.name)
-        if dn == name_n or name_n in dn or dn in name_n:
-            if not best or len(dn) > len(_norm(best.name)):
-                best = d
-    return best
+    """이름이 정확히 같은 폴더를 먼저 고르고, 없으면 느슨하게 매칭한다.
+    예전엔 "포함되는 폴더 중 가장 긴 이름"을 그냥 골랐는데, 그러면 "가은" 단지가
+    "가은제2" 폴더로, "가장" 단지가 "가장2" 폴더로 잘못 연결됐다(같은 시에 이름이
+    접두 관계인 단지가 있는 경우)."""
+    dirs = [(d, _norm(d.name)) for d in parent.iterdir() if d.is_dir()]
+    for d, dn in dirs:
+        if dn == name_n:
+            return d
+    # 폴더명이 단지명의 일부(예: 폴더 "AM하이테크" / 단지 "AM하이테크일반산업단지") → 가장 긴 것
+    inside = [(d, dn) for d, dn in dirs if dn and dn in name_n]
+    if inside:
+        return max(inside, key=lambda x: len(x[1]))[0]
+    # 단지명이 폴더명의 일부(예: 단지 "가남" / 폴더 "가남농공단지") → 가장 짧은 것(가장 가까운 것)
+    contains = [(d, dn) for d, dn in dirs if name_n in dn]
+    if contains:
+        return min(contains, key=lambda x: len(x[1]))[0]
+    return None
 
 
 def find_park_folder(region: str, city: str, name: str) -> Optional[Path]:
