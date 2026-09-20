@@ -6483,7 +6483,14 @@
     "available_area": 0.0,
     "vacancy_rate": 7.1,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업(의약품 제외)",
+      "의료용 물질 및 의약품 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "금속 가공제품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -6491,13 +6498,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.158033,
+    "lng": 127.046664,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 42,
-    "operating_companies": 39
+    "operating_companies": 39,
+    "address": "경기도 오산시 가장동 372번지 일원"
   },
   {
     "id": 216,
@@ -7660,7 +7668,14 @@
     "available_area": 0.0,
     "vacancy_rate": 10.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업(의약품 제외)",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학 기기 및 시계 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "연구개발업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -9689,7 +9704,17 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": ["화학물질 및 화학제품 제조업(의약품 제외)", "금속 가공제품 제조업", "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업", "의료, 정밀, 광학 기기 및 시계 제조업", "전기장비 제조업", "기타 기계 및 장비 제조업", "자동차 및 트레일러 제조업", "기타 운송장비 제조업", "기타 제품 제조업"],
+    "industries": [
+      "화학물질 및 화학제품 제조업(의약품 제외)",
+      "금속 가공제품 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학 기기 및 시계 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업",
+      "기타 제품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -35967,7 +35992,13 @@
     "available_area": 73000.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": ["금속 가공제품 제조업", "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업", "전기장비 제조업", "기타 기계 및 장비 제조업", "기타 운송장비 제조업"],
+    "industries": [
+      "금속 가공제품 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "기타 운송장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -40892,7 +40923,11 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": ["금속 가공제품 제조업", "기타 기계 및 장비 제조업", "자동차 및 트레일러 제조업"],
+    "industries": [
+      "금속 가공제품 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
