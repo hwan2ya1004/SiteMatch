@@ -36482,7 +36482,16 @@
     "available_area": 475000.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 운송장비 제조업",
+      "전기장비 제조업",
+      "1차 금속 제조업",
+      "금속 가공제품 제조업",
+      "기타 기계 및 장비 제조업",
+      "비금속 광물제품 제조업",
+      "전기, 가스, 증기 및 공기조절 공급업",
+      "연구개발업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -36496,7 +36505,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 하동군 금성면 갈사리 일원"
   },
   {
     "id": 1229,
