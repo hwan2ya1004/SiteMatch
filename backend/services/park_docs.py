@@ -71,6 +71,10 @@ def _core_name(name_n: str) -> str:
     return name_n
 
 
+# 행정구역 개편으로 DB의 시군구와 문서 폴더의 시군구 이름이 다른 경우 (인천 서구 → 서해구·검단구)
+_CITY_ALIASES = {("인천", "서구"): ("서해구", "검단구")}
+
+
 def _find_name_match(parent: Path, name_n: str) -> Optional[Path]:
     """단지명과 같은(끝의 "일반산업단지"/"농공단지" 같은 일반 명칭만 다른) 폴더만 고른다.
     예전엔 "이름이 서로 포함되면" 매칭해서 다음 오연결이 났다: "가은"→"가은제2" 폴더,
@@ -106,8 +110,8 @@ def find_park_folder(region: str, city: str, name: str) -> Optional[Path]:
     if not name_n:
         return None
 
-    city_dir = next((d for d in region_dir.iterdir() if d.is_dir() and _norm(d.name) == _norm(city)), None)
-    if city_dir:
+    city_names = {_norm(city)} | {_norm(c) for c in _CITY_ALIASES.get((region, city), ())}
+    for city_dir in (d for d in region_dir.iterdir() if d.is_dir() and _norm(d.name) in city_names):
         match = _find_name_match(city_dir, name_n)
         if match:
             return match

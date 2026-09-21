@@ -23334,7 +23334,10 @@
     "available_area": 28000.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전기·전자",
+      "자동차부품"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -23346,10 +23349,10 @@
     "lng": 126.55031,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
-    "sale_rate": 30.0,
+    "sale_rate": 0.0,
     "total_companies": 0,
     "operating_companies": 0,
-    "address": "충청남도 홍성군 갈산면 운곡리 713"
+    "address": "충청남도 홍성군 갈산면 운곡리 488-3번지 일원"
   },
   {
     "id": 793,
