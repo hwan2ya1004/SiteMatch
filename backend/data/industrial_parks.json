@@ -31760,7 +31760,7 @@
     "city": "영주시",
     "type": "일반산단",
     "total_area": 149000.0,
-    "available_area": 13000.0,
+    "available_area": 1328.0,
     "vacancy_rate": 20.0,
     "rent_per_sqm": null,
     "industries": [
@@ -31781,7 +31781,7 @@
     "lng": 128.56954,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
-    "sale_rate": 87.13,
+    "sale_rate": 98.7,
     "total_companies": 5,
     "operating_companies": 4,
     "address": "경상북도 영주시 장수면 갈산리 1086"
