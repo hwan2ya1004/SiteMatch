@@ -114,7 +114,14 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "소프트웨어 개발 및 공급업",
+      "컴퓨터 프로그래밍, 시스템 통합 및 관리업",
+      "정보서비스업",
+      "자연과학 및 공학 연구개발업",
+      "건축기술, 엔지니어링 및 기타 과학기술 서비스업",
+      "전문 디자인업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -122,13 +129,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.546988,
+    "lng": 127.177122,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "서울특별시 강동구 상일동 404번지 일원"
   },
   {
     "id": 5,
