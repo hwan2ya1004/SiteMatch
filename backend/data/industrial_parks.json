@@ -11581,7 +11581,7 @@
     "city": "강릉시",
     "type": "일반산단",
     "total_area": 1487000.0,
-    "available_area": 52000.0,
+    "available_area": 16195.0,
     "vacancy_rate": 5.1,
     "rent_per_sqm": null,
     "industries": [
@@ -11602,7 +11602,7 @@
     "lng": 128.854643,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
-    "sale_rate": 93.93,
+    "sale_rate": 97.3,
     "total_companies": 157,
     "operating_companies": 149,
     "address": "강원특별자치도 강릉시 과학단지로 106-11 (대전동)"
