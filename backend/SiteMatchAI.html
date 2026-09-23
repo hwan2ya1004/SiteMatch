@@ -223,6 +223,21 @@
     .filter-grid { grid-template-columns: 1fr 1fr; }
     .filter-grid button { grid-column: 1 / -1; }
   }
+
+  /* 대시보드 표가 길어서 스크롤이 오래 내려가므로, 우측 하단에 맨 위로 버튼을 띄운다.
+     일정 스크롤 이후에만 나타나고, 대시보드를 벗어나면 바로 사라진다(showPage에서 처리). */
+  #dashboard-scrolltop {
+    display: none; position: fixed; right: 24px; bottom: 24px; z-index: 150;
+    width: 44px; height: 44px; border-radius: 50%; align-items: center; justify-content: center;
+    border: 1px solid var(--border); background: var(--white); color: var(--teal-dark);
+    font-size: 16px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    transition: background .15s, transform .15s;
+  }
+  #dashboard-scrolltop:hover { background: var(--teal-light); transform: translateY(-2px); }
+  #dashboard-scrolltop.show { display: flex; }
+  @media (max-width: 768px) {
+    #dashboard-scrolltop { bottom: calc(72px + env(safe-area-inset-bottom, 0px)); } /* 하단 앱 네비 위로 */
+  }
   .dashboard-grid { display: grid; grid-template-columns: 1fr 340px; gap: 20px; margin-top: 24px; }
   .recent-list { display: flex; flex-direction: column; gap: 0; }
   .recent-item { padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
@@ -691,6 +706,8 @@
 
 </div>
 
+<button id="dashboard-scrolltop" onclick="scrollToTop()" title="맨 위로" aria-label="맨 위로 이동">▲</button>
+
 <footer style="border-top:1px solid var(--border);padding:16px 32px;font-size:12px;color:var(--text-sub);flex-shrink:0">
   <div style="max-width:1100px;margin:0 auto">
     <details id="footer-biz-info">
@@ -793,6 +810,9 @@ function showPage(id) {
   // 반드시 이 클래스를 지워야 한다(안 지우면 body에 overflow:hidden이 남아 다른
   // 탭에서도 스크롤이 막힌다).
   document.body.classList.toggle('map-fullscreen', id === 'map');
+  // 대시보드를 벗어나면(스크롤 위치와 무관하게) 맨 위로 버튼을 바로 감춘다.
+  const scrollTopBtn = document.getElementById('dashboard-scrolltop');
+  if (scrollTopBtn) scrollTopBtn.classList.toggle('show', id === 'gov' && window.scrollY > 400);
   if (id === 'gov') {
     dashboardRole = id;
     // 로그인 기능 미구현 — 지금 단계에서는 키 입력 없이 공개.
@@ -2062,6 +2082,17 @@ function renderStaticDashboard() {
   const mapEl = document.getElementById('parks-map');
   if (mapEl) mapEl.textContent = '백엔드 서버에 연결되면 지도가 표시됩니다.';
 }
+
+// ── 대시보드: 맨 위로 스크롤 버튼 (표가 길어서 아래로 한참 내려가므로) ──
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('dashboard-scrolltop');
+  const dash = document.getElementById('page-dashboard');
+  if (!btn || !dash) return;
+  btn.classList.toggle('show', dash.classList.contains('active') && window.scrollY > 400);
+});
 
 // ── 초기화 ──
 // 홈 화면에 추가 안내는 더 이상 이 페이지(sitematch.onrender.com)에서
