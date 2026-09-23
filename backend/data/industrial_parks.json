@@ -30867,7 +30867,7 @@
   },
   {
     "id": 1037,
-    "name": "건천제1",
+    "name": "건천1",
     "region": "경북",
     "city": "경주시",
     "type": "일반산단",
@@ -30889,17 +30889,18 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.864822,
+    "lng": 129.115016,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상북도 경주시 건천읍 용명리 1075-1번지 일원"
   },
   {
     "id": 1038,
-    "name": "건천제2",
+    "name": "건천2",
     "region": "경북",
     "city": "경주시",
     "type": "일반산단",
@@ -30921,13 +30922,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.882718,
+    "lng": 129.110982,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 21,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "경상북도 경주시 건천읍 용명리 산 269-4번지 일원"
   },
   {
     "id": 1039,
@@ -32575,7 +32577,13 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "1차 금속 제조업",
+      "금속가공제품 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "가구 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
