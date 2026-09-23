@@ -11886,11 +11886,14 @@
     "region": "강원",
     "city": "강릉시",
     "type": "일반산단",
-    "total_area": 482000.0,
+    "total_area": 482466.0,
     "available_area": 0.0,
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "1차 금속 제조업",
+      "창고 및 운송관련 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -11905,7 +11908,7 @@
     "sale_rate": 100.0,
     "total_companies": 1,
     "operating_companies": 0,
-    "address": "강원특별자치도 강릉시 옥계면 주수리 251-4"
+    "address": "강원특별자치도 강릉시 옥계면 주수리 622번지 일원"
   },
   {
     "id": 401,
