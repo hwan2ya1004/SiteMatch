@@ -1,0 +1,18 @@
+{'DAN_ID': '248160', 'DAN_NAME': '대송', 'DANJI_TYPE': '2', 'CRE_DATE': '', 'UPD_DATE': '', 'GOSI': '', 'REMARK': ''}
+{'DAN_ID': '246060', 'DAN_NAME': '해룡', 'DANJI_TYPE': '2', 'CRE_DATE': '', 'UPD_DATE': '20200120', 'GOSI': '전라남도 고시 제2017-445호', 'REMARK': '갱신'}
+{'DAN_ID': '243310', 'DAN_NAME': '청주테크노폴리스', 'DANJI_TYPE': '2', 'CRE_DATE': '20121230', 'UPD_DATE': '20171230', 'GOSI': '', 'REMARK': '2017년 불일치 및 갱신'}
+{'DAN_ID': '248120', 'DAN_NAME': '사포', 'DANJI_TYPE': '2', 'CRE_DATE': '', 'UPD_DATE': '', 'GOSI': '', 'REMARK': '0'}
+{'DAN_ID': '231060', 'DAN_NAME': '울산 High Tech Valley', 'DANJI_TYPE': '2', 'CRE_DATE': '', 'UPD_DATE': '20210730', 'GOSI': '', 'REMARK': ''}
+{'DAN_ID': '245060', 'DAN_NAME': '전주1', 'DANJI_TYPE': '2', 'CRE_DATE': '', 'UPD_DATE': '20210730', 'GOSI': '', 'REMARK': ''}
+{'DAN_ID': '248B20', 'DAN_NAME': '평성', 'DANJI_TYPE': '2', 'CRE_DATE': '20210114', 'UPD_DATE': '', 'GOSI': '', 'REMARK': ''}
+{'DAN_ID': '228010', 'DAN_NAME': '강화하점', 'DANJI_TYPE': '2', 'CRE_DATE': '', 'UPD_DATE': '', 'GOSI': '', 'REMARK': ''}
+{'DAN_ID': '229060', 'DAN_NAME': '진곡', 'DANJI_TYPE': '2', 'CRE_DATE': '', 'UPD_DATE': '', 'GOSI': '', 'REMARK': ''}
+{'DAN_ID': '247161', 'DAN_NAME': '왜관(기존)', 'DANJI_TYPE': '2', 'CRE_DATE': '', 'UPD_DATE': '', 'GOSI': '', 'REMARK': ''}
+---types---
+2: 748
+4: 481
+1: 64
+3: 47
+shape count: 1340
+first shape type: 5, bbox: BBox(xmin=14229811.2051, ymin=4158183.5879999995, xmax=14231141.0995, ymax=4160270.5393999964)
+first shape points sample: [(14230208.408299997, 4158184.1806999967), (14230175.538800001, 4158196.1577999964), (14230152.5761, 4158204.403800003)]

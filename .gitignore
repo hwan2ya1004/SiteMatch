@@ -33,6 +33,10 @@ env/
 *.sqlite3
 backend/sitematch.db
 
+# 임시 백업 파일 (스크립트가 편집 전 자동 생성)
+*.bak
+*.bak_*
+
 # IDE
 .vscode/
 .idea/
