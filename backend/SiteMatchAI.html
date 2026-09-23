@@ -215,7 +215,11 @@
   #map-clone { display: flex; height: calc(100vh - 56px); background: var(--white); }
   #map-sidebar { width: 360px; min-width: 300px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--white); }
   #map-sidebar-search { padding: 12px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-  #map-sidebar-search input { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; box-sizing: border-box; }
+  /* input[type="text"]로 좁히지 않으면 같은 영역의 "입주 가능만 보기" 체크박스에도
+     width:100%+padding+border가 그대로 적용돼 체크박스가 거대한 박스로 부풀어
+     레이아웃이 깨졌다(실제 발생). */
+  #map-sidebar-search input[type="text"] { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; box-sizing: border-box; }
+  #map-sidebar-search input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--teal-mid); }
   #map-list-panel { flex: 1; overflow-y: auto; }
   #map-detail-panel { flex: 1; overflow-y: auto; display: none; }
   #map-list-count { padding: 10px 14px 4px; font-size: 12px; color: var(--text-sub); }
