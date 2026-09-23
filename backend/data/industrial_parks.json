@@ -28169,7 +28169,7 @@
     "city": "강진군",
     "type": "일반산단",
     "total_area": 655000.0,
-    "available_area": 161000.0,
+    "available_area": 59318.0,
     "vacancy_rate": 84.4,
     "rent_per_sqm": null,
     "industries": [
@@ -28190,10 +28190,10 @@
     "lng": 126.741456,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
-    "sale_rate": 60.73,
+    "sale_rate": 85.54,
     "total_companies": 32,
     "operating_companies": 5,
-    "address": "전남광주통합특별시 강진군 성전면 송학리 841-6"
+    "address": "전라남도 강진군 성전면 송학리 841-6"
   },
   {
     "id": 950,
@@ -28279,11 +28279,19 @@
     "region": "전남",
     "city": "강진군",
     "type": "일반산단",
-    "total_area": 304000.0,
+    "total_area": 304601.0,
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업",
+      "고무 및 플라스틱제품 제조업",
+      "비금속 광물제품 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업",
+      "기타 제품 제조업",
+      "전기, 가스, 증기 및 공기조절 공급업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -28294,10 +28302,11 @@
     "lat": null,
     "lng": null,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전라남도 강진군 성전면 명산리, 송학리 일원"
   },
   {
     "id": 954,
