@@ -208,6 +208,48 @@
   #footer-biz-info summary::-webkit-details-marker { display: none; }
   #footer-biz-info[open] summary .chevron { transform: rotate(180deg); }
 
+  /* ── 지도 탭: 지도.카카오.com 스타일 (좌측 목록/상세 + 우측 지도), 스크롤 없이 전체화면 ── */
+  body.map-fullscreen { overflow: hidden; height: 100vh; }
+  body.map-fullscreen .layout { padding: 0; max-width: none; }
+  body.map-fullscreen footer { display: none; }
+  #map-clone { display: flex; height: calc(100vh - 56px); background: var(--white); }
+  #map-sidebar { width: 360px; min-width: 300px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--white); }
+  #map-sidebar-search { padding: 12px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  #map-sidebar-search input { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; box-sizing: border-box; }
+  #map-list-panel { flex: 1; overflow-y: auto; }
+  #map-detail-panel { flex: 1; overflow-y: auto; display: none; }
+  #map-list-count { padding: 10px 14px 4px; font-size: 12px; color: var(--text-sub); }
+  .map-list-item { padding: 12px 14px; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .map-list-item:hover { background: var(--gray-bg); }
+  .map-list-name { font-weight: 700; font-size: 13.5px; }
+  .map-list-sub { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+  .map-list-tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px; }
+  .map-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 99px; white-space: nowrap; }
+  .map-badge.ok { background: var(--green-bg); color: var(--green-text); }
+  .map-badge.no { background: var(--red-bg); color: var(--red-text); }
+  .map-badge.sale { background: var(--teal-light); color: var(--teal-dark); }
+  .map-badge.rent { background: var(--amber-bg); color: var(--amber-text); }
+  #map-view { flex: 1; position: relative; }
+  #parks-map { width: 100%; height: 100%; background: var(--gray-bg); display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 13px; }
+  #map-locate-btn { position: absolute; right: 16px; bottom: 24px; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border); background: var(--white); font-size: 18px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.15); z-index: 5; }
+  #map-locate-btn:hover { background: var(--gray-bg); }
+  #map-detail-back { display: flex; align-items: center; gap: 6px; padding: 12px 14px; border-bottom: 1px solid var(--border); cursor: pointer; color: var(--text-sub); font-size: 13px; font-weight: 600; }
+  #map-detail-back:hover { color: var(--text); }
+  .map-detail-body { padding: 4px 16px 20px; }
+  .map-detail-name { font-size: 17px; font-weight: 800; margin: 6px 0 4px; }
+  .map-detail-loc { font-size: 13px; color: var(--text-sub); margin-bottom: 10px; }
+  .map-detail-row { font-size: 13px; padding: 8px 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; }
+  .map-detail-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .map-detail-actions button, .map-detail-actions a { flex: 1; min-width: 100px; text-align: center; padding: 9px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--white); font-size: 12.5px; font-weight: 600; cursor: pointer; text-decoration: none; color: var(--text); box-sizing: border-box; }
+  .map-detail-actions button:hover, .map-detail-actions a:hover { background: var(--gray-bg); }
+  #roadview-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 200; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box; }
+  #roadview-modal.open { display: flex; }
+  #roadview-box { background: var(--white); border-radius: 12px; overflow: hidden; width: min(900px, 100%); }
+  #roadview-head { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  #roadview-head button { border: none; background: none; font-size: 18px; cursor: pointer; color: var(--text-sub); }
+  #roadview-el { width: 100%; height: min(60vh, 520px); background: var(--gray-bg); }
+  #roadview-empty { display: none; padding: 40px 20px; text-align: center; color: var(--text-sub); font-size: 13px; }
+
   /* ── 반응형 ── */
   @media (max-width: 768px) {
     .layout { padding: 20px 16px; }
@@ -216,8 +258,15 @@
     .chat-layout { grid-template-columns: 1fr; }
     .chat-sidebar { display: none; }
     .stats-grid { grid-template-columns: 1fr 1fr; }
-    #parks-map { height: 280px !important; }
     .dashboard-grid { grid-template-columns: 1fr; }
+
+    /* 지도 탭: 세로로 쌓아서(목록/상세 위, 지도 아래) 화면을 꽉 채우고, 상단바(56px)와
+       하단 앱 네비(60px+세이프에어리어)를 뺀 나머지에 딱 맞춘다 — 이 두 값은 위의
+       body 패딩·topbar 규칙과 반드시 같이 맞춰야 한다. */
+    #map-clone { flex-direction: column; height: calc(100vh - 56px - 60px - env(safe-area-inset-bottom, 0px)); }
+    #map-sidebar { width: 100%; min-width: 0; height: 42%; border-right: none; border-bottom: 1px solid var(--border); }
+    #map-view { flex: 1; }
+    #map-locate-btn { bottom: 14px; }
 
     /* 모바일에서는 상단 바의 텍스트 네비를 감추고 하단 앱 네비로 대체 —
        상단에는 로고와 연결 상태만 남긴다. */
@@ -457,29 +506,35 @@
   </div>
 
   <!-- ── 지도 ── -->
-  <div class="page" id="page-map">
-    <div class="page-header">
-      <div class="page-title">지도</div>
-      <div class="page-desc">전국 산업단지 위치를 지도에서 확인하세요.</div>
-    </div>
-
-    <div class="table-wrap" style="margin-bottom:20px">
-      <div class="table-header">
-        <span style="font-size:12px;color:var(--text-sub);font-weight:400" id="map-legend">🟢 여유 · 🟡 보통 · 🔴 주의/포화 · 🔵 내 위치 (좌표 있는 단지만 표시)</span>
-      </div>
-      <div class="map-toolbar" style="display:flex;flex-wrap:wrap;gap:8px;padding:14px 16px 0">
-        <div style="position:relative;flex:1;min-width:160px">
-          <input type="text" id="map-search" placeholder="산업단지명으로 지도에서 찾기" autocomplete="off"
-                 style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;box-sizing:border-box"
-                 oninput="mapSearchSuggest()"
-                 onkeydown="if(event.key==='Enter'){event.preventDefault();mapSearchGo();} else if(event.key==='Escape'){hideMapSearchSuggestions();}"
-                 onblur="setTimeout(hideMapSearchSuggestions, 150)">
-          <div id="map-search-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:8px;margin-top:4px;max-height:260px;overflow-y:auto;z-index:20;box-shadow:0 4px 14px rgba(0,0,0,.12)"></div>
+  <div class="page" id="page-map" style="padding:0">
+    <div id="map-clone">
+      <div id="map-sidebar">
+        <div id="map-sidebar-search">
+          <input type="text" id="map-search" placeholder="산업단지명으로 찾기" autocomplete="off" oninput="filterMapList()">
+          <div style="font-size:11px;color:var(--text-sub);margin-top:6px">🟢 여유 · 🟡 보통 · 🔴 주의/포화 (좌표 있는 단지만 표시)</div>
         </div>
-        <button class="btn-ghost" onclick="mapSearchGo()" style="white-space:nowrap">🔍 찾기</button>
-        <button class="btn-ghost" id="map-locate-btn" onclick="locateMe()" style="white-space:nowrap">📍 내 위치</button>
+        <div id="map-list-panel">
+          <div id="map-list-count"></div>
+          <div id="map-list"></div>
+        </div>
+        <div id="map-detail-panel"></div>
       </div>
-      <div id="parks-map" style="width:100%;height:calc(100vh - 260px);min-height:420px;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;color:var(--text-sub);font-size:13px;margin-top:14px">지도 로딩 중...</div>
+      <div id="map-view">
+        <div id="parks-map">지도 로딩 중...</div>
+        <button id="map-locate-btn" onclick="locateMe()" title="내 위치">📍</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 로드뷰 모달 -->
+  <div id="roadview-modal">
+    <div id="roadview-box">
+      <div id="roadview-head">
+        <strong id="roadview-title">로드뷰</strong>
+        <button onclick="closeRoadview()" title="닫기">✕</button>
+      </div>
+      <div id="roadview-el"></div>
+      <div id="roadview-empty">이 위치 근처에는 로드뷰 정보가 없습니다.</div>
     </div>
   </div>
 
@@ -598,6 +653,10 @@ function showPage(id) {
   const pageId = (id === 'gov') ? 'dashboard' : id;
   document.getElementById('page-' + pageId).classList.add('active');
   document.querySelectorAll(`.nav-btn[data-page="${id}"]`).forEach(b => b.classList.add('active'));
+  // 지도 탭은 스크롤 없이 화면을 꽉 채우는 전용 레이아웃이라, 다른 탭으로 나갈 때
+  // 반드시 이 클래스를 지워야 한다(안 지우면 body에 overflow:hidden이 남아 다른
+  // 탭에서도 스크롤이 막힌다).
+  document.body.classList.toggle('map-fullscreen', id === 'map');
   if (id === 'gov') {
     dashboardRole = id;
     // 로그인 기능 미구현 — 지금 단계에서는 키 입력 없이 공개.
@@ -608,9 +667,10 @@ function showPage(id) {
   }
   if (id === 'map') {
     initKakaoMapIfNeeded();
+    showMapListPanel();
     // 대시보드를 먼저 들르지 않고 지도 탭으로 바로 와도 동작하도록, 아직
     // 단지 목록이 없으면 여기서 직접 불러온다(있으면 다시 불러오지 않고 재사용).
-    if (window.allParks) applyParksFilter();
+    if (window.allParks) { renderMapList(window.allParks); renderParksMap(window.allParks); }
     else loadMapParks();
   }
 }
@@ -621,12 +681,123 @@ async function loadMapParks() {
     if (resp.ok) {
       const data = await resp.json();
       window.allParks = data.parks;
-      populateParksFilterOptions(data.parks);
-      applyParksFilter();
+      populateParksFilterOptions(data.parks); // 대시보드 필터도 같이 채워둬서 재요청을 막는다
+      renderMapList(data.parks);
+      renderParksMap(data.parks);
     }
   } catch (e) {
     console.warn('지도 데이터 로드 실패:', e.message);
   }
+}
+
+// ── 지도 탭: 좌측 목록/상세 패널 (map.kakao.com 스타일) ──
+function showMapListPanel() {
+  document.getElementById('map-list-panel').style.display = 'block';
+  document.getElementById('map-detail-panel').style.display = 'none';
+}
+function showMapDetailPanel() {
+  document.getElementById('map-list-panel').style.display = 'none';
+  document.getElementById('map-detail-panel').style.display = 'block';
+}
+
+function renderMapList(parks) {
+  const withCoords = (parks || []).filter(p => p.lat && p.lng);
+  document.getElementById('map-list-count').textContent = `${withCoords.length}개 단지 (좌표 있는 곳만 표시)`;
+  document.getElementById('map-list').innerHTML = withCoords.map(p => `
+    <div class="map-list-item" onclick="selectPark(${p.id})">
+      <div class="map-list-name">${escapeHtml(p.name)}</div>
+      <div class="map-list-sub">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))} · 가용면적 ${escapeHtml(p.available_area)}</div>
+      <div class="map-list-tags">
+        <span class="map-badge ${p.move_in_status === '입주 가능' ? 'ok' : 'no'}">${escapeHtml(p.move_in_status)}</span>
+        <span class="map-badge sale">분양${p.sale_rate != null ? ' ' + p.sale_rate.toFixed(0) + '%' : ''}</span>
+        ${p.rent_per_sqm_raw ? `<span class="map-badge rent">임대 정보 있음</span>` : ''}
+      </div>
+    </div>`).join('')
+    || `<div style="padding:20px 14px;color:var(--text-sub);font-size:13px">검색 결과가 없습니다.</div>`;
+}
+
+function filterMapList() {
+  const q = document.getElementById('map-search').value.trim().toLowerCase();
+  const parks = window.allParks || [];
+  const filtered = q ? parks.filter(p => p.name.toLowerCase().includes(q)) : parks;
+  renderMapList(filtered);
+  renderParksMap(filtered);
+}
+
+function selectPark(id) {
+  const p = (window.allParks || []).find(x => x.id === id);
+  if (!p) return;
+  showMapDetailPanel();
+  renderParkDetail(p);
+  if (kakaoMap && p.lat && p.lng) openParkInfo(id);
+}
+
+function backToMapList() {
+  showMapListPanel();
+  if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
+  clearBoundaryPolygons();
+}
+
+// 공식 문서(관리기관 고시 등)·연락처처럼 원본 데이터에 없는 값은 "정보없음"으로
+// 그대로 보여준다 — 값을 지어내거나 기본값으로 채우지 않는다.
+function renderParkDetail(p) {
+  const industriesHtml = (p.industries || []).map(i => `<span class="tag">${escapeHtml(i)}</span>`).join(' ');
+  document.getElementById('map-detail-panel').innerHTML = `
+    <div id="map-detail-back" onclick="backToMapList()">← 목록으로</div>
+    <div class="map-detail-body">
+      <div class="map-detail-name">${escapeHtml(p.name)}</div>
+      <div class="map-detail-loc">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}${p.address ? ' · ' + escapeHtml(p.address) : ''}</div>
+      <div class="map-list-tags" style="margin-bottom:10px">
+        <span class="map-badge ${p.move_in_status === '입주 가능' ? 'ok' : 'no'}">${escapeHtml(p.move_in_status)}</span>
+        <span class="map-badge sale">분양${p.sale_rate != null ? ' ' + p.sale_rate.toFixed(1) + '%' : ' 정보없음'}</span>
+        ${p.rent_per_sqm_raw ? `<span class="map-badge rent">임대 ${escapeHtml(p.rent_per_sqm)}</span>` : ''}
+      </div>
+      ${industriesHtml ? `<div style="margin-bottom:10px">${industriesHtml}</div>` : ''}
+      <div class="map-detail-row"><span>조성상태</span><span>${escapeHtml(p.dev_status)}</span></div>
+      <div class="map-detail-row"><span>가용면적</span><span>${escapeHtml(p.available_area)}</span></div>
+      ${p.vacancy_rate != null ? `<div class="map-detail-row"><span>운영률</span><span>${(100 - p.vacancy_rate).toFixed(1)}%</span></div>` : ''}
+      <div class="map-detail-row"><span>관리기관</span><span>${escapeHtml(p.management_org || '정보없음')}</span></div>
+      ${p.contact ? `<div class="map-detail-row"><span>연락처</span><span>${escapeHtml(p.contact)}</span></div>` : ''}
+      ${p.description ? `<div style="font-size:13px;color:var(--text-sub);margin-top:10px;line-height:1.6">${escapeHtml(p.description)}</div>` : ''}
+      ${p.subsidy ? `<div class="subsidy-box" style="margin-top:10px">${escapeHtml(p.subsidy)}</div>` : ''}
+      <div id="park-docs-${p.id}" style="display:none;margin-top:10px"></div>
+      <div class="map-detail-actions">
+        <button onclick="openRoadview(${p.id})">🚏 로드뷰</button>
+        ${p.lat && p.lng ? `<button onclick="openDirections(${p.id})">🧭 길찾기</button>` : ''}
+        ${p.website ? `<a href="${escapeHtml(p.website)}" target="_blank" rel="noopener noreferrer">🔗 홈페이지</a>` : ''}
+        <button onclick="goChat('${escapeHtml(p.name).replace(/'/g, "\\'")}')">💬 챗봇에 물어보기</button>
+      </div>
+    </div>`;
+  loadParkDocs(p.id);
+}
+
+// ── 로드뷰 (카카오맵 SDK의 Roadview) ──
+let roadviewInstance = null;
+function openRoadview(parkId) {
+  const p = (window.allParks || []).find(x => x.id === parkId);
+  if (!p || !p.lat || !p.lng) { alert('좌표 정보가 없어 로드뷰를 열 수 없습니다.'); return; }
+  if (typeof kakao === 'undefined' || !kakao.maps || !kakao.maps.Roadview) {
+    alert('카카오맵 SDK를 아직 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+    return;
+  }
+  document.getElementById('roadview-title').textContent = `${p.name} - 로드뷰`;
+  document.getElementById('roadview-empty').style.display = 'none';
+  document.getElementById('roadview-el').style.display = 'block';
+  document.getElementById('roadview-modal').classList.add('open');
+  const position = new kakao.maps.LatLng(p.lat, p.lng);
+  const client = new kakao.maps.RoadviewClient();
+  client.getNearestPanoId(position, 100, (panoId) => {
+    if (!panoId) {
+      document.getElementById('roadview-el').style.display = 'none';
+      document.getElementById('roadview-empty').style.display = 'block';
+      return;
+    }
+    if (!roadviewInstance) roadviewInstance = new kakao.maps.Roadview(document.getElementById('roadview-el'));
+    roadviewInstance.setPanoId(panoId, position);
+  });
+}
+function closeRoadview() {
+  document.getElementById('roadview-modal').classList.remove('open');
 }
 
 // ── 대시보드 접근 게이트 (현재 미사용 — 로그인 화면 만들 때 showPage에서 다시 호출) ──
@@ -1129,10 +1300,7 @@ function quickAsk(q) {
 }
 
 function goChat(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-chat').classList.add('active');
-  document.querySelectorAll('.nav-btn[data-page="chat"]').forEach(b => b.classList.add('active'));
+  showPage('chat');
   document.getElementById('chat-input').value = name + '의 입주 절차와 지원금 조건을 자세히 알려주세요.';
   sendChat();
 }
@@ -1440,10 +1608,9 @@ function ensureMarkerFor(p) {
       + `<button onclick="openDirections(${p.id})" style="margin-top:6px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--teal-light);color:var(--teal-dark);font-size:12px;font-weight:600;cursor:pointer">🧭 길찾기</button>`
       + `</div>`,
   });
-  kakao.maps.event.addListener(marker, 'click', () => {
-    showInfoWindow(info, marker);
-    showParkBoundary(p.id);
-  });
+  // selectPark()가 openParkInfo()를 거쳐 showInfoWindow/showParkBoundary/화면 중심이동을
+  // 전부 처리하므로, 마커 클릭도 목록에서 고른 것과 동일하게 좌측 상세 패널을 연다.
+  kakao.maps.event.addListener(marker, 'click', () => selectPark(p.id));
   const entry = { marker, info, park: p };
   kakaoMarkers.push(marker);
   kakaoMarkersById[p.id] = entry;
@@ -1506,7 +1673,7 @@ function locateMe(silent) {
   }
 
   const btn = document.getElementById('map-locate-btn');
-  if (btn) { btn.disabled = true; btn.textContent = '위치 확인 중...'; }
+  if (btn) { btn.disabled = true; btn.textContent = '⏳'; btn.title = '위치 확인 중...'; }
   navigator.geolocation.getCurrentPosition(
     (pos) => {
       myLocationLatLng = { lat: pos.coords.latitude, lng: pos.coords.longitude };
@@ -1525,77 +1692,14 @@ function locateMe(silent) {
       kakaoMap.setCenter(latlng);
       kakaoMap.setLevel(6);
       hasCenteredOnUser = true;
-      if (btn) { btn.disabled = false; btn.textContent = '📍 내 위치'; }
+      if (btn) { btn.disabled = false; btn.textContent = '📍'; btn.title = '내 위치'; }
     },
     () => {
       if (!silent) alert('현재 위치를 가져올 수 없습니다. 브라우저의 위치 권한 설정을 확인해주세요.');
-      if (btn) { btn.disabled = false; btn.textContent = '📍 내 위치'; }
+      if (btn) { btn.disabled = false; btn.textContent = '📍'; btn.title = '내 위치'; }
     },
     { enableHighAccuracy: true, timeout: 8000 }
   );
-}
-
-// 입력하는 대로 후보 목록을 보여준다(연관 검색어). 같은 이름이 여러 지역에
-// 있을 수 있어(예: "가남" = 전북 순창군 / 경기 여주시 5곳) 지역까지 같이
-// 보여줘서 사용자가 원하는 곳을 직접 골라 들어갈 수 있게 한다.
-function mapSearchSuggest() {
-  const box = document.getElementById('map-search-suggestions');
-  const q = document.getElementById('map-search').value.trim().toLowerCase();
-  if (!q) { box.style.display = 'none'; box.innerHTML = ''; return; }
-  const matches = (window.allParks || []).filter(p => p.lat && p.lng && p.name.toLowerCase().includes(q)).slice(0, 8);
-  if (matches.length === 0) { box.style.display = 'none'; box.innerHTML = ''; return; }
-  box.innerHTML = matches.map(p => `<div onmousedown="mapSearchPick(${p.id})" `
-    + `style="padding:9px 12px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border)" `
-    + `onmouseover="this.style.background='var(--gray-bg)'" onmouseout="this.style.background=''">`
-    + `<strong>${escapeHtml(p.name)}</strong> `
-    + `<span style="color:var(--text-sub);font-size:12px">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}</span>`
-    + `</div>`).join('');
-  box.style.display = 'block';
-}
-
-function hideMapSearchSuggestions() {
-  const box = document.getElementById('map-search-suggestions');
-  if (box) box.style.display = 'none';
-}
-
-// 후보 목록에서 하나를 직접 골랐을 때 — 동명이지만 다른 지역인 단지들 사이에서
-// 헷갈릴 필요 없이 바로 그 단지로 이동한다.
-function mapSearchPick(parkId) {
-  hideMapSearchSuggestions();
-  const p = (window.allParks || []).find(x => x.id === parkId);
-  if (!p) return;
-  document.getElementById('map-search').value = p.name;
-  renderParksMap([p]);
-  openParkInfo(parkId);
-  document.getElementById('parks-map').scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-// 지도 검색(Enter/찾기 버튼) — 결과가 1개면 바로 확대+정보창. 여러 개면(동명
-// 이지만 다른 지역인 경우가 실제로 있다 — 예: "가남" = 전북 순창군 / 경기
-// 여주시 5곳) 전부 지도에 뿌리면 서로 멀리 떨어진 지역을 다 담으려고 화면이
-// 크게 줌아웃되면서 원래 떠 있던 다른 800여 개 마커까지 같이 보여 "검색이
-// 안 됐다"고 오해하기 쉬웠다(실제 사용자 혼동 사례) — 그래서 여러 개일 때는
-// 지도에 바로 뿌리지 않고 연관 검색어와 같은 선택 목록을 보여줘서 사용자가
-// 직접 지역을 골라 들어가게 한다.
-function mapSearchGo() {
-  const q = document.getElementById('map-search').value.trim().toLowerCase();
-  if (!kakaoMap) { alert('지도가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.'); return; }
-  if (!q) {
-    renderParksMap(window.allParks || []); // 검색어를 지우고 다시 찾으면 전체 목록으로 복원
-    return;
-  }
-  const matches = (window.allParks || []).filter(p => p.lat && p.lng && p.name.toLowerCase().includes(q));
-  if (matches.length === 0) {
-    alert('좌표 정보가 있는 단지 중에는 일치하는 결과가 없습니다.');
-    return;
-  }
-  if (matches.length === 1) {
-    renderParksMap(matches);
-    openParkInfo(matches[0].id);
-    document.getElementById('parks-map').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  } else {
-    mapSearchSuggest(); // 여러 지역에 동명 단지가 있는 경우 직접 고르게 한다
-  }
 }
 
 function resetParksFilter() {
