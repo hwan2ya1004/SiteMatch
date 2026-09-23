@@ -32336,7 +32336,7 @@
   },
   {
     "id": 1085,
-    "name": "검단",
+    "name": "경주검단",
     "region": "경북",
     "city": "경주시",
     "type": "일반산단",
@@ -32344,7 +32344,16 @@
     "available_area": 249000.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "화학물질 및 화학제품 제조업",
+      "고무 및 플라스틱제품 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업",
+      "폐기물 수집, 운반, 처리 및 원료 재생업",
+      "창고 및 운송관련 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -32352,13 +32361,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.922412,
+    "lng": 129.192792,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 52.3,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경상북도 경주시 안강읍 검단리 산123-1번지 일원"
   },
   {
     "id": 1086,
