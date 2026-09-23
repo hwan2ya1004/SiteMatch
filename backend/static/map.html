@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>산업단지 지도 - SiteMatch AI</title>
+<script src="/kakao-sdk.js" onerror="window.__kakaoSdkLoadFailed=true"></script>
+<style>
+  :root {
+    --teal-light: #E1F5EE;
+    --teal-dark: #085041;
+    --gray-bg: #F7F8FA;
+    --border: #E2E6EA;
+    --text: #1A1A1A;
+    --text-sub: #6B7280;
+    --text-hint: #9CA3AF;
+    --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; font-family: -apple-system, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; color: var(--text); background: var(--white); }
+  #topbar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  #topbar a.back { font-size: 13px; color: var(--text-sub); text-decoration: none; white-space: nowrap; }
+  #topbar a.back:hover { color: var(--text); }
+  #topbar .title { font-weight: 700; font-size: 14px; white-space: nowrap; }
+  .toolbar { display: flex; flex: 1; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .toolbar .search-wrap { position: relative; flex: 1; min-width: 160px; }
+  .toolbar input { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; box-sizing: border-box; }
+  .toolbar button { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--white); font-size: 13px; cursor: pointer; white-space: nowrap; }
+  .toolbar button:hover { background: var(--gray-bg); }
+  #legend { font-size: 12px; color: var(--text-sub); white-space: nowrap; }
+  #suggestions { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 8px; margin-top: 4px; max-height: 260px; overflow-y: auto; z-index: 20; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
+  #map { width: 100%; height: calc(100vh - 54px); background: var(--gray-bg); display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 13px; }
+  @media (max-width: 600px) {
+    #topbar { flex-direction: column; align-items: stretch; }
+    #map { height: calc(100vh - 96px); }
+  }
+</style>
+</head>
+<body>
+<div id="topbar">
+  <a class="back" href="/">← 사이트로 돌아가기</a>
+  <div class="title">🗺️ 전국 산업단지 지도</div>
+  <div class="toolbar">
+    <div class="search-wrap">
+      <input type="text" id="map-search" placeholder="산업단지명으로 찾기" autocomplete="off"
+             oninput="mapSearchSuggest()"
+             onkeydown="if(event.key==='Enter'){event.preventDefault();mapSearchGo();} else if(event.key==='Escape'){hideMapSearchSuggestions();}"
+             onblur="setTimeout(hideMapSearchSuggestions, 150)">
+      <div id="suggestions"></div>
+    </div>
+    <button onclick="mapSearchGo()">🔍 찾기</button>
+    <button id="map-locate-btn" onclick="locateMe()">📍 내 위치</button>
+    <span id="legend">🟢 여유 · 🟡 보통 · 🔴 주의/포화 · 🔵 내 위치</span>
+  </div>
+</div>
+<div id="map">지도 로딩 중...</div>
+
+<script>
+const API_BASE = window.location.origin;
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+let kakaoMap = null;
+let kakaoMarkers = [];
+let kakaoMarkersById = {};
+let myLocationLatLng = null;
+let myLocationMarker = null;
+let hasCenteredOnUser = false;
+let currentInfoWindow = null;
+let currentBoundaryPolygons = [];
+const boundaryCache = {};
+window.allParks = [];
+
+function showInfoWindow(info, marker) {
+  if (currentInfoWindow) currentInfoWindow.close();
+  info.open(kakaoMap, marker);
+  currentInfoWindow = info;
+}
+
+function clearBoundaryPolygons() {
+  currentBoundaryPolygons.forEach(poly => poly.setMap(null));
+  currentBoundaryPolygons = [];
+}
+
+async function showParkBoundary(parkId) {
+  clearBoundaryPolygons();
+  try {
+    let rings = boundaryCache[parkId];
+    if (rings === undefined) {
+      const resp = await fetch(`${API_BASE}/api/parks/${parkId}/boundary`);
+      const data = await resp.json();
+      rings = data.rings || null;
+      boundaryCache[parkId] = rings;
+    }
+    if (!rings) return;
+    rings.forEach(ring => {
+      const path = ring.map(([lng, lat]) => new kakao.maps.LatLng(lat, lng));
+      const polygon = new kakao.maps.Polygon({
+        map: kakaoMap, path, strokeWeight: 2, strokeColor: '#00A99D',
+        strokeOpacity: 0.9, fillColor: '#00A99D', fillOpacity: 0.15,
+      });
+      currentBoundaryPolygons.push(polygon);
+    });
+  } catch (e) {}
+}
+
+function showMapLoadError(reason) {
+  const container = document.getElementById('map');
+  if (!container) return;
+  container.innerHTML = `<div style="text-align:center;color:var(--text-sub);font-size:13px;padding:20px">`
+    + `지도를 불러오지 못했습니다.<br>네트워크 연결이나 콘텐츠 차단(광고 차단) 앱/확장기능을 확인해주세요.`
+    + `<div style="font-size:11px;color:var(--text-hint);margin-top:6px">${escapeHtml(reason || '')}</div>`
+    + `</div>`;
+}
+
+function initKakaoMapIfNeeded() {
+  if (kakaoMap) return;
+  if (window.__kakaoSdkLoadFailed) { showMapLoadError('카카오맵 스크립트 로드 실패 (script onerror)'); return; }
+  if (typeof kakao === 'undefined' || !kakao.maps) {
+    let tries = 0;
+    const timer = setInterval(() => {
+      tries++;
+      if (window.__kakaoSdkLoadFailed) { clearInterval(timer); showMapLoadError('카카오맵 스크립트 로드 실패 (script onerror)'); return; }
+      if (typeof kakao !== 'undefined' && kakao.maps) { clearInterval(timer); initKakaoMapIfNeeded(); return; }
+      if (tries >= 10) { clearInterval(timer); showMapLoadError('카카오맵 SDK를 찾을 수 없음 (window.kakao undefined)'); }
+    }, 500);
+    return;
+  }
+  let mapLoadSettled = false;
+  const watchdog = setTimeout(() => {
+    if (!mapLoadSettled) { mapLoadSettled = true; showMapLoadError('카카오맵 로드 시간 초과 (kakao.maps.load 콜백 미호출, 8초)'); }
+  }, 8000);
+  try {
+    kakao.maps.load(() => {
+      if (mapLoadSettled) return;
+      mapLoadSettled = true;
+      clearTimeout(watchdog);
+      try {
+        const container = document.getElementById('map');
+        container.textContent = '';
+        kakaoMap = new kakao.maps.Map(container, { center: new kakao.maps.LatLng(36.5, 127.8), level: 13 });
+        kakao.maps.event.addListener(kakaoMap, 'click', () => {
+          if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
+          clearBoundaryPolygons();
+        });
+        if (window.allParks.length) renderParksMap(window.allParks);
+        locateMe(true);
+      } catch (e) { showMapLoadError('지도 초기화 오류: ' + e.message); }
+    });
+  } catch (e) { mapLoadSettled = true; clearTimeout(watchdog); showMapLoadError('kakao.maps.load 호출 오류: ' + e.message); }
+}
+
+function markerSvgDataUrl(color) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="34" viewBox="0 0 26 34">`
+    + `<path d="M13 0C5.8 0 0 5.8 0 13c0 9.7 13 21 13 21s13-11.3 13-21C26 5.8 20.2 0 13 0z" fill="${color}"/>`
+    + `<circle cx="13" cy="13" r="5.5" fill="#fff"/></svg>`;
+  return 'data:image/svg+xml;base64,' + btoa(svg);
+}
+
+function myLocationSvgDataUrl() {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">`
+    + `<circle cx="17" cy="17" r="15" fill="#2563EB" fill-opacity="0.18"/>`
+    + `<circle cx="17" cy="17" r="8" fill="#2563EB" stroke="#fff" stroke-width="3"/></svg>`;
+  return 'data:image/svg+xml;base64,' + btoa(svg);
+}
+
+function directionsUrl(park) {
+  const dest = `${encodeURIComponent(park.name)},${park.lat},${park.lng}`;
+  if (myLocationLatLng) {
+    const origin = `${encodeURIComponent('내 위치')},${myLocationLatLng.lat},${myLocationLatLng.lng}`;
+    return `https://map.kakao.com/link/from/${origin}/to/${dest}`;
+  }
+  return `https://map.kakao.com/link/to/${dest}`;
+}
+
+function openDirections(parkId) {
+  const p = kakaoMarkersById[parkId] && kakaoMarkersById[parkId].park;
+  if (!p) return;
+  window.open(directionsUrl(p), '_blank', 'noopener');
+}
+
+function ensureMarkerFor(p) {
+  if (kakaoMarkersById[p.id]) return kakaoMarkersById[p.id];
+  const pos = new kakao.maps.LatLng(p.lat, p.lng);
+  const marker = new kakao.maps.Marker({
+    position: pos, map: kakaoMap,
+    image: new kakao.maps.MarkerImage(markerSvgDataUrl(p.bar_color || '#639922'), new kakao.maps.Size(26, 34), { offset: new kakao.maps.Point(13, 34) }),
+  });
+  const info = new kakao.maps.InfoWindow({
+    removable: true,
+    content: `<div style="padding:8px 10px;font-size:12px;line-height:1.7;min-width:180px">`
+      + `<strong>${escapeHtml(p.name)}</strong><br>`
+      + `${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}<br>`
+      + (p.vacancy_rate != null ? `운영률 ${(100 - p.vacancy_rate).toFixed(1)}% · ` : '')
+      + `<span style="color:${p.bar_color};font-weight:600">${escapeHtml(p.status)}</span><br>`
+      + (p.sale_rate != null ? `분양률 ${p.sale_rate.toFixed(1)}%<br>` : '')
+      + `가용면적 ${escapeHtml(p.available_area)}<br>`
+      + `<button onclick="openDirections(${p.id})" style="margin-top:6px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--teal-light);color:var(--teal-dark);font-size:12px;font-weight:600;cursor:pointer">🧭 길찾기</button>`
+      + `</div>`,
+  });
+  kakao.maps.event.addListener(marker, 'click', () => { showInfoWindow(info, marker); showParkBoundary(p.id); });
+  const entry = { marker, info, park: p };
+  kakaoMarkers.push(marker);
+  kakaoMarkersById[p.id] = entry;
+  return entry;
+}
+
+function openParkInfo(parkId) {
+  if (!kakaoMap) return;
+  let entry = kakaoMarkersById[parkId];
+  if (!entry) {
+    const p = window.allParks.find(x => x.id === parkId);
+    if (!p || !p.lat || !p.lng) return;
+    entry = ensureMarkerFor(p);
+  }
+  kakaoMap.setCenter(entry.marker.getPosition());
+  kakaoMap.setLevel(5);
+  showInfoWindow(entry.info, entry.marker);
+  showParkBoundary(parkId);
+}
+
+function renderParksMap(parks) {
+  if (!kakaoMap) return;
+  if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
+  kakaoMarkers.forEach(m => m.setMap(null));
+  kakaoMarkers = [];
+  kakaoMarkersById = {};
+  const withCoords = parks.filter(p => p.lat && p.lng);
+  if (withCoords.length === 0) return;
+  const bounds = new kakao.maps.LatLngBounds();
+  withCoords.forEach(p => { ensureMarkerFor(p); bounds.extend(new kakao.maps.LatLng(p.lat, p.lng)); });
+  if (!hasCenteredOnUser) kakaoMap.setBounds(bounds);
+}
+
+function locateMe(silent) {
+  if (!navigator.geolocation) { if (!silent) alert('이 브라우저는 위치 확인을 지원하지 않습니다.'); return; }
+  if (!kakaoMap) { if (!silent) alert('지도가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.'); return; }
+  let consented = false;
+  try { consented = sessionStorage.getItem('locationConsent') === 'yes'; } catch(e) {}
+  if (!consented) {
+    const ok = confirm(
+      '내 위치 확인 안내\n\n확인된 위치는 지도 표시와 "길찾기" 출발지 계산에만 사용되며, 서버로 전송하거나 저장하지 않습니다.\n\n위치 확인을 진행하시겠습니까?'
+    );
+    if (!ok) return;
+    try { sessionStorage.setItem('locationConsent', 'yes'); } catch(e) {}
+  }
+  const btn = document.getElementById('map-locate-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '위치 확인 중...'; }
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      myLocationLatLng = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      const latlng = new kakao.maps.LatLng(myLocationLatLng.lat, myLocationLatLng.lng);
+      if (myLocationMarker) myLocationMarker.setMap(null);
+      myLocationMarker = new kakao.maps.Marker({
+        position: latlng, map: kakaoMap,
+        image: new kakao.maps.MarkerImage(myLocationSvgDataUrl(), new kakao.maps.Size(34, 34), { offset: new kakao.maps.Point(17, 17) }),
+        zIndex: 10,
+      });
+      kakaoMap.setCenter(latlng);
+      kakaoMap.setLevel(6);
+      hasCenteredOnUser = true;
+      if (btn) { btn.disabled = false; btn.textContent = '📍 내 위치'; }
+    },
+    () => {
+      if (!silent) alert('현재 위치를 가져올 수 없습니다. 브라우저의 위치 권한 설정을 확인해주세요.');
+      if (btn) { btn.disabled = false; btn.textContent = '📍 내 위치'; }
+    },
+    { enableHighAccuracy: true, timeout: 8000 }
+  );
+}
+
+function mapSearchSuggest() {
+  const box = document.getElementById('suggestions');
+  const q = document.getElementById('map-search').value.trim().toLowerCase();
+  if (!q) { box.style.display = 'none'; box.innerHTML = ''; return; }
+  const matches = window.allParks.filter(p => p.lat && p.lng && p.name.toLowerCase().includes(q)).slice(0, 8);
+  if (matches.length === 0) { box.style.display = 'none'; box.innerHTML = ''; return; }
+  box.innerHTML = matches.map(p => `<div onmousedown="mapSearchPick(${p.id})" `
+    + `style="padding:9px 12px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border)" `
+    + `onmouseover="this.style.background='var(--gray-bg)'" onmouseout="this.style.background=''">`
+    + `<strong>${escapeHtml(p.name)}</strong> `
+    + `<span style="color:var(--text-sub);font-size:12px">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}</span>`
+    + `</div>`).join('');
+  box.style.display = 'block';
+}
+
+function hideMapSearchSuggestions() {
+  const box = document.getElementById('suggestions');
+  if (box) box.style.display = 'none';
+}
+
+function mapSearchPick(parkId) {
+  hideMapSearchSuggestions();
+  const p = window.allParks.find(x => x.id === parkId);
+  if (!p) return;
+  document.getElementById('map-search').value = p.name;
+  renderParksMap([p]);
+  openParkInfo(parkId);
+}
+
+function mapSearchGo() {
+  const q = document.getElementById('map-search').value.trim().toLowerCase();
+  if (!kakaoMap) { alert('지도가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.'); return; }
+  if (!q) { renderParksMap(window.allParks); return; }
+  const matches = window.allParks.filter(p => p.lat && p.lng && p.name.toLowerCase().includes(q));
+  if (matches.length === 0) { alert('좌표 정보가 있는 단지 중에는 일치하는 결과가 없습니다.'); return; }
+  if (matches.length === 1) {
+    renderParksMap(matches);
+    openParkInfo(matches[0].id);
+  } else {
+    mapSearchSuggest();
+  }
+}
+
+async function loadParksAndInit() {
+  initKakaoMapIfNeeded();
+  try {
+    const resp = await fetch(`${API_BASE}/api/dashboard/parks`);
+    if (resp.ok) {
+      const data = await resp.json();
+      window.allParks = data.parks || [];
+      if (kakaoMap) renderParksMap(window.allParks);
+    }
+  } catch (e) {
+    console.warn('산업단지 목록 로드 실패:', e.message);
+  }
+}
+
+loadParksAndInit();
+</script>
+</body>
+</html>
