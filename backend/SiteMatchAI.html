@@ -242,7 +242,12 @@
   .map-detail-body { padding: 4px 16px 20px; }
   .map-detail-name { font-size: 17px; font-weight: 800; margin: 6px 0 4px; }
   .map-detail-loc { font-size: 13px; color: var(--text-sub); margin-bottom: 10px; }
+  /* 라벨(첫 span)에 flex-shrink:0/white-space:nowrap이 없으면, 값(둘째 span)이
+     길 때 라벨 칸이 거의 0px로 눌리면서 한글이 한 글자씩 세로로 줄바꿈된다
+     (실제 발생 — "관리기관" 라벨이 세로로 쪼개져 보임). */
   .map-detail-row { font-size: 13px; padding: 8px 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; }
+  .map-detail-row > span:first-child { color: var(--text-sub); flex-shrink: 0; white-space: nowrap; }
+  .map-detail-row > span:last-child { text-align: right; }
   .map-detail-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
   .map-detail-actions button, .map-detail-actions a { flex: 1; min-width: 100px; text-align: center; padding: 9px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--white); font-size: 12.5px; font-weight: 600; cursor: pointer; text-decoration: none; color: var(--text); box-sizing: border-box; }
   .map-detail-actions button:hover, .map-detail-actions a:hover { background: var(--gray-bg); }
