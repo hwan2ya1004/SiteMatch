@@ -1114,11 +1114,15 @@
     "region": "부산",
     "city": "강서구",
     "type": "일반산단",
-    "total_area": 104000.0,
+    "total_area": 126402.0,
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 기계 및 장비 제조업",
+      "기타 운송장비 제조업",
+      "창고 및 운송관련 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -1129,8 +1133,8 @@
     "lat": 35.137284,
     "lng": 128.821243,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
-    "sale_rate": 0.0,
+    "dev_status": "조성중",
+    "sale_rate": 100.0,
     "total_companies": 0,
     "operating_companies": 0,
     "address": "부산광역시 강서구 지사동 산 213-3"
