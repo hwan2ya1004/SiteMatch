@@ -11,6 +11,10 @@
      브라우저 UI가 항상 보임 — 브라우저 자체 동작이라 웹페이지가 바꿀 수 없음) -->
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0F6E56">
+<!-- apple-mobile-web-app-capable은 최신 크롬에서 "지원 중단" 경고가 뜨지만, iOS Safari의
+     "홈 화면에 추가"는 여전히 이 태그만 인식한다 — 표준 이름(mobile-web-app-capable)을
+     같이 넣어 경고를 없애면서 iOS 지원은 그대로 유지한다. -->
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="SiteMatch AI">
