@@ -890,15 +890,31 @@ function renderParkDetail(p) {
       ${p.contact ? `<div class="map-detail-row"><span>연락처</span><span>${escapeHtml(p.contact)}</span></div>` : ''}
       ${p.description ? `<div style="font-size:13px;color:var(--text-sub);margin-top:10px;line-height:1.6">${escapeHtml(p.description)}</div>` : ''}
       ${p.subsidy ? `<div class="subsidy-box" style="margin-top:10px">${escapeHtml(p.subsidy)}</div>` : ''}
-      <div id="park-docs-${p.id}" style="display:none;margin-top:10px"></div>
+      <div id="park-phone-${p.id}" style="display:none;margin-top:10px"></div>
       <div class="map-detail-actions">
         ${p.lat && p.lng ? `<button onclick="openDirections(${p.id})">🧭 길찾기</button>` : ''}
         ${p.website ? `<a href="${escapeHtml(p.website)}" target="_blank" rel="noopener noreferrer">🔗 홈페이지</a>` : ''}
         <button onclick="goChat('${escapeHtml(p.name).replace(/'/g, "\\'")}')">💬 챗봇에 물어보기</button>
       </div>
     </div>`;
-  loadParkDocs(p.id);
+  loadParkPhone(p.id); // 지도 상세 패널에는 전화번호만 — 공식 문서 목록은 안 보여줘도 된다는 요청
   if (p.lat && p.lng) loadDetailPhoto(p);
+}
+
+// AI 매칭 결과 카드(loadParkDocs)와 달리, 지도 상세 패널은 전화번호만 보여준다.
+async function loadParkPhone(parkId) {
+  const el = document.getElementById(`park-phone-${parkId}`);
+  if (!el) return;
+  try {
+    const resp = await fetch(`${API_BASE}/api/parks/${parkId}/documents`);
+    if (!resp.ok) return;
+    const data = await resp.json();
+    if (!data.phone) return;
+    el.style.display = 'block';
+    el.innerHTML = `<div style="font-size:13px"><a href="tel:${escapeHtml(data.phone)}" style="text-decoration:none;color:var(--teal-dark);font-weight:700">📞 ${escapeHtml(data.phone)}</a> <span style="color:var(--text-sub);font-size:11px">(공식 문서 기재)</span></div>`;
+  } catch (e) {
+    // 로컬에 "전국산업단지 공문" 폴더가 없는 배포 환경 등 — 조용히 무시
+  }
 }
 
 // 실제 사진 데이터가 없어서, 클릭한 좌표의 카카오 로드뷰(실제 거리뷰 촬영 이미지)를
