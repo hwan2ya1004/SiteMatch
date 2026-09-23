@@ -905,30 +905,48 @@ function renderParkDetail(p) {
 // "사진"처럼 상세 패널 안에 작게 바로 띄운다. 근처에 로드뷰 촬영 이력이 없으면
 // 없다는 사실을 그대로 보여준다(억지로 다른 이미지로 대신하지 않음).
 let detailRoadviewInstance = null;
+function setPhotoBoxMessage(box, text) {
+  box.innerHTML = `<div style="color:var(--text-sub);font-size:13px;text-align:center;line-height:1.6">${escapeHtml(text)}</div>`;
+}
+
 function loadDetailPhoto(p) {
   const box = document.getElementById('map-detail-photo');
   const expandBtn = document.getElementById('map-detail-photo-expand');
   if (!box) return;
   if (typeof kakao === 'undefined' || !kakao.maps || !kakao.maps.Roadview) {
-    box.textContent = '지도를 아직 불러오는 중입니다...';
+    setPhotoBoxMessage(box, '지도를 아직 불러오는 중입니다...');
     return;
   }
-  const position = new kakao.maps.LatLng(p.lat, p.lng);
-  const client = new kakao.maps.RoadviewClient();
-  client.getNearestPanoId(position, 100, (panoId) => {
-    // 비동기 응답이 온 시점에 사용자가 이미 다른 단지를 클릭했을 수 있어, 지금
-    // 열려있는 상세 패널이 여전히 이 단지인지 확인한다(엉뚱한 사진이 붙는 것 방지).
-    if (!document.getElementById('map-detail-photo') || !document.getElementById('map-detail-photo').isSameNode(box)) return;
-    if (!panoId) {
-      box.textContent = '이 위치의 로드뷰 사진이 없습니다.';
-      if (expandBtn) expandBtn.style.display = 'none';
-      return;
-    }
-    box.textContent = '';
-    if (!detailRoadviewInstance) detailRoadviewInstance = new kakao.maps.Roadview(box);
-    detailRoadviewInstance.setPanoId(panoId, position);
-    if (expandBtn) expandBtn.style.display = 'block';
-  });
+  try {
+    const position = new kakao.maps.LatLng(p.lat, p.lng);
+    const client = new kakao.maps.RoadviewClient();
+    // 100m 반경은 도심 기준이라, 외곽 산업단지처럼 로드뷰 촬영 도로에서 좀
+    // 떨어진 곳은 실제 촬영 이력이 있어도 못 찾는 경우가 있어 넉넉히 잡는다.
+    client.getNearestPanoId(position, 300, (panoId) => {
+      // 비동기 응답이 온 시점에 사용자가 이미 다른 단지를 클릭했을 수 있어, 지금
+      // 열려있는 상세 패널이 여전히 이 단지인지 확인한다(엉뚱한 사진이 붙는 것 방지).
+      const stillCurrent = document.getElementById('map-detail-photo');
+      if (!stillCurrent || !stillCurrent.isSameNode(box)) return;
+      if (!panoId) {
+        setPhotoBoxMessage(box, '🚏 이 위치 근처에는 로드뷰 사진이 없습니다.');
+        if (expandBtn) expandBtn.style.display = 'none';
+        return;
+      }
+      try {
+        box.innerHTML = '';
+        if (!detailRoadviewInstance) detailRoadviewInstance = new kakao.maps.Roadview(box);
+        detailRoadviewInstance.setPanoId(panoId, position);
+        if (expandBtn) expandBtn.style.display = 'block';
+      } catch (e2) {
+        console.error('로드뷰 렌더링 실패:', e2);
+        setPhotoBoxMessage(box, '사진을 불러오지 못했습니다.');
+        if (expandBtn) expandBtn.style.display = 'none';
+      }
+    });
+  } catch (e) {
+    console.error('로드뷰 초기화 실패:', e);
+    setPhotoBoxMessage(box, '사진을 불러오지 못했습니다.');
+  }
 }
 
 // ── 로드뷰 (카카오맵 SDK의 Roadview) ──
@@ -946,14 +964,21 @@ function openRoadview(parkId) {
   document.getElementById('roadview-modal').classList.add('open');
   const position = new kakao.maps.LatLng(p.lat, p.lng);
   const client = new kakao.maps.RoadviewClient();
-  client.getNearestPanoId(position, 100, (panoId) => {
+  client.getNearestPanoId(position, 300, (panoId) => {
     if (!panoId) {
       document.getElementById('roadview-el').style.display = 'none';
       document.getElementById('roadview-empty').style.display = 'block';
       return;
     }
-    if (!roadviewInstance) roadviewInstance = new kakao.maps.Roadview(document.getElementById('roadview-el'));
-    roadviewInstance.setPanoId(panoId, position);
+    try {
+      if (!roadviewInstance) roadviewInstance = new kakao.maps.Roadview(document.getElementById('roadview-el'));
+      roadviewInstance.setPanoId(panoId, position);
+    } catch (e) {
+      console.error('로드뷰 렌더링 실패:', e);
+      document.getElementById('roadview-el').style.display = 'none';
+      document.getElementById('roadview-empty').textContent = '사진을 불러오지 못했습니다.';
+      document.getElementById('roadview-empty').style.display = 'block';
+    }
   });
 }
 function closeRoadview() {
