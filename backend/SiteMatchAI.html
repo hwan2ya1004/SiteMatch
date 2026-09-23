@@ -277,6 +277,10 @@
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       <span class="nav-label">대시보드</span>
     </button>
+    <button class="nav-btn" data-page="map" onclick="showPage('map')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20l-6 3V7l6-3 6 3 6-3v16l-6 3-6-3z"/><path d="M9 4v16M15 7v16"/></svg>
+      <span class="nav-label">지도</span>
+    </button>
   </nav>
   <span class="api-status checking" id="api-status"><span class="status-text">● 연결 확인 중</span></span>
 </div>
@@ -294,6 +298,10 @@
   <button class="nav-btn" data-page="gov" onclick="showPage('gov')">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
     <span class="nav-label">대시보드</span>
+  </button>
+  <button class="nav-btn" data-page="map" onclick="showPage('map')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20l-6 3V7l6-3 6 3 6-3v16l-6 3-6-3z"/><path d="M9 4v16M15 7v16"/></svg>
+    <span class="nav-label">지도</span>
   </button>
 </nav>
 
@@ -448,6 +456,33 @@
     </div>
   </div>
 
+  <!-- ── 지도 ── -->
+  <div class="page" id="page-map">
+    <div class="page-header">
+      <div class="page-title">지도</div>
+      <div class="page-desc">전국 산업단지 위치를 지도에서 확인하세요.</div>
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:20px">
+      <div class="table-header">
+        <span style="font-size:12px;color:var(--text-sub);font-weight:400" id="map-legend">🟢 여유 · 🟡 보통 · 🔴 주의/포화 · 🔵 내 위치 (좌표 있는 단지만 표시)</span>
+      </div>
+      <div class="map-toolbar" style="display:flex;flex-wrap:wrap;gap:8px;padding:14px 16px 0">
+        <div style="position:relative;flex:1;min-width:160px">
+          <input type="text" id="map-search" placeholder="산업단지명으로 지도에서 찾기" autocomplete="off"
+                 style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;box-sizing:border-box"
+                 oninput="mapSearchSuggest()"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault();mapSearchGo();} else if(event.key==='Escape'){hideMapSearchSuggestions();}"
+                 onblur="setTimeout(hideMapSearchSuggestions, 150)">
+          <div id="map-search-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:8px;margin-top:4px;max-height:260px;overflow-y:auto;z-index:20;box-shadow:0 4px 14px rgba(0,0,0,.12)"></div>
+        </div>
+        <button class="btn-ghost" onclick="mapSearchGo()" style="white-space:nowrap">🔍 찾기</button>
+        <button class="btn-ghost" id="map-locate-btn" onclick="locateMe()" style="white-space:nowrap">📍 내 위치</button>
+      </div>
+      <div id="parks-map" style="width:100%;height:calc(100vh - 260px);min-height:420px;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;color:var(--text-sub);font-size:13px;margin-top:14px">지도 로딩 중...</div>
+    </div>
+  </div>
+
   <!-- ── 대시보드 (접근 키로 게이트) ── -->
   <div class="page" id="page-dashboard">
     <div class="page-header">
@@ -472,29 +507,6 @@
       <div class="stat-card"><div class="stat-label">이달 매칭 요청</div><div class="stat-value" id="stat-matches">-</div><div class="stat-change up" id="stat-matches-sub">로딩 중...</div></div>
       <div class="stat-card"><div class="stat-label">평균 탐색 기간 (목표)</div><div class="stat-value" id="stat-days">12일</div><div class="stat-change up">기존 180일 → 목표 12일</div></div>
       <div class="stat-card"><div class="stat-label">누적 매칭 요청 수</div><div class="stat-value" id="stat-companies">-</div><div class="stat-change up" id="stat-companies-sub">로딩 중...</div></div>
-    </div>
-
-    <div class="table-wrap" style="margin-bottom:20px">
-      <div class="table-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-        <div>
-          지도로 보기
-          <span style="font-size:12px;color:var(--text-sub);font-weight:400" id="map-legend">🟢 여유 · 🟡 보통 · 🔴 주의/포화 · 🔵 내 위치 (좌표 있는 단지만 표시)</span>
-        </div>
-        <a href="/static/map.html" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="text-decoration:none;white-space:nowrap;font-size:12px">🗺️ 새 탭에서 전체화면으로 보기</a>
-      </div>
-      <div class="map-toolbar" style="display:flex;flex-wrap:wrap;gap:8px;padding:14px 16px 0">
-        <div style="position:relative;flex:1;min-width:160px">
-          <input type="text" id="map-search" placeholder="산업단지명으로 지도에서 찾기" autocomplete="off"
-                 style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;box-sizing:border-box"
-                 oninput="mapSearchSuggest()"
-                 onkeydown="if(event.key==='Enter'){event.preventDefault();mapSearchGo();} else if(event.key==='Escape'){hideMapSearchSuggestions();}"
-                 onblur="setTimeout(hideMapSearchSuggestions, 150)">
-          <div id="map-search-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:8px;margin-top:4px;max-height:260px;overflow-y:auto;z-index:20;box-shadow:0 4px 14px rgba(0,0,0,.12)"></div>
-        </div>
-        <button class="btn-ghost" onclick="mapSearchGo()" style="white-space:nowrap">🔍 찾기</button>
-        <button class="btn-ghost" id="map-locate-btn" onclick="locateMe()" style="white-space:nowrap">📍 내 위치</button>
-      </div>
-      <div id="parks-map" style="width:100%;height:420px;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;color:var(--text-sub);font-size:13px;margin-top:14px">지도 로딩 중...</div>
     </div>
 
     <div class="card" id="parks-filter-section" style="margin-bottom:16px">
@@ -593,6 +605,27 @@ function showPage(id) {
     document.getElementById('dashboard-content').style.display = 'block';
     initKakaoMapIfNeeded();
     loadDashboard();
+  }
+  if (id === 'map') {
+    initKakaoMapIfNeeded();
+    // 대시보드를 먼저 들르지 않고 지도 탭으로 바로 와도 동작하도록, 아직
+    // 단지 목록이 없으면 여기서 직접 불러온다(있으면 다시 불러오지 않고 재사용).
+    if (window.allParks) applyParksFilter();
+    else loadMapParks();
+  }
+}
+
+async function loadMapParks() {
+  try {
+    const resp = await fetch(`${API_BASE}/api/dashboard/parks`, { headers: dashAuthHeaders() });
+    if (resp.ok) {
+      const data = await resp.json();
+      window.allParks = data.parks;
+      populateParksFilterOptions(data.parks);
+      applyParksFilter();
+    }
+  } catch (e) {
+    console.warn('지도 데이터 로드 실패:', e.message);
   }
 }
 
