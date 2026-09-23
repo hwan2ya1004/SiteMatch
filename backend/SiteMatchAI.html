@@ -511,6 +511,10 @@
       <div id="map-sidebar">
         <div id="map-sidebar-search">
           <input type="text" id="map-search" placeholder="산업단지명으로 찾기" autocomplete="off" oninput="filterMapList()">
+          <label style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12.5px;color:var(--text);cursor:pointer">
+            <input type="checkbox" id="map-filter-available" onchange="filterMapList()">
+            입주 가능만 보기
+          </label>
           <div style="font-size:11px;color:var(--text-sub);margin-top:6px">🟢 여유 · 🟡 보통 · 🔴 주의/포화 (좌표 있는 단지만 표시)</div>
         </div>
         <div id="map-list-panel">
@@ -670,7 +674,7 @@ function showPage(id) {
     showMapListPanel();
     // 대시보드를 먼저 들르지 않고 지도 탭으로 바로 와도 동작하도록, 아직
     // 단지 목록이 없으면 여기서 직접 불러온다(있으면 다시 불러오지 않고 재사용).
-    if (window.allParks) { renderMapList(window.allParks); renderParksMap(window.allParks); }
+    if (window.allParks) filterMapList();
     else loadMapParks();
   }
 }
@@ -682,8 +686,7 @@ async function loadMapParks() {
       const data = await resp.json();
       window.allParks = data.parks;
       populateParksFilterOptions(data.parks); // 대시보드 필터도 같이 채워둬서 재요청을 막는다
-      renderMapList(data.parks);
-      renderParksMap(data.parks);
+      filterMapList();
     }
   } catch (e) {
     console.warn('지도 데이터 로드 실패:', e.message);
@@ -737,8 +740,10 @@ function renderMapList(parks) {
 
 function filterMapList() {
   const q = document.getElementById('map-search').value.trim().toLowerCase();
-  const parks = window.allParks || [];
-  const filtered = q ? parks.filter(p => p.name.toLowerCase().includes(q)) : parks;
+  const onlyAvailable = document.getElementById('map-filter-available').checked;
+  let filtered = window.allParks || [];
+  if (q) filtered = filtered.filter(p => p.name.toLowerCase().includes(q));
+  if (onlyAvailable) filtered = filtered.filter(p => p.move_in_status === '입주 가능');
   renderMapList(filtered);
   renderParksMap(filtered);
 }
