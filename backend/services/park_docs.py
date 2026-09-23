@@ -151,6 +151,20 @@ def resolve_document_path(region: str, city: str, name: str, filename: str) -> O
 
 _NOTICE_NO_RE = re.compile(r"([가-힣]{2,6}(?:시|군|구))\s*(고시|공고)\s*제\s*(\d{4})\s*-\s*(\d+)\s*호")
 
+# 문서 안의 "☏ 041-630-1358" 같은 전화번호 표기 — 지역번호(2~3자리) 포함 유선번호만
+# 잡는다(휴대폰 010 번호나 임의의 숫자열 오탐 방지).
+_PHONE_RE = re.compile(r"0\d{1,2}-\d{3,4}-\d{4}")
+
+
+def find_park_phone(region: str, city: str, name: str) -> Optional[str]:
+    """공식 문서에 실제로 적힌 관리기관 문의처 전화번호를 찾는다. 문서에 없으면
+    None — 지어내거나 다른 단지 번호로 대신하지 않는다. get_park_documents_text()가
+    이미 "문의처/연락처" 같은 안내 페이지를 우선 포함하도록 예산을 배분해두므로
+    그 결과를 그대로 재사용한다."""
+    text = get_park_documents_text(region, city, name, budget=4000)
+    m = _PHONE_RE.search(text) if text else None
+    return m.group(0) if m else None
+
 # 관리기관 전화번호·문의처 안내를 담은 페이지를 찾아내는 패턴 — get_park_documents_text()가
 # 예산 배분 시 이런 블록을 먼저 챙기는 데 쓴다.
 _CONTACT_HINT_RE = re.compile(r"\d{2,3}-\d{3,4}-\d{4}|열람방법|관계도서|문의처|연락처")

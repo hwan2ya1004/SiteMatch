@@ -410,7 +410,7 @@ def list_parks(
 def get_park_documents(park_id: int, db: Session = Depends(get_db)):
     """해당 단지의 "전국산업단지 공문" 폴더에 있는 문서/이미지 목록.
     로컬 실행 시에만 폴더가 존재하므로(배포 환경엔 없음) 없으면 그냥 빈 목록을 반환한다."""
-    from services.park_docs import list_park_documents
+    from services.park_docs import list_park_documents, find_park_phone
 
     park = db.query(IndustrialPark).filter(IndustrialPark.id == park_id).first()
     if not park:
@@ -419,7 +419,9 @@ def get_park_documents(park_id: int, db: Session = Depends(get_db)):
     docs = list_park_documents(park.region or "", park.city or "", park.name or "")
     for d in docs:
         d["url"] = f"/api/parks/{park_id}/documents/{d['filename']}"
-    return {"park_id": park_id, "park_name": park.name, "documents": docs}
+    # 공식 문서에 적힌 문의처 전화번호 — 없으면 None(지어내지 않음).
+    phone = find_park_phone(park.region or "", park.city or "", park.name or "")
+    return {"park_id": park_id, "park_name": park.name, "documents": docs, "phone": phone}
 
 
 @router.get("/parks/{park_id}/documents/{filename}")

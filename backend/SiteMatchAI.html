@@ -214,6 +214,7 @@
   body.map-fullscreen footer { display: none; }
   #map-clone { display: flex; height: calc(100vh - 56px); background: var(--white); }
   #map-sidebar { width: 360px; min-width: 300px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--white); }
+  #map-sheet-handle { display: none; } /* 모바일 바텀시트 드래그 손잡이 — PC에서는 숨김 */
   #map-sidebar-search { padding: 12px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
   /* input[type="text"]로 좁히지 않으면 같은 영역의 "입주 가능만 보기" 체크박스에도
      width:100%+padding+border가 그대로 적용돼 체크박스가 거대한 박스로 부풀어
@@ -240,14 +241,17 @@
   #map-detail-back { display: flex; align-items: center; gap: 6px; padding: 12px 14px; border-bottom: 1px solid var(--border); cursor: pointer; color: var(--text-sub); font-size: 13px; font-weight: 600; }
   #map-detail-back:hover { color: var(--text); }
   .map-detail-body { padding: 4px 16px 20px; }
+  #map-detail-photo-wrap { position: relative; width: 100%; height: 180px; border-radius: 10px; overflow: hidden; margin-top: 10px; background: var(--gray-bg); }
+  #map-detail-photo { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 12.5px; text-align: center; padding: 12px; box-sizing: border-box; }
+  #map-detail-photo-expand { display: none; position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,.6); color: #fff; border: none; border-radius: 6px; padding: 5px 9px; font-size: 11px; cursor: pointer; z-index: 3; }
   .map-detail-name { font-size: 17px; font-weight: 800; margin: 6px 0 4px; }
   .map-detail-loc { font-size: 13px; color: var(--text-sub); margin-bottom: 10px; }
-  /* 라벨(첫 span)에 flex-shrink:0/white-space:nowrap이 없으면, 값(둘째 span)이
-     길 때 라벨 칸이 거의 0px로 눌리면서 한글이 한 글자씩 세로로 줄바꿈된다
-     (실제 발생 — "관리기관" 라벨이 세로로 쪼개져 보임). */
-  .map-detail-row { font-size: 13px; padding: 8px 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; }
-  .map-detail-row > span:first-child { color: var(--text-sub); flex-shrink: 0; white-space: nowrap; }
-  .map-detail-row > span:last-child { text-align: right; }
+  /* flex로 두면 값이 길 때 라벨 칸이 눌려 한글이 세로로 줄바꿈되는 문제가 있었다
+     (실제 발생). grid에 라벨 칸 너비를 auto로 고정해두면 값이 아무리 길어도
+     라벨은 항상 한 줄 그대로 유지된다. */
+  .map-detail-row { font-size: 13px; padding: 8px 0; border-top: 1px solid var(--border); display: grid; grid-template-columns: auto 1fr; column-gap: 10px; align-items: start; }
+  .map-detail-row > span:first-child { color: var(--text-sub); white-space: nowrap; }
+  .map-detail-row > span:last-child { text-align: right; word-break: keep-all; overflow-wrap: break-word; }
   .map-detail-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
   .map-detail-actions button, .map-detail-actions a { flex: 1; min-width: 100px; text-align: center; padding: 9px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--white); font-size: 12.5px; font-weight: 600; cursor: pointer; text-decoration: none; color: var(--text); box-sizing: border-box; }
   .map-detail-actions button:hover, .map-detail-actions a:hover { background: var(--gray-bg); }
@@ -269,13 +273,34 @@
     .stats-grid { grid-template-columns: 1fr 1fr; }
     .dashboard-grid { grid-template-columns: 1fr; }
 
-    /* 지도 탭: 세로로 쌓아서(목록/상세 위, 지도 아래) 화면을 꽉 채우고, 상단바(56px)와
-       하단 앱 네비(60px+세이프에어리어)를 뺀 나머지에 딱 맞춘다 — 이 두 값은 위의
-       body 패딩·topbar 규칙과 반드시 같이 맞춰야 한다. */
-    #map-clone { flex-direction: column; height: calc(100vh - 56px - 60px - env(safe-area-inset-bottom, 0px)); }
-    #map-sidebar { width: 100%; min-width: 0; height: 42%; border-right: none; border-bottom: 1px solid var(--border); }
-    #map-view { flex: 1; }
-    #map-locate-btn { bottom: 14px; }
+    /* 지도 탭(모바일): 카카오맵 앱처럼 지도를 화면 전체에 깔고, 목록/상세는 지도 위에
+       뜨는 "바텀시트"로 올린다 — 손잡이를 드래그하면(또는 탭하면) 접힘/기본/펼침
+       3단계로 올라간다. 상단바(56px)·하단 앱 네비(60px+세이프에어리어)를 뺀 나머지를
+       꽉 채운다 — 이 두 값은 위의 body 패딩·topbar 규칙과 반드시 같이 맞춰야 한다. */
+    #map-clone { position: relative; height: calc(100vh - 56px - 60px - env(safe-area-inset-bottom, 0px)); overflow: hidden; }
+    #map-view { position: absolute; inset: 0; }
+    #map-sidebar {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 10;
+      width: 100%; min-width: 0;
+      height: var(--sheet-h, 42%); max-height: 92%; min-height: 140px;
+      border-right: none; border-top: 1px solid var(--border);
+      border-top-left-radius: 16px; border-top-right-radius: 16px;
+      box-shadow: 0 -6px 20px rgba(0,0,0,.15);
+      overflow: hidden; /* 둥근 모서리 밖으로 내용이 삐져나오지 않게 (접힘 상태에서 특히 중요) */
+    }
+    #map-sidebar.sheet-dragging { transition: none; }
+    #map-sidebar:not(.sheet-dragging) { transition: height .28s cubic-bezier(.2,.8,.2,1); }
+    #map-sheet-handle { display: flex; align-items: center; justify-content: center; padding: 9px 0 5px; flex-shrink: 0; touch-action: none; cursor: grab; }
+    #map-sheet-handle::before { content: ''; width: 38px; height: 4px; border-radius: 99px; background: var(--border); }
+    /* 손잡이가 지도를 가리지 않도록, 지도 위 "내 위치" 버튼은 시트 높이에 맞춰 따라 올라간다. */
+    #map-locate-btn { bottom: calc(var(--sheet-h, 42%) + 14px); }
+    /* 폰 화면 터치 대응: iOS Safari는 입력창 글자가 16px보다 작으면 포커스할 때
+       화면을 확 확대시킨다(실제로 거슬리는 동작) — 검색창만 16px로 키워서 막는다.
+       목록·상세 항목은 터치 오탭을 줄이려 여백을 넉넉히 준다. */
+    #map-search { font-size: 16px; }
+    .map-list-item { padding: 14px; }
+    #map-detail-photo-wrap { height: 150px; }
+    .map-detail-actions button, .map-detail-actions a { padding: 11px 8px; font-size: 13px; min-width: 90px; }
 
     /* 모바일에서는 상단 바의 텍스트 네비를 감추고 하단 앱 네비로 대체 —
        상단에는 로고와 연결 상태만 남긴다. */
@@ -518,6 +543,7 @@
   <div class="page" id="page-map" style="padding:0">
     <div id="map-clone">
       <div id="map-sidebar">
+        <div id="map-sheet-handle"></div>
         <div id="map-sidebar-search">
           <input type="text" id="map-search" placeholder="산업단지명으로 찾기" autocomplete="off" oninput="filterMapList()">
           <label style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12.5px;color:var(--text);cursor:pointer">
@@ -658,6 +684,72 @@
 const API_BASE = window.location.origin;
 const WS_BASE = window.location.origin.replace('https://', 'wss://').replace('http://', 'ws://');
 
+// ── 지도 탭(모바일): 카카오맵 앱과 동일한 바텀시트 드래그 — 손잡이를 끌면 목록/상세
+// 패널이 지도 위에서 접힘/기본/펼침 3단계로 오르내린다. PC 폭에서는 동작하지 않는다
+// (그쪽은 좌측 고정 패널 레이아웃이라 시트 개념이 없음).
+(function setupMapSheet() {
+  const container = document.getElementById('map-clone');
+  const sheet = document.getElementById('map-sidebar');
+  const handle = document.getElementById('map-sheet-handle');
+  if (!container || !sheet || !handle) return;
+
+  const SNAPS = ['140px', '42%', '85%']; // 접힘(손잡이+검색만) / 기본 / 펼침
+  let snapIndex = 1;
+  let dragging = false;
+  let startY = 0;
+  let startPx = 0;
+
+  function snapToPx(spec, containerH) {
+    return spec.endsWith('%') ? (parseFloat(spec) / 100) * containerH : parseFloat(spec);
+  }
+  function setHeightPx(px) {
+    container.style.setProperty('--sheet-h', `${px}px`);
+  }
+  function applySnap(i) {
+    snapIndex = Math.max(0, Math.min(SNAPS.length - 1, i));
+    container.style.setProperty('--sheet-h', SNAPS[snapIndex]);
+  }
+
+  handle.addEventListener('pointerdown', (e) => {
+    if (window.innerWidth > 768) return; // PC 폭에서는 드래그 비활성 (좌측 고정 패널 레이아웃)
+    dragging = true;
+    sheet.classList.add('sheet-dragging');
+    startY = e.clientY;
+    startPx = sheet.getBoundingClientRect().height;
+    handle.setPointerCapture(e.pointerId);
+  });
+  handle.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const containerH = container.getBoundingClientRect().height;
+    const delta = startY - e.clientY; // 위로 끌면 양수 → 시트가 커짐
+    const px = Math.max(140, Math.min(containerH * 0.92, startPx + delta));
+    setHeightPx(px);
+  });
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false;
+    sheet.classList.remove('sheet-dragging');
+    const containerH = container.getBoundingClientRect().height;
+    const currentPx = sheet.getBoundingClientRect().height;
+    let nearest = 0, best = Infinity;
+    SNAPS.forEach((s, i) => {
+      const d = Math.abs(snapToPx(s, containerH) - currentPx);
+      if (d < best) { best = d; nearest = i; }
+    });
+    applySnap(nearest);
+  }
+  handle.addEventListener('pointerup', endDrag);
+  handle.addEventListener('pointercancel', endDrag);
+  // 드래그가 서툰 경우를 위한 보조 동작 — 손잡이를 그냥 탭하면 다음 단계로 넘어간다.
+  let pointerMoved = false;
+  handle.addEventListener('pointerdown', () => { pointerMoved = false; });
+  handle.addEventListener('pointermove', () => { pointerMoved = true; });
+  handle.addEventListener('click', () => {
+    if (pointerMoved || window.innerWidth > 768) return;
+    applySnap((snapIndex + 1) % SNAPS.length);
+  });
+})();
+
 // ── 페이지 전환 ──
 let dashboardRole = null; // 'gov' — 현재 열려있는 대시보드 탭이 요구하는 최소 권한
 function showPage(id) {
@@ -778,6 +870,11 @@ function renderParkDetail(p) {
   document.getElementById('map-detail-panel').innerHTML = `
     <div id="map-detail-back" onclick="backToMapList()">← 목록으로</div>
     <div class="map-detail-body">
+      ${p.lat && p.lng ? `
+      <div id="map-detail-photo-wrap">
+        <div id="map-detail-photo">사진 불러오는 중...</div>
+        <button id="map-detail-photo-expand" onclick="openRoadview(${p.id})">🔍 크게 보기</button>
+      </div>` : ''}
       <div class="map-detail-name">${escapeHtml(p.name)}</div>
       <div class="map-detail-loc">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}${p.address ? ' · ' + escapeHtml(p.address) : ''}</div>
       <div class="map-list-tags" style="margin-bottom:10px">
@@ -795,13 +892,43 @@ function renderParkDetail(p) {
       ${p.subsidy ? `<div class="subsidy-box" style="margin-top:10px">${escapeHtml(p.subsidy)}</div>` : ''}
       <div id="park-docs-${p.id}" style="display:none;margin-top:10px"></div>
       <div class="map-detail-actions">
-        <button onclick="openRoadview(${p.id})">🚏 로드뷰</button>
         ${p.lat && p.lng ? `<button onclick="openDirections(${p.id})">🧭 길찾기</button>` : ''}
         ${p.website ? `<a href="${escapeHtml(p.website)}" target="_blank" rel="noopener noreferrer">🔗 홈페이지</a>` : ''}
         <button onclick="goChat('${escapeHtml(p.name).replace(/'/g, "\\'")}')">💬 챗봇에 물어보기</button>
       </div>
     </div>`;
   loadParkDocs(p.id);
+  if (p.lat && p.lng) loadDetailPhoto(p);
+}
+
+// 실제 사진 데이터가 없어서, 클릭한 좌표의 카카오 로드뷰(실제 거리뷰 촬영 이미지)를
+// "사진"처럼 상세 패널 안에 작게 바로 띄운다. 근처에 로드뷰 촬영 이력이 없으면
+// 없다는 사실을 그대로 보여준다(억지로 다른 이미지로 대신하지 않음).
+let detailRoadviewInstance = null;
+function loadDetailPhoto(p) {
+  const box = document.getElementById('map-detail-photo');
+  const expandBtn = document.getElementById('map-detail-photo-expand');
+  if (!box) return;
+  if (typeof kakao === 'undefined' || !kakao.maps || !kakao.maps.Roadview) {
+    box.textContent = '지도를 아직 불러오는 중입니다...';
+    return;
+  }
+  const position = new kakao.maps.LatLng(p.lat, p.lng);
+  const client = new kakao.maps.RoadviewClient();
+  client.getNearestPanoId(position, 100, (panoId) => {
+    // 비동기 응답이 온 시점에 사용자가 이미 다른 단지를 클릭했을 수 있어, 지금
+    // 열려있는 상세 패널이 여전히 이 단지인지 확인한다(엉뚱한 사진이 붙는 것 방지).
+    if (!document.getElementById('map-detail-photo') || !document.getElementById('map-detail-photo').isSameNode(box)) return;
+    if (!panoId) {
+      box.textContent = '이 위치의 로드뷰 사진이 없습니다.';
+      if (expandBtn) expandBtn.style.display = 'none';
+      return;
+    }
+    box.textContent = '';
+    if (!detailRoadviewInstance) detailRoadviewInstance = new kakao.maps.Roadview(box);
+    detailRoadviewInstance.setPanoId(panoId, position);
+    if (expandBtn) expandBtn.style.display = 'block';
+  });
 }
 
 // ── 로드뷰 (카카오맵 SDK의 Roadview) ──
@@ -1093,10 +1220,19 @@ async function loadParkDocs(parkId) {
     if (!resp.ok) return;
     const data = await resp.json();
     const docs = data.documents || [];
-    if (docs.length === 0) return;
+    let html = '';
+    // 공식 문서에서 찾은 문의처 번호 — DB의 contact(한국산업단지공단 대표번호 등
+    // 일반 안내)와 달리 그 단지 문서에 실제로 적힌 번호라 겹쳐 보여도 둘 다 의미가 있다.
+    if (data.phone) {
+      html += `<div style="font-size:13px;margin-bottom:8px"><a href="tel:${escapeHtml(data.phone)}" style="text-decoration:none;color:var(--teal-dark);font-weight:700">📞 ${escapeHtml(data.phone)}</a> <span style="color:var(--text-sub);font-size:11px">(공식 문서 기재)</span></div>`;
+    }
+    if (docs.length > 0) {
+      html += `<div style="font-size:12px;color:var(--text-sub);margin-bottom:6px">📄 관리기관 공식 공문</div>`
+        + docs.map(d => `<a href="${API_BASE}${d.url}" target="_blank" rel="noopener noreferrer" class="tag" style="text-decoration:none;margin:2px 4px 8px 0;display:inline-block">${d.kind === 'image' ? '🖼️' : '📎'} ${escapeHtml(d.filename)}</a>`).join('');
+    }
+    if (!html) return;
     el.style.display = 'block';
-    el.innerHTML = `<div style="font-size:12px;color:var(--text-sub);margin-bottom:6px">📄 관리기관 공식 공문</div>`
-      + docs.map(d => `<a href="${API_BASE}${d.url}" target="_blank" rel="noopener noreferrer" class="tag" style="text-decoration:none;margin:2px 4px 8px 0;display:inline-block">${d.kind === 'image' ? '🖼️' : '📎'} ${escapeHtml(d.filename)}</a>`).join('');
+    el.innerHTML = html;
   } catch (e) {
     // 로컬에 "전국산업단지 공문" 폴더가 없는 배포 환경 등 — 조용히 무시
   }
