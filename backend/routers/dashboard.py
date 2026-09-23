@@ -227,9 +227,13 @@ def get_parks(db: Session = Depends(get_db)):
             # 마찬가지로 운영률을 확정적으로 0%로 보여준다 — 공실률 자체는 비어있어도
             # "입주기업이 0개"라는 사실은 이미 알고 있으므로 "데이터 없음"이 아니다
             # (가연농공단지 사례로 확인).
+            # 다만 total_companies가 None인 단지는 "0개로 집계됨"이 아니라 "집계 자체가
+            # 안 됨"이라는 뜻이다(강문일반산업단지 사례 — 통계 스냅샷엔 0개로 나오는데
+            # 관리기관 공식 고시문서에는 13개사 입주로 기재돼 있어 신뢰할 수 없는 값임을
+            # 확인함). 이런 단지는 0%로 단정하지 않고 "데이터 없음"으로 그대로 보여준다.
             "vacancy_rate": (
-                100.0 if (p.dev_status or "완료") != "완료"
-                or (p.total_companies is not None and p.total_companies == 0)
+                None if p.total_companies is None
+                else 100.0 if (p.dev_status or "완료") != "완료" or p.total_companies == 0
                 else p.vacancy_rate
             ),
             "sale_rate": p.sale_rate,  # 분양률(%) — None이면 정보없음(0으로 대신하지 않음)

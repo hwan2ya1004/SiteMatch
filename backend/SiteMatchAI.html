@@ -889,7 +889,7 @@ function renderParkDetail(p) {
       ${industriesHtml ? `<div style="margin-bottom:10px">${industriesHtml}</div>` : ''}
       <div class="map-detail-row"><span>조성상태</span><span>${escapeHtml(p.dev_status)}</span></div>
       <div class="map-detail-row"><span>가용면적</span><span>${escapeHtml(p.available_area)}</span></div>
-      ${p.vacancy_rate != null ? `<div class="map-detail-row"><span>운영률</span><span>${(100 - p.vacancy_rate).toFixed(1)}%</span></div>` : ''}
+      <div class="map-detail-row"><span>운영률</span><span>${p.vacancy_rate != null ? (100 - p.vacancy_rate).toFixed(1) + '%' : '집계 안됨'}</span></div>
       <div class="map-detail-row"><span>관리기관</span><span>${escapeHtml(p.management_org || '정보없음')}</span></div>
       ${p.contact ? `<div class="map-detail-row"><span>연락처</span><span>${escapeHtml(p.contact)}</span></div>` : ''}
       ${p.description ? `<div style="font-size:13px;color:var(--text-sub);margin-top:10px;line-height:1.6">${escapeHtml(p.description)}</div>` : ''}
