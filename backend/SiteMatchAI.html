@@ -1873,9 +1873,11 @@ function locateMe(silent) {
 
   // 브라우저의 위치 권한 팝업은 "허용/차단" 기술적 동의일 뿐, 위치정보법이 요구하는
   // 수집 목적 고지가 빠져있다. 그 팝업이 뜨기 전에 먼저 목적을 설명하고 별도로
-  // 동의를 받는다 — 세션당 한 번만 물어보고, 거부하면 다음 클릭 때 다시 물어본다.
+  // 동의를 받는다. sessionStorage는 탭을 닫으면 지워져 매번 다시 물어봤다(실사용
+  // 중 불편하다는 지적) — localStorage로 바꿔 한 번 동의하면 이후 방문·새로고침에도
+  // 계속 기억한다. 거부한 경우엔 매번 다시 물어본다(동의로 오인하지 않도록).
   let consented = false;
-  try { consented = sessionStorage.getItem('locationConsent') === 'yes'; } catch(e) {}
+  try { consented = localStorage.getItem('locationConsentV2') === 'yes'; } catch(e) {}
   if (!consented) {
     const ok = confirm(
       '내 위치 확인 안내\n\n' +
@@ -1883,7 +1885,7 @@ function locateMe(silent) {
       '위치 확인을 진행하시겠습니까?'
     );
     if (!ok) return;
-    try { sessionStorage.setItem('locationConsent', 'yes'); } catch(e) {}
+    try { localStorage.setItem('locationConsentV2', 'yes'); } catch(e) {}
   }
 
   const btn = document.getElementById('map-locate-btn');
@@ -1909,8 +1911,17 @@ function locateMe(silent) {
       if (btn) { btn.disabled = false; btn.textContent = '📍'; btn.title = '내 위치'; }
       filterMapList(); // 내 위치가 새로 확인됐으니 좌측 목록을 가까운 순으로 다시 정렬
     },
-    () => {
-      if (!silent) alert('현재 위치를 가져올 수 없습니다. 브라우저의 위치 권한 설정을 확인해주세요.');
+    (err) => {
+      // 1=PERMISSION_DENIED, 2=POSITION_UNAVAILABLE, 3=TIMEOUT — 원인을 구분해줘야
+      // "우리 쪽 동의 화면은 눌렀는데 왜 안 되지"라는 혼란이 안 생긴다. 브라우저/OS
+      // 자체 권한이 차단된 경우 우리 확인창을 다시 띄워봤자 소용없다.
+      console.warn('위치 확인 실패:', err && err.code, err && err.message);
+      if (!silent) {
+        const msg = err && err.code === 1
+          ? '브라우저(또는 OS)에서 이 사이트의 위치 접근이 차단되어 있습니다. 주소창 왼쪽 자물쇠 아이콘 → 위치 권한을 "허용"으로 바꾼 뒤 다시 시도해주세요.'
+          : '현재 위치를 가져올 수 없습니다. 잠시 후 다시 시도해주세요.';
+        alert(msg);
+      }
       if (btn) { btn.disabled = false; btn.textContent = '📍'; btn.title = '내 위치'; }
     },
     { enableHighAccuracy: true, timeout: 8000 }
