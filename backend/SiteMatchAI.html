@@ -700,13 +700,32 @@ function showMapDetailPanel() {
   document.getElementById('map-detail-panel').style.display = 'block';
 }
 
+// 두 좌표 사이 직선거리(km) — Haversine. "내 위치" 확인 전에는 정렬 기준이
+// 없으므로 거리 없이 원래 순서(가나다순)로 보여준다.
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) ** 2
+    + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 function renderMapList(parks) {
   const withCoords = (parks || []).filter(p => p.lat && p.lng);
-  document.getElementById('map-list-count').textContent = `${withCoords.length}개 단지 (좌표 있는 곳만 표시)`;
-  document.getElementById('map-list').innerHTML = withCoords.map(p => `
+  let items = withCoords.map(p => ({
+    p, d: myLocationLatLng ? haversineKm(myLocationLatLng.lat, myLocationLatLng.lng, p.lat, p.lng) : null,
+  }));
+  if (myLocationLatLng) items.sort((a, b) => a.d - b.d);
+
+  document.getElementById('map-list-count').textContent = myLocationLatLng
+    ? `${items.length}개 단지 (내 위치에서 가까운 순)`
+    : `${items.length}개 단지 (좌표 있는 곳만 표시 · "내 위치"를 켜면 가까운 순으로 정렬됩니다)`;
+
+  document.getElementById('map-list').innerHTML = items.map(({ p, d }) => `
     <div class="map-list-item" onclick="selectPark(${p.id})">
       <div class="map-list-name">${escapeHtml(p.name)}</div>
-      <div class="map-list-sub">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))} · 가용면적 ${escapeHtml(p.available_area)}</div>
+      <div class="map-list-sub">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))} · 가용면적 ${escapeHtml(p.available_area)}${d != null ? ` · ${d < 1 ? Math.round(d * 1000) + 'm' : d.toFixed(1) + 'km'}` : ''}</div>
       <div class="map-list-tags">
         <span class="map-badge ${p.move_in_status === '입주 가능' ? 'ok' : 'no'}">${escapeHtml(p.move_in_status)}</span>
         <span class="map-badge sale">분양${p.sale_rate != null ? ' ' + p.sale_rate.toFixed(0) + '%' : ''}</span>
@@ -1693,6 +1712,7 @@ function locateMe(silent) {
       kakaoMap.setLevel(6);
       hasCenteredOnUser = true;
       if (btn) { btn.disabled = false; btn.textContent = '📍'; btn.title = '내 위치'; }
+      filterMapList(); // 내 위치가 새로 확인됐으니 좌측 목록을 가까운 순으로 다시 정렬
     },
     () => {
       if (!silent) alert('현재 위치를 가져올 수 없습니다. 브라우저의 위치 권한 설정을 확인해주세요.');
