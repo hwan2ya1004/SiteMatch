@@ -36276,7 +36276,7 @@
     "city": "거창군",
     "type": "일반산단",
     "total_area": 741000.0,
-    "available_area": 0.0,
+    "available_area": 70242.0,
     "vacancy_rate": 6.5,
     "rent_per_sqm": null,
     "industries": [
@@ -36297,7 +36297,7 @@
     "lng": 127.930685,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
-    "sale_rate": 100.0,
+    "sale_rate": 84.88,
     "total_companies": 46,
     "operating_companies": 43,
     "address": "경상남도 거창군 남상면 대산리 1565-6"
@@ -39140,7 +39140,12 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "비금속 광물제품 제조업",
+      "금속가공제품 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -39151,7 +39156,7 @@
     "lat": 35.653515,
     "lng": 127.917676,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
     "operating_companies": 0,
