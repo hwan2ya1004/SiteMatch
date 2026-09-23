@@ -924,7 +924,6 @@ async function loadParkPhone(parkId) {
 // 실제 사진 데이터가 없어서, 클릭한 좌표의 카카오 로드뷰(실제 거리뷰 촬영 이미지)를
 // "사진"처럼 상세 패널 안에 작게 바로 띄운다. 근처에 로드뷰 촬영 이력이 없으면
 // 없다는 사실을 그대로 보여준다(억지로 다른 이미지로 대신하지 않음).
-let detailRoadviewInstance = null;
 function setPhotoBoxMessage(box, text) {
   box.innerHTML = `<div style="color:var(--text-sub);font-size:13px;text-align:center;line-height:1.6">${escapeHtml(text)}</div>`;
 }
@@ -954,8 +953,13 @@ function loadDetailPhoto(p) {
       }
       try {
         box.innerHTML = '';
-        if (!detailRoadviewInstance) detailRoadviewInstance = new kakao.maps.Roadview(box);
-        detailRoadviewInstance.setPanoId(panoId, position);
+        // renderParkDetail()이 클릭할 때마다 #map-detail-photo를 통째로 새로 만들기
+        // 때문에, 로드뷰 인스턴스를 재사용하면(예전 코드) 이미 화면에서 사라진
+        // "이전 단지의" 컨테이너에 계속 그려 넣게 된다 — 콘솔엔 정상 동작 로그가
+        // 찍히는데 화면엔 아무것도 안 보이던 버그의 원인이 이것이었다(실제 확인됨).
+        // 매번 지금의 box를 대상으로 새로 만든다.
+        const rv = new kakao.maps.Roadview(box);
+        rv.setPanoId(panoId, position);
         if (expandBtn) expandBtn.style.display = 'block';
       } catch (e2) {
         console.error('로드뷰 렌더링 실패:', e2);
