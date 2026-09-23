@@ -238,6 +238,7 @@
   .map-badge.no { background: var(--red-bg); color: var(--red-text); }
   .map-badge.sale { background: var(--teal-light); color: var(--teal-dark); }
   .map-badge.rent { background: var(--amber-bg); color: var(--amber-text); }
+  .map-badge.type { background: var(--gray-bg); color: var(--text); border: 1px solid var(--border); }
   #map-view { flex: 1; position: relative; }
   #parks-map { width: 100%; height: 100%; background: var(--gray-bg); display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 13px; }
   #map-locate-btn { position: absolute; right: 16px; bottom: 24px; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border); background: var(--white); font-size: 18px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.15); z-index: 5; }
@@ -835,6 +836,7 @@ function renderMapList(parks) {
       <div class="map-list-name">${escapeHtml(p.name)}</div>
       <div class="map-list-sub">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))} · 가용면적 ${escapeHtml(p.available_area)}${d != null ? ` · ${d < 1 ? Math.round(d * 1000) + 'm' : d.toFixed(1) + 'km'}` : ''}</div>
       <div class="map-list-tags">
+        ${p.type ? `<span class="map-badge type">${escapeHtml(p.type)}</span>` : ''}
         <span class="map-badge ${p.move_in_status === '입주 가능' ? 'ok' : 'no'}">${escapeHtml(p.move_in_status)}</span>
         <span class="map-badge sale">분양${p.sale_rate != null ? ' ' + p.sale_rate.toFixed(0) + '%' : ''}</span>
         ${p.rent_per_sqm_raw ? `<span class="map-badge rent">임대 정보 있음</span>` : ''}
@@ -882,6 +884,7 @@ function renderParkDetail(p) {
       <div class="map-detail-name">${escapeHtml(p.name)}</div>
       <div class="map-detail-loc">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}${p.address ? ' · ' + escapeHtml(p.address) : ''}</div>
       <div class="map-list-tags" style="margin-bottom:10px">
+        ${p.type ? `<span class="map-badge type">${escapeHtml(p.type)}</span>` : ''}
         <span class="map-badge ${p.move_in_status === '입주 가능' ? 'ok' : 'no'}">${escapeHtml(p.move_in_status)}</span>
         <span class="map-badge sale">분양${p.sale_rate != null ? ' ' + p.sale_rate.toFixed(1) + '%' : ' 정보없음'}</span>
         ${p.rent_per_sqm_raw ? `<span class="map-badge rent">임대 ${escapeHtml(p.rent_per_sqm)}</span>` : ''}
@@ -1942,6 +1945,14 @@ function resetParksFilter() {
 }
 
 // 조성중/미개발 단지에 붙일 배지. dev_status가 없거나 "완료"면 아무것도 안 붙인다.
+// 국가산단/일반산단/도시첨단산단/농공산단/자유무역지역 구분을 한눈에 보이게 표시
+function typeBadge(type) {
+  if (!type) return '';
+  const colors = { '국가산단': '#1F4E79', '일반산단': '#0F6E56', '도시첨단산단': '#6B46C1', '농공산단': '#8B5E34', '자유무역지역': '#334155' };
+  const color = colors[type] || '#6B7280';
+  return ` <span style="display:inline-block;white-space:nowrap;font-size:11px;font-weight:600;color:#fff;background:${color};border-radius:4px;padding:1px 6px;margin-left:4px;vertical-align:middle">${escapeHtml(type)}</span>`;
+}
+
 function devStatusBadge(devStatus) {
   if (!devStatus || devStatus === '완료') return '';
   const color = devStatus === '조성중' ? '#EF9F27' : '#8A8F98';
@@ -1966,7 +1977,7 @@ function renderParksTable(parks) {
 
   tbody.innerHTML = parks.map(p => `
     <tr>
-      <td style="font-weight:600">${p.name}${devStatusBadge(p.dev_status)}${moveInBadge(p.move_in_status)}</td>
+      <td style="font-weight:600">${p.name}${typeBadge(p.type)}${devStatusBadge(p.dev_status)}${moveInBadge(p.move_in_status)}</td>
       <td style="color:var(--text-sub)">${[p.region, p.city].filter(Boolean).join(' ')}${p.address ? `<div style="font-size:11px;color:var(--text-hint)">${p.address}</div>` : ''}</td>
       <td>
         ${p.vacancy_rate != null
