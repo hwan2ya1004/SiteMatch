@@ -27521,10 +27521,17 @@
     "city": "광양시",
     "type": "국가산단",
     "total_area": 96405000.0,
-    "available_area": 38000.0,
+    "available_area": 0.0,
     "vacancy_rate": 16.9,
     "rent_per_sqm": 12500,
-    "industries": [],
+    "industries": [
+      "제철 및 관련산업",
+      "전기업",
+      "전기, 가스, 증기 및 공기조절 공급업",
+      "화학물질 및 화학제품 제조업",
+      "전기장비 제조업",
+      "코크스, 연탄 및 석유정제품 제조업"
+    ],
     "logistics": [
       "광양항 컨테이너부두 인접",
       "율촌산단 연계"
@@ -27543,7 +27550,7 @@
     "lng": 127.6958,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
-    "sale_rate": 99.79,
+    "sale_rate": 100.0,
     "total_companies": 201,
     "operating_companies": 167
   },
@@ -27867,8 +27874,8 @@
     "region": "전남",
     "city": "순천시",
     "type": "일반산단",
-    "total_area": 1592000.0,
-    "available_area": 0.0,
+    "total_area": 1592808.0,
+    "available_area": 281.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
@@ -27883,13 +27890,13 @@
     "monthly_inquiries": 0,
     "description": null,
     "subsidy": null,
-    "contact": null,
+    "contact": "061-760-5330",
     "website": null,
     "lat": 34.9068,
     "lng": 127.564692,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
-    "sale_rate": 100.0,
+    "sale_rate": 99.96,
     "total_companies": 45,
     "operating_companies": 45,
     "address": "전남광주통합특별시 순천시 해룡면 해룡산단1로 82-11"
