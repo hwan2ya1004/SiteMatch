@@ -32706,7 +32706,7 @@
     "region": "경북",
     "city": "포항시",
     "type": "일반산단",
-    "total_area": 871000.0,
+    "total_area": 869651.0,
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
@@ -32722,7 +32722,7 @@
     "lng": 129.337517,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
-    "sale_rate": 0.0,
+    "sale_rate": 100.0,
     "total_companies": 0,
     "operating_companies": 0,
     "address": "경상북도 포항시 남구 연일읍 우복리 산 35"
