@@ -108,7 +108,6 @@ class MatchResult(BaseModel):
     infra_note: str = ""
     available_area: float
     vacancy_rate: float
-    rent_per_sqm: int
     industries: list
     logistics: list
     features: list
@@ -161,7 +160,6 @@ async def run_match(req: MatchRequest, db: Session = Depends(get_db)):
             "available_area": park.get("available_area", 0),
             "vacancy_rate": park.get("vacancy_rate", 0),
             "sale_rate": park.get("sale_rate"),  # 분양률(%) — None이면 정보없음(0으로 대신하지 않음)
-            "rent_per_sqm": park.get("rent_per_sqm", 0),
             "industries": park.get("industries", []),
             "logistics": park.get("logistics", []),
             "features": park.get("features", []),

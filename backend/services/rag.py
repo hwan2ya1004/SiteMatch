@@ -310,8 +310,6 @@ class RAGService:
             lines.append(f"지정면적: {park['total_area']:,.0f}㎡")
         if park.get("industries"):
             lines.append(f"주요 업종(등록공장 기준): {', '.join(park['industries'])}")
-        if park.get("rent_per_sqm"):
-            lines.append(f"임대료: {park['rent_per_sqm']:,}원/㎡")
         if park.get("subsidy"):
             lines.append(f"지원금: {park['subsidy']}")
         if park.get("contact"):

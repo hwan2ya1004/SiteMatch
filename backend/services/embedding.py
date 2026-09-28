@@ -31,7 +31,9 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 컨설턴트 AI입니다
    - 식료품·음료, 의약품: 위생·품질 관리 인프라, 냉동·냉장 물류, 상수도 수질
    - 섬유제품·의복·가죽가방신발, 목재·펄프종이·가구·기타 제품, 인쇄업, 담배: 인건비 수준, 인력 수급 용이성
 2. 희망 지역 일치 여부 (25점)
-3. 예산(임대료) 적합성 (15점)
+3. 예산 적합성 (15점) — 단지별 실제 임대료·분양가 데이터가 없으므로 숫자를 추측하거나
+   지어내지 말고, 지원금(subsidy) 유무·규모 등 확인 가능한 정보로만 참고 판단하세요.
+   비교할 근거가 없으면 중립값(11점)을 부여하세요.
 4. 물류 조건 충족 여부 (10점)
 5. 필요 면적 충족 여부 (5점)
 6. 기업의 추가 요구사항 반영 여부 (5점)
@@ -160,9 +162,7 @@ class EmbeddingService:
         if len(subsidy) > 25:
             subsidy = subsidy[:25] + "…"
         available_area = park.get("available_area")
-        rent_per_sqm = park.get("rent_per_sqm")
         area_text = f"{available_area:,.0f}㎡" if available_area is not None else "정보없음"
-        rent_text = f"{rent_per_sqm:,}원" if rent_per_sqm is not None else "정보없음"
         dev_status = park.get("dev_status") or "완료"
         # 토큰 예산(Groq 무료 티어 TPM) 안에 38개 단지를 모두 넣기 위해 "특징" 등 부가 정보는 생략
         return (
@@ -171,7 +171,7 @@ class EmbeddingService:
             f"조성상태:{dev_status} "
             f"업종:{industries} 물류:{logistics} "
             f"면적:{area_text} "
-            f"임대료:{rent_text} 지원금:{subsidy}"
+            f"지원금:{subsidy}"
         )
 
     def _build_user_prompt(self, industry: str, size: str, area: str,
@@ -183,7 +183,7 @@ class EmbeddingService:
             f"종업원 수: {size}\n"
             f"필요 면적: {area}\n"
             f"희망 지역: {region or '지역 무관'}\n"
-            f"월 예산(임대료): {budget or '무관'}\n"
+            f"월 예산: {budget or '무관'} (참고용 — 산업단지별 실제 임대료 데이터는 없음)\n"
             f"물류 조건: {logistics or '무관'}\n"
             f"추가 요구사항: {extra or '없음'}"
         )
@@ -273,8 +273,11 @@ class EmbeddingService:
         else:
             breakdown["region"] = 15.0
 
-        rent = park.get("rent_per_sqm") or 0
-        if budget and budget not in ("무관", ""):
+        # 임대료(rent_per_sqm) 실데이터 출처가 없어 필드를 전부 비웠다 — 값이 없는
+        # 걸 "0원이라 무조건 예산 충족"으로 오판하지 않도록, 데이터 없음은 예산
+        # 미지정(무관)과 동일하게 중립 점수로 처리한다.
+        rent = park.get("rent_per_sqm")
+        if budget and budget not in ("무관", "") and rent:
             max_rent = BUDGET_MAP.get(budget, 999999)
             if rent <= max_rent:
                 breakdown["budget"] = 15.0

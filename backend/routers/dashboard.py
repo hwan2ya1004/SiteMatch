@@ -239,11 +239,6 @@ def get_parks(db: Session = Depends(get_db)):
             "sale_rate": p.sale_rate,  # 분양률(%) — None이면 정보없음(0으로 대신하지 않음)
             "available_area": f"{p.available_area:,.0f}㎡" if p.available_area else "0㎡",
             "available_area_raw": p.available_area or 0,
-            "rent_per_sqm": f"{p.rent_per_sqm:,}원/㎡" if p.rent_per_sqm else "정보없음",
-            # 임대 여부를 별도로 구분하는 공식 필드가 원본 데이터에 없어(분양 중심으로만
-            # 관리됨), rent_per_sqm이 있으면만 "임대료 정보 있음"으로 참고 표시한다.
-            # 값이 없는 걸 "임대 불가"로 단정하지 않는다 — database.py의 sale_rate 주석 참고.
-            "rent_per_sqm_raw": p.rent_per_sqm,
             "industries": json.loads(p.industries) if p.industries else [],
             "contact": p.contact or "",
             "description": p.description or "",
@@ -399,7 +394,6 @@ def list_parks(
             "type": p.type,
             "available_area": p.available_area or 0,
             "vacancy_rate": p.vacancy_rate or 0,
-            "rent_per_sqm": p.rent_per_sqm or 0,
             "industries": industries,
             "features": json.loads(p.features) if p.features else [],
             "subsidy": p.subsidy or "",

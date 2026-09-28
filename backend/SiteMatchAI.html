@@ -434,12 +434,11 @@
        한다 — 행 높이는 그대로 유지되고 가로 스크롤도 필요 없어진다.
        모바일에서는 운영률보다 "지금 들어갈 수 있는 면적이 있는가"(가용 면적)가
        더 중요하다는 피드백에 따라 운영률 대신 가용 면적을 남긴다 —
-       핵심 열: 단지명·위치·가용 면적·상태 (숨김: 운영률·분양률·임대료·주요업종).
+       핵심 열: 단지명·위치·가용 면적·상태 (숨김: 운영률·분양률·주요업종).
        (나머지 정보는 행을 눌러 "AI 매칭"/챗봇에서 상세히 확인 가능) */
     .data-table th:nth-child(3), .data-table td:nth-child(3),
     .data-table th:nth-child(4), .data-table td:nth-child(4),
-    .data-table th:nth-child(6), .data-table td:nth-child(6),
-    .data-table th:nth-child(7), .data-table td:nth-child(7) {
+    .data-table th:nth-child(6), .data-table td:nth-child(6) {
       display: none;
     }
   }
@@ -576,7 +575,7 @@
           </select>
         </div>
         <div class="field">
-          <label>월 예산 (임대료)</label>
+          <label>월 예산</label>
           <select id="f-budget">
             <option value="">무관</option>
             <option>500만원 미만</option>
@@ -745,13 +744,12 @@
             <th class="num" title="등록된 입주기업 중 실제로 운영 중인 기업의 비율 — 빈 부지(가용면적) 여부와는 다른 지표입니다">입주기업 운영률 ⓘ</th>
             <th class="num" title="지정면적 대비 분양이 완료된 면적의 비율 (한국산업단지공단 공식 통계 기준)">분양률 ⓘ</th>
             <th class="num">가용 면적</th>
-            <th class="num">임대료(월)</th>
             <th>주요 업종</th>
             <th>상태</th>
           </tr>
         </thead>
         <tbody id="parks-tbody">
-          <tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 로딩 중...</td></tr>
+          <tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 로딩 중...</td></tr>
         </tbody>
       </table>
       </div>
@@ -949,7 +947,6 @@ function renderMapList(parks) {
         ${p.type ? `<span class="map-badge type">${escapeHtml(p.type)}</span>` : ''}
         <span class="map-badge ${p.move_in_status === '입주 가능' ? 'ok' : 'no'}">${escapeHtml(p.move_in_status)}</span>
         <span class="map-badge sale">분양${p.sale_rate != null ? ' ' + p.sale_rate.toFixed(0) + '%' : ''}</span>
-        ${p.rent_per_sqm_raw ? `<span class="map-badge rent">임대 정보 있음</span>` : ''}
       </div>
     </div>`).join('')
     || `<div style="padding:20px 14px;color:var(--text-sub);font-size:13px">검색 결과가 없습니다.</div>`;
@@ -997,7 +994,6 @@ function renderParkDetail(p) {
         ${p.type ? `<span class="map-badge type">${escapeHtml(p.type)}</span>` : ''}
         <span class="map-badge ${p.move_in_status === '입주 가능' ? 'ok' : 'no'}">${escapeHtml(p.move_in_status)}</span>
         <span class="map-badge sale">분양${p.sale_rate != null ? ' ' + p.sale_rate.toFixed(1) + '%' : ' 정보없음'}</span>
-        ${p.rent_per_sqm_raw ? `<span class="map-badge rent">임대 ${escapeHtml(p.rent_per_sqm)}</span>` : ''}
       </div>
       ${industriesHtml ? `<div style="margin-bottom:10px">${industriesHtml}</div>` : ''}
       <div class="map-detail-row"><span>조성상태</span><span>${escapeHtml(p.dev_status)}</span></div>
@@ -1305,12 +1301,6 @@ function renderResults(results, ind, ar) {
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
     <span><strong style="color:var(--text)">${ind}</strong> 조건에 맞는 산업단지 ${results.length}곳을 추천합니다 (AI 분석 기반)</span>
   </div>` + results.map((r, i) => {
-    let monthlyRentLine = '';
-    if (areaSqm && r.rent_per_sqm) {
-      const billedSqm = Math.min(areaSqm, r.available_area || areaSqm);
-      const monthlyRent = Math.round(billedSqm * r.rent_per_sqm);
-      monthlyRentLine = `<br>예상 월 임대료: <strong>약 ${monthlyRent.toLocaleString()}원</strong> <span style="color:var(--text-sub)">(선택한 필요 면적 ${ar} 기준 추정치, 실제 계약 면적에 따라 달라짐)</span>`;
-    }
     const bd = r.breakdown || {};
     const bdLabels = [['industry','업종',40],['region','지역',25],['budget','예산',15],['logistics','물류',10],['area','면적',5],['extra','요구사항',5]];
     const breakdownLine = Object.keys(bd).length
@@ -1354,8 +1344,7 @@ function renderResults(results, ind, ar) {
     ${r.infra_note ? `<div style="background:var(--amber-bg);color:var(--amber-text);border-radius:8px;padding:8px 12px;font-size:12px;margin-bottom:12px">🔍 입지 선정 시 확인사항: ${r.infra_note}</div>` : ''}
     ${peerHtml}
     <div style="font-size:12px;color:var(--text-sub);margin-bottom:12px">
-      가용면적: <strong>${(r.available_area||0).toLocaleString()}㎡</strong> &nbsp;|&nbsp;
-      임대료: <strong>${r.rent_per_sqm ? r.rent_per_sqm.toLocaleString()+'원/㎡' : '-'}</strong>${monthlyRentLine}
+      가용면적: <strong>${(r.available_area||0).toLocaleString()}㎡</strong>
     </div>
     ${(r.contact || r.website) ? `<div style="font-size:12px;color:var(--text-sub);margin-bottom:12px">
       ${r.contact ? `📞 담당자 문의: <a href="tel:${r.contact}">${r.contact}</a>` : ''}
@@ -2100,7 +2089,7 @@ function moveInBadge(moveInStatus) {
 function renderParksTable(parks) {
   const tbody = document.getElementById('parks-tbody');
   if (!parks || parks.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 없음</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-sub)">데이터 없음</td></tr>';
     return;
   }
 
@@ -2121,7 +2110,6 @@ function renderParksTable(parks) {
       </td>
       <td class="num">${p.sale_rate != null ? p.sale_rate.toFixed(1) + '%' : '정보없음'}</td>
       <td class="num">${escapeHtml(p.available_area)}</td>
-      <td class="num">${escapeHtml(p.rent_per_sqm)}</td>
       <td style="color:var(--text-sub)">${escapeHtml((p.industries||[]).slice(0,2).join('·'))}</td>
       <td><span class="badge ${p.status_class}">${escapeHtml(p.status)}</span></td>
     </tr>
@@ -2138,7 +2126,7 @@ function renderStaticDashboard() {
   document.getElementById('stat-companies-sub').innerHTML = '<span style="color:#E24B4A">cd backend && python main.py</span>';
 
   const tbody = document.getElementById('parks-tbody');
-  tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--text-sub)">
+  tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text-sub)">
     <div style="font-size:15px;font-weight:600;margin-bottom:8px">백엔드 서버에 연결할 수 없습니다</div>
     <div style="font-size:13px">서버를 실행하면 실시간 데이터가 표시됩니다: <code style="background:var(--gray-bg);padding:2px 8px;border-radius:4px">cd backend && python main.py</code></div>
   </td></tr>`;
