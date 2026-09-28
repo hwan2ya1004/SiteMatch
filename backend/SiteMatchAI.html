@@ -342,6 +342,30 @@
        따로 스크롤을 가지면 안(지도 탭 자체 스크롤)과 밖(레이아웃 스크롤)이
        이중으로 겹친다 — 지도 탭에서는 .layout 자체 스크롤을 꺼둔다. */
     body.map-fullscreen .layout { overflow: hidden; padding-bottom: 0; }
+
+    /* AI 상담 탭(모바일): 클로드 채팅 화면처럼 — 큰 제목/설명 대신 얇은 타이틀
+       바 하나만 두고, 채팅창이 화면(상단바~하단 네비 사이)을 꽉 채운다.
+       메시지 목록만 그 안에서 스크롤되고, 입력창은 항상 화면 하단에 붙어있다
+       (지도 탭과 마찬가지로 .layout 자체 스크롤은 끄고 채팅창이 직접 남은
+       공간을 다 차지하게 한다). */
+    body.chat-fullscreen .layout { overflow: hidden; padding: 0; }
+    body.chat-fullscreen #page-chat.active { display: flex; flex-direction: column; height: 100%; }
+    body.chat-fullscreen #page-chat .page-header {
+      margin-bottom: 0; padding: 10px 16px; border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    body.chat-fullscreen #page-chat .page-title { font-size: 15px; margin-bottom: 0; }
+    body.chat-fullscreen #page-chat .page-desc { display: none; }
+    body.chat-fullscreen .chat-layout { flex: 1 1 auto; min-height: 0; display: block; }
+    body.chat-fullscreen .chat-box {
+      height: 100%; border: none; border-radius: 0;
+    }
+    body.chat-fullscreen .chat-messages { padding: 16px; }
+    body.chat-fullscreen .chat-footer {
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+    }
+    /* iOS Safari는 입력창 글자가 16px보다 작으면 포커스할 때 화면을 확 확대시킨다 */
+    .chat-input { font-size: 16px; }
     .form-grid { grid-template-columns: 1fr; }
     .form-full { grid-column: 1; }
     .chat-layout { grid-template-columns: 1fr; }
@@ -843,6 +867,9 @@ function showPage(id) {
   // 반드시 이 클래스를 지워야 한다(안 지우면 body에 overflow:hidden이 남아 다른
   // 탭에서도 스크롤이 막힌다).
   document.body.classList.toggle('map-fullscreen', id === 'map');
+  // 채팅 탭도 지도와 같은 방식(모바일 전용 풀스크린) — 메시지 목록이 화면을
+  // 꽉 채우고 그 안에서만 스크롤되며, 입력창은 화면 하단에 고정된다.
+  document.body.classList.toggle('chat-fullscreen', id === 'chat');
   // 대시보드를 벗어나면(스크롤 위치와 무관하게) 맨 위로 버튼을 바로 감춘다.
   const scrollTopBtn = document.getElementById('dashboard-scrolltop');
   if (scrollTopBtn) {
