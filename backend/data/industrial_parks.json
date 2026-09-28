@@ -24863,8 +24863,8 @@
     "region": "전북",
     "city": "고창군",
     "type": "일반산단",
-    "total_area": 837000.0,
-    "available_area": 354000.0,
+    "total_area": 836989.0,
+    "available_area": 262179.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
@@ -24879,15 +24879,16 @@
     "monthly_inquiries": 0,
     "description": null,
     "subsidy": null,
-    "contact": null,
+    "contact": "063-560-2395",
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.429452,
+    "lng": 126.672047,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "조성중",
-    "sale_rate": 39.69,
+    "dev_status": "완료",
+    "sale_rate": 57.72,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "전북특별자치도 고창군 고수면 봉산리 1645번지 일원"
   },
   {
     "id": 836,
