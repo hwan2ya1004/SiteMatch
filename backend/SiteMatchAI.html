@@ -21,9 +21,14 @@
 <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
 <link rel="icon" href="/static/icons/icon-192.png" type="image/png">
 
-<!-- defer: 이 스크립트가 렌더링을 막지 않게 함 (렌더 콜드부팅 중에는 이 요청도
-     느려질 수 있는데, defer가 없으면 HTML 파싱 자체가 멈춰서 화면이 하얗게 보임) -->
-<script src="/kakao-sdk.js" defer onerror="window.__kakaoSdkLoadFailed=true"></script>
+<!-- defer를 쓰면 안 됨: 카카오맵 SDK가 내부적으로 document.write로 실제 지도
+     모듈 스크립트를 주입하는데, defer는 문서 파싱이 끝난 뒤(document가 닫힌
+     뒤) 실행되므로 document.write가 조용히 실패해 kakao.maps.LatLng 등 실제
+     클래스가 끝내 정의되지 않는다(콘솔에 "Failed to execute 'write' on
+     'Document'..." 경고가 뜨고 지도가 "kakao.maps.LatLng is not a
+     constructor"로 깨지는 걸 실제로 확인함). 렌더링 블로킹보다 지도가 뜨는 게
+     우선이라 defer 없이 되돌린다. -->
+<script src="/kakao-sdk.js" onerror="window.__kakaoSdkLoadFailed=true"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
