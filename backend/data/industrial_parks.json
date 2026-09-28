@@ -14040,8 +14040,8 @@
     "region": "강원",
     "city": "인제군",
     "type": "농공산단",
-    "total_area": 54000.0,
-    "available_area": 25000.0,
+    "total_area": 54068.0,
+    "available_area": 24307.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
     "industries": [
@@ -14059,7 +14059,7 @@
     "lng": 128.370918,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
-    "sale_rate": 26.47,
+    "sale_rate": 28.34,
     "total_companies": 0,
     "operating_companies": 0,
     "address": "강원특별자치도 인제군 인제읍 귀둔리 1203"
