@@ -31936,8 +31936,8 @@
     "region": "경북",
     "city": "포항시",
     "type": "일반산단",
-    "total_area": 728000.0,
-    "available_area": 103000.0,
+    "total_area": 734299.0,
+    "available_area": 2940.0,
     "vacancy_rate": 40.0,
     "rent_per_sqm": null,
     "industries": [
@@ -31958,7 +31958,7 @@
     "lng": 129.418828,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
-    "sale_rate": 79.02,
+    "sale_rate": 99.43,
     "total_companies": 10,
     "operating_companies": 6,
     "address": "경상북도 포항시 남구 오천읍 광명리 산 72-1"
