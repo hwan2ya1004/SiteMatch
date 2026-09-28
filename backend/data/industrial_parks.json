@@ -3167,8 +3167,8 @@
     "region": "광주",
     "city": "남구",
     "type": "일반산단",
-    "total_area": 918000.0,
-    "available_area": 119000.0,
+    "total_area": 917761.0,
+    "available_area": 136113.0,
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
     "industries": [
@@ -3188,8 +3188,8 @@
     "lat": 35.081193,
     "lng": 126.827593,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "조성중",
-    "sale_rate": 65.51,
+    "dev_status": "완료",
+    "sale_rate": 75.28,
     "total_companies": 33,
     "operating_companies": 0,
     "address": "전남광주통합특별시 남구 압촌동 633"
