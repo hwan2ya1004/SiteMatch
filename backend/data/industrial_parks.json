@@ -28171,7 +28171,7 @@
     "region": "전남",
     "city": "진도군",
     "type": "일반산단",
-    "total_area": 686000.0,
+    "total_area": 685643.0,
     "available_area": 0.0,
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
@@ -28189,13 +28189,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 34.58276467625019,
+    "lng": 126.27043622547733,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 진도군 군내면 녹진리 산 223"
   },
   {
     "id": 938,
@@ -29820,8 +29821,8 @@
     "region": "전남",
     "city": "진도군",
     "type": "농공산단",
-    "total_area": 260000.0,
-    "available_area": 99000.0,
+    "total_area": 260141.0,
+    "available_area": 74369.0,
     "vacancy_rate": 80.0,
     "rent_per_sqm": null,
     "industries": [
@@ -29838,13 +29839,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 34.56981544089902,
+    "lng": 126.28602710376583,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
-    "sale_rate": 42.11,
+    "sale_rate": 56.57,
     "total_companies": 10,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "전남광주통합특별시 진도군 군내면 녹진리 2061-10"
   },
   {
     "id": 992,
