@@ -1,0 +1,17 @@
+{
+  "name": "SiteMatch AI — 산업단지 공실 AI 매칭 플랫폼",
+  "short_name": "SiteMatch AI",
+  "start_url": "https://hwan2ya1004.github.io/SiteMatch/",
+  "scope": "https://hwan2ya1004.github.io/SiteMatch/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F7F8FA",
+  "theme_color": "#0F6E56",
+  "lang": "ko",
+  "icons": [
+    { "src": "https://sitematch.onrender.com/static/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "https://sitematch.onrender.com/static/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "https://sitematch.onrender.com/static/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "https://sitematch.onrender.com/static/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

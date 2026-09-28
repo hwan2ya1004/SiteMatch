@@ -6,6 +6,16 @@
 <meta name="color-scheme" content="light">
 <title>SiteMatch AI 접속 중</title>
 <link rel="icon" href="https://sitematch.onrender.com/static/icons/icon-192.png" type="image/png">
+<!-- 홈 화면에 추가했을 때 진짜 앱 아이콘이 뜨게 함 — 이게 없으면 iOS/Android가
+     이 로딩 페이지 화면을 그대로 캡처해서 아이콘으로 써버려 실제 앱 아이콘과
+     달라 보인다. -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F6E56">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SiteMatch AI">
+<link rel="apple-touch-icon" href="https://sitematch.onrender.com/static/icons/apple-touch-icon.png">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
