@@ -9609,11 +9609,15 @@
     "region": "경기",
     "city": "이천시",
     "type": "일반산단",
-    "total_area": 38000.0,
+    "total_area": 39959.0,
     "available_area": 0.0,
     "vacancy_rate": 50.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "태양광 발전업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
