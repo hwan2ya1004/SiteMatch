@@ -18670,11 +18670,16 @@
     "region": "충남",
     "city": "보령시",
     "type": "국가산단",
-    "total_area": 6304000.0,
+    "total_area": 6304110.0,
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전기, 가스, 증기 및 공기조절 공급업",
+      "식료품 제조업",
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "의료용 물질 및 의약품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
