@@ -3253,13 +3253,14 @@
     "subsidy": null,
     "contact": "062-613-6092",
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.235750599999996,
+    "lng": 126.83525389677419,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 북구 오룡동, 대촌동, 월출동, 광산구 비아동, 장성군 남면, 진원면 일원"
   },
   {
     "id": 107,
