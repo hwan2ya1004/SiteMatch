@@ -32,6 +32,7 @@
     font-family: 'Pretendard', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
     background: var(--gray-bg);
     color: var(--text);
+    overflow: hidden; /* #app-frame이 뜬 뒤에는 이 페이지 자체는 스크롤할 일이 없음 */
   }
   body {
     display: flex; align-items: center; justify-content: center;
@@ -40,6 +41,15 @@
   .card {
     width: 100%; max-width: 380px;
     text-align: center;
+  }
+  /* 실제 앱은 이 iframe 안에서 열린다 — 주소창은 항상 이 로딩 페이지 주소
+     (hwan2ya1004.github.io/SiteMatch) 그대로 유지된다. "홈 화면에 추가"를
+     앱 진입 이후에 누르더라도 늘 이 주소가 저장되게 하기 위함 — sitematch.
+     onrender.com으로 실제 이동(location.href)해버리면 그 순간부터는 주소가
+     바뀌어서 이 로딩 페이지를 만든 의미가 없어진다. */
+  #app-frame {
+    display: none; position: fixed; inset: 0;
+    width: 100%; height: 100%; border: 0; background: #fff; z-index: 10;
   }
   /* 공장 실루엣 + AI 시그널 아크 로고 — 앱 아이콘과 동일한 모티브 */
   .logo-wrap {
@@ -114,13 +124,15 @@
   <span class="status" id="status-pill">연결 확인 중...</span>
 
   <div class="manual-link">
-    자동으로 안 넘어가면 <a href="https://sitematch.onrender.com/">여기를 눌러주세요</a>
+    자동으로 안 넘어가면 <a href="#" id="manual-link-btn">여기를 눌러주세요</a>
   </div>
 
   <div class="install-hint" id="install-hint">
     <span id="install-hint-text"></span>
   </div>
 </div>
+
+<iframe id="app-frame" allow="geolocation" title="SiteMatch AI"></iframe>
 
 <script>
 const TARGET = 'https://sitematch.onrender.com/';
@@ -146,6 +158,22 @@ if (showInstallHint) {
   document.getElementById('install-hint-text').innerHTML = text;
   document.getElementById('install-hint').style.display = 'block';
 }
+
+let shown = false;
+function showApp() {
+  if (shown) return;
+  shown = true;
+  document.title = 'SiteMatch AI';
+  document.querySelector('.card').style.display = 'none';
+  const frame = document.getElementById('app-frame');
+  frame.src = TARGET;
+  frame.style.display = 'block';
+}
+
+document.getElementById('manual-link-btn').addEventListener('click', (e) => {
+  e.preventDefault();
+  showApp();
+});
 
 async function checkAndRedirect() {
   attempts++;
@@ -176,7 +204,11 @@ async function checkAndRedirect() {
         return;
       }
       pillEl.textContent = '접속 중...';
-      window.location.href = TARGET;
+      // 여기서 location.href로 이동하지 않는다 — 이동하면 주소창이
+      // sitematch.onrender.com으로 바뀌어서, 앱에 들어간 뒤에 "홈 화면에
+      // 추가"를 누르면 그 주소가 저장돼버린다. 대신 이 페이지 안에 iframe으로
+      // 띄워서 주소창은 항상 이 로딩 페이지 주소 그대로 유지한다.
+      showApp();
       return;
     }
   } catch (e) {
