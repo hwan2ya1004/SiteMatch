@@ -880,7 +880,9 @@ function showPage(id) {
     // 로그인 기능 미구현 — 지금 단계에서는 키 입력 없이 공개.
     document.getElementById('dashboard-gate').style.display = 'none';
     document.getElementById('dashboard-content').style.display = 'block';
-    initKakaoMapIfNeeded();
+    // 대시보드에는 지도(#parks-map)가 없다 — 카카오맵 초기화는 위치 권한 팝업을
+    // 자동으로 띄우는 locateMe(true)를 함께 트리거하므로, 지도 탭(id==='map')에서만
+    // 호출한다(아래). 예전엔 여기서도 불러 대시보드만 열어도 위치 동의창이 떴다.
     loadDashboard();
   }
   if (id === 'map') {
