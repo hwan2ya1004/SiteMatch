@@ -21,7 +21,9 @@
 <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
 <link rel="icon" href="/static/icons/icon-192.png" type="image/png">
 
-<script src="/kakao-sdk.js" onerror="window.__kakaoSdkLoadFailed=true"></script>
+<!-- defer: 이 스크립트가 렌더링을 막지 않게 함 (렌더 콜드부팅 중에는 이 요청도
+     느려질 수 있는데, defer가 없으면 HTML 파싱 자체가 멈춰서 화면이 하얗게 보임) -->
+<script src="/kakao-sdk.js" defer onerror="window.__kakaoSdkLoadFailed=true"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
