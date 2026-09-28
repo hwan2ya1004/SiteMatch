@@ -8099,7 +8099,7 @@
     "region": "경기",
     "city": "군포시",
     "type": "일반산단",
-    "total_area": 288000.0,
+    "total_area": 287619.0,
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
@@ -8117,13 +8117,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.327,
+    "lng": 126.9394,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 84,
-    "operating_companies": 84
+    "operating_companies": 84,
+    "address": "경기도 군포시 부곡동 1244번지 일원"
   },
   {
     "id": 267,
