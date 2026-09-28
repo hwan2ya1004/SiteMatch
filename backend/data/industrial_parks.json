@@ -24542,8 +24542,8 @@
     "region": "전북",
     "city": "익산시",
     "type": "국가산단",
-    "total_area": 2206000.0,
-    "available_area": 183000.0,
+    "total_area": 2205929.0,
+    "available_area": 297431.0,
     "vacancy_rate": 39.6,
     "rent_per_sqm": null,
     "industries": [
@@ -24563,7 +24563,7 @@
     "lng": null,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
-    "sale_rate": 86.65,
+    "sale_rate": 81.13,
     "total_companies": 222,
     "operating_companies": 134
   },
@@ -24574,7 +24574,7 @@
     "city": "익산시",
     "type": "국가산단",
     "total_area": 116000.0,
-    "available_area": 93000.0,
+    "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
@@ -24594,7 +24594,7 @@
     "lng": null,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
-    "sale_rate": 19.83,
+    "sale_rate": 100.0,
     "total_companies": 1,
     "operating_companies": 1
   },
