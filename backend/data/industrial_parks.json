@@ -4903,8 +4903,8 @@
     "region": "세종",
     "city": "세종",
     "type": "일반산단",
-    "total_area": 849000.0,
-    "available_area": 6000.0,
+    "total_area": 849685.0,
+    "available_area": 8279.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
     "industries": [
@@ -4921,14 +4921,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": 36.701607,
-    "lng": 127.194701,
+    "lat": 36.7138,
+    "lng": 127.1905,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "조성중",
-    "sale_rate": 98.87,
+    "dev_status": "완료",
+    "sale_rate": 98.65,
     "total_companies": 0,
     "operating_companies": 0,
-    "address": "세종특별자치시  전의면 서정리 6-2"
+    "address": "세종특별자치시 소정면 고등리 785번지, 전의면 읍내리 436번지 일원"
   },
   {
     "id": 162,
