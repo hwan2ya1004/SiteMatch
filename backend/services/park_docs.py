@@ -230,6 +230,40 @@ def _extract_pdf_blocks(f: Path) -> List[str]:
         return []
 
 
+_HWPX_TEXT_RE = re.compile(r"<hp:t[^>]*>([^<]*)")
+
+
+def _extract_hwpx_blocks(f: Path) -> List[str]:
+    """HWPX(한글 워드프로세서, zip 기반 XML) 한 개를 청크 단위 "[출처: ...]"
+    블록 리스트로 추출. 텍스트가 <hp:t>문단</hp:t> 형태로 들어있지만, 표(hp:tc)
+    안에 중첩된 하위 문단(hp:subList) 때문에 닫는 태그 앞까지 통째로 잡으면
+    안의 다른 셀 텍스트까지 한 덩어리로 섞여버린다 — 그래서 여는 태그 바로
+    뒤부터 다음 '<' 전까지만(중첩 태그 이전 순수 텍스트만) 잡는다.
+    PDF처럼 명확한 페이지 단위가 없어 일정 길이로 잘라 청크를 만든다."""
+    try:
+        import zipfile
+        with zipfile.ZipFile(f) as z:
+            section_names = sorted(
+                n for n in z.namelist() if re.match(r"Contents/section\d+\.xml$", n)
+            )
+            if not section_names:
+                return []
+            texts: List[str] = []
+            for name in section_names:
+                xml = z.read(name).decode("utf-8", errors="ignore")
+                texts.extend(t for t in _HWPX_TEXT_RE.findall(xml) if t.strip())
+        full_text = "\n".join(texts)
+        if not full_text.strip() or _looks_like_garbage(full_text):
+            return []
+        title = _guess_doc_title(full_text[:200], fallback=f.name)
+        chunk_size = 2000
+        chunks = [full_text[i:i + chunk_size] for i in range(0, len(full_text), chunk_size)]
+        return [f"[출처: {title}]\n{c}" for c in chunks[:MAX_PDF_PAGES]]
+    except Exception as e:
+        print(f"⚠️ 공문 HWPX 텍스트 추출 실패 ({f}): {e}")
+        return []
+
+
 def _extract_txt_blocks(f: Path) -> List[str]:
     """텍스트 파일 한 개를 문단 단위 "[출처: ...]" 블록 리스트로 추출."""
     content = None
@@ -275,6 +309,8 @@ def get_park_documents_text(region: str, city: str, name: str, budget: int = 600
         ext = f.suffix.lower()
         if ext == ".pdf":
             blocks = _extract_pdf_blocks(f)
+        elif ext == ".hwpx":
+            blocks = _extract_hwpx_blocks(f)
         elif ext == ".txt":
             blocks = _extract_txt_blocks(f)
         else:
