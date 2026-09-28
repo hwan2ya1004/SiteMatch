@@ -6044,11 +6044,16 @@
     "region": "경기",
     "city": "안성시",
     "type": "일반산단",
-    "total_area": 58000.0,
+    "total_area": 57842.0,
     "available_area": 0.0,
     "vacancy_rate": 18.8,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "목재 및 나무제품 제조업",
+      "화학물질 및 화학제품 제조업",
+      "기타 기계 및 장비 제조업",
+      "기타 제품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
