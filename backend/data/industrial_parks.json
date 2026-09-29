@@ -8625,7 +8625,7 @@
     "region": "경기",
     "city": "파주시",
     "type": "일반산단",
-    "total_area": 78000.0,
+    "total_area": 78290.0,
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
@@ -8650,7 +8650,7 @@
     "sale_rate": 100.0,
     "total_companies": 12,
     "operating_companies": 12,
-    "address": "경기도 파주시 파평면 금파리 536"
+    "address": "경기도 파주시 파평면 금파리 536번지 일원"
   },
   {
     "id": 283,
