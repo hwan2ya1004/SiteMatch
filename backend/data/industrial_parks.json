@@ -41734,11 +41734,13 @@
     "region": "경남",
     "city": "하동군",
     "type": "농공산단",
-    "total_area": 146000.0,
+    "total_area": 145335.0,
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 운송장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -41746,14 +41748,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": 34.944799,
-    "lng": 127.78378,
+    "lat": 34.944692,
+    "lng": 127.783001,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
     "operating_companies": 0,
-    "address": "경상남도 하동군 금성면 갈사리 204-1"
+    "address": "경상남도 하동군 금성면 갈사리 204-1번지 일원"
   },
   {
     "id": 1372,
