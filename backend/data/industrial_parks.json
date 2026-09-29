@@ -28795,11 +28795,13 @@
     "region": "전남",
     "city": "나주시",
     "type": "농공산단",
-    "total_area": 103000.0,
+    "total_area": 102642.0,
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "액상시유 및 기타 낙농제품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
