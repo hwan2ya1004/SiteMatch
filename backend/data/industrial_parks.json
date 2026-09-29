@@ -15426,7 +15426,7 @@
     "region": "충북",
     "city": "진천군",
     "type": "일반산단",
-    "total_area": 118000.0,
+    "total_area": 118240.1,
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
@@ -15441,14 +15441,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": 36.790828,
-    "lng": 127.437657,
+    "lat": 36.792306,
+    "lng": 127.437167,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
     "operating_companies": 2,
-    "address": "충청북도 진천군 문백면 태락리 737"
+    "address": "충청북도 진천군 문백면 태락리 731번지 일원"
   },
   {
     "id": 510,
