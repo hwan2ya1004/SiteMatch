@@ -840,14 +840,12 @@
     "region": "부산",
     "city": "기장군",
     "type": "일반산단",
-    "total_area": 83000.0,
+    "total_area": 83411.0,
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "기초 의약 물질 제조업",
-      "소주 제조업",
-      "강관 제조업"
+      "소주 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -871,11 +869,15 @@
     "region": "부산",
     "city": "기장군",
     "type": "일반산단",
-    "total_area": 46000.0,
+    "total_area": 46308.0,
     "available_area": 0.0,
     "vacancy_rate": 33.3,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "의료용 물질 및 의약품 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
