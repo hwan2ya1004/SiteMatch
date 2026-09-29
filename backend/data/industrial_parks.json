@@ -9322,7 +9322,7 @@
     "region": "경기",
     "city": "포천시",
     "type": "일반산단",
-    "total_area": 141000.0,
+    "total_area": 140125.0,
     "available_area": 0.0,
     "vacancy_rate": 7.1,
     "rent_per_sqm": null,
@@ -9340,14 +9340,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": 37.811106,
-    "lng": 127.193505,
+    "lat": 37.811683,
+    "lng": 127.192781,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
     "operating_companies": 13,
-    "address": "경기도 포천시 가산면 금현리 1159"
+    "address": "경기도 포천시 가산면 금현리 1173번지 일원"
   },
   {
     "id": 306,
