@@ -1894,8 +1894,8 @@
     "region": "대구",
     "city": "북구",
     "type": "일반산단",
-    "total_area": 1193000.0,
-    "available_area": 165000.0,
+    "total_area": 1193352.0,
+    "available_area": 172020.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
     "industries": [
@@ -1915,11 +1915,11 @@
     "lat": 35.920652,
     "lng": 128.620169,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "조성중",
-    "sale_rate": 52.31,
+    "dev_status": "완료",
+    "sale_rate": 73.75,
     "total_companies": 0,
     "operating_companies": 0,
-    "address": "대구광역시 북구 검단동 1802"
+    "address": "대구광역시 북구 검단동 1675번지 일원"
   },
   {
     "id": 65,
