@@ -13201,13 +13201,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 38.329335,
+    "lng": 128.522311,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 95.65,
     "total_companies": 25,
-    "operating_companies": 17
+    "operating_companies": 17,
+    "address": "강원특별자치도 고성군 죽왕면 오호리 278번지 일원"
   },
   {
     "id": 438,
@@ -14176,13 +14177,14 @@
     "subsidy": null,
     "contact": "033-680-3735",
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 38.326105,
+    "lng": 128.517962,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 고성군 죽왕면 인정리 923-8번지 일원"
   },
   {
     "id": 469,
@@ -39987,13 +39989,14 @@
     "subsidy": null,
     "contact": "055-211-3214",
     "website": null,
-    "lat": 35.032412,
-    "lng": 128.483491,
+    "lat": 35.032529,
+    "lng": 128.4838,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 고성군 동해면 양촌리 산9-7번지 일원"
   },
   {
     "id": 1315,
