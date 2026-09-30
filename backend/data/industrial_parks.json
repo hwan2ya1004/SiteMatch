@@ -6052,7 +6052,12 @@
     "available_area": 0.0,
     "vacancy_rate": 18.8,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "목재 및 나무제품 제조업",
+      "화학물질 및 화학제품 제조업",
+      "기타 기계 및 장비 제조업",
+      "기타 제품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -6060,13 +6065,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.07345,
+    "lng": 127.492183,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "경기도 안성시 일죽면 금산리 일원"
   },
   {
     "id": 198,
@@ -20331,7 +20337,10 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "고무 및 플라스틱제품 제조업",
+      "창고 및 운송관련 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -20339,13 +20348,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.117042,
+    "lng": 127.527092,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청남도 금산군 제원면 수당리·명암리 일원"
   },
   {
     "id": 678,
@@ -21476,7 +21486,9 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -21484,13 +21496,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.179034,
+    "lng": 127.469062,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 금산군 추부면 추정리 268번지 일원"
   },
   {
     "id": 719,
