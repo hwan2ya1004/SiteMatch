@@ -36732,13 +36732,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.294509,
+    "lng": 128.800998,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 37,
-    "operating_companies": 37
+    "operating_companies": 37,
+    "address": "경상남도 김해시 한림면 명동리 1375번지 일원"
   },
   {
     "id": 1202,
@@ -38226,30 +38227,33 @@
     "vacancy_rate": 15.7,
     "rent_per_sqm": null,
     "industries": [
-      "기계부품",
-      "자동차부품",
-      "항공부품"
+      "의료용 물질 및 의약품 제조업",
+      "금속가공제품 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학기기 및 시계 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업",
+      "태양력 발전업",
+      "부동산업",
+      "연구개발업"
     ],
-    "logistics": [
-      "남해고속도로 김해JC 10분",
-      "부산신항 30분"
-    ],
-    "features": [
-      "부산·창원 배후 기계부품 클러스터",
-      "항공부품 특화지구 인접"
-    ],
+    "logistics": [],
+    "features": [],
     "monthly_inquiries": 0,
-    "description": "부산·창원 산업벨트와 연계된 기계·자동차부품 클러스터입니다. 항만 접근성이 좋아 수출형 부품기업에 적합합니다.",
-    "subsidy": "경남도 뿌리기업 지원금 최대 2억원, 김해시 이전 보조금",
-    "contact": "070-8895-7793",
-    "website": "https://www.kicox.or.kr",
-    "lat": 35.2285,
-    "lng": 128.8894,
+    "description": null,
+    "subsidy": null,
+    "contact": null,
+    "website": null,
+    "lat": 35.216218,
+    "lng": 128.829249,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 159,
-    "operating_companies": 134
+    "operating_companies": 134,
+    "address": "경상남도 김해시 주촌면 망덕리·농소리 일원"
   },
   {
     "id": 1251,
@@ -38549,7 +38553,7 @@
   },
   {
     "id": 1261,
-    "name": "가산",
+    "name": "김해가산일반산업단지",
     "region": "경남",
     "city": "김해시",
     "type": "일반산단",
@@ -39382,11 +39386,14 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "구조용 금속 판제품 및 공작물 제조업",
-      "그 외 기타 분류 안된 금속 가공 제품 제조업",
-      "자동차용 금속 압형제품 제조업",
-      "산업용 냉장 및 냉동 장비 제조업",
-      "태양력 발전업"
+      "식료품 제조업",
+      "고무 및 플라스틱제품 제조업",
+      "비금속 광물제품 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업"
     ],
     "logistics": [],
     "features": [],
