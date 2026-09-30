@@ -24653,13 +24653,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.97676,
+    "lng": 127.084858,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 81.13,
     "total_companies": 222,
-    "operating_companies": 134
+    "operating_companies": 134,
+    "address": "전북특별자치도 익산시 왕궁면 일원"
   },
   {
     "id": 822,
@@ -24684,13 +24685,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.97676,
+    "lng": 127.084858,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "전북특별자치도 익산시 왕궁면 일원"
   },
   {
     "id": 823,
