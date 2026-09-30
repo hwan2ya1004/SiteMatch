@@ -2897,7 +2897,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2514,
-    "operating_companies": 2101
+    "operating_companies": 2101,
+    "address": "전남광주통합특별시 북구 대촌동·연제동·신용동 및 광산구 비아동 일원"
   },
   {
     "id": 95,
@@ -2935,7 +2936,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 북구 연제동·신용동 일원"
   },
   {
     "id": 96,
