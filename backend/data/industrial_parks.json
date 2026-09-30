@@ -24537,13 +24537,14 @@
     "subsidy": "전북도 기업 유치 지원금 최대 10억원, 군산시 입주 기업 임대료 50% 지원 3년",
     "contact": "1688-7277",
     "website": "https://www.kicox.or.kr",
-    "lat": 35.9676,
-    "lng": 126.7368,
+    "lat": 35.974084,
+    "lng": 126.636525,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 208,
-    "operating_companies": 175
+    "operating_companies": 175,
+    "address": "전북특별자치도 군산시 소룡동 일원"
   },
   {
     "id": 818,
@@ -24596,13 +24597,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.974084,
+    "lng": 126.636525,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 90.59,
     "total_companies": 55,
-    "operating_companies": 53
+    "operating_companies": 53,
+    "address": "전북특별자치도 군산시 소룡동 일원(군산자유무역지역)"
   },
   {
     "id": 820,
