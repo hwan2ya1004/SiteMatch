@@ -31156,13 +31156,14 @@
     "subsidy": "경북도 기업 유치 지원금 최대 5억원, 구미시 입주 기업 세금 감면 5년",
     "contact": "070-8895-7705",
     "website": "https://www.kicox.or.kr",
-    "lat": 36.1195,
-    "lng": 128.3446,
+    "lat": 36.101717,
+    "lng": 128.378922,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 70.91,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 구미시 및 칠곡군 일원 (구미시 공단동 일대)"
   },
   {
     "id": 1030,
