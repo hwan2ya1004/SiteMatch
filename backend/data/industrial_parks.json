@@ -14927,13 +14927,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.983232,
+    "lng": 127.582377,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "충청북도 음성군 금왕읍 내송리·오선리 일원"
   },
   {
     "id": 493,
