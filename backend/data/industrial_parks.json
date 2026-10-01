@@ -12027,14 +12027,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.754113,
+    "lng": 127.565494,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
     "operating_companies": 1,
-    "address": "강원특별자치도 춘천시 남면 가정리 일원"
+    "address": "강원특별자치도 춘천시 남면 가정리 1256번지 일원"
   },
   {
     "id": 394,
