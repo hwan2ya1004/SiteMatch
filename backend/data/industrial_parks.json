@@ -32857,22 +32857,27 @@
     "available_area": 13000.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속가공제품 제조업",
+      "기타 운송장비 제조업",
+      "1차 금속 제조업",
+      "연구개발업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
-    "description": null,
+    "description": "2025.12.22 경주시 공고 제2025-264호에 따라 실시계획 승인 및 사업시행자 지정이 취소됨(산지복구비 약 60억원 미납 등 조건 미이행). 산업단지 지정 자체는 유지되나 현재 사업시행자가 없어 개발이 사실상 중단된 상태.",
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": 35.700919,
-    "lng": 129.459527,
+    "lat": 35.699971,
+    "lng": 129.460371,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 69.77,
     "total_companies": 0,
     "operating_companies": 0,
-    "address": "경상북도 경주시 양남면 나아리 산 71-1"
+    "address": "경상북도 경주시 양남면 나아리 산67번지 일원"
   },
   {
     "id": 1082,
