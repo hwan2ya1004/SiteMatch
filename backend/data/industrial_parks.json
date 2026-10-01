@@ -12017,7 +12017,9 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "의료용 물질 및 의약품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -12031,7 +12033,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "강원특별자치도 춘천시 남면 가정리 일원"
   },
   {
     "id": 394,
