@@ -16,6 +16,7 @@ from typing import Dict, Optional
 
 from database import get_db, IndustrialPark, MatchingHistory, VacancySnapshot, ParkVacancySnapshot, ParkInquiry
 from data.national_stats import get_national_park_stats
+from services.park_names import full_park_name
 
 router = APIRouter(prefix="/api", tags=["dashboard"])
 
@@ -205,6 +206,7 @@ def get_parks(db: Session = Depends(get_db)):
         result.append({
             "id": p.id,
             "name": p.name,
+            "full_name": full_park_name(p.name, p.type),
             "city": p.city,
             "region": p.region,
             "type": p.type or "",
@@ -389,6 +391,7 @@ def list_parks(
         result.append({
             "id": p.id,
             "name": p.name,
+            "full_name": full_park_name(p.name, p.type),
             "city": p.city,
             "region": p.region,
             "type": p.type,

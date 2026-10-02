@@ -29,6 +29,17 @@ class ChatRequest(BaseModel):
     session_id: Optional[str] = "default"
 
 
+# Groq 무료 티어는 하루 토큰 한도(TPD)가 있어 다 쓰면 429가 난다 — 원문 에러(조직 ID·결제 안내 포함)를
+# 그대로 보여주지 않고 사용자에게 이해할 수 있는 안내로 바꾼다.
+RATE_LIMIT_MSG = ("지금은 AI 상담 이용량이 많아 잠시 답변할 수 없습니다. 잠시 후 다시 질문해 주세요. "
+                  "단지 추천은 상단 **AI 매칭** 메뉴에서 계속 이용하실 수 있습니다.")
+
+
+def _is_rate_limited(e: Exception) -> bool:
+    s = str(e)
+    return "429" in s or "rate_limit" in s.lower()
+
+
 @router.post("/api/chat")
 async def chat_endpoint(req: ChatRequest, db: Session = Depends(get_db)):
     """일반 HTTP 챗봇 응답"""
@@ -41,6 +52,8 @@ async def chat_endpoint(req: ChatRequest, db: Session = Depends(get_db)):
     try:
         reply = svc.chat(messages)
     except Exception as e:
+        if _is_rate_limited(e):
+            return {"reply": RATE_LIMIT_MSG}
         raise HTTPException(status_code=500, detail=f"챗봇 오류: {str(e)}")
 
     # 대화 이력 저장
@@ -103,7 +116,7 @@ async def websocket_chat(websocket: WebSocket):
             except Exception as e:
                 await websocket.send_text(json.dumps({
                     "type": "error",
-                    "content": f"응답 생성 중 오류가 발생했습니다: {str(e)}"
+                    "content": RATE_LIMIT_MSG if _is_rate_limited(e) else f"응답 생성 중 오류가 발생했습니다: {str(e)}"
                 }))
 
             # 스트리밍 완료 신호

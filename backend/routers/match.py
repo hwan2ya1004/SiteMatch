@@ -14,6 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from database import get_db, MatchingHistory
 from services.embedding import get_embedding_service
+from services.park_names import full_park_name
 
 router = APIRouter(prefix="/api", tags=["matching"])
 
@@ -148,6 +149,7 @@ async def run_match(req: MatchRequest, db: Session = Depends(get_db)):
             "rank": i + 1,
             "id": park.get("id"),
             "name": park.get("name", ""),
+            "full_name": full_park_name(park.get("name"), park.get("type")),
             "region": park.get("region", ""),
             "city": park.get("city", ""),
             "score": r["score"],

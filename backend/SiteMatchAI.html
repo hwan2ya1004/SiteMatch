@@ -943,7 +943,7 @@ function renderMapList(parks) {
 
   document.getElementById('map-list').innerHTML = items.map(({ p, d }) => `
     <div class="map-list-item" onclick="selectPark(${p.id})">
-      <div class="map-list-name">${escapeHtml(p.name)}</div>
+      <div class="map-list-name">${escapeHtml(parkName(p))}</div>
       <div class="map-list-sub">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))} · 가용면적 ${escapeHtml(p.available_area)}${d != null ? ` · ${d < 1 ? Math.round(d * 1000) + 'm' : d.toFixed(1) + 'km'}` : ''}</div>
       <div class="map-list-tags">
         ${p.type ? `<span class="map-badge type">${escapeHtml(p.type)}</span>` : ''}
@@ -958,7 +958,7 @@ function filterMapList() {
   const q = document.getElementById('map-search').value.trim().toLowerCase();
   const onlyAvailable = document.getElementById('map-filter-available').checked;
   let filtered = window.allParks || [];
-  if (q) filtered = filtered.filter(p => p.name.toLowerCase().includes(q));
+  if (q) filtered = filtered.filter(p => parkName(p).toLowerCase().includes(q) || p.name.toLowerCase().includes(q));
   if (onlyAvailable) filtered = filtered.filter(p => p.move_in_status === '입주 가능');
   renderMapList(filtered);
   renderParksMap(filtered);
@@ -990,7 +990,7 @@ function renderParkDetail(p) {
         <div id="map-detail-photo">사진 불러오는 중...</div>
         <button id="map-detail-photo-expand" onclick="openRoadview(${p.id})">🔍 크게 보기</button>
       </div>` : ''}
-      <div class="map-detail-name">${escapeHtml(p.name)}</div>
+      <div class="map-detail-name">${escapeHtml(parkName(p))}</div>
       <div class="map-detail-loc">${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}${p.address ? ' · ' + escapeHtml(p.address) : ''}</div>
       <div class="map-list-tags" style="margin-bottom:10px">
         ${p.type ? `<span class="map-badge type">${escapeHtml(p.type)}</span>` : ''}
@@ -1009,7 +1009,7 @@ function renderParkDetail(p) {
       <div class="map-detail-actions">
         ${p.lat && p.lng ? `<button onclick="openDirections(${p.id})">🧭 길찾기</button>` : ''}
         ${p.website ? `<a href="${escapeHtml(p.website)}" target="_blank" rel="noopener noreferrer">🔗 홈페이지</a>` : ''}
-        <button onclick="goChat('${escapeHtml(p.name).replace(/'/g, "\\'")}')">💬 챗봇에 물어보기</button>
+        <button onclick="goChat('${escapeHtml(parkName(p)).replace(/'/g, "\\'")}', '${escapeHtml(p.city || '').replace(/'/g, "\\'")}')">💬 챗봇에 물어보기</button>
       </div>
     </div>`;
   loadParkPhone(p.id); // 지도 상세 패널에는 전화번호만 — 공식 문서 목록은 안 보여줘도 된다는 요청
@@ -1093,7 +1093,7 @@ function openRoadview(parkId) {
     alert('카카오맵 SDK를 아직 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
     return;
   }
-  document.getElementById('roadview-title').textContent = `${p.name} - 로드뷰`;
+  document.getElementById('roadview-title').textContent = `${parkName(p)} - 로드뷰`;
   document.getElementById('roadview-empty').style.display = 'none';
   document.getElementById('roadview-el').style.display = 'block';
   document.getElementById('roadview-modal').classList.add('open');
@@ -1326,7 +1326,7 @@ function renderResults(results, ind, ar) {
     <div class="result-row1">
       <div>
         <div class="result-rank">${i===0?'★ 최우선 추천':'#'+r.rank+' 추천'}</div>
-        <div class="result-name">${r.name}${devStatusBadge(r.dev_status)}${moveInBadge(r.move_in_status)}</div>
+        <div class="result-name">${escapeHtml(parkName(r))}${devStatusBadge(r.dev_status)}${moveInBadge(r.move_in_status)}</div>
         <div class="result-region">${[r.region, r.city].filter(Boolean).join(' ')}</div>
         ${r.address ? `<div style="font-size:12px;color:var(--text-hint);margin-top:1px">${r.address}</div>` : ''}
       </div>
@@ -1355,7 +1355,7 @@ function renderResults(results, ind, ar) {
     </div>` : ''}
     <div id="park-docs-${r.id}" class="park-docs" style="display:none"></div>
     <div class="result-actions">
-      <button class="btn-primary" onclick="goChat('${r.name}')">챗봇에서 상세 문의</button>
+      <button class="btn-primary" onclick="goChat('${escapeHtml(parkName(r)).replace(/'/g, "\\'")}', '${escapeHtml(r.city || '').replace(/'/g, "\\'")}')">챗봇에서 상세 문의</button>
     </div>
   </div>`;
   }).join('');
@@ -1392,6 +1392,9 @@ async function loadParkDocs(parkId) {
 }
 
 // ── 마크다운 → HTML (챗봇 답변이 **굵게**/목록/헤더 형식으로 오므로 예쁘게 렌더링) ──
+// DB 이름은 "나주"처럼 약칭이라 같은 시군의 "나주신도"·"나주혁신"과 헷갈린다 — 정식 명칭을 보여준다
+function parkName(p) { return (p && (p.full_name || p.name)) || ''; }
+
 function escapeHtml(s) {
   return String(s ?? '')
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -1621,9 +1624,10 @@ function quickAsk(q) {
   sendChat();
 }
 
-function goChat(name) {
+function goChat(name, city) {
   showPage('chat');
-  document.getElementById('chat-input').value = name + '의 입주 절차와 지원금 조건을 자세히 알려주세요.';
+  // 같은 이름의 단지가 다른 시군에도 있어(예: 남면 — 양주·춘천) 시군을 같이 보내 챗봇이 정확히 찾게 한다
+  document.getElementById('chat-input').value = (city ? city + ' ' : '') + name + '의 입주 절차와 지원금 조건을 자세히 알려주세요.';
   sendChat();
 }
 
@@ -1704,7 +1708,7 @@ function applyParksFilter() {
   const status = document.getElementById('pf-status').value;
 
   const filtered = parks.filter(p => {
-    if (search && !p.name.toLowerCase().includes(search)) return false;
+    if (search && !parkName(p).toLowerCase().includes(search) && !p.name.toLowerCase().includes(search)) return false;
     if (region) {
       if (region === NO_REGION_VALUE ? !!p.region : p.region !== region) return false;
     }
@@ -1889,7 +1893,7 @@ function myLocationSvgDataUrl() {
 // 앱/웹이 실제 경로 안내를 대신 처리하게 한다. 출발지가 있으면 바로 경로,
 // 없으면 도착지만 넘겨서 카카오맵이 알아서 현재 위치를 물어보게 한다.
 function directionsUrl(park) {
-  const dest = `${encodeURIComponent(park.name)},${park.lat},${park.lng}`;
+  const dest = `${encodeURIComponent(parkName(park))},${park.lat},${park.lng}`;
   if (myLocationLatLng) {
     const origin = `${encodeURIComponent('내 위치')},${myLocationLatLng.lat},${myLocationLatLng.lng}`;
     return `https://map.kakao.com/link/from/${origin}/to/${dest}`;
@@ -1921,7 +1925,7 @@ function ensureMarkerFor(p) {
   const info = new kakao.maps.InfoWindow({
     removable: true, // 정보창 우측 상단에 닫기(X) 버튼 표시
     content: `<div style="padding:8px 10px;font-size:12px;line-height:1.7;min-width:180px">`
-      + `<strong>${escapeHtml(p.name)}</strong><br>`
+      + `<strong>${escapeHtml(parkName(p))}</strong><br>`
       + `${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}<br>`
       + (p.vacancy_rate != null ? `운영률 ${(100 - p.vacancy_rate).toFixed(1)}% · ` : '')
       + `<span style="color:${p.bar_color};font-weight:600">${escapeHtml(p.status)}</span><br>`
@@ -2099,7 +2103,7 @@ function renderParksTable(parks) {
     <tr>
       <td>
         <div class="park-name-cell">
-          <span class="name-text">${escapeHtml(p.name)}</span>
+          <span class="name-text">${escapeHtml(parkName(p))}</span>
           <span class="chip-row">${typePill(p.type)}${statusChip(p)}</span>
         </div>
       </td>

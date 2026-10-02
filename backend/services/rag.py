@@ -10,7 +10,8 @@ from typing import List, AsyncGenerator, Dict, Optional
 from groq import Groq
 from langchain_groq import ChatGroq
 
-from services.park_docs import get_park_documents_text
+from services.park_docs import get_park_documents_text, _REGION_ABBR_TO_FULL
+from services.park_names import full_park_name
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS_PATH = os.path.join(BASE_DIR, "data", "subsidy_docs.txt")
@@ -79,6 +80,14 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
     제조업, 시멘트 제조업" 같은 예시를 스스로 지어내 같은 출처 표시로 답하면 안 됩니다.
     원문에 있는 항목만 그대로 나열하고, 이해를 돕는 일반적 설명을 덧붙이고 싶으면 그
     부분은 출처 표시 없이 "(참고로 일반적으로는 ~)"처럼 원문과 명확히 구분해서 쓰세요.
+11. "[전국·시도 공통 제도 안내]" 블록은 특정 단지의 고시가 아니라 모든 단지에 적용되는 일반
+    절차와 해당 시·도 지원정책입니다. 단지에 대한 질문에 이 블록을 쓸 때는 "(전국 공통 기준)"
+    또는 "(OO도 지원정책 기준)"처럼 단지 고시와 구분해 표시하고, 절대로 그 단지의 고시번호를
+    출처로 붙이지 마세요. 단지 고시문서에 절차·지원금 내용이 없더라도 이 블록에 있으면
+    "해당 정보는 없습니다"로 끝내지 말고 이 블록 내용으로 답하세요.
+12. 답변에서 단지를 가리킬 때는 "[... 실측 데이터]" 제목에 적힌 정식 명칭(예: 나주일반산업단지)을
+    쓰세요. "이름이 비슷한 다른 단지" 목록이 있으면 답변 끝에 한 줄로 "같은 지역의 다른 단지:
+    ..."라고 알려 사용자가 헷갈리지 않게 하세요.
 참고 문서:
 {context}
 """
@@ -108,6 +117,10 @@ _INDUSTRY_HINTS = (
     "철강", "비금속", "로봇", "디스플레이", "의료", "정밀", "전기장비", "운송장비", "제조업", "공장",
 )
 _AREA_RE = re.compile(r"\d[\d,\.]*\s*(㎡|m2|평)")
+# 단지 고시문이 아니라 전국 공통 자료(subsidy_docs.txt)에 답이 있는 질문 유형
+_GENERAL_TOPIC_RE = re.compile(
+    r"절차|지원금|보조금|지원|혜택|세금|세제|감면|인허가|허가|신청|서류|대출|융자|입주계약|공장등록|공장설립|기간"
+)
 
 RECOMMEND_ASK_MSG = (
     "추천을 위해 조건을 알려주세요. 희망 **지역**, **업종**, 필요한 **면적** 중 하나 이상이면 됩니다.\n\n"
@@ -267,20 +280,54 @@ class RAGService:
         "GW"(단지명)를 소문자로 "gw"라고 물어보면 못 찾던 버그가 실제로 있었음 — 영문 단지명이
         꽤 있어서(GW, I-FoodPark 등) 대소문자 구분 없이 비교해야 한다."""
         q = query.replace(" ", "").lower()
-        best = None
+        # 약칭("나주")과 정식 명칭("나주일반산업단지") 둘 다 비교한다 — 화면에는 정식 명칭이 보이므로
+        # 사용자는 그걸 그대로 입력한다. 더 길게(구체적으로) 일치한 단지를 고르고, 길이가 같으면
+        # ("남면" — 양주·춘천에 각각 있음) 질문에 시군 이름이 같이 나온 단지를 우선한다.
+        best, best_key = None, (0, 0)
         for p in self.parks:
             name = (p.get("name") or "").replace(" ", "").lower()
             if len(name) < 2:
                 continue
-            if name in q or q in name:
-                if not best or len(name) > len((best.get("name") or "").replace(" ", "")):
-                    best = p
+            full = full_park_name(p.get("name"), p.get("type")).replace(" ", "").lower()
+            hit = max((len(c) for c in {name, full} if c in q or q in c), default=0)
+            if not hit:
+                continue
+            city = (p.get("city") or "").replace(" ", "")
+            city_core = city[:-1] if len(city) > 2 else city
+            key = (hit, 1 if city_core and city_core in q else 0)
+            if key > best_key:
+                best, best_key = p, key
         return best
 
-    @staticmethod
-    def _format_park_facts(park: Dict) -> str:
+    def _find_park_in_conversation(self, messages: List[dict]) -> Optional[Dict]:
+        """마지막 질문에 단지명이 없으면("거기 지원금은?") 최근 사용자 발화에서 마지막으로
+        언급된 단지를 이어받는다 — 앞에서 고른 단지를 다음 질문에서 못 알아듣던 문제 방지."""
+        user_msgs = [m.get("content", "") for m in messages if m.get("role") == "user"]
+        for text in reversed(user_msgs[-4:]):
+            park = self._find_mentioned_park(text)
+            if park:
+                return park
+        return None
+
+    def _similar_parks(self, park: Dict) -> List[str]:
+        """같은 시군에서 약칭이 겹치는 단지("나주" vs "나주신도"·"나주혁신") 목록."""
+        name = (park.get("name") or "").replace(" ", "")
+        core = re.split(r"[\(\[]", name)[0]
+        out = []
+        for p in self.parks:
+            if p is park or p.get("city") != park.get("city"):
+                continue
+            other = (p.get("name") or "").replace(" ", "")
+            if core and (other.startswith(core) or core.startswith(re.split(r"[\(\[]", other)[0])):
+                out.append(full_park_name(p.get("name"), p.get("type")))
+        return out[:6]
+
+    def _format_park_facts(self, park: Dict) -> str:
         """단지 실측 데이터를 챗봇 컨텍스트용 텍스트로 정리한다."""
-        lines = [f"[{park.get('name')} 실측 데이터 — SiteMatch AI DB 기준]"]
+        lines = [f"[{full_park_name(park.get('name'), park.get('type'))} 실측 데이터 — SiteMatch AI DB 기준]"]
+        similar = self._similar_parks(park)
+        if similar:
+            lines.append(f"이름이 비슷한 다른 단지(같은 시군, 별개 단지): {', '.join(similar)}")
         loc = " ".join(x for x in [park.get("region"), park.get("city")] if x)
         if loc:
             lines.append(f"위치: {loc}")
@@ -316,10 +363,19 @@ class RAGService:
             lines.append(f"관리기관 연락처: {park['contact']}")
         return "\n".join(lines)
 
-    def _get_context(self, query: str) -> str:
+    def _general_block(self, park: Dict, query: str, max_chars: int) -> str:
+        """입주 절차·지원금·세제처럼 모든 단지에 공통인 제도 질문용 컨텍스트. 시도 정식 명칭을
+        검색어에 더해 해당 시도의 지원정책 문단이 위로 오게 한다."""
+        region = park.get("region") or ""
+        extra = " ".join([region] + _REGION_ABBR_TO_FULL.get(region, []))
+        ctx = _keyword_filter_context(self._docs_text, f"{query} {extra}", max_chars=max_chars)
+        return f"[전국·시도 공통 제도 안내 — 이 단지 고유 고시가 아님]\n{ctx}"
+
+    def _get_context(self, query: str, park: Optional[Dict] = None) -> str:
         """쿼리 관련 문서 검색 (키워드 필터링) + 질문에 등장한 특정 단지의 실측 데이터,
         그리고 그 단지의 관리기관 공식 고시문서(있으면)를 함께 제공."""
-        park = self._find_mentioned_park(query)
+        park = park or self._find_mentioned_park(query)
+        general_topic = bool(_GENERAL_TOPIC_RE.search(query))
 
         if park:
             # 특정 단지가 특정된 질문은, 그 단지 자체의 공식 문서가 전국 단위
@@ -344,19 +400,25 @@ class RAGService:
             # 8000토큰) 한도를 넘겨 요청 자체가 거부되므로, 전체 합이 비슷하게
             # 유지되도록 컨텍스트 쪽에서 줄였다.
             facts = self._format_park_facts(park)
+            # 절차·지원금 같은 공통 제도 질문이면 단지 고시문 예산을 줄이고 그만큼 공통 자료를 넣는다
+            # (TPM 한도 때문에 합계는 이전과 비슷하게 유지). 예전엔 고시문이 있으면 공통 자료를
+            # 통째로 뺐는데, 단지 정보시트에는 입주 절차·지원금이 없어서 "AI 매칭에서 추천한 나주의
+            # 입주 절차와 지원금"을 물으면 "문서에 없다"고만 답하는 문제가 있었다.
             official = get_park_documents_text(
-                park.get("region", ""), park.get("city", ""), park.get("name", ""), budget=6000
+                park.get("region", ""), park.get("city", ""), park.get("name", ""),
+                budget=3500 if general_topic else 6000,
             )
             if official:
-                facts += f"\n\n[{park.get('name')} 관리기관 공식 고시문서 발췌]\n{official}"
+                facts += f"\n\n[{full_park_name(park.get('name'), park.get('type'))} 관리기관 공식 고시문서 발췌]\n{official}"
+                if general_topic:
+                    return facts + "\n\n" + self._general_block(park, query, 2500)
                 # 그 단지의 공식 고시문서를 이미 확보했다면 전국 공통 참고자료
                 # (subsidy_docs.txt)는 붙이지 않는다 — 라벨을 붙여 구분해봐도
                 # LLM이 두 블록을 섞어 전국 공통 자료의 내용(예: 일반적인
                 # "입주제한업종 예시")을 그 단지의 공식 고시 출처로 잘못
                 # 인용하는 사례가 실제로 있었다. 아예 안 섞이게 원천 차단한다.
                 return facts
-            doc_context = _keyword_filter_context(self._docs_text, query, max_chars=500)
-            return facts + "\n\n" + doc_context
+            return facts + "\n\n" + self._general_block(park, query, 2500 if general_topic else 500)
 
         return _keyword_filter_context(self._docs_text, query)
 
@@ -420,7 +482,7 @@ class RAGService:
             else:
                 status = "입주 불가(가용면적 없음)"
             loc = " ".join(x for x in [park.get("region"), park.get("city")] if x)
-            lines.append(f"{i}. **{park.get('name')}** ({loc}) — {status}")
+            lines.append(f"{i}. **{full_park_name(park.get('name'), park.get('type'))}** ({loc}) — {status}")
             detail = [f"가용면적 {avail:,.0f}㎡"]
             if park.get("sale_rate") is not None:
                 detail.append(f"분양률 {park['sale_rate']:.1f}%")
@@ -449,7 +511,7 @@ class RAGService:
                 last_user_msg = msg.get("content", "")
                 break
 
-        context = self._get_context(last_user_msg)
+        context = self._get_context(last_user_msg, self._find_park_in_conversation(messages))
 
         # 대화 히스토리 구성
         history_text = ""
@@ -485,7 +547,7 @@ AI:"""
                 last_user_msg = msg.get("content", "")
                 break
 
-        context = self._get_context(last_user_msg)
+        context = self._get_context(last_user_msg, self._find_park_in_conversation(messages))
 
         history_text = ""
         for msg in messages[:-1]:
