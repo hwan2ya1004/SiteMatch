@@ -40379,21 +40379,27 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "자동차 및 트레일러 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "우편 및 통신업",
+      "컴퓨터 프로그래밍, 시스템 통합 및 관리업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
-    "description": null,
+    "description": "단지기본정보상 유치업종은 자동차및트레일러 제조업(덴소 입주에 따른 2014년 명칭·계획 변경), 유치업종계획표에는 전자부품·우편및통신업·컴퓨터프로그래밍(구 경남지능형홈산업 계획)이 기재되어 있어 두 내용을 모두 표시함.",
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.158935,
+    "lng": 128.551555,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 창원시 마산합포구 우산동 300번지 일원"
   },
   {
     "id": 1317,
