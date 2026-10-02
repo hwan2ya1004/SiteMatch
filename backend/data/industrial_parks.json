@@ -38135,7 +38135,13 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -38143,13 +38149,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.118238,
+    "lng": 128.781242,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 52,
-    "operating_companies": 52
+    "operating_companies": 52,
+    "address": "경상남도 창원시 진해구 남양동 일원"
   },
   {
     "id": 1243,
