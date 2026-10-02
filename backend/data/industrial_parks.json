@@ -30463,7 +30463,9 @@
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
     "industries": [
-      "농업 및 임업용 기계 제조업"
+      "기타 금속 가공제품 제조업",
+      "농업 및 임업용 기계 제조업",
+      "자동차 신품 부품 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -30472,14 +30474,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": 35.033126,
-    "lng": 126.850694,
+    "lat": 35.032164,
+    "lng": 126.846184,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 1,
     "operating_companies": 0,
-    "address": "전남광주통합특별시 나주시 남평읍 서산리 534"
+    "address": "전남광주통합특별시 나주시 남평읍 서산리 산13-1번지 일원"
   },
   {
     "id": 1000,
