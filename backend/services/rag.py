@@ -5,6 +5,7 @@ LangChain RAG + Groq 기반 챗봇 서비스
 import asyncio
 import os
 import re
+import time
 from typing import List, AsyncGenerator, Dict, Optional
 
 from groq import Groq
@@ -245,6 +246,20 @@ def _keyword_filter_context(docs_text: str, query: str, max_chars: int = 2200) -
     return context.strip() or docs_text[:min(1500, max_chars)]
 
 
+# 같은 첫 질문 답변 재사용 — "챗봇에서 상세 문의" 버튼은 단지별로 똑같은 질문을 보내므로, 대화의 첫
+# 질문이 같으면 저장해 둔 답을 돌려줘 Groq 일일 토큰 한도(TPD)를 아낀다. 단지 데이터는 하루 1회
+# 갱신되므로 6시간이면 충분히 최신이다. 이전 대화가 있는 질문은 맥락에 따라 답이 달라 저장하지 않는다.
+_CACHE_TTL_SEC = 6 * 3600
+_CACHE_MAX = 500
+
+
+def _cache_key(messages: List[dict]) -> Optional[str]:
+    if len(messages) != 1 or messages[0].get("role") != "user":
+        return None
+    key = re.sub(r"\s+", " ", messages[0].get("content", "")).strip().lower()
+    return key or None
+
+
 class RAGService:
     def __init__(self, api_key: str, parks: Optional[List[Dict]] = None):
         self.api_key = api_key
@@ -262,9 +277,25 @@ class RAGService:
             max_tokens=1500,
             reasoning_effort="low",  # gpt-oss는 추론 모델 — effort를 낮추지 않으면 토큰 예산을 "생각"에 다 씀
         )
+        self._answer_cache: Dict[str, tuple] = {}
         # 문서 로드 (시작 시 1회)
         self._docs_text = _load_docs()
         print(f"✅ RAG 챗봇 초기화 완료 (문서 {len(self._docs_text)}자 로드, 단지 {len(self.parks)}개 조회 가능)")
+
+    def cached_reply(self, messages: List[dict]) -> Optional[str]:
+        key = _cache_key(messages)
+        hit = self._answer_cache.get(key) if key else None
+        if hit and time.time() - hit[0] < _CACHE_TTL_SEC:
+            return hit[1]
+        return None
+
+    def _store_reply(self, messages: List[dict], reply: str) -> None:
+        key = _cache_key(messages)
+        if not key or not reply.strip():
+            return
+        if len(self._answer_cache) >= _CACHE_MAX:
+            self._answer_cache.pop(next(iter(self._answer_cache)))
+        self._answer_cache[key] = (time.time(), reply)
 
     def build_vectorstore(self):
         """호환성 유지용 — 실제로는 아무것도 하지 않음"""
@@ -527,7 +558,11 @@ class RAGService:
 사용자: {last_user_msg}
 AI:"""
 
+        cached = self.cached_reply(messages)
+        if cached is not None:
+            return cached
         response = self.llm.invoke(prompt)
+        self._store_reply(messages, response.content)
         return response.content
 
     async def chat_stream(self, messages: List[dict]) -> AsyncGenerator[str, None]:
@@ -539,6 +574,11 @@ AI:"""
         rec = await asyncio.to_thread(self._recommend, messages)
         if rec is not None:
             yield rec
+            return
+
+        cached = self.cached_reply(messages)
+        if cached is not None:
+            yield cached
             return
 
         last_user_msg = ""
@@ -569,10 +609,13 @@ AI:"""
             reasoning_effort="low",
             stream=True,
         )
+        parts = []
         for chunk in stream:
             delta = chunk.choices[0].delta.content
             if delta:
+                parts.append(delta)
                 yield delta
+        self._store_reply(messages, "".join(parts))
 
 
 # 싱글톤 인스턴스

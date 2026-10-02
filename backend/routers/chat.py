@@ -3,12 +3,14 @@ LangChain RAG 챗봇 라우터
 WebSocket /ws/chat → 실시간 스트리밍 응답
 POST /api/chat → 일반 응답
 """
+import asyncio
 import json
 import sys
 import os
+import time
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, HTTPException
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, HTTPException, Request
 from pydantic import BaseModel
 from typing import List, Optional
 from sqlalchemy.orm import Session
@@ -35,13 +37,26 @@ RATE_LIMIT_MSG = ("지금은 AI 상담 이용량이 많아 잠시 답변할 수 
                   "단지 추천은 상단 **AI 매칭** 메뉴에서 계속 이용하실 수 있습니다.")
 
 
+# 질문 사이 최소 간격 — 연달아 빠르게 질문하면 다음 질문은 남은 시간만큼 기다렸다가 AI를 호출한다.
+# (답을 천천히 보여주는 것만으로는 토큰이 줄지 않는다 — 요청 횟수를 줄여야 한도가 덜 소진된다.)
+# 저장된 답(같은 첫 질문)이 있으면 AI를 안 부르므로 기다리지 않는다.
+MIN_INTERVAL_SEC = 8
+_http_last_call: dict = {}
+
+
+async def _wait_turn(last_call: float) -> None:
+    wait = MIN_INTERVAL_SEC - (time.monotonic() - last_call)
+    if wait > 0:
+        await asyncio.sleep(wait)
+
+
 def _is_rate_limited(e: Exception) -> bool:
     s = str(e)
     return "429" in s or "rate_limit" in s.lower()
 
 
 @router.post("/api/chat")
-async def chat_endpoint(req: ChatRequest, db: Session = Depends(get_db)):
+async def chat_endpoint(req: ChatRequest, request: Request, db: Session = Depends(get_db)):
     """일반 HTTP 챗봇 응답"""
     svc = get_rag_service()
     if svc is None:
@@ -50,7 +65,11 @@ async def chat_endpoint(req: ChatRequest, db: Session = Depends(get_db)):
     messages = [{"role": m.role, "content": m.content} for m in req.messages]
 
     try:
-        reply = svc.chat(messages)
+        if svc.cached_reply(messages) is None:
+            client = f"{request.client.host if request.client else ''}:{req.session_id}"
+            await _wait_turn(_http_last_call.get(client, 0.0))
+            _http_last_call[client] = time.monotonic()
+        reply = await asyncio.to_thread(svc.chat, messages)
     except Exception as e:
         if _is_rate_limited(e):
             return {"reply": RATE_LIMIT_MSG}
@@ -82,6 +101,7 @@ async def websocket_chat(websocket: WebSocket):
     """WebSocket 실시간 스트리밍 챗봇"""
     await websocket.accept()
     svc = get_rag_service()
+    last_call = 0.0
 
     try:
         while True:
@@ -107,6 +127,9 @@ async def websocket_chat(websocket: WebSocket):
             # 스트리밍 응답
             full_reply = ""
             try:
+                if svc.cached_reply(messages) is None:
+                    await _wait_turn(last_call)
+                    last_call = time.monotonic()
                 async for chunk in svc.chat_stream(messages):
                     full_reply += chunk
                     await websocket.send_text(json.dumps({
