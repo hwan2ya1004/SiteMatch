@@ -37458,7 +37458,11 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 운송장비 제조업",
+      "태양력 발전업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
