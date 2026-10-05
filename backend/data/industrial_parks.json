@@ -13238,7 +13238,7 @@
   },
   {
     "id": 431,
-    "name": "당림",
+    "name": "당림산업단지(구 당림농공)",
     "region": "강원",
     "city": "춘천시",
     "type": "농공산단",
@@ -13247,7 +13247,7 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "두부 및 유사식품 제조업"
+      "식료품 제조업"
     ],
     "logistics": [],
     "features": [],
