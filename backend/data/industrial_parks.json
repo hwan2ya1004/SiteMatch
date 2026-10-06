@@ -40633,7 +40633,9 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속가공제품 제조업; 기계 및 가구 제외"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
