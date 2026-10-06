@@ -26163,7 +26163,15 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "섬유제품 제조업; 의복제외",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업",
+      "태양력 발전업",
+      "부동산 임대업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -26171,13 +26179,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.849208,
+    "lng": 126.864467,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 27,
-    "operating_companies": 27
+    "operating_companies": 27,
+    "address": "전북특별자치도 김제시 만경읍 대동리 1-1번지 일원"
   },
   {
     "id": 856,
