@@ -19707,11 +19707,7 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "원유 정제처리업",
-      "목재 포장용 상자, 드럼 및 유사용기 제조업",
-      "석유화학계 기초 화학물질 제조업",
-      "그 외 기타 일반목적용 기계 제조업",
-      "태양력 발전업"
+      "석유 정제품 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -20271,9 +20267,7 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "기타 기초 무기 화학물질 제조업",
-      "석유화학계 기초 화학물질 제조업",
-      "합성수지 및 기타 플라스틱 물질 제조업"
+      "화학물질 및 화학제품 제조업; 의약품 제외"
     ],
     "logistics": [],
     "features": [],
@@ -20288,7 +20282,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청남도 서산시 대산읍 대죽리 129-14번지 일원"
   },
   {
     "id": 660,
@@ -20681,7 +20676,10 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "창고 및 운송관련 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -21045,7 +21043,9 @@
     "available_area": 0.0,
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전기, 가스, 증기 및 공기조절 공급업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -21053,13 +21053,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.996759,
+    "lng": 126.362155,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 서산시 대산읍 독곶리 655번지 일원"
   },
   {
     "id": 688,
@@ -21651,7 +21652,10 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "금속가공제품 제조업; 기계 및 가구 제외"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -21659,13 +21663,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.989425,
+    "lng": 126.404295,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 서산시 대산읍 대죽리 일원"
   },
   {
     "id": 709,
@@ -21703,7 +21708,10 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "연구개발업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
