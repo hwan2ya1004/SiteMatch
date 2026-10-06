@@ -2063,7 +2063,10 @@
     "available_area": 70000.0,
     "vacancy_rate": 33.3,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "연구개발업",
+      "교육 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -2077,7 +2080,8 @@
     "dev_status": "완료",
     "sale_rate": 28.57,
     "total_companies": 3,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "대구광역시 동구 동내동 일원"
   },
   {
     "id": 67,
