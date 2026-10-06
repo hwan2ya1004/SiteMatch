@@ -33847,22 +33847,24 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "자동차 및 트레일러 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
-    "description": null,
+    "description": "2026.2.12 경주시 고시 제2026-32호에 따라 실시계획 승인 및 사업시행자 지정이 취소됨(대체산림조성비·산지복구비·생태계보전부담금 미납 등 조건 미이행). 산업단지 지정 자체는 유지되나 현재 사업시행자가 없어 개발이 사실상 중단된 상태.",
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": 35.855832,
-    "lng": 129.127864,
+    "lat": 35.859055,
+    "lng": 129.128273,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
     "operating_companies": 0,
-    "address": "경상북도 경주시 건천읍 대곡리 산 31-1"
+    "address": "경상북도 경주시 건천읍 대곡리 산37-1번지 일원"
   },
   {
     "id": 1098,
