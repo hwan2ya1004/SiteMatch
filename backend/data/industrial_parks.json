@@ -1716,7 +1716,14 @@
     "available_area": 0.0,
     "vacancy_rate": 3.1,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "섬유제품 제조업; 의복제외",
+      "컴퓨터 프로그래밍, 시스템 통합 및 관리업",
+      "연구개발업",
+      "전문 서비스업",
+      "건축기술, 엔지니어링 및 기타 과학기술 서비스업",
+      "기타 전문, 과학 및 기술 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -1724,13 +1731,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.882109,
+    "lng": 128.545338,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 127,
-    "operating_companies": 123
+    "operating_companies": 123,
+    "address": "대구광역시 서구 비산동, 평리동, 이현동 일원"
   },
   {
     "id": 57,
