@@ -38129,11 +38129,13 @@
     "region": "경남",
     "city": "통영시",
     "type": "일반산단",
-    "total_area": 1017000.0,
+    "total_area": 902677.0,
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 운송장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -38147,7 +38149,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 통영시 광도면 덕포리 산129번지 일원 및 공유수면 일원"
   },
   {
     "id": 1216,
