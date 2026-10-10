@@ -40015,11 +40015,16 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "기타 운송장비 제조업",
+      "태양력 발전업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
-    "description": null,
+    "description": "2026.8.13 사천시 고시 제2026-192호에 따라 사업시행자(대진산업단지(주) 외 3개사, 수탁자 교보자산신탁) 지정이 취소됨(개발기간 내 사업 미완료, 재무능력 등 고려 시 사업 계속 곤란). 산업단지 지정 자체는 유지되나 현재 사업시행자가 없어 개발이 사실상 중단된 상태(조성률 37%).",
     "subsidy": null,
     "contact": null,
     "website": null,
