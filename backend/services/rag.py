@@ -3,6 +3,7 @@ LangChain RAG + Groq 기반 챗봇 서비스
 임베딩/FAISS 없이 subsidy_docs.txt를 직접 컨텍스트로 활용 (Render 무료 플랜 최적화)
 """
 import asyncio
+import json
 import os
 import re
 import time
@@ -13,6 +14,15 @@ from langchain_groq import ChatGroq
 
 from services.park_docs import get_park_documents_text, _REGION_ABBR_TO_FULL
 from services.park_names import full_park_name
+
+# 단지 안내서의 관리기관·고시문 문의처(scripts/build_park_management.py로 생성). 문서로
+# 확인된 단지만 들어 있다 — 없는 단지는 지어내지 않고 그냥 생략한다.
+try:
+    with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "park_management.json"),
+              encoding="utf-8") as _f:
+        _PARK_MANAGEMENT = json.load(_f).get("parks", {})
+except (OSError, ValueError):
+    _PARK_MANAGEMENT = {}
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS_PATH = os.path.join(BASE_DIR, "data", "subsidy_docs.txt")
@@ -392,6 +402,12 @@ class RAGService:
             lines.append(f"지원금: {park['subsidy']}")
         if park.get("contact"):
             lines.append(f"관리기관 연락처: {park['contact']}")
+        mgmt = _PARK_MANAGEMENT.get(str(park.get("id"))) or {}
+        if mgmt.get("org"):
+            lines.append(f"관리기관(단지 안내서 기재): {mgmt['org']}")
+        if mgmt.get("contact"):
+            c = mgmt["contact"]
+            lines.append(f"문의처(고시문에 적힌 담당 부서): {c['dept']} {c['phone']}")
         return "\n".join(lines)
 
     def _general_block(self, park: Dict, query: str, max_chars: int) -> str:
@@ -437,7 +453,7 @@ class RAGService:
             # 입주 절차와 지원금"을 물으면 "문서에 없다"고만 답하는 문제가 있었다.
             official = get_park_documents_text(
                 park.get("region", ""), park.get("city", ""), park.get("name", ""),
-                budget=3500 if general_topic else 6000,
+                budget=3500 if general_topic else 6000, park_type=park.get("type"),
             )
             if official:
                 facts += f"\n\n[{full_park_name(park.get('name'), park.get('type'))} 관리기관 공식 고시문서 발췌]\n{official}"

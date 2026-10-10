@@ -127,6 +127,28 @@ _MANAGEMENT_ORG_OVERRIDES = {
 }
 
 
+# 단지 안내서의 "관리기관" 칸과 고시문에 적힌 문의처(부서·전화번호) —
+# scripts/build_park_management.py가 공식 문서에서 뽑아 만든 파일. 문서에서 확인된
+# 단지만 들어 있고, 없는 단지는 아래 법상 관리권자 안내로 대신한다.
+_MANAGEMENT_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "park_management.json")
+
+
+def _load_management() -> Dict[str, dict]:
+    try:
+        with open(_MANAGEMENT_PATH, encoding="utf-8") as f:
+            return json.load(f).get("parks", {})
+    except (OSError, ValueError):
+        return {}
+
+
+_PARK_MANAGEMENT = _load_management()
+
+
+def _management_contact(park: "IndustrialPark") -> Optional[dict]:
+    """고시문에 실제로 적힌 담당부서·전화번호(없으면 None — 지어내지 않음)."""
+    return (_PARK_MANAGEMENT.get(str(park.id)) or {}).get("contact")
+
+
 # 산업집적법 제30조상 "관리권자" 직함. region은 국가법령정보센터 통계 표기(약칭)라
 # 특별시·광역시·특별자치시는 시장, 도·특별자치도는 도지사가 맞게 매핑해둔다.
 _REGION_HEAD_TITLE = {
@@ -143,6 +165,7 @@ _REGION_HEAD_TITLE = {
 def _management_org(park: "IndustrialPark") -> str:
     """산업단지 관리기관을 산업집적법 제30조 기준으로 안내한다.
     - 개별 산단 단위로 실제 확인된 경우(_MANAGEMENT_ORG_OVERRIDES)는 그 기관명을 그대로 사용
+    - 단지 안내서 "관리기관" 칸에서 확인된 경우(data/park_management.json)도 그대로 사용
     - 국가산단은 관리업무가 실질적으로 한국산업단지공단(KICOX)에 위탁되어 있어 전국 공통으로 확신 가능
     - 일반산단·도시첨단산단의 법상 관리권자는 "시·도지사"(광역 단위)이지 시청(기초지자체)이 아님
     - 농공단지의 법상 관리권자는 "시장·군수·구청장"(기초지자체 단위)
@@ -152,6 +175,9 @@ def _management_org(park: "IndustrialPark") -> str:
     override = _MANAGEMENT_ORG_OVERRIDES.get((park.name, park.city))
     if override:
         return override
+    documented = (_PARK_MANAGEMENT.get(str(park.id)) or {}).get("org")
+    if documented:
+        return documented
     if park.type == "국가산단":
         return "한국산업단지공단(KICOX)"
     if park.type == "농공산단":
@@ -218,6 +244,7 @@ def get_parks(db: Session = Depends(get_db)):
             # 정리 — match.py의 move_in_status()와 동일 기준(조성상태 미완료 또는 가용면적 0이면 불가)
             "move_in_status": "입주 가능" if (p.dev_status or "완료") == "완료" and p.available_area and p.available_area > 0 else "입주 불가",
             "management_org": _management_org(p),
+            "management_contact": _management_contact(p),
             # 조성중/미개발 단지는 등록된 입주기업 자체가 없어 운영률이 확정적으로
             # 0%다(사용자 확인) — "데이터 없음"으로 두지 않고 명확히 0%로 보여준다.
             # 처음엔 "실측 공실률이 있으면 그대로 쓴다"는 예외를 뒀는데, 실제로
@@ -417,11 +444,11 @@ def get_park_documents(park_id: int, db: Session = Depends(get_db)):
     if not park:
         raise HTTPException(status_code=404, detail="해당 산업단지를 찾을 수 없습니다.")
 
-    docs = list_park_documents(park.region or "", park.city or "", park.name or "")
+    docs = list_park_documents(park.region or "", park.city or "", park.name or "", park.type)
     for d in docs:
         d["url"] = f"/api/parks/{park_id}/documents/{d['filename']}"
     # 공식 문서에 적힌 문의처 전화번호 — 없으면 None(지어내지 않음).
-    phone = find_park_phone(park.region or "", park.city or "", park.name or "")
+    phone = find_park_phone(park.region or "", park.city or "", park.name or "", park.type)
     return {"park_id": park_id, "park_name": park.name, "documents": docs, "phone": phone}
 
 
@@ -436,7 +463,7 @@ def download_park_document(park_id: int, filename: str, db: Session = Depends(ge
     if not park:
         raise HTTPException(status_code=404, detail="해당 산업단지를 찾을 수 없습니다.")
 
-    path = resolve_document_path(park.region or "", park.city or "", park.name or "", filename)
+    path = resolve_document_path(park.region or "", park.city or "", park.name or "", filename, park.type)
     if not path or not path.is_file():
         raise HTTPException(status_code=404, detail="해당 문서를 찾을 수 없습니다.")
 

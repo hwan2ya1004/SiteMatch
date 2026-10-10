@@ -1003,6 +1003,7 @@ function renderParkDetail(p) {
       <div class="map-detail-row"><span>운영률</span><span>${p.vacancy_rate != null ? (100 - p.vacancy_rate).toFixed(1) + '%' : '집계 안됨'}</span></div>
       <div class="map-detail-row"><span>관리기관</span><span>${escapeHtml(p.management_org || '정보없음')}</span></div>
       ${p.contact ? `<div class="map-detail-row"><span>연락처</span><span>${escapeHtml(p.contact)}</span></div>` : ''}
+      ${p.management_contact ? `<div class="map-detail-row"><span>문의처</span><span>${escapeHtml(p.management_contact.dept)} <a href="tel:${escapeHtml(p.management_contact.phone)}">${escapeHtml(p.management_contact.phone)}</a><br><span style="font-size:11px;color:var(--text-sub)">고시문에 적힌 담당 부서</span></span></div>` : ''}
       ${p.description ? `<div style="font-size:13px;color:var(--text-sub);margin-top:10px;line-height:1.6">${escapeHtml(p.description)}</div>` : ''}
       ${p.subsidy ? `<div class="subsidy-box" style="margin-top:10px">${escapeHtml(p.subsidy)}</div>` : ''}
       <div id="park-phone-${p.id}" style="display:none;margin-top:10px"></div>

@@ -78,24 +78,79 @@ def _core_name(name_n: str) -> str:
 _CITY_ALIASES = {("인천", "서구"): ("서해구", "검단구")}
 
 
-def _find_name_match(parent: Path, name_n: str) -> Optional[Path]:
+_BRACKET_RE = re.compile(r"\[([^\]]*)\]|\(([^)]*)\)")
+_LOOSE_SUFFIXES = _GENERIC_SUFFIXES + ("도시첨단",)
+# 괄호 속이 이런 설명이면 단지를 가르는 정보가 아니라 덧붙인 표기라 버린다:
+# 옛 이름([구다산], (구 다산), (구:북이)), 경제자유구역·재생사업지구·연구개발특구 소속 표기.
+_NOTE_RE = re.compile(r"경제자유구역|재생사업지구|연구개발특구")
+
+
+def _loose_key(name_n: str, city_core: str):
+    """(기본이름, 구분용 괄호들). 폴더명은 "고령1일반산업단지[구다산]", DB는 "고령1(구 다산)"처럼
+    같은 단지를 다르게 적은 경우가 많아, 설명용 괄호·끝의 일반 명칭·앞에 붙은 시군 이름
+    ("안성금산" → "금산")을 걷어내고 비교한다. (외국인)·(자유무역)·(1단계) 같은 구분용 괄호는
+    남겨서 "군산(자유무역)"이 군산국가산단 폴더에 붙는 일이 없게 한다."""
+    quals = []
+    for m in _BRACKET_RE.finditer(name_n):
+        inner = m.group(1) if m.group(1) is not None else m.group(2)
+        # 공백을 지운 뒤라 "(구 다산)"도 "구다산"이 된다 — "구미외국인" 같은 진짜 이름만 예외
+        is_note = _NOTE_RE.search(inner) or (inner.startswith("구") and not inner.startswith("구미"))
+        if inner and not is_note:
+            quals.append(inner)
+    base = _BRACKET_RE.sub("", name_n)
+    stripped = True
+    while stripped:
+        stripped = False
+        for suf in _LOOSE_SUFFIXES:
+            if base.endswith(suf) and len(base) > len(suf):
+                base = base[: -len(suf)]
+                stripped = True
+                break
+    if city_core and base.startswith(city_core) and len(base) > len(city_core):
+        base = base[len(city_core):]
+    return base, tuple(sorted(quals))
+
+
+# 단지 유형 → 폴더명에 들어가는 유형 표기. 같은 시군에 이름이 같은 일반산단과 농공단지가
+# 따로 있는 경우(창녕 대합, 음성 금왕, 김해 나전 등) 일반산단이 농공단지 폴더에 붙지 않게 한다.
+_TYPE_WORDS = {"농공산단": "농공", "일반산단": "일반", "국가산단": "국가", "도시첨단산단": "도시첨단"}
+
+
+def _type_ok(folder_n: str, park_type: Optional[str]) -> bool:
+    """폴더명에 다른 유형 표기만 있고 이 단지 유형 표기는 없으면 다른 단지 폴더로 본다."""
+    own = _TYPE_WORDS.get(park_type or "")
+    if not own:
+        return True
+    if own in folder_n:
+        return True
+    return not any(w in folder_n for t, w in _TYPE_WORDS.items() if t != park_type)
+
+
+def _find_name_match(parent: Path, name_n: str, city_core: str = "", park_type: Optional[str] = None) -> Optional[Path]:
     """단지명과 같은(끝의 "일반산업단지"/"농공단지" 같은 일반 명칭만 다른) 폴더만 고른다.
     예전엔 "이름이 서로 포함되면" 매칭해서 다음 오연결이 났다: "가은"→"가은제2" 폴더,
     "가장"→"가장2" 폴더, "오산가장제3"→"가장" 폴더, "화성"/"논산"/"영주"/"오산"→ 같은 이름의
     시(市) 폴더, "인천"→"IHP(인천경제자유구역)" 폴더. 문서가 다른 단지 것으로 표시·인용되므로
-    부분 문자열 매칭은 하지 않는다."""
+    부분 문자열 매칭은 하지 않는다. 괄호·시군 접두어를 걷어낸 이름(_loose_key)이 정확히
+    같은 폴더가 하나뿐일 때만 마지막으로 그 폴더를 쓴다(둘 이상이면 어느 쪽인지 몰라 쓰지 않음)."""
     dirs = [(d, _norm(d.name)) for d in parent.iterdir() if d.is_dir()]
     for d, dn in dirs:
         if dn == name_n:
             return d
+    dirs = [(d, dn) for d, dn in dirs if _type_ok(dn, park_type)]
     core = _core_name(name_n)
     same_core = [(d, dn) for d, dn in dirs if dn and _core_name(dn) == core]
     if same_core:
         return min(same_core, key=lambda x: len(x[1]))[0]
+    loose = _loose_key(name_n, city_core)
+    if loose[0]:
+        same_loose = [d for d, dn in dirs if dn and _loose_key(dn, city_core) == loose]
+        if len(same_loose) == 1:
+            return same_loose[0]
     return None
 
 
-def find_park_folder(region: str, city: str, name: str) -> Optional[Path]:
+def find_park_folder(region: str, city: str, name: str, park_type: Optional[str] = None) -> Optional[Path]:
     """DB의 region/city/name으로 문서 폴더를 찾는다. 폴더명이 DB 표기와 완전히
     같지 않을 수 있어(공백, "경남" vs "경상남도" 같은 축약형 차이, "OO일반산업단지"
     vs "OO" 같은 표기 차이) 느슨하게 매칭한다. 시/군/구 폴더 단계를 생략하고
@@ -114,18 +169,19 @@ def find_park_folder(region: str, city: str, name: str) -> Optional[Path]:
         return None
 
     city_names = {_norm(city)} | {_norm(c) for c in _CITY_ALIASES.get((region, city), ())}
+    city_core = re.sub(r"(시|군|구)$", "", _norm(city))
     for city_dir in (d for d in region_dir.iterdir() if d.is_dir() and _norm(d.name) in city_names):
-        match = _find_name_match(city_dir, name_n)
+        match = _find_name_match(city_dir, name_n, city_core, park_type)
         if match:
             return match
 
     # city 폴더가 없거나 그 안에서 못 찾았으면, region 바로 아래도 시도한다
-    return _find_name_match(region_dir, name_n)
+    return _find_name_match(region_dir, name_n, park_type=park_type)
 
 
-def list_park_documents(region: str, city: str, name: str) -> List[Dict]:
+def list_park_documents(region: str, city: str, name: str, park_type: Optional[str] = None) -> List[Dict]:
     """해당 단지 폴더의 문서/이미지 파일 목록 (폴더나 파일이 없으면 빈 리스트)."""
-    folder = find_park_folder(region, city, name)
+    folder = find_park_folder(region, city, name, park_type)
     if not folder:
         return []
     files = []
@@ -142,13 +198,13 @@ def list_park_documents(region: str, city: str, name: str) -> List[Dict]:
     return files
 
 
-def resolve_document_path(region: str, city: str, name: str, filename: str) -> Optional[Path]:
+def resolve_document_path(region: str, city: str, name: str, filename: str, park_type: Optional[str] = None) -> Optional[Path]:
     """다운로드 요청이 실제로 그 단지 폴더 안의 파일인지 검증하며 경로를 반환한다
     (경로 조작 방지 — 목록에 없는 파일명은 절대 서빙하지 않음)."""
-    valid_names = {d["filename"] for d in list_park_documents(region, city, name)}
+    valid_names = {d["filename"] for d in list_park_documents(region, city, name, park_type)}
     if filename not in valid_names:
         return None
-    folder = find_park_folder(region, city, name)
+    folder = find_park_folder(region, city, name, park_type)
     return (folder / filename) if folder else None
 
 
@@ -159,12 +215,12 @@ _NOTICE_NO_RE = re.compile(r"([가-힣]{2,6}(?:시|군|구))\s*(고시|공고)\s
 _PHONE_RE = re.compile(r"0\d{1,2}-\d{3,4}-\d{4}")
 
 
-def find_park_phone(region: str, city: str, name: str) -> Optional[str]:
+def find_park_phone(region: str, city: str, name: str, park_type: Optional[str] = None) -> Optional[str]:
     """공식 문서에 실제로 적힌 관리기관 문의처 전화번호를 찾는다. 문서에 없으면
     None — 지어내거나 다른 단지 번호로 대신하지 않는다. get_park_documents_text()가
     이미 "문의처/연락처" 같은 안내 페이지를 우선 포함하도록 예산을 배분해두므로
     그 결과를 그대로 재사용한다."""
-    text = get_park_documents_text(region, city, name, budget=4000)
+    text = get_park_documents_text(region, city, name, budget=4000, park_type=park_type)
     m = _PHONE_RE.search(text) if text else None
     return m.group(0) if m else None
 
@@ -284,7 +340,7 @@ def _extract_txt_blocks(f: Path) -> List[str]:
 
 
 @lru_cache(maxsize=256)
-def get_park_documents_text(region: str, city: str, name: str, budget: int = 6000) -> str:
+def get_park_documents_text(region: str, city: str, name: str, budget: int = 6000, park_type: Optional[str] = None) -> str:
     """해당 단지의 문서(PDF·텍스트)에서 텍스트를 추출해 "[출처: ...]" 블록으로
     쪼개 반환한다. 실제로 겪은 두 가지 정확도 문제를 막기 위한 구조:
 
@@ -300,7 +356,7 @@ def get_park_documents_text(region: str, city: str, name: str, budget: int = 600
     PDF 파싱은 비용이 있어 캐시한다 — 서버 실행 중 폴더 내용이 바뀌면
     반영하려면 재시작이 필요하지만, 공문은 자주 바뀌는 성격이 아니라
     감수할 만하다."""
-    folder = find_park_folder(region, city, name)
+    folder = find_park_folder(region, city, name, park_type)
     if not folder:
         return ""
 
