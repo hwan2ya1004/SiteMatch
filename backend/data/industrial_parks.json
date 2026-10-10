@@ -16059,7 +16059,9 @@
     "available_area": 0.0,
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "고무 및 플라스틱제품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
