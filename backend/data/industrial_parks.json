@@ -18975,7 +18975,17 @@
     "available_area": 0.0,
     "vacancy_rate": 37.5,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "섬유제품 제조업; 의복제외",
+      "의료용 물질 및 의약품 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "태양력 발전업",
+      "비주거용 건물 임대업",
+      "기타 부동산 임대업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -18983,13 +18993,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.917717,
+    "lng": 127.502699,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "충청북도 진천군 덕산읍 한천리 27-28 일원"
   },
   {
     "id": 612,
