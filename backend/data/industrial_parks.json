@@ -8483,11 +8483,11 @@
     "vacancy_rate": 28.6,
     "rent_per_sqm": null,
     "industries": [
-      "배전반 및 전기 자동제어반 제조업",
-      "비주거용 건물 임대업",
-      "적층, 합성 및 특수표면처리 종이 제조업",
-      "과자류 및 코코아 제품 제조업",
-      "판지 상자 및 용기 제조업"
+      "식료품 제조업",
+      "펄프, 종이 및 종이제품 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "부동산 임대업"
     ],
     "logistics": [],
     "features": [],
@@ -11260,7 +11260,12 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "전기, 가스, 증기 및 공기조절 공급업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -11268,13 +11273,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.212975,
+    "lng": 127.499102,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 이천시 대월면 구시리 499-2번지 일원"
   },
   {
     "id": 361,
