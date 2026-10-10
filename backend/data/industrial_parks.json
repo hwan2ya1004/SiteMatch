@@ -15886,7 +15886,11 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "플라스틱 창호 제조업",
+      "판유리 가공품 제조업",
+      "구조용 금속 판제품 및 공작물 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
