@@ -19360,7 +19360,9 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "광업 지원 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -19812,11 +19814,12 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "기타 기초 유기화학 물질 제조업",
-      "원유 정제처리업",
-      "계면활성제 제조업",
-      "육상 금속 골조 구조재 제조업",
-      "플라스터 혼합제품 제조업"
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "비금속 광물제품 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "코크스, 연탄 및 석유정제품 제조업",
+      "전기, 가스, 증기 및 공기조절 공급업",
+      "창고 및 운송관련 서비스업"
     ],
     "logistics": [],
     "features": [],
@@ -20438,10 +20441,9 @@
     "vacancy_rate": 50.0,
     "rent_per_sqm": null,
     "industries": [
-      "원유 정제처리업",
-      "증기, 냉.온수 및 공기조절 공급업",
-      "석유화학계 기초 화학물질 제조업",
-      "산소, 질소 및 기타 산업용 가스 제조업"
+      "코크스, 연탄 및 석유정제품 제조업",
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "전기, 가스, 증기 및 공기조절 공급업"
     ],
     "logistics": [],
     "features": [],
@@ -21529,7 +21531,10 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "코크스, 연탄 및 석유정제품 제조업",
+      "화학물질 및 화학제품 제조업; 의약품 제외"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -21543,7 +21548,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 서산시 대산읍 대죽리 1126번지 전면해상"
   },
   {
     "id": 702,
