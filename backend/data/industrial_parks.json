@@ -34502,7 +34502,15 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
