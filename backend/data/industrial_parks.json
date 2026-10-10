@@ -38383,11 +38383,15 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "그 외 자동차용 신품 부품 제조업",
-      "복합비료 및 기타 화학비료 제조업",
-      "절삭가공 및 유사처리업",
-      "알루미늄 제련, 정련 및 합금 제조업",
-      "과자류 및 코코아 제품 제조업"
+      "고무 및 플라스틱제품 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업",
+      "태양력 발전업",
+      "부동산 임대업"
     ],
     "logistics": [],
     "features": [],
@@ -38396,13 +38400,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.616169,
+    "lng": 128.439457,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 44,
-    "operating_companies": 44
+    "operating_companies": 44,
+    "address": "경상남도 창녕군 대합면 이방리, 합리 일원"
   },
   {
     "id": 1227,
@@ -42819,11 +42824,9 @@
     "vacancy_rate": 16.7,
     "rent_per_sqm": null,
     "industries": [
-      "그 외 자동차용 신품 부품 제조업",
-      "복합비료 및 기타 화학비료 제조업",
-      "절삭가공 및 유사처리업",
-      "알루미늄 제련, 정련 및 합금 제조업",
-      "과자류 및 코코아 제품 제조업"
+      "섬유제품 제조업; 의복제외",
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "기타 기계 및 장비 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -42832,13 +42835,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.593577,
+    "lng": 128.4747,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "경상남도 창녕군 대합면 장기리 일원"
   },
   {
     "id": 1368,
