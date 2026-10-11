@@ -31744,7 +31744,13 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "음료 제조업",
+      "태양력 발전업",
+      "창고 및 운송관련 서비스업",
+      "부동산업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -31752,13 +31758,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 34.803607,
+    "lng": 127.346785,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 고흥군 동강면 장덕리 산76-9번지 일원"
   },
   {
     "id": 1016,
