@@ -4719,7 +4719,16 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업",
+      "목재 및 나무제품 제조업; 가구 제외",
+      "산업용 기계 및 장비 수리업",
+      "폐기물 수집, 운반, 처리 및 원료 재생업",
+      "연구개발업",
+      "태양력 발전업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -4727,13 +4736,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.470439,
+    "lng": 129.326577,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "울산광역시 울주군 청량읍 용암리 산89번지 일원"
   },
   {
     "id": 144,
