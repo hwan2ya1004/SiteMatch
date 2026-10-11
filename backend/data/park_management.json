@@ -187,9 +187,17 @@
       "folder": "data/park_docs/울산광역시/북구/달천농공단지",
       "org": "북구"
     },
+    "180": {
+      "folder": "data/park_docs/경기도/동두천시/동두천국가산업단지",
+      "org": "한국산업단지공단"
+    },
     "182": {
       "folder": "data/park_docs/경기도/김포시/김포항공일반산업단지",
       "org": "김포시"
+    },
+    "191": {
+      "folder": "data/park_docs/경기도/동두천시/동두천상봉암일반산업단지",
+      "org": "동두천시"
     },
     "196": {
       "folder": "data/park_docs/경기도/안성시/공도일반산업단지",
