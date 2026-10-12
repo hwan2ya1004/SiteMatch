@@ -324,9 +324,17 @@
       "folder": "data/park_docs/경기도/김포시/대포일반산업단지",
       "org": "김포산업단지관리공단"
     },
+    "324": {
+      "folder": "data/park_docs/경기도/화성시/동방일반산업단지",
+      "org": "화성시"
+    },
     "327": {
       "folder": "data/park_docs/경기도/포천시/포천에코그린일반산업단지",
       "org": "포천시"
+    },
+    "331": {
+      "folder": "data/park_docs/경기도/안성시/동문일반산업단지",
+      "org": "안성시"
     },
     "338": {
       "folder": "data/park_docs/경기도/시흥시/광명시흥일반산업단지",
