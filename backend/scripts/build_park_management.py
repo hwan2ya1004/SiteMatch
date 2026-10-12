@@ -8,7 +8,8 @@
   (어느 기관 번호인지 모르는 번호를 문의처로 보여주면 안 되므로).
 
 문서에 없는 값은 넣지 않는다(추측 금지). 새 단지 문서를 넣은 뒤 다시 실행하면 된다:
-    python scripts/build_park_management.py
+    python scripts/build_park_management.py            # 전체 다시 생성(문서가 많아 10분 이상 걸림)
+    python scripts/build_park_management.py 598 490    # 해당 단지 id만 갱신, 나머지는 기존 값 유지
 """
 import json
 import os
@@ -79,9 +80,17 @@ def _phone_from_notices(folder, sheet):
     return None
 
 
-def main():
+def main(only_ids=None):
     parks = json.load(open(PARKS_PATH, encoding="utf-8"))
     out = {}
+    if only_ids:
+        try:
+            out = json.load(open(OUT_PATH, encoding="utf-8")).get("parks", {})
+        except (OSError, ValueError):
+            out = {}
+        for i in only_ids:
+            out.pop(i, None)
+        parks = [p for p in parks if str(p["id"]) in only_ids]
     for p in parks:
         folder = find_park_folder(p.get("region") or "", p.get("city") or "", p.get("name") or "", p.get("type"))
         if not folder:
@@ -108,4 +117,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(set(sys.argv[1:]) or None)
