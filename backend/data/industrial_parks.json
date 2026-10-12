@@ -16278,7 +16278,7 @@
   },
   {
     "id": 510,
-    "name": "문백태흥(구 태략협동화)",
+    "name": "문백태흥(구 태락협동화)",
     "region": "충북",
     "city": "진천군",
     "type": "일반산단",
@@ -16286,7 +16286,16 @@
     "available_area": 0.0,
     "vacancy_rate": 25.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "분말야금제품 제조업",
+      "완제 의약품 제조업",
+      "고무 및 플라스틱제품 제조업",
+      "자동차 부품 제조업",
+      "정보서비스업",
+      "태양력 발전업",
+      "비주거용 건물 임대업",
+      "기타 부동산 임대업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -16294,13 +16303,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.811566,
+    "lng": 127.434279,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "조성중",
+    "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청북도 진천군 문백면 태락리 744"
   },
   {
     "id": 511,
