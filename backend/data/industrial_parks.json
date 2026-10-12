@@ -9848,11 +9848,8 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "그 외 자동차용 신품 부품 제조업",
-      "금속 절삭기계 제조업",
-      "기어 및 동력전달장치 제조업",
-      "절삭가공 및 유사처리업",
-      "철도차량 부품 및 관련 장치물 제조업"
+      "펄프, 종이 및 종이제품 제조업",
+      "태양력 발전업(건물·주차장 옥외부분 한정)"
     ],
     "logistics": [],
     "features": [],
@@ -10756,7 +10753,10 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "비금속 광물제품 제조업",
+      "1차 금속 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
