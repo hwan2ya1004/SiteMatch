@@ -31889,11 +31889,7 @@
     "vacancy_rate": 22.2,
     "rent_per_sqm": null,
     "industries": [
-      "기타 과실ㆍ채소 가공 및 저장 처리업",
-      "수산식물 가공 및 저장 처리업",
-      "두부 및 유사식품 제조업",
-      "김치류 제조업",
-      "육류 기타 가공 및 저장처리업 (가금류 제외)"
+      "식료품 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -31902,13 +31898,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 34.590529,
+    "lng": 126.556724,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 98.88,
     "total_companies": 18,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "전남광주통합특별시 해남군 마산면 상등리 1114"
   },
   {
     "id": 1005,
