@@ -17263,7 +17263,18 @@
     "available_area": 428000.0,
     "vacancy_rate": 23.1,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "의료용 물질 및 의약품 제조업",
+      "비금속 광물제품 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학기기 및 시계 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "금속류 해체, 선별 및 원료 재생업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -17271,13 +17282,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.083093,
+    "lng": 127.940674,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 50.17,
     "total_companies": 13,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "충청북도 충주시 산척면 영덕리 2042"
   },
   {
     "id": 549,
