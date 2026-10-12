@@ -11030,11 +11030,7 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "선박 구성 부분품 제조업",
-      "그 외 기타 분류 안된 화학제품 제조업",
-      "태양력 발전업",
-      "도장 및 기타 피막처리업",
-      "그 외 기타 금속가공업"
+      "화학물질 및 화학제품 제조업; 의약품 제외"
     ],
     "logistics": [],
     "features": [],
@@ -11046,7 +11042,7 @@
     "lat": 37.072601,
     "lng": 126.908936,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "조성중",
+    "dev_status": "완료",
     "sale_rate": 0.0,
     "total_companies": 1,
     "operating_companies": 1,
