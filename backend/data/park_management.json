@@ -9,6 +9,10 @@
       "folder": "data/park_docs/부산광역시/강서구/녹산지구(산업단지)",
       "org": "한국산업단지공단"
     },
+    "24": {
+      "folder": "data/park_docs/부산광역시/기장군/동부산E-PARK일반산업단지[구기장대우]",
+      "org": "부산경제진흥원"
+    },
     "29": {
       "folder": "data/park_docs/부산광역시/기장군/기룡일반산업단지",
       "org": "부산경제진흥원"
@@ -533,6 +537,10 @@
       "folder": "data/park_docs/충청북도/괴산군/괴산첨단산업단지",
       "org": "괴산군"
     },
+    "490": {
+      "folder": "data/park_docs/충청북도/영동군/영동산업단지",
+      "org": "영동군"
+    },
     "492": {
       "folder": "data/park_docs/충청북도/음성군/금왕산업단지",
       "org": "음성군"
@@ -611,6 +619,10 @@
     "592": {
       "folder": "data/park_docs/충청북도/단양군/대강농공단지",
       "org": "단양군"
+    },
+    "598": {
+      "folder": "data/park_docs/충청북도/영동군/영동산업단지",
+      "org": "영동군"
     },
     "600": {
       "folder": "data/park_docs/충청북도/옥천군/구일농공단지",
