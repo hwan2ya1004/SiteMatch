@@ -25,7 +25,7 @@ class IndustrialPark(Base):
     region = Column(String(50))
     city = Column(String(100))
     type = Column(String(50))
-    dev_status = Column(String(20))  # 조성상태: 완료 / 조성중 / 미개발 (한국산업단지공단 공식 문서 기준)
+    dev_status = Column(String(20))  # 조성상태: 완료 / 조성중 / 보상중 / 준비중 / 미개발 (한국산업단지공단 공식 문서 기준)
     total_area = Column(Float)
     available_area = Column(Float)
     vacancy_rate = Column(Float)

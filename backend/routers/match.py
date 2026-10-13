@@ -73,6 +73,8 @@ def build_infra_note(park: dict) -> str:
         notes.append("⚠️ 현재 조성 중인 단지입니다 — 즉시 입주가 아닌 향후 입주 일정 확인이 필요합니다.")
     elif dev_status == "미개발":
         notes.append("⚠️ 아직 미개발 상태인 단지입니다 — 실제 조성·분양 일정을 관리기관에 반드시 확인하세요.")
+    elif dev_status in ("보상중", "준비중"):
+        notes.append(f"⚠️ 아직 착공 전({dev_status}) 단지입니다 — 실제 조성·분양 일정을 관리기관에 반드시 확인하세요.")
     type_note_tmpl = TYPE_NOTES.get(park.get("type", ""))
     if type_note_tmpl:
         city = park.get("city") or park.get("region") or "관할 지자체"
