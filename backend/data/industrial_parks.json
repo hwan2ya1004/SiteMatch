@@ -9765,7 +9765,12 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "목재 및 나무제품 제조업; 가구 제외",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "가구 제조업",
+      "태양력 발전업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -9773,13 +9778,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.015295,
+    "lng": 127.196789,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "조성중",
+    "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "경기도 안성시 공도읍 마정리 600"
   },
   {
     "id": 301,
