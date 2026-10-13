@@ -169,6 +169,9 @@ def find_park_folder(region: str, city: str, name: str, park_type: Optional[str]
         return None
 
     city_names = {_norm(city)} | {_norm(c) for c in _CITY_ALIASES.get((region, city), ())}
+    # "창원시 진해구"처럼 구까지 적힌 경우 문서 폴더는 "창원시"에 있다
+    if " " in (city or "").strip():
+        city_names.add(_norm(city.split()[0]))
     city_core = re.sub(r"(시|군|구)$", "", _norm(city))
     for city_dir in (d for d in region_dir.iterdir() if d.is_dir() and _norm(d.name) in city_names):
         match = _find_name_match(city_dir, name_n, city_core, park_type)
