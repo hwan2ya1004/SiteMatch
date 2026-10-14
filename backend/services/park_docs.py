@@ -173,13 +173,22 @@ def find_park_folder(region: str, city: str, name: str, park_type: Optional[str]
     if " " in (city or "").strip():
         city_names.add(_norm(city.split()[0]))
     city_core = re.sub(r"(시|군|구)$", "", _norm(city))
-    for city_dir in (d for d in region_dir.iterdir() if d.is_dir() and _norm(d.name) in city_names):
+    city_dirs = [d for d in region_dir.iterdir() if d.is_dir() and _norm(d.name) in city_names]
+    for city_dir in city_dirs:
         match = _find_name_match(city_dir, name_n, city_core, park_type)
         if match:
             return match
 
     # city 폴더가 없거나 그 안에서 못 찾았으면, region 바로 아래도 시도한다
-    return _find_name_match(region_dir, name_n, park_type=park_type)
+    match = _find_name_match(region_dir, name_n, park_type=park_type)
+    if match or city_dirs:
+        return match
+
+    # 세종처럼 시군 단계가 없어 city 폴더가 아예 없고 읍면 폴더("연동면")로 나뉜 경우,
+    # 모든 하위 폴더를 찾아보되 딱 한 곳에서만 맞을 때만 인정한다
+    hits = [m for m in (_find_name_match(d, name_n, park_type=park_type)
+                        for d in region_dir.iterdir() if d.is_dir()) if m]
+    return hits[0] if len(hits) == 1 else None
 
 
 def list_park_documents(region: str, city: str, name: str, park_type: Optional[str] = None) -> List[Dict]:
