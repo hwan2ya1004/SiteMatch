@@ -8248,7 +8248,9 @@
     "available_area": 0.0,
     "vacancy_rate": 50.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "의료용 물질 및 의약품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
