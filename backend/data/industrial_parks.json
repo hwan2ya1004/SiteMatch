@@ -32759,9 +32759,10 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "천연 및 혼합조제 조미료 제조업",
-      "기타 과실ㆍ채소 가공 및 저장 처리업",
-      "기타 식품 첨가물 제조업"
+      "식료품 제조업",
+      "음료 제조업",
+      "태양력 발전업(건축물 지붕 한정)",
+      "부동산 임대업(한국자산관리공사 임대 한정)"
     ],
     "logistics": [],
     "features": [],
@@ -32770,13 +32771,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 34.95436,
+    "lng": 126.50536,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "전남광주통합특별시 무안군 몽탄면 학산리 산 11-6"
   },
   {
     "id": 1021,
