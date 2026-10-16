@@ -1,0 +1,18 @@
+name: Keep Render instance awake
+
+# 렌더 무료 플랜은 일정 시간 요청이 없으면 인스턴스가 잠들고, 잠든 상태에서
+# 요청이 오면 렌더 자체 콜드스타트 화면이 몇 십 초간 뜬다(우리 앱 코드가
+# 실행되기 전 단계라 앱에서는 손쓸 수 없음). 어떤 URL로 들어오든(로딩 페이지든
+# 직접 주소든) 이 화면 자체를 아예 안 보게 하려면 서버가 잠들지 않게 하는 게
+# 가장 확실한 방법이라, 깃허브 액션 스케줄로 주기적으로 깨워둔다.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping /health
+        run: curl -fsS --max-time 90 --retry 3 --retry-delay 10 --retry-all-errors https://sitematch.onrender.com/health
