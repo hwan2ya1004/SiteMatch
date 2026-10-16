@@ -92,7 +92,52 @@
     text-align: left; word-break: keep-all;
   }
   .install-hint strong { color: var(--navy); }
+
+  /* 기다리는 동안 보여줄 진행 표시 — 렌더 무료 서버는 잠들었다 깨는 데 1분 안팎이
+     걸려서, 점 세 개만 돌면 멈춘 것처럼 느껴진다는 지적을 받고 추가함 */
+  .progress-wrap { margin: 4px 0 6px; }
+  .progress { height: 8px; background: #E5E7EB; border-radius: 99px; overflow: hidden; }
+  .progress-bar {
+    height: 100%; width: 0%; border-radius: 99px;
+    background: linear-gradient(90deg, var(--teal-mid), var(--teal));
+    transition: width 0.8s ease;
+  }
+  .progress-meta {
+    display: flex; justify-content: space-between;
+    font-size: 11.5px; color: var(--text-sub); margin-top: 6px;
+  }
+
+  .steps { list-style: none; text-align: left; margin: 18px auto 0; max-width: 260px; }
+  .steps li {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: #9CA3AF; padding: 5px 0; transition: color 0.3s;
+  }
+  .steps .mark {
+    width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+    border: 2px solid #D1D5DB; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #fff; transition: all 0.3s;
+  }
+  .steps li.active { color: var(--text); font-weight: 600; }
+  .steps li.active .mark { border-color: var(--teal-mid); border-top-color: transparent; animation: spin 0.9s linear infinite; }
+  .steps li.done { color: var(--teal); }
+  .steps li.done .mark { background: var(--teal-mid); border-color: var(--teal-mid); animation: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .tip {
+    margin-top: 22px; padding: 14px 16px; min-height: 86px;
+    background: #fff; border: 1px solid #E5E7EB; border-radius: 14px;
+    text-align: left; transition: opacity 0.4s;
+  }
+  .tip-label { font-size: 11.5px; font-weight: 700; color: var(--teal-mid); margin-bottom: 6px; }
+  .tip-text { font-size: 13.5px; line-height: 1.6; color: var(--text); word-break: keep-all; }
+  .tip-dots { display: flex; justify-content: center; gap: 5px; margin-top: 10px; }
+  .tip-dots span { width: 6px; height: 6px; border-radius: 50%; background: #D1D5DB; transition: background 0.3s; }
+  .tip-dots span.on { background: var(--teal-mid); }
+
+  #app-frame { opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+  #app-frame.ready { opacity: 1; pointer-events: auto; }
 </style>
+<link rel="preconnect" href="https://sitematch.onrender.com">
 </head>
 <body>
 
@@ -119,9 +164,27 @@
     잠시만 기다려주세요 — 처음 접속하시는 경우 서버를 깨우는 데 최대 1분 정도 걸릴 수 있어요.
   </p>
 
-  <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-  <br>
-  <span class="status" id="status-pill">연결 확인 중...</span>
+  <div class="progress-wrap">
+    <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+    <div class="progress-meta">
+      <span id="elapsed">0초 지남</span>
+      <span>보통 1분 안팎 걸려요</span>
+    </div>
+  </div>
+
+  <ul class="steps">
+    <li id="step-1" class="active"><span class="mark"></span>서버 깨우는 중</li>
+    <li id="step-2"><span class="mark"></span>산업단지 정보 준비</li>
+    <li id="step-3"><span class="mark"></span>화면 여는 중</li>
+  </ul>
+
+  <div class="tip" id="tip">
+    <div class="tip-label">기다리는 동안 알아두세요</div>
+    <div class="tip-text" id="tip-text"></div>
+    <div class="tip-dots" id="tip-dots"></div>
+  </div>
+
+  <span class="status" id="status-pill" style="display:none"></span>
 
   <div class="manual-link">
     자동으로 안 넘어가면 <a href="#" id="manual-link-btn">여기를 눌러주세요</a>
@@ -159,15 +222,74 @@ if (showInstallHint) {
   document.getElementById('install-hint').style.display = 'block';
 }
 
+// 기다리는 동안 돌려 보여줄 안내 — 서비스에 실제로 있는 기능·실제 데이터만 적는다
+const TIPS = [
+  '전국 산업단지 약 1,400곳을 한 번에 비교해요. 국가·일반·도시첨단·농공단지가 모두 들어 있어요.',
+  '업종을 고르면 단지마다 <strong>입주 가능 · 조건부 · 불가</strong>를 바로 알려드려요.',
+  '입주 업종은 시·도와 시·군이 낸 <strong>관리기본계획 고시문</strong>을 직접 읽어 정리했어요.',
+  '지도에서 단지를 누르면 관리기관과, 고시문에 적힌 담당 부서 전화번호를 볼 수 있어요.',
+  'AI 상담에 "○○산업단지에 식품공장 들어갈 수 있어?"처럼 편하게 물어보세요.',
+  '아직 짓는 중이거나 보상 중인 단지도 표시돼요. 이런 곳은 입주 일정을 꼭 확인하세요.',
+  '산업통상자원부 공공데이터 활용 아이디어 공모전 우수상을 받은 서비스예요.',
+];
+const tipTextEl = document.getElementById('tip-text');
+const tipBox = document.getElementById('tip');
+const tipDots = document.getElementById('tip-dots');
+TIPS.forEach(() => tipDots.appendChild(document.createElement('span')));
+let tipIndex = Math.floor(Math.random() * TIPS.length);
+function renderTip() {
+  tipTextEl.innerHTML = TIPS[tipIndex];
+  [...tipDots.children].forEach((d, i) => d.classList.toggle('on', i === tipIndex));
+}
+renderTip();
+const tipTimer = setInterval(() => {
+  tipBox.style.opacity = 0;
+  setTimeout(() => { tipIndex = (tipIndex + 1) % TIPS.length; renderTip(); tipBox.style.opacity = 1; }, 400);
+}, 6000);
+
+// 진행 막대는 "예상" 진행률 — 서버가 실제로 몇 %인지 알 수는 없어서, 보통 걸리는
+// 시간(약 60초)에 맞춰 천천히 차오르다 90%에서 멈추고, 실제로 준비되면 끝까지 채운다.
+const EXPECTED_MS = 60000;
+const barEl = document.getElementById('progress-bar');
+const elapsedEl = document.getElementById('elapsed');
+let finished = false;
+const progressTimer = setInterval(() => {
+  if (finished) return;
+  const t = Date.now() - startedAt;
+  const pct = 90 * (1 - Math.exp(-2.2 * t / EXPECTED_MS));
+  barEl.style.width = pct.toFixed(1) + '%';
+  elapsedEl.textContent = Math.floor(t / 1000) + '초 지남';
+}, 500);
+
+function setStep(n) {
+  [1, 2, 3].forEach(i => {
+    const li = document.getElementById('step-' + i);
+    li.className = i < n ? 'done' : (i === n ? 'active' : '');
+  });
+}
+
 let shown = false;
 function showApp() {
   if (shown) return;
   shown = true;
-  document.title = 'SiteMatch AI';
-  document.querySelector('.card').style.display = 'none';
+  setStep(3);
   const frame = document.getElementById('app-frame');
-  frame.src = TARGET;
+  // 서버가 깨어난 뒤에도 앱 화면 자체를 받는 데 몇 초 더 걸린다. 예전엔 바로 빈
+  // iframe으로 바꿔서 흰 화면만 보였는데, 이제 다 열릴 때까지 이 화면을 유지한다.
+  frame.addEventListener('load', () => {
+    finished = true;
+    clearInterval(progressTimer);
+    clearInterval(tipTimer);
+    barEl.style.width = '100%';
+    setStep(4);
+    setTimeout(() => {
+      document.title = 'SiteMatch AI';
+      document.querySelector('.card').style.display = 'none';
+      frame.classList.add('ready');
+    }, 350);
+  }, { once: true });
   frame.style.display = 'block';
+  frame.src = TARGET;
 }
 
 document.getElementById('manual-link-btn').addEventListener('click', (e) => {
@@ -179,16 +301,16 @@ async function checkAndRedirect() {
   attempts++;
   const elapsed = Date.now() - startedAt;
 
-  // 시간이 지날수록 안심시키는 문구로 교체 (계속 "연결 확인 중"만 뜨면
+  // 시간이 지날수록 안심시키는 문구로 교체 (계속 같은 문구만 뜨면
   // 멈춘 것처럼 느껴질 수 있어서)
   const subEl = document.getElementById('sub-text');
   const pillEl = document.getElementById('status-pill');
-  if (elapsed > 40000) {
-    subEl.innerHTML = '조금만 더 기다려주세요 — 거의 다 됐어요!';
-    pillEl.textContent = '거의 완료...';
+  if (elapsed > 75000) {
+    subEl.innerHTML = '평소보다 조금 오래 걸리고 있어요. 계속 시도하고 있으니 잠시만요.';
+  } else if (elapsed > 40000) {
+    subEl.innerHTML = '거의 다 됐어요. 조금만 더 기다려주세요.';
   } else if (elapsed > 15000) {
-    subEl.innerHTML = '서버를 깨우고 있어요, 조금만 더요...';
-    pillEl.textContent = '서버 기동 중...';
+    subEl.innerHTML = '잠들어 있던 서버를 깨우고 있어요. 한동안 아무도 접속하지 않으면 서버가 쉬어서 처음 한 번은 시간이 걸려요.';
   }
 
   try {
@@ -203,7 +325,7 @@ async function checkAndRedirect() {
         setTimeout(checkAndRedirect, MIN_STAY_MS - elapsed);
         return;
       }
-      pillEl.textContent = '접속 중...';
+      setStep(2);
       // 여기서 location.href로 이동하지 않는다 — 이동하면 주소창이
       // sitematch.onrender.com으로 바뀌어서, 앱에 들어간 뒤에 "홈 화면에
       // 추가"를 누르면 그 주소가 저장돼버린다. 대신 이 페이지 안에 iframe으로
