@@ -289,7 +289,9 @@ function showApp() {
     }, 350);
   }, { once: true });
   frame.style.display = 'block';
-  frame.src = TARGET;
+  // iframe 안 문서는 바깥 페이지를 강력 새로고침해도 브라우저가 예전 저장본을 그대로
+  // 쓰는 경우가 있어(사업자정보를 바꿨는데 계속 옛 값이 보였음), 매번 다른 주소로 불러온다.
+  frame.src = TARGET + '?v=' + Date.now();
 }
 
 document.getElementById('manual-link-btn').addEventListener('click', (e) => {
