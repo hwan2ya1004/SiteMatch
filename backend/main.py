@@ -195,7 +195,9 @@ async def serve_frontend():
     """프론트엔드 HTML 서빙. 카카오맵 키는 /kakao-sdk.js 프록시 라우트에서
     서버 쪽에서만 사용하므로 HTML 자체에는 더 이상 주입할 게 없다."""
     if os.path.exists(FRONTEND_PATH):
-        return FileResponse(FRONTEND_PATH)
+        # 캐시 지시가 없으면 브라우저가 옛 HTML을 한동안 그대로 써서, 배포한 수정
+        # (예: 푸터 사업자정보)이 사용자 화면에 늦게 반영됐다. 매번 서버에 확인하게 한다.
+        return FileResponse(FRONTEND_PATH, headers={"Cache-Control": "no-cache"})
     return {"message": "SiteMatch AI API", "docs": "/docs"}
 
 
