@@ -29066,11 +29066,8 @@
     "vacancy_rate": 5.7,
     "rent_per_sqm": null,
     "industries": [
-      "차체 및 특장차 제조업",
-      "그 외 자동차용 신품 부품 제조업",
-      "트레일러 및 세미트레일러 제조업",
-      "자동차 차체용 신품 부품 제조업",
-      "자동차용 신품 제동장치 제조업"
+      "자동차 및 트레일러 제조업",
+      "태양력 발전업"
     ],
     "logistics": [],
     "features": [],
@@ -29082,7 +29079,7 @@
     "lat": null,
     "lng": null,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "조성중",
+    "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
     "operating_companies": 33
