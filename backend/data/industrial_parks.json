@@ -3431,7 +3431,14 @@
     "available_area": 0.0,
     "vacancy_rate": 7.5,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전 제조업(입주제한 업종 제외)",
+      "일반·냉장냉동·기타 창고업(물류 총량 산업시설구역의 9% 이내)",
+      "화물자동차 운송업·택배업(물류 총량 9% 이내)",
+      "비주거용 건물 임대업",
+      "지식산업센터 개발 및 공급업",
+      "태양에너지·신재생에너지 발전업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
