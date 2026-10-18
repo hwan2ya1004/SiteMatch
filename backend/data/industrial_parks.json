@@ -11185,7 +11185,11 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "태양력 발전업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -11196,7 +11200,7 @@
     "lat": 37.040008,
     "lng": 127.327064,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "보상중",
     "sale_rate": 0.0,
     "total_companies": 0,
     "operating_companies": 0,
