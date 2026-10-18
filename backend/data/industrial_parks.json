@@ -12985,13 +12985,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.480759,
+    "lng": 129.153196,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 0.0,
     "total_companies": 26,
-    "operating_companies": 20
+    "operating_companies": 20,
+    "address": "강원특별자치도 동해시 구호동 247"
   },
   {
     "id": 390,
