@@ -18288,7 +18288,10 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화장품 제조업",
+      "절삭가공 및 유사처리업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
