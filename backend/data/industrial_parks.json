@@ -46545,5 +46545,37 @@
     "total_companies": null,
     "operating_companies": null,
     "address": null
+  },
+  {
+    "id": 1412,
+    "name": "삼성SDS춘천센터도시첨단산업단지",
+    "region": "강원",
+    "city": "춘천시",
+    "type": "도시첨단산단",
+    "total_area": 39843.0,
+    "available_area": null,
+    "vacancy_rate": null,
+    "rent_per_sqm": null,
+    "industries": [
+      "출판업",
+      "통신업",
+      "컴퓨터 프로그래밍, 시스템 통합 및 관리업",
+      "컴퓨터 및 사무용 기계·장비 임대업"
+    ],
+    "logistics": [],
+    "features": [],
+    "monthly_inquiries": 0,
+    "description": null,
+    "subsidy": null,
+    "contact": null,
+    "website": null,
+    "lat": 37.846868,
+    "lng": 127.700913,
+    "source": "park_docs_안내서(산업입지정보시스템)+고시",
+    "dev_status": "완료",
+    "sale_rate": null,
+    "total_companies": null,
+    "operating_companies": null,
+    "address": "강원특별자치도 춘천시 칠전동 650"
   }
 ]
