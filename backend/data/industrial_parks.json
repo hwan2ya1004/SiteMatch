@@ -19492,7 +19492,17 @@
     "available_area": 0.0,
     "vacancy_rate": 5.6,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "섬유제품 제조업; 의복제외",
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "의료, 정밀, 광학기기 및 시계 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -19500,13 +19510,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.80646,
+    "lng": 127.644046,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 18,
-    "operating_companies": 17
+    "operating_companies": 17,
+    "address": "충청북도 괴산군 사리면 방축리 631-1"
   },
   {
     "id": 592,
