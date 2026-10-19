@@ -4988,7 +4988,7 @@
   },
   {
     "id": 141,
-    "name": "청양",
+    "name": "울산청양일반산업단지",
     "region": "울산",
     "city": "울주군",
     "type": "일반산단",
@@ -4997,11 +4997,10 @@
     "vacancy_rate": null,
     "rent_per_sqm": null,
     "industries": [
-      "라이터, 연소물 및 흡연용품 제조업",
-      "기타 과실ㆍ채소 가공 및 저장 처리업",
-      "김치류 제조업",
-      "금속 절삭기계 제조업",
-      "콘크리트 관 및 기타 구조용 콘크리트 제품 제조업"
+      "비금속 광물제품 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -5010,13 +5009,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.450936,
+    "lng": 129.311453,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "보상중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "울산광역시 울주군 온산읍 학남리 산 170"
   },
   {
     "id": 142,
