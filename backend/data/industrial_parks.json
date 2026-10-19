@@ -8653,7 +8653,8 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "비내화 모르타르 제조업"
+      "비금속 광물제품 제조업",
+      "태양력 발전업"
     ],
     "logistics": [],
     "features": [],
