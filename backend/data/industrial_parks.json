@@ -425,7 +425,19 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "섬유제품 제조업; 의복제외",
+      "목재 및 나무제품 제조업; 가구 제외",
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "전기업",
+      "증기, 냉·온수 및 공기조절 공급업",
+      "창고 및 운송관련 서비스업",
+      "기타 기술 및 직업훈련학원",
+      "자동차 및 모터사이클 수리업",
+      "지식산업·정보통신산업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -433,13 +445,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.070653,
+    "lng": 128.957956,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "부산광역시 사하구 다대동 산 31-6"
   },
   {
     "id": 12,
