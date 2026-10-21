@@ -21275,7 +21275,7 @@
   },
   {
     "id": 641,
-    "name": "서산테크노밸리",
+    "name": "서산테크노밸리일반산업단지",
     "region": "충남",
     "city": "서산시",
     "type": "일반산단",
@@ -21284,11 +21284,18 @@
     "vacancy_rate": 27.9,
     "rent_per_sqm": null,
     "industries": [
-      "그 외 자동차용 신품 부품 제조업",
-      "전동기 및 발전기 제조업",
-      "안전유리 제조업",
-      "일반 창고업",
-      "주형 및 금형 제조업"
+      "고무 및 플라스틱제품 제조업",
+      "비금속 광물제품 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 제품 제조업",
+      "보관 및 창고업",
+      "네거티브 배치구역: 제한업종 외 업종",
+      "자동차 종합 수리업(네거티브 배치구역)"
     ],
     "logistics": [],
     "features": [],
@@ -22124,7 +22131,7 @@
   },
   {
     "id": 671,
-    "name": "서산남부(구 서산도시형)",
+    "name": "서산남부일반산업단지 [구:서산도시형]",
     "region": "충남",
     "city": "서산시",
     "type": "일반산단",
@@ -22132,7 +22139,13 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "음료 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22143,10 +22156,11 @@
     "lat": null,
     "lng": null,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "준비중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 서산시 장동, 오남동 일원"
   },
   {
     "id": 672,
@@ -22506,7 +22520,7 @@
   },
   {
     "id": 685,
-    "name": "서산오토밸리(구 서산)",
+    "name": "서산오토밸리일반산업단지[구:서산]",
     "region": "충남",
     "city": "서산시",
     "type": "일반산단",
@@ -22514,7 +22528,16 @@
     "available_area": 25000.0,
     "vacancy_rate": 12.2,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "어망 및 기타 끈 가공품 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "폐기물 수집·운반·처리 및 원료 재생업",
+      "비주거용 건물 임대업(조건부)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22522,13 +22545,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.854588,
+    "lng": 126.459683,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 99.07,
     "total_companies": 49,
-    "operating_companies": 43
+    "operating_companies": 43,
+    "address": "충청남도 서산시 지곡면 무장리 1709 (단지 내 편의점 CU서산오토밸리공단점)"
   },
   {
     "id": 686,
