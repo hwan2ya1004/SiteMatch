@@ -25369,7 +25369,7 @@
   },
   {
     "id": 774,
-    "name": "서면(김가공특화)",
+    "name": "서천김가공특화단지",
     "region": "충남",
     "city": "서천군",
     "type": "농공산단",
@@ -25377,7 +25377,10 @@
     "available_area": 12000.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업(김 가공)",
+      "전기, 가스, 증기 및 공기조절 공급업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -25391,7 +25394,8 @@
     "dev_status": "완료",
     "sale_rate": 73.33,
     "total_companies": 7,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "충청남도 서천군 서면 월리 산28-1 일원"
   },
   {
     "id": 775,
