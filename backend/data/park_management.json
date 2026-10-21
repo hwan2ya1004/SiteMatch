@@ -3145,13 +3145,13 @@
       "folder": "data/park_docs/경상남도/밀양시/상남2농공단지",
       "org": "밀양시"
     },
-    "183": {
-      "folder": "data/park_docs/경기도/김포시/상마일반산업단지",
-      "org": "김포시"
-    },
     "191": {
       "folder": "data/park_docs/경기도/동두천시/동두천상봉암일반산업단지",
       "org": "동두천시"
+    },
+    "183": {
+      "folder": "data/park_docs/경기도/김포시/상마일반산업단지",
+      "org": "김포시"
     },
     "1287": {
       "folder": "data/park_docs/경상남도/창원시/상복일반산업단지",
