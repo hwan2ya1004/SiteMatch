@@ -13,7 +13,7 @@ from groq import Groq
 from langchain_groq import ChatGroq
 
 from services.park_docs import get_park_documents_text, _REGION_ABBR_TO_FULL
-from services.park_names import full_park_name
+from services.park_names import full_park_name, short_park_name
 
 # 단지 안내서의 관리기관·고시문 문의처(scripts/build_park_management.py로 생성). 문서로
 # 확인된 단지만 들어 있다 — 없는 단지는 지어내지 않고 그냥 생략한다.
@@ -330,11 +330,14 @@ class RAGService:
             if len(name) < 2:
                 continue
             full = full_park_name(p.get("name"), p.get("type")).replace(" ", "").lower()
-            hit = max((len(c) for c in {name, full} if c in q or q in c), default=0)
-            if not hit:
-                continue
+            short = short_park_name(p.get("name")).lower()
             city = (p.get("city") or "").replace(" ", "")
             city_core = city[:-1] if len(city) > 2 else city
+            # 정식 명칭에 시군명이 앞에 붙은 경우("동두천상봉암…")는 "상봉암"으로 물어도 찾도록
+            bare = short[len(city_core):] if city_core and short.startswith(city_core.lower()) else ""
+            hit = max((len(c) for c in {name, full, short, bare} if len(c) >= 2 and (c in q or q in c)), default=0)
+            if not hit:
+                continue
             key = (hit, 1 if city_core and city_core in q else 0)
             if key > best_key:
                 best, best_key = p, key

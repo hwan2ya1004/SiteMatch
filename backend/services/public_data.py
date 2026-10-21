@@ -97,8 +97,13 @@ KNOWN_ALIASES = {
 def _park_name_candidates(park_name: str) -> List[str]:
     """"반월·시화 국가산단"처럼 복수 단지를 묶은 이름은 개별 후보로 분리하고,
     KNOWN_ALIASES에 등록된 공식 명칭도 후보에 함께 넣는다."""
-    parts = re.split(r"[·,]", park_name)
+    from services.park_names import short_park_name
+    # 안내서 정식 명칭("생곡산업단지(부산진해경제자유구역)", "...[구:신평·장림]")은 괄호를 먼저 떼고
+    # 약칭("생곡")도 후보에 넣는다 — 예전 약칭 이름일 때 되던 통계 매칭이 그대로 되도록.
+    plain = re.sub(r"[\(\[][^\)\]]*[\)\]]", "", park_name)
+    parts = re.split(r"[·,]", plain)
     candidates = [_normalize_park_name(p) for p in parts if p.strip()]
+    candidates += [short_park_name(p) for p in parts if len(short_park_name(p)) >= 2]
     for alias in KNOWN_ALIASES.get(park_name, []):
         candidates.append(_normalize_park_name(alias))
     return candidates

@@ -23,10 +23,26 @@ def full_park_name(name: Optional[str], park_type: Optional[str]) -> str:
         return name
     m = _TRAILING_NOTE_RE.match(name)
     base, note = (m.group(1), m.group(2)) if m else (name, "")
-    if _ALREADY_FULL_RE.search(base.replace(" ", "")) or _ALREADY_FULL_RE.search(name.replace(" ", "")):
+    # 괄호 설명이 중간에 낀 정식 명칭("...혁신도시(공공주택지구)도시첨단산업단지(…)")도 그대로 둔다
+    unnoted = re.sub(r"[\(\[][^\)\]]*[\)\]]", "", name).replace(" ", "")
+    if _ALREADY_FULL_RE.search(base.replace(" ", "")) or _ALREADY_FULL_RE.search(unnoted):
         return name
     # "창원덴소도시첨단"처럼 유형 일부가 이미 붙은 약칭은 나머지만 잇는다 (→ "...도시첨단산업단지")
     for k in range(len(suffix) - 1, 1, -1):
         if base.endswith(suffix[:k]):
             return f"{base}{suffix[k:]}{note}"
     return f"{base}{suffix}{note}"
+
+
+# 단지명은 이제 안내서 정식 명칭("상복일반산업단지", "생곡산업단지(부산진해경제자유구역)")이 기본이라
+# 사용자가 흔히 쓰는 약칭("상복")이나 통계 API의 표기와 비교할 때는 괄호 설명과 유형 접미어를 뗀다.
+_NOTE_RE = re.compile(r"[\(\[][^\)\]]*[\)\]]")
+_SUFFIXES = ("도시첨단산업단지", "일반산업단지", "국가산업단지", "농공단지", "산업단지")
+
+
+def short_park_name(name: Optional[str]) -> str:
+    base = _NOTE_RE.sub("", (name or "")).replace(" ", "")
+    for s in _SUFFIXES:
+        if base.endswith(s) and len(base) - len(s) >= 2:
+            return base[: -len(s)]
+    return base
