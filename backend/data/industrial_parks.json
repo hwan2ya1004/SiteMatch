@@ -13298,7 +13298,10 @@
     "available_area": 0.0,
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전기, 가스, 증기 및 공기조절 공급업(발전)",
+      "폐기물 수집운반, 처리 및 원료재생업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -13950,7 +13953,14 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 공학 연구개발업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -13958,13 +13968,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.337238,
+    "lng": 129.23492,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 삼척시 근덕면 동막리 산 546"
   },
   {
     "id": 417,
