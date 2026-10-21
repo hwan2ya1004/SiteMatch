@@ -30692,7 +30692,13 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 기계 및 장비 제조업",
+      "기타 운송장비 제조업",
+      "산업용 기계 및 장비 수리업",
+      "전기, 가스, 증기 및 공기조절 공급업",
+      "개인 및 소비용품 수리업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
