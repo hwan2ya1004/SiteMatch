@@ -486,13 +486,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.090223,
+    "lng": 128.974076,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 461,
-    "operating_companies": 299
+    "operating_companies": 299,
+    "address": "부산광역시 사하구 신평동 544-2 (신평장림산업단지관리공단)"
   },
   {
     "id": 13,
@@ -515,13 +516,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.090223,
+    "lng": 128.974076,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 546,
-    "operating_companies": 480
+    "operating_companies": 480,
+    "address": "부산광역시 사하구 신평동 544-2 (신평장림산업단지관리공단)"
   },
   {
     "id": 14,
