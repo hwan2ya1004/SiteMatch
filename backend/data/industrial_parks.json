@@ -23112,7 +23112,7 @@
   },
   {
     "id": 690,
-    "name": "쌍신",
+    "name": "쌍신일반산업단지",
     "region": "충남",
     "city": "공주시",
     "type": "일반산단",
@@ -23120,7 +23120,11 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "자동차 및 트레일러 제조업",
+      "해체, 선별 및 원료 재생업",
+      "창고 및 운송관련 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -23131,7 +23135,7 @@
     "lat": 36.49216,
     "lng": 127.12896,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
     "operating_companies": 0,
