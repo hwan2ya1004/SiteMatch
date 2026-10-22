@@ -44265,7 +44265,7 @@
   },
   {
     "id": 1317,
-    "name": "해양신도시",
+    "name": "해양신도시도시첨단산업단지",
     "region": "경남",
     "city": "창원시",
     "type": "도시첨단산단",
@@ -44273,7 +44273,12 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "지식기반산업·정보통신산업(출판·영상·통신·소프트웨어·정보서비스)",
+      "연구개발·전문·과학기술 서비스업",
+      "사업지원·임대(부동산 제외)·교육 서비스업",
+      "첨단제조업 등(세부 업종 미기재)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -44287,7 +44292,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 창원시 마산합포구 해양신도시 도시개발사업구역 내"
   },
   {
     "id": 1318,
