@@ -26,7 +26,8 @@ from services.park_docs import find_park_folder  # noqa: E402
 PARKS_PATH = os.path.join(BACKEND_DIR, "data", "industrial_parks.json")
 OUT_PATH = os.path.join(BACKEND_DIR, "data", "park_management.json")
 
-_ORG_RE = re.compile(r"관리기관\s*([^\n]+)")
+# 같은 줄만 본다 — 칸이 비어 있으면(세종스마트) \s*가 줄바꿈을 넘어 다음 줄 '사업시행자 …'를 잡던 문제
+_ORG_RE = re.compile(r"관리기관[ \t]*([^\n]+)")
 _REGION_PREFIX_RE = re.compile(r"^(?:[가-힣]{2,10}_)+")
 # "투자유치과(☎033-250-4238)", "지역경제과 ☏ 055-330-0986", "기업지원과(☎ 061-...)"
 _PHONE_CTX_RE = re.compile(
