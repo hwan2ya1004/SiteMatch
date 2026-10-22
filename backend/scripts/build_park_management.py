@@ -38,7 +38,20 @@ _LEADING_NOISE_RE = re.compile(r"^(?:관계도서는|관련도서는|관계도�
 
 def _info_sheet(folder):
     path = os.path.join(folder, os.path.basename(folder) + ".pdf")
-    return path if os.path.isfile(path) else None
+    if os.path.isfile(path):
+        return path
+    # 안내서 파일명이 폴더명과 다른 경우("강동.pdf") — 첫 장에 '단지명칭'이 있는 PDF를 안내서로 본다
+    for name in sorted(os.listdir(folder)):
+        p = os.path.join(folder, name)
+        if not name.lower().endswith(".pdf"):
+            continue
+        try:
+            first = PdfReader(p).pages[0].extract_text() or ""
+        except Exception:
+            continue
+        if "단지명칭" in first[:600]:
+            return p
+    return None
 
 
 def _org_from_sheet(path):
