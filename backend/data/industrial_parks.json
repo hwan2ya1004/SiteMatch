@@ -3621,7 +3621,7 @@
   },
   {
     "id": 99,
-    "name": "소촌",
+    "name": "소촌일반산업단지",
     "region": "광주",
     "city": "광산구",
     "type": "일반산단",
@@ -3630,11 +3630,7 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "자동차 차체용 신품 부품 제조업",
-      "그 외 기타 전자부품 제조업",
-      "차체 및 특장차 제조업",
-      "그 외 기타 분류 안된 금속 가공 제품 제조업",
-      "치약, 비누 및 기타 세제 제조업"
+      "제조업(환경공해 유발 업종 제외)"
     ],
     "logistics": [],
     "features": [],
@@ -3643,13 +3639,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.149757,
+    "lng": 126.791977,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 64,
-    "operating_companies": 64
+    "operating_companies": 64,
+    "address": "전남광주통합특별시 광산구 소촌동 650"
   },
   {
     "id": 100,
@@ -3933,7 +3930,7 @@
   },
   {
     "id": 109,
-    "name": "소촌",
+    "name": "소촌농공단지",
     "region": "광주",
     "city": "광산구",
     "type": "농공산단",
@@ -3942,11 +3939,12 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "자동차 차체용 신품 부품 제조업",
-      "그 외 기타 전자부품 제조업",
-      "차체 및 특장차 제조업",
-      "그 외 기타 분류 안된 금속 가공 제품 제조업",
-      "치약, 비누 및 기타 세제 제조업"
+      "제조업(통합지침 입주가능 업종, 주요: 자동차부품·전기전자부품·기계금속부품)",
+      "창고업(일반·냉장냉동·기타 보관)",
+      "화물자동차 운송업·택배업(총면적 3% 이내)",
+      "자동차 및 모터사이클 수리업(산업시설구역 20% 이내)",
+      "부동산 임대 및 공급업",
+      "태양에너지·신재생에너지 발전업"
     ],
     "logistics": [],
     "features": [],
@@ -3961,7 +3959,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 80,
-    "operating_companies": 80
+    "operating_companies": 80,
+    "address": "전남광주통합특별시 광산구 소촌동, 운수동 일원"
   },
   {
     "id": 110,
