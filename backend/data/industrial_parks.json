@@ -23366,7 +23366,7 @@
   },
   {
     "id": 704,
-    "name": "송선",
+    "name": "송선일반산업단지",
     "region": "충남",
     "city": "공주시",
     "type": "일반산단",
@@ -23374,7 +23374,14 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "고무 및 플라스틱제품 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "가구 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -23385,7 +23392,7 @@
     "lat": 36.49236,
     "lng": 127.163959,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "보상중",
     "sale_rate": 0.0,
     "total_companies": 0,
     "operating_companies": 0,
