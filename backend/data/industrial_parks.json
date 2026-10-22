@@ -1753,7 +1753,7 @@
   },
   {
     "id": 49,
-    "name": "성서1차[재생사업지구]",
+    "name": "성서1차일반산업단지[재생사업지구]",
     "region": "대구",
     "city": "달서구",
     "type": "일반산단",
@@ -1761,7 +1761,12 @@
     "available_area": 0.0,
     "vacancy_rate": 0.7,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "제조업(C10~C33, 도금·도장·피혁·염색·제지·석유화학·타이어·철강·시멘트·레미콘·아스콘 제외)",
+      "지식산업센터 입주 업종",
+      "신·재생에너지 설비",
+      "비주거용 건물 임대업(조건부)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -1769,17 +1774,18 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.843792,
+    "lng": 128.506647,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 991,
-    "operating_companies": 984
+    "operating_companies": 984,
+    "address": "대구광역시 달서구 갈산동 123-4 (대구성서산업단지관리공단)"
   },
   {
     "id": 50,
-    "name": "성서2차[재생사업지구:부분]",
+    "name": "성서2차일반산업단지[재생사업지구:부분]",
     "region": "대구",
     "city": "달서구",
     "type": "일반산단",
@@ -1787,7 +1793,13 @@
     "available_area": 0.0,
     "vacancy_rate": 0.3,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "자동차부품 제조업(월암동 배치구역)",
+      "제조업(C10~C33, 도금·도장·피혁·염색·제지·석유화학·타이어·철강·시멘트·레미콘·아스콘 제외)",
+      "지식산업센터 입주 업종",
+      "신·재생에너지 설비",
+      "비주거용 건물 임대업(조건부)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -1795,17 +1807,18 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.831593,
+    "lng": 128.496645,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1218,
-    "operating_companies": 1214
+    "operating_companies": 1214,
+    "address": "대구광역시 달서구 월암동 1089-1 (자동차부품 제조 배치구역, 고시 제2025-233호)"
   },
   {
     "id": 51,
-    "name": "성서3차",
+    "name": "성서3차일반산업단지",
     "region": "대구",
     "city": "달서구",
     "type": "일반산단",
@@ -1813,7 +1826,12 @@
     "available_area": 0.0,
     "vacancy_rate": 0.6,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "제조업(C10~C33, 도금·도장·피혁·염색·제지·석유화학·타이어·철강·시멘트·레미콘·아스콘 제외)",
+      "지식산업센터 입주 업종",
+      "신·재생에너지 설비",
+      "비주거용 건물 임대업(조건부)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -1827,11 +1845,12 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 818,
-    "operating_companies": 813
+    "operating_companies": 813,
+    "address": "대구광역시 달서구 신당동·호산동·파호동·호림동·갈산동·월암동·대천동 일원"
   },
   {
     "id": 52,
-    "name": "성서4차",
+    "name": "성서4차일반산업단지",
     "region": "대구",
     "city": "달서구",
     "type": "일반산단",
@@ -1839,7 +1858,14 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학기기 및 시계 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -1847,13 +1873,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.83066,
+    "lng": 128.518699,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 69,
-    "operating_companies": 69
+    "operating_companies": 69,
+    "address": "대구광역시 달서구 월암동 1093 (대구광역시 공고 제2021-1090호 준공 구역)"
   },
   {
     "id": 53,
@@ -2214,7 +2241,7 @@
   },
   {
     "id": 61,
-    "name": "성서5차첨단",
+    "name": "성서5차첨단산업단지",
     "region": "대구",
     "city": "달성군",
     "type": "일반산단",
@@ -2223,11 +2250,12 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "주형 및 금형 제조업",
-      "그 외 기타 특수목적용 기계 제조업",
-      "치과기공물 제조업",
-      "금속 절삭기계 제조업",
-      "기어 및 동력전달장치 제조업"
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "정보통신 등 첨단업종"
     ],
     "logistics": [],
     "features": [],
@@ -2236,13 +2264,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.874659,
+    "lng": 128.47139,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 129,
-    "operating_companies": 129
+    "operating_companies": 129,
+    "address": "대구광역시 달성군 다사읍 세천리 1680-2 (단지 내 편의점 세븐일레븐성서5차산업단지점)"
   },
   {
     "id": 62,
