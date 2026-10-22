@@ -12325,7 +12325,16 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "비금속 광물제품 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "유치업종 미분류 용지: 제한업종 외 제조업(유해시설 제한)",
+      "태양력 발전업(옥상·지붕·주차장)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -12333,13 +12342,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.329412,
+    "lng": 126.760803,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "보상중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 안산시 단원구 신길동 331-1"
   },
   {
     "id": 360,
