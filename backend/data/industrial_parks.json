@@ -22673,7 +22673,22 @@
     "available_area": 0.0,
     "vacancy_rate": 10.5,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "목재 및 나무제품 제조업; 가구 제외",
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "고무 및 플라스틱제품 제조업",
+      "비금속 광물제품 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 발전업",
+      "하수·폐수 및 분뇨 처리업",
+      "폐기물 수집·운반·처리 및 원료 재생업",
+      "환경 정화 및 복원업",
+      "정보서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22687,11 +22702,12 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 38,
-    "operating_companies": 34
+    "operating_companies": 34,
+    "address": "충청남도 당진시 송산면 가곡리, 동곡리, 유곡리 및 송악읍 고대리 일원"
   },
   {
     "id": 683,
-    "name": "송산2(송산2중소협력외국인)",
+    "name": "송산2(송산2외국인)",
     "region": "충남",
     "city": "당진시",
     "type": "일반산단",
@@ -22699,7 +22715,16 @@
     "available_area": 101000.0,
     "vacancy_rate": 12.5,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "고무 및 플라스틱제품 제조업",
+      "비금속 광물제품 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22713,7 +22738,8 @@
     "dev_status": "완료",
     "sale_rate": 75.72,
     "total_companies": 8,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "충청남도 당진시 송산면 가곡리, 동곡리, 유곡리 및 송악읍 고대리 일원(송산2 일반산업단지 내)"
   },
   {
     "id": 684,
