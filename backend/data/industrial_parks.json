@@ -23787,7 +23787,9 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속가공제품 제조업; 기계 및 가구 제외"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -23795,13 +23797,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.253625,
+    "lng": 127.16449,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "보상중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 논산시 상월면 숙진리 24-3"
   },
   {
     "id": 717,
