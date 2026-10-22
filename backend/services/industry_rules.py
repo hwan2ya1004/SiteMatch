@@ -82,3 +82,10 @@ def check(park_id, division: Optional[int]) -> Tuple[str, str]:
 
 def is_blocked(park_id, division: Optional[int]) -> bool:
     return check(park_id, division)[0] == "blocked"
+
+
+def is_match_excluded(park_id) -> bool:
+    """대기업 1개사 전용 단지처럼 다른 기업이 입주할 여지가 없는 곳 — 지도·목록에는
+    위치 정보로 보여주되 AI 매칭 후보에서는 뺀다(규칙의 match_excluded)."""
+    rule = _load_rules().get(str(park_id))
+    return bool(rule and rule.get("match_excluded"))

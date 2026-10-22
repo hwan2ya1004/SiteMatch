@@ -331,11 +331,12 @@ class EmbeddingService:
             if region_pool:
                 pool = region_pool
 
-        # 지금 입주할 수 없는 단지(조성중/미개발/가용면적 없음)와, 공식 고시문서상 선택한
-        # 업종이 입주 불가로 확인된 단지는 후보에서 아예 뺀다.
+        # 지금 입주할 수 없는 단지(조성중/미개발/가용면적 없음), 공식 고시문서상 선택한
+        # 업종이 입주 불가로 확인된 단지, 1개사 전용 단지(match_excluded)는 후보에서 아예 뺀다.
         division = industry_rules.guess_division(industry)
         pool = [p for p in pool
-                if self._is_available(p) and not industry_rules.is_blocked(p.get("id"), division)]
+                if self._is_available(p) and not industry_rules.is_blocked(p.get("id"), division)
+                and not industry_rules.is_match_excluded(p.get("id"))]
 
         if len(pool) <= MAX_LLM_CANDIDATES:
             return pool
