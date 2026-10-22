@@ -334,8 +334,18 @@ class RAGService:
             city = (p.get("city") or "").replace(" ", "")
             city_core = city[:-1] if len(city) > 2 else city
             # 정식 명칭에 시군명이 앞에 붙은 경우("동두천상봉암…")는 "상봉암"으로 물어도 찾도록
-            bare = short[len(city_core):] if city_core and short.startswith(city_core.lower()) else ""
-            hit = max((len(c) for c in {name, full, short, bare} if len(c) >= 2 and (c in q or q in c)), default=0)
+            # "서울강동…"처럼 시도명이 붙은 경우도 같은 방식. 떼고 남은 게 유형어("국가")뿐이면 버린다
+            bare = ""
+            for pre in (city_core, (p.get("region") or "").replace(" ", "")):
+                if pre and short.startswith(pre.lower()) and len(short) > len(pre):
+                    bare = short[len(pre):]
+                    break
+            if bare in ("국가", "일반", "농공", "도시첨단", "첨단", "산업", "제2", "제3"):
+                bare = ""
+            # "한국수출(서울디지털)"처럼 괄호 안이 실제 단지 이름인 경우 — 구역·지구 설명은 제외
+            inner = {re.sub(r"지구$", "", s).lower() for s in re.findall(r"[\(\[]([^\)\]:]+)[\)\]]", name)
+                     if not re.search(r"구역|재생|외국인|공공주택", s)}
+            hit = max((len(c) for c in {name, full, short, bare, *inner} if len(c) >= 2 and (c in q or q in c)), default=0)
             if not hit:
                 continue
             key = (hit, 1 if city_core and city_core in q else 0)
