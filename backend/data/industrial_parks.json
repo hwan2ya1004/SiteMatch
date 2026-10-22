@@ -23230,13 +23230,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.975768,
+    "lng": 126.404358,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "준비중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 서산시 대산읍 대죽리 1001-6 (단지 내 근린공원·주차장 계획부지, 충청남도 고시 제2024-162호)"
   },
   {
     "id": 706,
@@ -23456,13 +23457,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.803209,
+    "lng": 126.870499,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "준비중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 아산시 선장면 대흥리 305 (단지 내 주차장 계획부지, 충청남도 고시 제2025-325호)"
   },
   {
     "id": 714,
