@@ -6726,7 +6726,7 @@
   },
   {
     "id": 193,
-    "name": "성남[재생사업지구]",
+    "name": "성남일반산업단지[재생사업지구]",
     "region": "경기",
     "city": "성남시",
     "type": "일반산단",
@@ -6734,7 +6734,11 @@
     "available_area": 0.0,
     "vacancy_rate": 0.1,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "제조업(C10~C33, 도축·원유정제·레미콘·합금철강 제외)",
+      "지식산업(M70~M73)",
+      "정보통신산업(J58~J63)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -6742,13 +6746,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.432418,
+    "lng": 127.168675,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2877,
-    "operating_companies": 2873
+    "operating_companies": 2873,
+    "address": "경기도 성남시 중원구 상대원동 517-14 (성남산업단지관리공단)"
   },
   {
     "id": 194,
