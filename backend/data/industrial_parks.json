@@ -37122,7 +37122,7 @@
   },
   {
     "id": 1107,
-    "name": "혁신원자력연구",
+    "name": "혁신원자력연구단지",
     "region": "경북",
     "city": "경주시",
     "type": "일반산단",
@@ -37130,7 +37130,9 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "연구개발업(원자력 연구)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -37138,13 +37140,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.767398,
+    "lng": 129.488645,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상북도 경주시 감포읍 대본리 1220"
   },
   {
     "id": 1108,
