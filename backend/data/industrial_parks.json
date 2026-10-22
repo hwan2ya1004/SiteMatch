@@ -29740,7 +29740,7 @@
   },
   {
     "id": 891,
-    "name": "신평",
+    "name": "임실신평농공단지",
     "region": "전북",
     "city": "임실군",
     "type": "농공산단",
@@ -29748,7 +29748,13 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전 제조업(아스콘·레미콘·시멘트제품·도정·도축·폐수배출 업종 제외)",
+      "물류창고업(지원시설)",
+      "에너지자원 비축·저장·공급업",
+      "태양에너지 발전업(건물 상부)",
+      "임대업(산집법 제38조의2)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -29756,13 +29762,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.662742,
+    "lng": 127.270265,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "전북특별자치도 임실군 신평면 대리 309"
   },
   {
     "id": 892,
