@@ -45715,7 +45715,7 @@
   },
   {
     "id": 1369,
-    "name": "송진전문",
+    "name": "송진전문농공단지",
     "region": "경남",
     "city": "창녕군",
     "type": "농공산단",
@@ -45723,7 +45723,13 @@
     "available_area": 0.0,
     "vacancy_rate": 20.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "기타 운송장비 제조업",
+      "태양력 발전업(지붕에 한함)",
+      "부동산 임대업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
