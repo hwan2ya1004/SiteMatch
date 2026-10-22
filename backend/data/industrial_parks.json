@@ -10588,7 +10588,7 @@
   },
   {
     "id": 311,
-    "name": "서울우유",
+    "name": "서울우유일반산업단지",
     "region": "경기",
     "city": "양주시",
     "type": "일반산단",
@@ -10596,7 +10596,9 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업(서울우유 공장)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -10604,13 +10606,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.842098,
+    "lng": 127.037525,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 양주시 은현면 용암리 916 (서울우유협동조합 양주신공장)"
   },
   {
     "id": 312,
@@ -44654,7 +44657,7 @@
   },
   {
     "id": 1349,
-    "name": "서울우유",
+    "name": "서울우유농공단지",
     "region": "경남",
     "city": "거창군",
     "type": "농공산단",
@@ -44662,7 +44665,9 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "낙농제품 및 아이스크림 제조업(서울우유 거창공장)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -44670,13 +44675,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.670662,
+    "lng": 127.926702,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 거창군 거창읍 정장리 500"
   },
   {
     "id": 1350,
