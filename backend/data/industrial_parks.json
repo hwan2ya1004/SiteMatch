@@ -35674,7 +35674,7 @@
   },
   {
     "id": 1079,
-    "name": "석포",
+    "name": "석포일반산업단지",
     "region": "경북",
     "city": "봉화군",
     "type": "일반산단",
@@ -35682,7 +35682,9 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "1차 금속 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -35693,7 +35695,7 @@
     "lat": 37.039479,
     "lng": 129.056671,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "준비중",
     "sale_rate": 0.0,
     "total_companies": 0,
     "operating_companies": 0,
