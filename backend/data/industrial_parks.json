@@ -5872,7 +5872,7 @@
   },
   {
     "id": 165,
-    "name": "세종복합",
+    "name": "세종복합일반산업단지",
     "region": "세종",
     "city": "세종",
     "type": "일반산단",
@@ -5880,7 +5880,14 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "네거티브 구역: 의약품·전자부품·자동차·기타 운송장비·가구 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -5891,7 +5898,7 @@
     "lat": 36.667045,
     "lng": 127.199579,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
     "operating_companies": 0,
