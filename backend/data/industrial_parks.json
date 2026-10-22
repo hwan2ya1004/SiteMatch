@@ -14707,7 +14707,7 @@
   },
   {
     "id": 434,
-    "name": "수동",
+    "name": "더존강촌캠퍼스산업단지[구:수동농공]",
     "region": "강원",
     "city": "춘천시",
     "type": "농공산단",
@@ -14715,7 +14715,15 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "인쇄 및 기록매체 복제업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "출판업",
+      "우편 및 통신업",
+      "컴퓨터 프로그래밍, 시스템 통합 및 관리업",
+      "정보서비스업",
+      "연구개발업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -14723,13 +14731,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.756716,
+    "lng": 127.638001,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "강원특별자치도 춘천시 남산면 수동리 749"
   },
   {
     "id": 435,
