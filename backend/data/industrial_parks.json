@@ -45205,7 +45205,7 @@
   },
   {
     "id": 1344,
-    "name": "실크융복합전문농공단지(구:실크전문)",
+    "name": "실크융복합전문농공단지[구:실크전문]",
     "region": "경남",
     "city": "진주시",
     "type": "농공산단",
@@ -45213,7 +45213,17 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업(실크 관련)",
+      "비알코올 음료 제조업(실크 관련)",
+      "섬유제품 제조업(실크)",
+      "의복·모피제품 제조업(실크)",
+      "세제·화장품 제조업(실크 관련)",
+      "의약품 제조업(실크 관련)",
+      "전문 디자인업(실크 관련)",
+      "태양력 발전업(지붕·옥상)",
+      "부동산 임대업(한국자산관리공사)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -45221,13 +45231,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.160384,
+    "lng": 128.165147,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 29,
-    "operating_companies": 29
+    "operating_companies": 29,
+    "address": "경상남도 진주시 문산읍 삼곡리 1661-2"
   },
   {
     "id": 1345,
