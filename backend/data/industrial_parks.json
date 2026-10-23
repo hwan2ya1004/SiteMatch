@@ -6362,7 +6362,7 @@
   },
   {
     "id": 177,
-    "name": "원정지구",
+    "name": "아산(원정지구)",
     "region": "경기",
     "city": "평택시",
     "type": "국가산단",
@@ -6371,8 +6371,8 @@
     "vacancy_rate": null,
     "rent_per_sqm": null,
     "industries": [
-      "수소 제조업",
-      "연료용 가스 제조 및 배관공급업"
+      "전 제조업(공해업종 제외)",
+      "기계조립·가스·자동차부품·전자·시멘트·양곡·목재·철강·금속 등"
     ],
     "logistics": [],
     "features": [],
@@ -6387,11 +6387,12 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 평택시 일원(아산국가산업단지 원정지구)"
   },
   {
     "id": 178,
-    "name": "포승지구",
+    "name": "아산(포승지구)",
     "region": "경기",
     "city": "평택시",
     "type": "국가산단",
@@ -6400,11 +6401,8 @@
     "vacancy_rate": 4.2,
     "rent_per_sqm": null,
     "industries": [
-      "자동차 차체용 신품 부품 제조업",
-      "냉장 및 냉동 창고업",
-      "그 외 기타 1차 철강 제조업",
-      "태양력 발전업",
-      "일반용 도료 및 관련제품 제조업"
+      "전 제조업(공해업종 제외)",
+      "1차금속·기계·식품·섬유·화학 등"
     ],
     "logistics": [],
     "features": [],
@@ -6413,13 +6411,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.968497,
+    "lng": 126.853836,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 262,
-    "operating_companies": 251
+    "operating_companies": 251,
+    "address": "경기도 평택시 포승읍 만호리 597"
   },
   {
     "id": 179,
