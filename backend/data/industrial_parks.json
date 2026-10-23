@@ -40285,7 +40285,7 @@
   },
   {
     "id": 1190,
-    "name": "안정",
+    "name": "안정국가산업단지",
     "region": "경남",
     "city": "통영시",
     "type": "국가산단",
@@ -40294,11 +40294,11 @@
     "vacancy_rate": 16.7,
     "rent_per_sqm": null,
     "industries": [
-      "태양력 발전업",
-      "강선 건조업",
-      "금속탱크 및 저장용기 제조업",
-      "선박 구성 부분품 제조업",
-      "지정 외 폐기물 처리업"
+      "화학물질 및 화학제품 제조업; 의약품 제외(기초무기화합물)",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 운송장비 제조업",
+      "전기, 가스, 증기 및 공기조절 공급업",
+      "해체, 선별 및 원료 재생업(재생용 가공원료 생산업)"
     ],
     "logistics": [],
     "features": [],
@@ -40313,7 +40313,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "경상남도 통영시 광도면 안정리, 황리 일원"
   },
   {
     "id": 1191,
@@ -41203,7 +41204,7 @@
   },
   {
     "id": 1216,
-    "name": "안정",
+    "name": "안정일반산업단지",
     "region": "경남",
     "city": "통영시",
     "type": "일반산단",
@@ -41212,11 +41213,7 @@
     "vacancy_rate": null,
     "rent_per_sqm": null,
     "industries": [
-      "태양력 발전업",
-      "강선 건조업",
-      "금속탱크 및 저장용기 제조업",
-      "선박 구성 부분품 제조업",
-      "지정 외 폐기물 처리업"
+      "기타 운송장비 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -41231,7 +41228,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 통영시 광도면 안정리 4번지 일원"
   },
   {
     "id": 1217,
