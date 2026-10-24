@@ -21835,7 +21835,7 @@
   },
   {
     "id": 638,
-    "name": "영보",
+    "name": "영보일반산업단지",
     "region": "충남",
     "city": "보령시",
     "type": "일반산단",
@@ -21843,7 +21843,9 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전기, 가스, 증기 및 공기조절 공급업(LNG 저장·기화·공급시설)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
