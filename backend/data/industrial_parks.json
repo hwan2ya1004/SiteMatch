@@ -25143,7 +25143,7 @@
   },
   {
     "id": 726,
-    "name": "우성(전문)",
+    "name": "우성농공전문단지",
     "region": "충남",
     "city": "공주시",
     "type": "농공산단",
@@ -25151,7 +25151,9 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "비금속 광물제품 제조업(건설자재 제조 전문단지)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -25159,13 +25161,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.446229,
+    "lng": 127.047297,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "충청남도 공주시 우성면 보흥리 916번지 일원"
   },
   {
     "id": 727,
