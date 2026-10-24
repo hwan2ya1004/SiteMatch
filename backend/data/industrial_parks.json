@@ -31990,7 +31990,7 @@
   },
   {
     "id": 943,
-    "name": "용당",
+    "name": "영암용당일반산업단지",
     "region": "전남",
     "city": "영암군",
     "type": "일반산단",
@@ -31998,7 +31998,9 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 운송장비 제조업(선박구성부품 제조업)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -32009,10 +32011,11 @@
     "lat": null,
     "lng": null,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "보상중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 영암군 삼호읍 용당리 산24-7번지 일원"
   },
   {
     "id": 944,
@@ -34272,7 +34275,7 @@
   },
   {
     "id": 1007,
-    "name": "영암특화",
+    "name": "영암특화농공단지",
     "region": "전남",
     "city": "영암군",
     "type": "농공산단",
@@ -34281,11 +34284,11 @@
     "vacancy_rate": 25.0,
     "rent_per_sqm": null,
     "industries": [
-      "기타 과실ㆍ채소 가공 및 저장 처리업",
-      "떡류 제조업",
-      "농업 및 임업용 기계 제조업",
-      "기타 식품 첨가물 제조업",
-      "수산동물 건조 및 염장품 제조업"
+      "식료품 제조업",
+      "음료 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -34300,7 +34303,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "전남광주통합특별시 영암군 영암읍 망호리 1150번지 일원"
   },
   {
     "id": 1008,
