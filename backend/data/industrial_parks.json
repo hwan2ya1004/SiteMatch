@@ -8181,7 +8181,7 @@
   },
   {
     "id": 225,
-    "name": "오성(외국인)",
+    "name": "오성일반산업단지[외국인]",
     "region": "경기",
     "city": "평택시",
     "type": "일반산단",
@@ -8189,7 +8189,18 @@
     "available_area": 0.0,
     "vacancy_rate": 16.7,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "비금속 광물제품 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "창고 및 운송관련 서비스업",
+      "건축기술, 엔지니어링 및 기타 과학기술 서비스업",
+      "태양력 발전업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -8203,7 +8214,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경기도 평택시 오성면 양교리, 청북면 토진리 일원"
   },
   {
     "id": 226,
