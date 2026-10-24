@@ -41145,7 +41145,7 @@
   },
   {
     "id": 1198,
-    "name": "오비",
+    "name": "오비일반산업단지",
     "region": "경남",
     "city": "거제시",
     "type": "일반산단",
@@ -41153,7 +41153,10 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 운송장비 제조업(조선 관련)",
+      "연구개발업(연구시설구역: 한국조선해양기자재연구원)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -43635,7 +43638,7 @@
   },
   {
     "id": 1272,
-    "name": "오비2",
+    "name": "오비2일반산업단지",
     "region": "경남",
     "city": "거제시",
     "type": "일반산단",
@@ -43643,7 +43646,9 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 운송장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -43654,7 +43659,7 @@
     "lat": 34.916021,
     "lng": 128.612387,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
     "operating_companies": 0,
