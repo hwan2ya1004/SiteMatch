@@ -36071,7 +36071,7 @@
   },
   {
     "id": 1043,
-    "name": "외동",
+    "name": "외동일반산업단지",
     "region": "경북",
     "city": "경주시",
     "type": "일반산단",
@@ -36080,11 +36080,11 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "그 외 자동차용 신품 부품 제조업",
-      "태양력 발전업",
-      "자동차용 신품 의자 제조업",
-      "그 외 기타 금속가공업",
-      "자동차 차체용 신품 부품 제조업"
+      "목재 및 나무제품 제조업; 가구 제외",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "자동차 및 트레일러 제조업",
+      "태양에너지 발전업(입주기업체 지붕에 한함)",
+      "부동산 임대업"
     ],
     "logistics": [],
     "features": [],
@@ -36099,11 +36099,12 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 22,
-    "operating_companies": 22
+    "operating_companies": 22,
+    "address": "경상북도 경주시 외동읍 문산리 790번지 일원"
   },
   {
     "id": 1044,
-    "name": "외동2",
+    "name": "외동2일반산업단지",
     "region": "경북",
     "city": "경주시",
     "type": "일반산단",
@@ -36111,7 +36112,15 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "창고 및 운송관련 서비스업",
+      "태양에너지 발전업(입주기업체 지붕에 한함)",
+      "부동산 임대업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -38267,7 +38276,7 @@
   },
   {
     "id": 1106,
-    "name": "외동3",
+    "name": "외동3일반산업단지",
     "region": "경북",
     "city": "경주시",
     "type": "일반산단",
@@ -38275,7 +38284,12 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -38880,7 +38894,7 @@
   },
   {
     "id": 1123,
-    "name": "외동",
+    "name": "외동농공단지",
     "region": "경북",
     "city": "경주시",
     "type": "농공산단",
@@ -38889,11 +38903,10 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "그 외 자동차용 신품 부품 제조업",
-      "태양력 발전업",
-      "자동차용 신품 의자 제조업",
-      "그 외 기타 금속가공업",
-      "자동차 차체용 신품 부품 제조업"
+      "고무 및 플라스틱제품 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -38908,7 +38921,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 5,
-    "operating_companies": 5
+    "operating_companies": 5,
+    "address": "경상북도 경주시 외동읍 구어리 일원"
   },
   {
     "id": 1124,
