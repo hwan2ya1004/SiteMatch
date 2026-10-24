@@ -15899,7 +15899,7 @@
   },
   {
     "id": 462,
-    "name": "양양제2그린",
+    "name": "양양제2그린농공단지",
     "region": "강원",
     "city": "양양군",
     "type": "농공산단",
@@ -15908,11 +15908,14 @@
     "vacancy_rate": 18.8,
     "rent_per_sqm": null,
     "industries": [
-      "기타 과실ㆍ채소 가공 및 저장 처리업",
-      "과실 및 그 외 채소 절임식품 제조업",
-      "일반 제재업",
-      "수산동물 훈제, 조리 및 유사 조제식품 제조업",
-      "기타 비알코올 음료 제조업"
+      "식료품 제조업",
+      "음료 제조업",
+      "목재 및 나무제품 제조업; 가구 제외",
+      "비금속 광물제품 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -15927,7 +15930,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 16,
-    "operating_companies": 13
+    "operating_companies": 13,
+    "address": "강원특별자치도 양양군 양양읍 포월리 일원"
   },
   {
     "id": 463,
@@ -16128,7 +16132,11 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "양식 어업",
+      "수산동물 가공 및 저장 처리업",
+      "연구개발업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -16139,10 +16147,11 @@
     "lat": null,
     "lng": null,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "준비중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 양양군 현북면 중광정리 131-8번지 일원"
   },
   {
     "id": 470,
