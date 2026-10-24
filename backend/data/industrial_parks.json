@@ -41077,7 +41077,7 @@
   },
   {
     "id": 1187,
-    "name": "옥포",
+    "name": "옥포국가산업단지",
     "region": "경남",
     "city": "거제시",
     "type": "국가산단",
@@ -41085,7 +41085,9 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "대형조선소·조선기자재공장(신조선, 해양플랜트, 특수선박, 기계공업 등)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -41099,7 +41101,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상남도 거제시 아주동, 두모동, 옥포동, 능포동 일원"
   },
   {
     "id": 1188,
