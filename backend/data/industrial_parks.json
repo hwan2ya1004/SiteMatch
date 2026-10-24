@@ -41679,7 +41679,7 @@
   },
   {
     "id": 1227,
-    "name": "억만",
+    "name": "억만일반산업단지",
     "region": "경남",
     "city": "창녕군",
     "type": "일반산단",
@@ -41688,7 +41688,7 @@
     "vacancy_rate": 50.0,
     "rent_per_sqm": null,
     "industries": [
-      "그 외 기타 1차 철강 제조업"
+      "1차 금속 제조업"
     ],
     "logistics": [],
     "features": [],
