@@ -11548,7 +11548,7 @@
   },
   {
     "id": 329,
-    "name": "영진바이오",
+    "name": "영진바이오일반산업단지",
     "region": "경기",
     "city": "화성시",
     "type": "일반산단",
@@ -11556,7 +11556,10 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "의료용 물질 및 의약품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
