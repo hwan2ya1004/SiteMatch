@@ -18386,7 +18386,7 @@
   },
   {
     "id": 536,
-    "name": "에스폼",
+    "name": "에스폼산업단지",
     "region": "충북",
     "city": "진천군",
     "type": "일반산단",
@@ -18394,7 +18394,13 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "태양력 발전업(건물 옥상·지붕)",
+      "비주거용 건물 임대업·기타 부동산 임대업(한국자산관리공사 임대에 한함)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
