@@ -10266,7 +10266,7 @@
   },
   {
     "id": 289,
-    "name": "장안",
+    "name": "여주장안일반산업단지",
     "region": "경기",
     "city": "여주시",
     "type": "일반산단",
@@ -10274,7 +10274,10 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "비금속 광물제품 제조업",
+      "태양력 발전업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -10288,7 +10291,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경기도 여주시 점동면 안평로 79(장안리 716번지) 일원"
   },
   {
     "id": 290,
@@ -12614,7 +12618,13 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "음료 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학기기 및 시계 제조업",
+      "태양력 발전업(건물 옥상·지붕·주차장)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -12625,10 +12635,11 @@
     "lat": null,
     "lng": null,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "준비중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 여주시 가남읍 삼군리 산2-2 일원"
   },
   {
     "id": 364,
