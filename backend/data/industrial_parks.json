@@ -24889,7 +24889,7 @@
   },
   {
     "id": 736,
-    "name": "연무",
+    "name": "연무농공단지",
     "region": "충남",
     "city": "논산시",
     "type": "농공산단",
@@ -24898,7 +24898,7 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "수산동물 훈제, 조리 및 유사 조제식품 제조업"
+      "식료품 제조업"
     ],
     "logistics": [],
     "features": [],
