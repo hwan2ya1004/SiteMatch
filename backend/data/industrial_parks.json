@@ -8098,7 +8098,7 @@
   },
   {
     "id": 224,
-    "name": "어연한산",
+    "name": "어연한산일반산업단지",
     "region": "경기",
     "city": "평택시",
     "type": "일반산단",
@@ -8106,7 +8106,13 @@
     "available_area": 0.0,
     "vacancy_rate": 11.8,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "첨단산업업종",
+      "조립금속·기계",
+      "음·식료품",
+      "석유·화학",
+      "기타 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
