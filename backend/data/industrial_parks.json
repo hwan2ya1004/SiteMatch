@@ -28124,7 +28124,7 @@
   },
   {
     "id": 803,
-    "name": "은산패션전문",
+    "name": "은산패션전문농공단지",
     "region": "충남",
     "city": "부여군",
     "type": "농공산단",
@@ -28132,7 +28132,9 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "가죽, 가방 및 신발 제조업(화·잡화 및 의류제품)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -28140,13 +28142,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.314384,
+    "lng": 126.842872,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 부여군 은산면 은산리 산14-91 일원"
   },
   {
     "id": 804,
@@ -28287,7 +28290,7 @@
   },
   {
     "id": 808,
-    "name": "은산산업단지(구 은산농공단지)",
+    "name": "은산산업단지[구:은산농공]",
     "region": "충남",
     "city": "부여군",
     "type": "농공산단",
@@ -28295,7 +28298,9 @@
     "available_area": 0.0,
     "vacancy_rate": 10.5,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전 제조업(C10~C34, 제한업종 제외)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -28303,17 +28308,18 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.30306,
+    "lng": 126.85158,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 17
+    "operating_companies": 17,
+    "address": "충청남도 부여군 은산면 은산리 20 일원"
   },
   {
     "id": 809,
-    "name": "은산2산업단지(구 은산2농공단지)",
+    "name": "은산2산업단지[구:은산2농공]",
     "region": "충남",
     "city": "부여군",
     "type": "농공산단",
@@ -28321,7 +28327,20 @@
     "available_area": 0.0,
     "vacancy_rate": 18.2,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "펄프, 종이 및 종이제품 제조업",
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "고무 및 플라스틱제품 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학기기 및 시계 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "기타 운송장비 제조업",
+      "태양력 발전업(건물 옥상)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -28329,13 +28348,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.302615,
+    "lng": 126.83921,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 9
+    "operating_companies": 9,
+    "address": "충청남도 부여군 은산면 가중리 569 일원"
   },
   {
     "id": 810,
