@@ -22002,7 +22002,7 @@
   },
   {
     "id": 617,
-    "name": "적성",
+    "name": "적성농공단지",
     "region": "충북",
     "city": "단양군",
     "type": "농공산단",
@@ -22010,7 +22010,9 @@
     "available_area": 0.0,
     "vacancy_rate": 44.4,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "한국표준산업분류상 전 제조업 — 현재 표: 식료품·의복·화학·고무플라스틱·금속가공·컴퓨터·전기장비·기계"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22024,7 +22026,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 18,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "충청북도 단양군 적성면 각기리 일원"
   },
   {
     "id": 618,
