@@ -21214,7 +21214,7 @@
   },
   {
     "id": 596,
-    "name": "장안",
+    "name": "장안농공단지",
     "region": "충북",
     "city": "보은군",
     "type": "농공산단",
@@ -21222,7 +21222,11 @@
     "available_area": 0.0,
     "vacancy_rate": 25.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "한국표준산업분류상 전 제조업(무공해·지역경제 기여 업종, 입주제한업종 제외)",
+      "태양력 발전업(추가)",
+      "비주거용 건물 임대업·기타 부동산 임대업(한국자산관리공사)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -21230,13 +21234,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.471736,
+    "lng": 127.767983,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 36,
-    "operating_companies": 27
+    "operating_companies": 27,
+    "address": "충청북도 보은군 장안면 구인리 234-1 일원"
   },
   {
     "id": 597,
