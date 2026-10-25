@@ -12727,7 +12727,7 @@
   },
   {
     "id": 354,
-    "name": "이천유산",
+    "name": "이천유산일반산업단지",
     "region": "경기",
     "city": "이천시",
     "type": "일반산단",
@@ -12735,7 +12735,9 @@
     "available_area": 0.0,
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -12743,14 +12745,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": 37.242693,
-    "lng": 127.426791,
+    "lat": 37.242888,
+    "lng": 127.427847,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 2,
     "operating_companies": 0,
-    "address": "경기도 이천시 호법면 안평리 112-4"
+    "address": "경기도 이천시 호법면 유산리 896-1 일원"
   },
   {
     "id": 355,
