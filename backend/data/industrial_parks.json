@@ -8474,7 +8474,7 @@
   },
   {
     "id": 226,
-    "name": "장당",
+    "name": "장당일반산업단지",
     "region": "경기",
     "city": "평택시",
     "type": "일반산단",
@@ -8503,7 +8503,7 @@
     "sale_rate": 100.0,
     "total_companies": 5,
     "operating_companies": 5,
-    "address": "경기도 평택시 장당동 623"
+    "address": "경기도 평택시 장당동 일원"
   },
   {
     "id": 227,
