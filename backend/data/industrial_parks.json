@@ -5448,7 +5448,13 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -5459,10 +5465,11 @@
     "lat": null,
     "lng": null,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "보상중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "울산광역시 동구 서부동, 북구 염포동 일원"
   },
   {
     "id": 147,
