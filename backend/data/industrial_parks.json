@@ -27923,7 +27923,7 @@
   },
   {
     "id": 797,
-    "name": "은하",
+    "name": "은하농공단지",
     "region": "충남",
     "city": "홍성군",
     "type": "농공산단",
@@ -27932,11 +27932,11 @@
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
     "industries": [
-      "구조용 금속 판제품 및 공작물 제조업",
-      "차체 및 특장차 제조업",
-      "유기발광 표시장치 제조업",
-      "바이오매스계 기초 화학물질 제조업",
-      "변압기 제조업"
+      "전기전자",
+      "조립금속",
+      "석유화학",
+      "음식료",
+      "기타 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -27952,11 +27952,11 @@
     "sale_rate": 100.0,
     "total_companies": 3,
     "operating_companies": 0,
-    "address": "충청남도 홍성군 은하면 장척리 1126"
+    "address": "충청남도 홍성군 은하면 장척리 1124 일원"
   },
   {
     "id": 798,
-    "name": "은하전문",
+    "name": "은하전문농공단지",
     "region": "충남",
     "city": "홍성군",
     "type": "농공산단",
@@ -27964,7 +27964,12 @@
     "available_area": 0.0,
     "vacancy_rate": 12.5,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -27979,7 +27984,7 @@
     "sale_rate": 100.0,
     "total_companies": 8,
     "operating_companies": 7,
-    "address": "충청남도 홍성군 은하면 화봉리 1008-3"
+    "address": "충청남도 홍성군 은하면 화봉리 1007-4 일원"
   },
   {
     "id": 799,
