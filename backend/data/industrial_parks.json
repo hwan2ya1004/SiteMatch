@@ -40710,7 +40710,7 @@
   },
   {
     "id": 1151,
-    "name": "적서",
+    "name": "적서농공단지",
     "region": "경북",
     "city": "영주시",
     "type": "농공산단",
@@ -40719,7 +40719,7 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "알루미늄 제련, 정련 및 합금 제조업"
+      "1차 금속 제조업(알루미늄 제조)"
     ],
     "logistics": [],
     "features": [],
@@ -40735,7 +40735,7 @@
     "sale_rate": 100.0,
     "total_companies": 1,
     "operating_companies": 1,
-    "address": "경상북도 영주시 적서공단로 23 (적서동)"
+    "address": "경상북도 영주시 적서동 일원"
   },
   {
     "id": 1152,
