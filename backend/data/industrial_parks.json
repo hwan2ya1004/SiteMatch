@@ -28447,7 +28447,7 @@
   },
   {
     "id": 810,
-    "name": "임천산업단지(구 임천농공단지)",
+    "name": "임천산업단지[구:임천농공]",
     "region": "충남",
     "city": "부여군",
     "type": "농공산단",
@@ -28455,7 +28455,10 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전 제조업(C10~C34, 제한업종 제외)",
+      "태양력 발전업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -28463,13 +28466,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.162143,
+    "lng": 126.910158,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "충청남도 부여군 임천면 칠산리 330 일원"
   },
   {
     "id": 811,
