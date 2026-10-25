@@ -43633,7 +43633,7 @@
   },
   {
     "id": 1244,
-    "name": "죽곡",
+    "name": "창원죽곡일반산업단지",
     "region": "경남",
     "city": "창원시 진해구",
     "type": "일반산단",
@@ -43642,11 +43642,11 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "육상 금속 골조 구조재 제조업",
-      "선박 구성 부분품 제조업",
-      "볼트 및 너트류 제조업",
-      "일반 창고업",
-      "그 외 기타 일반목적용 기계 제조업"
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "기타 운송장비 제조업",
+      "창고 및 운송관련 서비스업",
+      "태양력 발전업"
     ],
     "logistics": [],
     "features": [],
@@ -43661,11 +43661,12 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "경상남도 창원시 진해구 죽곡동 384-1 일원"
   },
   {
     "id": 1245,
-    "name": "창원",
+    "name": "창원일반산업단지",
     "region": "경남",
     "city": "창원시",
     "type": "일반산단",
@@ -43673,7 +43674,16 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "의료, 정밀, 광학기기 및 시계 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업",
+      "태양력 발전업"
+    ],
     "logistics": [
       "고속도로 IC 15분 이내",
       "항만 인접 (30분 이내)"
@@ -43695,7 +43705,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 60,
-    "operating_companies": 60
+    "operating_companies": 60,
+    "address": "경상남도 창원시 의창구 대산면 가술리 704-1 일원"
   },
   {
     "id": 1246,
@@ -45018,7 +45029,7 @@
   },
   {
     "id": 1285,
-    "name": "죽곡2",
+    "name": "창원죽곡2일반산업단지",
     "region": "경남",
     "city": "창원시 진해구",
     "type": "일반산단",
@@ -45026,7 +45037,12 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -45034,13 +45050,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.107414,
+    "lng": 128.721098,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 창원시 진해구 죽곡동 산106 일원"
   },
   {
     "id": 1286,
