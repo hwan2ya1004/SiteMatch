@@ -45061,7 +45061,7 @@
   },
   {
     "id": 1286,
-    "name": "칠원용산",
+    "name": "칠원용산일반산업단지",
     "region": "경남",
     "city": "함안군",
     "type": "일반산단",
@@ -45070,11 +45070,12 @@
     "vacancy_rate": null,
     "rent_per_sqm": null,
     "industries": [
-      "절삭가공 및 유사처리업",
-      "그 외 기타 나무제품 제조업",
-      "무기 및 총포탄 제조업",
-      "그 외 기타 분류 안된 금속 가공 제품 제조업",
-      "기타 구조용 금속제품 제조업"
+      "목재 및 나무제품 제조업; 가구 제외",
+      "펄프, 종이 및 종이제품 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "태양력 발전업",
+      "부동산 임대업"
     ],
     "logistics": [],
     "features": [],
@@ -45083,13 +45084,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.302337,
+    "lng": 128.504574,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 함안군 칠원읍 용산리 709 일원"
   },
   {
     "id": 1287,
