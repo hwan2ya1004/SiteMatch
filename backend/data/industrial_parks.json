@@ -31116,7 +31116,7 @@
   },
   {
     "id": 890,
-    "name": "이서특별",
+    "name": "이서특별농공단지",
     "region": "전북",
     "city": "완주군",
     "type": "농공산단",
@@ -31124,7 +31124,9 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "섬유제품 제조업; 의복제외"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -31139,7 +31141,7 @@
     "sale_rate": 100.0,
     "total_companies": 6,
     "operating_companies": 6,
-    "address": "전북특별자치도 완주군 이서면 은교리 842"
+    "address": "전북특별자치도 완주군 이서면 은교리 일원"
   },
   {
     "id": 891,
