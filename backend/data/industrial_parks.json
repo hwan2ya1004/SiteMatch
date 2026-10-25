@@ -8875,7 +8875,7 @@
   },
   {
     "id": 237,
-    "name": "장안첨단(1)(외국인)",
+    "name": "장안첨단(1)일반산업단지[외국인]",
     "region": "경기",
     "city": "화성시",
     "type": "일반산단",
@@ -8883,7 +8883,18 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "섬유제품 제조업; 의복제외",
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "폐기물 수집·운반·처리업",
+      "태양력 발전업·기타 발전업(연료전지·태양에너지)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -8897,11 +8908,12 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "경기도 화성시 장안면 금의리, 석포리, 수촌리 일원"
   },
   {
     "id": 238,
-    "name": "장안첨단(2)(외국인)",
+    "name": "장안첨단(2)일반산업단지[외국인]",
     "region": "경기",
     "city": "화성시",
     "type": "일반산단",
@@ -8909,7 +8921,15 @@
     "available_area": 0.0,
     "vacancy_rate": 12.5,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "의료용 물질 및 의약품 제조업",
+      "고무 및 플라스틱제품 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "도매 및 상품중개업(화학물질 및 화학제품 도매, 복합구역)",
+      "태양력 발전업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -8923,7 +8943,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "경기도 화성시 장안면 수촌리 일원"
   },
   {
     "id": 239,
