@@ -35680,7 +35680,7 @@
   },
   {
     "id": 1024,
-    "name": "월성전원",
+    "name": "월성전원단지",
     "region": "경북",
     "city": "경주시",
     "type": "국가산단",
@@ -35688,7 +35688,9 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "원자력 발전업(월성원자력발전소)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -35696,13 +35698,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.70415,
+    "lng": 129.471699,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "경상북도 경주시 양남면 동해안로 693-13 (월성원자력본부, 나아리 983)"
   },
   {
     "id": 1025,
@@ -41615,7 +41618,7 @@
   },
   {
     "id": 1189,
-    "name": "지세포자원비축",
+    "name": "지세포자원비축단지",
     "region": "경남",
     "city": "거제시",
     "type": "국가산단",
@@ -41623,7 +41626,9 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "원유비축시설(광업 지원 서비스업)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
