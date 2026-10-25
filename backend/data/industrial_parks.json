@@ -31353,7 +31353,7 @@
   },
   {
     "id": 893,
-    "name": "임실",
+    "name": "임실농공단지",
     "region": "전북",
     "city": "임실군",
     "type": "농공산단",
@@ -31362,11 +31362,14 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "도시락류 제조업",
-      "위생용 종이제품 제조업",
-      "기타 부동산 임대업",
-      "구조용 금속 판제품 및 공작물 제조업",
-      "탭, 밸브 및 유사장치 제조업"
+      "식료품 제조업",
+      "음료 제조업",
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "전기, 가스, 증기 및 공기조절 공급업(태양에너지 발전)"
     ],
     "logistics": [],
     "features": [],
@@ -31382,7 +31385,7 @@
     "sale_rate": 100.0,
     "total_companies": 1,
     "operating_companies": 1,
-    "address": "전북특별자치도 임실군 임실읍 이도리 962"
+    "address": "전북특별자치도 임실군 임실읍 이도리 산1-4 일원"
   },
   {
     "id": 894,
@@ -31651,7 +31654,7 @@
   },
   {
     "id": 902,
-    "name": "임실제2",
+    "name": "임실제2농공단지",
     "region": "전북",
     "city": "임실군",
     "type": "농공산단",
@@ -31659,7 +31662,11 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "제조업(입주제한업종 제외) — 주요: 1차금속·금속가공·자동차 및 트레일러",
+      "태양에너지 발전업",
+      "임대업(한국자산관리공사)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -31673,7 +31680,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전북특별자치도 임실군 임실읍 갈마리 산81 일원"
   },
   {
     "id": 903,
