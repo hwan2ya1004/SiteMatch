@@ -44425,7 +44425,7 @@
   },
   {
     "id": 1262,
-    "name": "이노비즈밸리",
+    "name": "이노비즈밸리일반산업단지",
     "region": "경남",
     "city": "김해시",
     "type": "일반산단",
@@ -44433,7 +44433,16 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "비금속 광물제품 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "육상운송 및 파이프라인 운송업",
+      "창고 및 운송관련 서비스업",
+      "태양력 발전업",
+      "부동산 임대업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -44448,7 +44457,7 @@
     "sale_rate": 100.0,
     "total_companies": 3,
     "operating_companies": 3,
-    "address": "경상남도 김해시 주촌면 덕암리 996"
+    "address": "경상남도 김해시 주촌면 덕암리 993 일원"
   },
   {
     "id": 1263,
