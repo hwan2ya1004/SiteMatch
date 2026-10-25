@@ -15618,7 +15618,7 @@
   },
   {
     "id": 435,
-    "name": "장성",
+    "name": "장성농공단지",
     "region": "강원",
     "city": "태백시",
     "type": "농공산단",
@@ -15626,7 +15626,13 @@
     "available_area": 6000.0,
     "vacancy_rate": 23.5,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "음료 제조업",
+      "섬유제품 제조업; 의복제외",
+      "목재 및 나무제품 제조업; 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -15641,7 +15647,7 @@
     "sale_rate": 92.59,
     "total_companies": 17,
     "operating_companies": 13,
-    "address": "강원특별자치도 태백시 장성동 268"
+    "address": "강원특별자치도 태백시 장성동 일원"
   },
   {
     "id": 436,
