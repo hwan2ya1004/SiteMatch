@@ -27283,7 +27283,7 @@
   },
   {
     "id": 786,
-    "name": "운곡",
+    "name": "청양운곡농공단지",
     "region": "충남",
     "city": "청양군",
     "type": "농공산단",
@@ -27312,13 +27312,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.498304,
+    "lng": 126.831174,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 12,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "충청남도 청양군 운곡면 효제리 977번지 일원"
   },
   {
     "id": 787,
@@ -27712,7 +27713,7 @@
   },
   {
     "id": 799,
-    "name": "운곡2",
+    "name": "청양운곡2농공단지",
     "region": "충남",
     "city": "청양군",
     "type": "농공산단",
@@ -27738,13 +27739,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.527801,
+    "lng": 126.849094,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "충청남도 청양군 운곡면 신대리 795번지 일원"
   },
   {
     "id": 800,
