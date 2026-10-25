@@ -14074,7 +14074,7 @@
   },
   {
     "id": 392,
-    "name": "원주자동차부품",
+    "name": "원주자동차부품일반산업단지",
     "region": "강원",
     "city": "원주시",
     "type": "일반산단",
@@ -14083,7 +14083,7 @@
     "vacancy_rate": 50.0,
     "rent_per_sqm": null,
     "industries": [
-      "그 외 자동차용 신품 부품 제조업"
+      "자동차 및 트레일러 제조업"
     ],
     "logistics": [],
     "features": [],
