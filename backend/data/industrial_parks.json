@@ -22772,7 +22772,7 @@
   },
   {
     "id": 642,
-    "name": "인주1",
+    "name": "인주1공구(산업)",
     "region": "충남",
     "city": "아산시",
     "type": "일반산단",
@@ -22780,7 +22780,13 @@
     "available_area": 0.0,
     "vacancy_rate": 10.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "창고 및 운송관련 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22795,11 +22801,11 @@
     "sale_rate": 100.0,
     "total_companies": 40,
     "operating_companies": 36,
-    "address": "충청남도 아산시 인주면 걸매리 1033"
+    "address": "충청남도 아산시 인주면 걸매리 일원"
   },
   {
     "id": 643,
-    "name": "인주(외국인)",
+    "name": "인주1공구(인주외국인)",
     "region": "충남",
     "city": "아산시",
     "type": "일반산단",
@@ -22807,7 +22813,15 @@
     "available_area": 0.0,
     "vacancy_rate": 14.3,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 직물제품·부직포 및 펠트 제조업",
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "1차 금속 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -22821,7 +22835,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "충청남도 아산시 인주면 걸매리 일원(인주1공구 내)"
   },
   {
     "id": 645,
@@ -24331,7 +24346,7 @@
   },
   {
     "id": 692,
-    "name": "인주(3공구)",
+    "name": "인주일반산업단지(3공구)",
     "region": "충남",
     "city": "아산시",
     "type": "일반산단",
@@ -24339,7 +24354,16 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "담배제품 제조업",
+      "1차 금속 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "창고 및 운송관련 서비스업(물류시설용지)",
+      "복합용지: 환경정화·출판·영상·방송·통신·소프트웨어·정보서비스·무형재산권 임대·연구개발·전문서비스·사업지원·교육·창작예술"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -24350,11 +24374,11 @@
     "lat": 36.87823,
     "lng": 126.896085,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "미개발",
+    "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
     "operating_companies": 0,
-    "address": "충청남도 아산시 인주면 걸매리 525-2"
+    "address": "충청남도 아산시 인주면 걸매리 670 일원"
   },
   {
     "id": 693,
