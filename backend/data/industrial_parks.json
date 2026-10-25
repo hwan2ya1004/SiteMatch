@@ -41707,7 +41707,7 @@
   },
   {
     "id": 1192,
-    "name": "창원[재생사업지구:부분]",
+    "name": "창원국가산업단지[재생사업지구:부분]",
     "region": "경남",
     "city": "창원시",
     "type": "국가산단",
@@ -41715,7 +41715,11 @@
     "available_area": 0.0,
     "vacancy_rate": 13.9,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기계공업 및 관련공업: 소재형공업, 산업용기계공업, 전기기기, 수송기계",
+      "(차룡단지) 도시기능 활성화를 위한 공업",
+      "(추가 확장분 221,076㎡) 1차금속~기타운송장비(C24~C31), 태양광 발전, 연구개발·엔지니어링(M70·M72)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -41729,7 +41733,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 3292,
-    "operating_companies": 2836
+    "operating_companies": 2836,
+    "address": "경상남도 창원시 일원"
   },
   {
     "id": 1193,
