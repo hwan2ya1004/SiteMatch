@@ -35440,7 +35440,7 @@
   },
   {
     "id": 1012,
-    "name": "화원조선",
+    "name": "화원조선농공단지",
     "region": "전남",
     "city": "해남군",
     "type": "농공산단",
@@ -35448,7 +35448,9 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 운송장비 제조업(조선산업)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -35456,13 +35458,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 34.745941,
+    "lng": 126.318584,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "전남광주통합특별시 해남군 화원면 구림리 883 일원"
   },
   {
     "id": 1013,
