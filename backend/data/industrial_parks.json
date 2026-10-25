@@ -4990,7 +4990,7 @@
   },
   {
     "id": 133,
-    "name": "작동",
+    "name": "작동일반산업단지",
     "region": "울산",
     "city": "울주군",
     "type": "일반산단",
@@ -4998,7 +4998,9 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 제품 제조업(어린이놀이시설물·운동시설·조경시설물)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -5013,7 +5015,7 @@
     "sale_rate": 100.0,
     "total_companies": 0,
     "operating_companies": 0,
-    "address": "울산광역시 울주군 삼동면 작동리 산 269-9"
+    "address": "울산광역시 울주군 삼동면 작동리 773-2 일원"
   },
   {
     "id": 134,
