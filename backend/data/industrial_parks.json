@@ -35498,7 +35498,7 @@
   },
   {
     "id": 1006,
-    "name": "자연드림파크(구 용방)",
+    "name": "구례자연드림파크",
     "region": "전남",
     "city": "구례군",
     "type": "농공산단",
@@ -35506,7 +35506,10 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "창고 및 운송관련 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -35514,13 +35517,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.275937,
+    "lng": 127.415536,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "전남광주통합특별시 구례군 용방면 죽정리 916 일원"
   },
   {
     "id": 1007,
@@ -35870,7 +35874,7 @@
   },
   {
     "id": 1017,
-    "name": "자연드림파크2단지",
+    "name": "구례자연드림파크2단지",
     "region": "전남",
     "city": "구례군",
     "type": "농공산단",
@@ -35879,9 +35883,9 @@
     "vacancy_rate": 25.0,
     "rent_per_sqm": null,
     "industries": [
-      "빵류 제조업",
-      "화물 포장, 검수 및 계량 서비스업",
-      "천연 및 혼합조제 조미료 제조업"
+      "식료품 제조업",
+      "음료 제조업",
+      "창고 및 운송관련 서비스업"
     ],
     "logistics": [],
     "features": [],
@@ -35890,13 +35894,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.269639,
+    "lng": 127.414539,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 4,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "전남광주통합특별시 구례군 용방면 죽정리 965 일원"
   },
   {
     "id": 1018,
