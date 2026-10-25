@@ -43345,7 +43345,7 @@
   },
   {
     "id": 1222,
-    "name": "장좌",
+    "name": "장좌일반산업단지",
     "region": "경남",
     "city": "고성군",
     "type": "일반산단",
@@ -43353,7 +43353,10 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 운송장비 제조업",
+      "전기, 가스, 증기 및 공기조절 공급업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -43368,7 +43371,7 @@
     "sale_rate": 100.0,
     "total_companies": 1,
     "operating_companies": 1,
-    "address": "경상남도 고성군 동해면 장좌리 145-13"
+    "address": "경상남도 고성군 동해면 장좌리 산319-1 일원"
   },
   {
     "id": 1223,
