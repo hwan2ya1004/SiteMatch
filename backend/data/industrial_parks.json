@@ -49256,7 +49256,7 @@
   },
   {
     "id": 1398,
-    "name": "인산죽염항노화",
+    "name": "인산죽염항노화지역특화농공단지",
     "region": "경남",
     "city": "함양군",
     "type": "농공산단",
@@ -49265,7 +49265,9 @@
     "vacancy_rate": 100.0,
     "rent_per_sqm": null,
     "industries": [
-      "기타 식품 첨가물 제조업"
+      "식료품 제조업",
+      "창고 및 운송관련 서비스업",
+      "태양력 발전업"
     ],
     "logistics": [],
     "features": [],
@@ -49274,13 +49276,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.464878,
+    "lng": 127.638687,
     "source": "kicox_전국산업단지현황통계_20251231",
-    "dev_status": "조성중",
+    "dev_status": "완료",
     "sale_rate": 0.0,
     "total_companies": 1,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 함양군 함양읍 죽림리 산319 일원"
   },
   {
     "id": 1399,
