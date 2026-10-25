@@ -25610,7 +25610,7 @@
   },
   {
     "id": 731,
-    "name": "의당복합",
+    "name": "의당복합농공단지",
     "region": "충남",
     "city": "공주시",
     "type": "농공산단",
@@ -25619,9 +25619,7 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "레미콘 제조업",
-      "비내화 모르타르 제조업",
-      "비주거용 건물 임대업"
+      "비금속 광물제품 제조업"
     ],
     "logistics": [],
     "features": [],
@@ -25637,7 +25635,7 @@
     "sale_rate": 100.0,
     "total_companies": 2,
     "operating_companies": 2,
-    "address": "충청남도 공주시 의당면 의당전의로 803-77"
+    "address": "충청남도 공주시 의당면 가산리 일원"
   },
   {
     "id": 732,
