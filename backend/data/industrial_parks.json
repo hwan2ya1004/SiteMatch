@@ -9044,7 +9044,7 @@
   },
   {
     "id": 244,
-    "name": "장남",
+    "name": "장남일반산업단지",
     "region": "경기",
     "city": "연천군",
     "type": "일반산단",
@@ -9052,7 +9052,12 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "고무 및 플라스틱제품 제조업",
+      "영상·오디오 기록물 제작 및 배급업",
+      "태양력 발전업",
+      "부동산 임대 및 공급업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -9067,7 +9072,7 @@
     "sale_rate": 100.0,
     "total_companies": 1,
     "operating_companies": 1,
-    "address": "경기도 연천군 장남면 원당리 1558"
+    "address": "경기도 연천군 장남면 원당리 1558 일원"
   },
   {
     "id": 245,
