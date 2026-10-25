@@ -32892,7 +32892,7 @@
   },
   {
     "id": 948,
-    "name": "운남",
+    "name": "운남일반산업단지",
     "region": "전남",
     "city": "무안군",
     "type": "일반산단",
@@ -32900,7 +32900,9 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "기타 운송장비 제조업(해양플랜트 구조물)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -35404,7 +35406,7 @@
   },
   {
     "id": 1018,
-    "name": "운곡특화",
+    "name": "곡성운곡특화농공단지",
     "region": "전남",
     "city": "곡성군",
     "type": "농공산단",
@@ -35412,7 +35414,11 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "식료품 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -35420,13 +35426,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.272195,
+    "lng": 127.114039,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 곡성군 오산면 운곡리 87-1번지 일원"
   },
   {
     "id": 1019,
