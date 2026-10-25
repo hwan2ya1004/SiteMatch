@@ -49475,5 +49475,35 @@
     "total_companies": null,
     "operating_companies": null,
     "address": "충청남도 아산시 영인면 백석포리 112-1"
+  },
+  {
+    "id": 1414,
+    "name": "원주메가데이터도시첨단산업단지",
+    "region": "강원",
+    "city": "원주시",
+    "type": "도시첨단산단",
+    "total_area": 95167.0,
+    "available_area": null,
+    "vacancy_rate": null,
+    "rent_per_sqm": null,
+    "industries": [
+      "컴퓨터 프로그래밍, 시스템 통합 및 관리업",
+      "정보서비스업"
+    ],
+    "logistics": [],
+    "features": [],
+    "monthly_inquiries": 0,
+    "description": null,
+    "subsidy": null,
+    "contact": null,
+    "website": null,
+    "lat": 37.312294,
+    "lng": 127.951142,
+    "source": "park_docs_안내서(산업입지정보시스템)+고시",
+    "dev_status": "조성중",
+    "sale_rate": null,
+    "total_companies": null,
+    "operating_companies": null,
+    "address": "강원특별자치도 원주시 단구동 산112-1 일원"
   }
 ]
