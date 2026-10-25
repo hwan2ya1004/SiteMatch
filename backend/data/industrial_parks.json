@@ -31492,7 +31492,7 @@
   },
   {
     "id": 899,
-    "name": "인계(구 제2장류)",
+    "name": "인계농공단지[구:제2장류]",
     "region": "전북",
     "city": "순창군",
     "type": "농공산단",
@@ -31500,7 +31500,11 @@
     "available_area": 0.0,
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "전 제조업(아스콘·레미콘·시멘트제품·도정·도축·재생용 비금속원료·부산물 사료/비료 등 제외)",
+      "부동산 임대업(한국자산관리공사 임대에 한함)",
+      "태양에너지 발전업(신설)"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -31514,7 +31518,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 10,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "전북특별자치도 순창군 인계면 노동리 산66-1 일원"
   },
   {
     "id": 900,
