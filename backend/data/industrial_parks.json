@@ -12260,7 +12260,7 @@
   },
   {
     "id": 341,
-    "name": "평택BIX(경기경제자유구역)",
+    "name": "평택포승BIX일반산업단지(경기경제자유구역)",
     "region": "경기",
     "city": "평택시",
     "type": "일반산단",
@@ -12268,7 +12268,17 @@
     "available_area": 411000.0,
     "vacancy_rate": 83.8,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "화학물질 및 화학제품 제조업; 의약품 제외",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업",
+      "태양력 발전업(건축물 설치)",
+      "연구개발업",
+      "건축기술, 엔지니어링 및 기타 과학기술 서비스업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -12282,7 +12292,8 @@
     "dev_status": "완료",
     "sale_rate": 47.44,
     "total_companies": 37,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경기도 평택시 포승읍 일원"
   },
   {
     "id": 342,
