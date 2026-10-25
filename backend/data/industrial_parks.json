@@ -34096,7 +34096,7 @@
   },
   {
     "id": 968,
-    "name": "입면",
+    "name": "입면농공단지",
     "region": "전남",
     "city": "곡성군",
     "type": "농공산단",
@@ -34105,7 +34105,7 @@
     "vacancy_rate": 0.0,
     "rent_per_sqm": null,
     "industries": [
-      "고무 타이어 및 튜브 제조업"
+      "고무 타이어 및 튜브 제조업(고무 및 플라스틱제품 제조업)"
     ],
     "logistics": [],
     "features": [],
@@ -34121,7 +34121,7 @@
     "sale_rate": 100.0,
     "total_companies": 1,
     "operating_companies": 1,
-    "address": "전남광주통합특별시 곡성군 입면 금호길 85-63"
+    "address": "전남광주통합특별시 곡성군 입면 서봉리 일원"
   },
   {
     "id": 969,
