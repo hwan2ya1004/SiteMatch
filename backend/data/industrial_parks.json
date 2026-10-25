@@ -47320,7 +47320,7 @@
   },
   {
     "id": 1345,
-    "name": "이반성",
+    "name": "이반성농공단지",
     "region": "경남",
     "city": "진주시",
     "type": "농공산단",
@@ -47349,7 +47349,7 @@
     "sale_rate": 100.0,
     "total_companies": 9,
     "operating_companies": 9,
-    "address": "경상남도 진주시 이반성면 길성리 946"
+    "address": "경상남도 진주시 이반성면 길성리 일원"
   },
   {
     "id": 1346,
