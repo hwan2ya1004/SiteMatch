@@ -11303,7 +11303,7 @@
   },
   {
     "id": 312,
-    "name": "원",
+    "name": "원일반산업단지",
     "region": "경기",
     "city": "양주시",
     "type": "일반산단",
@@ -11311,7 +11311,12 @@
     "available_area": 0.0,
     "vacancy_rate": null,
     "rent_per_sqm": null,
-    "industries": [],
+    "industries": [
+      "비금속 광물제품 제조업",
+      "금속가공제품 제조업; 기계 및 가구 제외",
+      "전기장비 제조업",
+      "연구개발업"
+    ],
     "logistics": [],
     "features": [],
     "monthly_inquiries": 0,
@@ -11326,7 +11331,7 @@
     "sale_rate": 100.0,
     "total_companies": 0,
     "operating_companies": 0,
-    "address": "경기도 양주시 봉양동 산 122-1"
+    "address": "경기도 양주시 봉양동 483번지 일원"
   },
   {
     "id": 313,
