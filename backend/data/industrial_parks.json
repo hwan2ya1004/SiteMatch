@@ -282,7 +282,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 227,
-    "operating_companies": 227
+    "operating_companies": 227,
+    "address": "부산광역시 강서구 지사동 일원"
   },
   {
     "id": 8,
@@ -316,7 +317,8 @@
     "dev_status": "완료",
     "sale_rate": 93.29,
     "total_companies": 12,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "부산광역시 강서구 지사동 일원"
   },
   {
     "id": 9,
@@ -362,7 +364,8 @@
     "dev_status": "완료",
     "sale_rate": 93.6,
     "total_companies": 545,
-    "operating_companies": 536
+    "operating_companies": 536,
+    "address": "부산광역시 강서구 미음동, 녹산동, 송정동 일원"
   },
   {
     "id": 10,
@@ -706,7 +709,8 @@
     "dev_status": "완료",
     "sale_rate": 97.91,
     "total_companies": 383,
-    "operating_companies": 351
+    "operating_companies": 351,
+    "address": "부산광역시 강서구 녹산동 미음, 범방, 구랑동 일원"
   },
   {
     "id": 19,
@@ -738,7 +742,8 @@
     "dev_status": "완료",
     "sale_rate": 45.82,
     "total_companies": 7,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "부산광역시 강서구 녹산동 미음동 미음산업단지내(I39,I40,I41,I42 블럭)"
   },
   {
     "id": 20,
@@ -1048,7 +1053,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 957,
-    "operating_companies": 957
+    "operating_companies": 957,
+    "address": "부산광역시 시상구 주례동, 감전동, 학장동 일원"
   },
   {
     "id": 28,
@@ -1193,7 +1199,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 103,
-    "operating_companies": 103
+    "operating_companies": 103,
+    "address": "(산업단지)부산광역시 기장군 장안읍 반룡리 일원, (지원단지)부산광역시 기장군"
   },
   {
     "id": 32,
@@ -1225,7 +1232,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 205,
-    "operating_companies": 205
+    "operating_companies": 205,
+    "address": "부산광역시 기장군 정관면 달산리 일원"
   },
   {
     "id": 33,
@@ -1329,7 +1337,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 313,
-    "operating_companies": 313
+    "operating_companies": 313,
+    "address": "부산광역시 강서구 신호동, 화전동 일원"
   },
   {
     "id": 36,
@@ -1446,13 +1455,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.152553,
+    "lng": 128.819947,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 18,
-    "operating_companies": 18
+    "operating_companies": 18,
+    "address": "부산광역시 강서구 지사동 1408번지 일원"
   },
   {
     "id": 40,
@@ -1483,7 +1493,8 @@
     "dev_status": "보상중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "부산광역시 강서구 대저동 일원"
   },
   {
     "id": 41,
@@ -1747,7 +1758,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 34,
-    "operating_companies": 33
+    "operating_companies": 33,
+    "address": "부산광역시 기장군 정관면 달산리, 예림리, 방곡리 일원"
   },
   {
     "id": 48,
@@ -2814,7 +2826,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1861,
-    "operating_companies": 1857
+    "operating_companies": 1857,
+    "address": "인천광역시 부평구 청천동 일원"
   },
   {
     "id": 75,
@@ -2846,7 +2859,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 1479,
-    "operating_companies": 1474
+    "operating_companies": 1474,
+    "address": "인천광역시 서해구 가좌동, 미추홀구 주안동, 부평구 십정동 일원"
   },
   {
     "id": 76,
@@ -3841,7 +3855,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 146,
-    "operating_companies": 135
+    "operating_companies": 135,
+    "address": "전남광주통합특별시 북구 양산, 일곡동 일원"
   },
   {
     "id": 102,
@@ -4491,7 +4506,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 409,
-    "operating_companies": 258
+    "operating_companies": 258,
+    "address": "울산광역시 울주군 온산읍 학남리, 방도리 화산리, 신암리, 이진리, 대정리, 원산"
   },
   {
     "id": 120,
@@ -5041,13 +5057,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.664554,
+    "lng": 129.349166,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 41,
-    "operating_companies": 40
+    "operating_companies": 40,
+    "address": "울산광역시 북구 중산동 1261-1번지 일원"
   },
   {
     "id": 135,
@@ -6475,7 +6492,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9466,
-    "operating_companies": 9250
+    "operating_companies": 9250,
+    "address": "경기도 안산시 고잔동, 본오동, 초지동, 이동, 사동 일원"
   },
   {
     "id": 174,
@@ -6552,7 +6570,7 @@
   },
   {
     "id": 176,
-    "name": "파주탄현",
+    "name": "파주탄현영세중소기업전용국가산업단지",
     "region": "경기",
     "city": "파주시",
     "type": "국가산단",
@@ -6910,7 +6928,7 @@
   },
   {
     "id": 186,
-    "name": "통진(팬택)",
+    "name": "통진일반산업단지",
     "region": "경기",
     "city": "김포시",
     "type": "일반산단",
@@ -8578,7 +8596,7 @@
   },
   {
     "id": 229,
-    "name": "칠괴",
+    "name": "칠괴일반산업단지",
     "region": "경기",
     "city": "평택시",
     "type": "일반산단",
@@ -10518,7 +10536,7 @@
   },
   {
     "id": 284,
-    "name": "탄현",
+    "name": "탄현일반산업단지",
     "region": "경기",
     "city": "파주시",
     "type": "일반산단",
@@ -11497,7 +11515,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 평택시 진위면 마산리 일원"
   },
   {
     "id": 314,
@@ -12501,7 +12520,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경기도 용인시 처인구 양지면 제일리 640-7번지 일원"
   },
   {
     "id": 344,
@@ -13413,7 +13433,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 467,
-    "operating_companies": 242
+    "operating_companies": 242,
+    "address": "경기도 화성시 동탄면 영천리 일원"
   },
   {
     "id": 371,
@@ -14323,13 +14344,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.766608,
+    "lng": 127.622915,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 15,
-    "operating_companies": 15
+    "operating_companies": 15,
+    "address": "강원특별자치도 춘천시 남산면 창촌리 630번지 일원"
   },
   {
     "id": 395,
@@ -14614,7 +14636,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 28,
-    "operating_companies": 27
+    "operating_companies": 27,
+    "address": "강원특별자치도 원주시 문막읍 동화리 일원"
   },
   {
     "id": 403,
@@ -14782,7 +14805,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 24,
-    "operating_companies": 20
+    "operating_companies": 20,
+    "address": "강원특별자치도 원주시 문막읍 반계리 일원"
   },
   {
     "id": 407,
@@ -14858,7 +14882,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "강원특별자치도 원주시 문막읍 반계리 원주문막반계일반산업단지 내(반계리"
   },
   {
     "id": 409,
@@ -15081,13 +15106,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.131208,
+    "lng": 129.04308,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "강원특별자치도 태백시 철암동 255-1번지 일원"
   },
   {
     "id": 416,
@@ -15485,11 +15511,12 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 38,
-    "operating_companies": 38
+    "operating_companies": 38,
+    "address": "강원특별자치도 원주시 문막읍 반계리 일원"
   },
   {
     "id": 429,
-    "name": "태장",
+    "name": "태장농공단지",
     "region": "강원",
     "city": "원주시",
     "type": "농공산단",
@@ -15611,7 +15638,7 @@
   },
   {
     "id": 433,
-    "name": "퇴계",
+    "name": "퇴계산업단지[구:퇴계농공]",
     "region": "강원",
     "city": "춘천시",
     "type": "농공산단",
@@ -16694,13 +16721,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.866466,
+    "lng": 128.821801,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 21,
-    "operating_companies": 21
+    "operating_companies": 21,
+    "address": "강원특별자치도 강릉시 주문진읍 교항리 1263-8번지 일원"
   },
   {
     "id": 464,
@@ -16803,7 +16831,7 @@
   },
   {
     "id": 467,
-    "name": "퇴계제2",
+    "name": "퇴계미래산업단지[구:퇴계2농공]",
     "region": "강원",
     "city": "춘천시",
     "type": "농공산단",
@@ -17014,7 +17042,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 1,
-    "operating_companies": 1
+    "operating_companies": 1,
+    "address": "충청북도 보은군 내북면 화전리, 염둔리, 법주리 일원"
   },
   {
     "id": 474,
@@ -17054,11 +17083,12 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 74,
-    "operating_companies": 72
+    "operating_companies": 72,
+    "address": "충청북도 청주시 흥덕구 오송읍 일원"
   },
   {
     "id": 475,
-    "name": "충주바이오헬스",
+    "name": "충주바이오헬스국가산업단지",
     "region": "충북",
     "city": "충주시",
     "type": "국가산단",
@@ -17181,7 +17211,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 52,
-    "operating_companies": 48
+    "operating_companies": 48,
+    "address": "충청북도 제천시 왕암동, 봉양읍 일원"
   },
   {
     "id": 479,
@@ -17207,7 +17238,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 743,
-    "operating_companies": 714
+    "operating_companies": 714,
+    "address": "충청북도 청주시 흥덕구 복대,송정,향정,봉명동일원"
   },
   {
     "id": 480,
@@ -17283,7 +17315,7 @@
   },
   {
     "id": 482,
-    "name": "충주DH",
+    "name": "충주DH산업단지",
     "region": "충북",
     "city": "충주시",
     "type": "일반산단",
@@ -17343,7 +17375,7 @@
   },
   {
     "id": 484,
-    "name": "충주제1",
+    "name": "충주제1일반산업단지[재생사업지구]",
     "region": "충북",
     "city": "충주시",
     "type": "일반산단",
@@ -17375,7 +17407,7 @@
   },
   {
     "id": 485,
-    "name": "충주제3",
+    "name": "충주제3산업단지",
     "region": "충북",
     "city": "충주시",
     "type": "일반산단",
@@ -17407,7 +17439,7 @@
   },
   {
     "id": 486,
-    "name": "충주제4",
+    "name": "충주제4산업단지",
     "region": "충북",
     "city": "충주시",
     "type": "일반산단",
@@ -17438,7 +17470,7 @@
   },
   {
     "id": 487,
-    "name": "충주첨단",
+    "name": "충주첨단산업단지",
     "region": "충북",
     "city": "충주시",
     "type": "일반산단",
@@ -17610,7 +17642,8 @@
     "dev_status": "완료",
     "sale_rate": 87.84,
     "total_companies": 10,
-    "operating_companies": 10
+    "operating_companies": 10,
+    "address": "충청북도 옥천군 청산면 인정리 일원"
   },
   {
     "id": 492,
@@ -18418,7 +18451,7 @@
   },
   {
     "id": 516,
-    "name": "괴산대제(건축자재)",
+    "name": "괴산대제산업단지",
     "region": "충북",
     "city": "괴산군",
     "type": "일반산단",
@@ -18888,13 +18921,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.892399,
+    "lng": 127.483472,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청북도 진천군 덕산읍 산수리 1121번지, 1122번지, 1124번지, 1125번지"
   },
   {
     "id": 528,
@@ -18978,7 +19012,7 @@
   },
   {
     "id": 530,
-    "name": "충주제5",
+    "name": "충주제5일반산업단지",
     "region": "충북",
     "city": "충주시",
     "type": "일반산단",
@@ -19046,7 +19080,8 @@
     "dev_status": "완료",
     "sale_rate": 91.49,
     "total_companies": 53,
-    "operating_companies": 42
+    "operating_companies": 42,
+    "address": "충청북도 보은군 삼승면 달산리, 상가리, 서원리, 송죽리, 우진리 일원"
   },
   {
     "id": 532,
@@ -19078,11 +19113,12 @@
     "dev_status": "완료",
     "sale_rate": 76.68,
     "total_companies": 12,
-    "operating_companies": 12
+    "operating_companies": 12,
+    "address": "충청북도 제천시 왕암동 일원"
   },
   {
     "id": 533,
-    "name": "충주인프라시티",
+    "name": "충주인프라시티산업단지",
     "region": "충북",
     "city": "충주시",
     "type": "일반산단",
@@ -19235,7 +19271,7 @@
   },
   {
     "id": 537,
-    "name": "케이푸드밸리(구 송두)",
+    "name": "케이푸드밸리[구:송두]",
     "region": "충북",
     "city": "진천군",
     "type": "일반산단",
@@ -19261,7 +19297,7 @@
   },
   {
     "id": 538,
-    "name": "충청북도수산식품",
+    "name": "충청북도수산식품산업단지",
     "region": "충북",
     "city": "괴산군",
     "type": "일반산단",
@@ -19397,13 +19433,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.680993,
+    "lng": 127.386091,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 85.68,
     "total_companies": 20,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 청주시 흥덕구 옥산면 국사리 산220번지 일원"
   },
   {
     "id": 543,
@@ -19460,7 +19497,7 @@
   },
   {
     "id": 544,
-    "name": "충주특화기술(구 녹색패션)",
+    "name": "충주특화기술산업단지[구:녹색패션]",
     "region": "충북",
     "city": "충주시",
     "type": "일반산단",
@@ -19575,7 +19612,7 @@
   },
   {
     "id": 547,
-    "name": "충주메가폴리스",
+    "name": "충주메가폴리스산업단지",
     "region": "충북",
     "city": "충주시",
     "type": "일반산단",
@@ -19996,7 +20033,7 @@
   },
   {
     "id": 559,
-    "name": "충주드림파크",
+    "name": "충주드림파크산업단지",
     "region": "충북",
     "city": "충주시",
     "type": "일반산단",
@@ -20043,13 +20080,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.644003,
+    "lng": 127.670621,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 청주시 상당구 미원면 쌍이리 213-2번지 일원"
   },
   {
     "id": 561,
@@ -20086,7 +20124,7 @@
   },
   {
     "id": 562,
-    "name": "충주비즈코어시티",
+    "name": "충주비즈코어시티산업단지",
     "region": "충북",
     "city": "충주시",
     "type": "일반산단",
@@ -20239,7 +20277,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 진천군 문백면 문덕리, 진천읍 신정리 일원"
   },
   {
     "id": 567,
@@ -20265,7 +20304,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 진천군 문백면 은탄리 일원"
   },
   {
     "id": 568,
@@ -20291,7 +20331,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "청주시 청원구 북이면 내둔?화상?화하리 일원"
   },
   {
     "id": 569,
@@ -20448,7 +20489,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 증평군 도안면 송정리 일원"
   },
   {
     "id": 574,
@@ -20535,7 +20577,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청북도 청주시 청원구 정상동, 정하동,정북동, 오동동, 사천동 일원"
   },
   {
     "id": 577,
@@ -20945,7 +20988,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 6,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "충청북도 충주시 가금면 가흥리, 장천리 일원"
   },
   {
     "id": 587,
@@ -21213,13 +21257,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.461349,
+    "lng": 127.72873,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "충청북도 보은군 보은읍 금굴리 302 일원"
   },
   {
     "id": 595,
@@ -21595,13 +21640,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.327885,
+    "lng": 127.812233,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청북도 옥천군 청산면 효목리 578번지 일원"
   },
   {
     "id": 605,
@@ -21777,7 +21823,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청북도 증평군 증평읍 용강리, 덕상리 일원"
   },
   {
     "id": 610,
@@ -21881,7 +21928,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청북도 진천군 문백면 사양리, 문덕리 일원"
   },
   {
     "id": 613,
@@ -22144,7 +22192,7 @@
   },
   {
     "id": 621,
-    "name": "괴산자연드림파크2단지",
+    "name": "괴산자연드림파크산업2단지[구:괴산발효식품]",
     "region": "충북",
     "city": "괴산군",
     "type": "농공산단",
@@ -22466,7 +22514,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 136,
-    "operating_companies": 116
+    "operating_companies": 116,
+    "address": "충청남도 당진시 송산면 부곡리 일원"
   },
   {
     "id": 630,
@@ -22541,7 +22590,7 @@
   },
   {
     "id": 632,
-    "name": "탄천",
+    "name": "탄천일반산업단지",
     "region": "충남",
     "city": "공주시",
     "type": "일반산단",
@@ -23060,7 +23109,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 14,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "충청남도 천안시 서북구 성성동, 백석동, 차암동 일원"
   },
   {
     "id": 648,
@@ -23113,7 +23163,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 230,
-    "operating_companies": 228
+    "operating_companies": 228,
+    "address": "충청남도 천안시 차암동, 성성동, 업성동 일원"
   },
   {
     "id": 650,
@@ -23145,7 +23196,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 85,
-    "operating_companies": 85
+    "operating_companies": 85,
+    "address": "충청남도 천안시 직산읍 신갈리, 모시리, 차암동, 업성동 일원"
   },
   {
     "id": 651,
@@ -23767,7 +23819,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 47,
-    "operating_companies": 45
+    "operating_companies": 45,
+    "address": "충청남도 천안시 성남면 대화리, 화성리, 신사리, 수신면 신풍리 일원"
   },
   {
     "id": 670,
@@ -23793,7 +23846,8 @@
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "충청남도 천안시 성남면 대화리, 수신면 신풍리 일원 단지내 (산업"
   },
   {
     "id": 671,
@@ -23970,7 +24024,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 48,
-    "operating_companies": 48
+    "operating_companies": 48,
+    "address": "충청남도 천안시 서북구 직산읍 마정리 일원"
   },
   {
     "id": 676,
@@ -24031,7 +24086,7 @@
   },
   {
     "id": 679,
-    "name": "아산탕정테크노",
+    "name": "탕정테크노일반산업단지",
     "region": "충남",
     "city": "아산시",
     "type": "일반산단",
@@ -24083,7 +24138,7 @@
   },
   {
     "id": 681,
-    "name": "탕정(외국인)",
+    "name": "탕정(탕정외국인)",
     "region": "충남",
     "city": "아산시",
     "type": "일반산단",
@@ -24761,13 +24816,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.736357,
+    "lng": 127.110218,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 천안시 동남구 풍세면 용정리 산51번지 일원"
   },
   {
     "id": 701,
@@ -25066,13 +25122,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.489439,
+    "lng": 126.783163,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "충청남도 청양군 비봉면 신원리 산10-1번지 일원"
   },
   {
     "id": 710,
@@ -25405,7 +25462,7 @@
   },
   {
     "id": 720,
-    "name": "태안도시첨단",
+    "name": "태안도시첨단산업단지",
     "region": "충남",
     "city": "태안군",
     "type": "도시첨단산단",
@@ -26281,7 +26338,8 @@
     "dev_status": "완료",
     "sale_rate": 93.88,
     "total_companies": 14,
-    "operating_companies": 14
+    "operating_companies": 14,
+    "address": "충청남도 보령시 주포면 관산리, 주교면 주교리 일원"
   },
   {
     "id": 745,
@@ -26546,7 +26604,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "충청남도 아산시 둔포면 신항리, 영인면 신봉리 일원"
   },
   {
     "id": 753,
@@ -26741,7 +26800,7 @@
   },
   {
     "id": 758,
-    "name": "탕정",
+    "name": "탕정농공단지",
     "region": "충남",
     "city": "아산시",
     "type": "농공산단",
@@ -27882,7 +27941,7 @@
   },
   {
     "id": 790,
-    "name": "태안",
+    "name": "태안농공단지",
     "region": "충남",
     "city": "태안군",
     "type": "농공산단",
@@ -28720,7 +28779,7 @@
   },
   {
     "id": 816,
-    "name": "태안제2",
+    "name": "태안제2농공단지",
     "region": "충남",
     "city": "태안군",
     "type": "농공산단",
@@ -28975,7 +29034,8 @@
     "dev_status": "조성중",
     "sale_rate": 86.97,
     "total_companies": 75,
-    "operating_companies": 43
+    "operating_companies": 43,
+    "address": "전북특별자치도 군산시 일원(새만금 제4호 방조제 동측)"
   },
   {
     "id": 824,
@@ -29161,13 +29221,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.856917,
+    "lng": 127.113823,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 31,
-    "operating_companies": 31
+    "operating_companies": 31,
+    "address": "전북특별자치도 전주시 덕진구 팔복동 3가 일원"
   },
   {
     "id": 829,
@@ -29187,13 +29248,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.851001,
+    "lng": 127.111503,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 87,
-    "operating_companies": 83
+    "operating_companies": 83,
+    "address": "전북특별자치도 전주시 덕진구 팔복동 2가 670번지 일원"
   },
   {
     "id": 830,
@@ -29257,7 +29319,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 7,
-    "operating_companies": 7
+    "operating_companies": 7,
+    "address": "전북특별자치도 정읍시 영파동일원"
   },
   {
     "id": 832,
@@ -29289,7 +29352,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 69,
-    "operating_companies": 69
+    "operating_companies": 69,
+    "address": "전북특별자치도 정읍시 하북동 일원"
   },
   {
     "id": 833,
@@ -29321,7 +29385,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 55,
-    "operating_companies": 55
+    "operating_companies": 55,
+    "address": "전북특별자치도 정읍시 북면 태곡리 일원"
   },
   {
     "id": 834,
@@ -29347,7 +29412,8 @@
     "dev_status": "완료",
     "sale_rate": 98.59,
     "total_companies": 51,
-    "operating_companies": 41
+    "operating_companies": 41,
+    "address": "전북특별자치도 정읍시 신정동 일원"
   },
   {
     "id": 835,
@@ -29720,7 +29786,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 3
+    "operating_companies": 3,
+    "address": "전북특별자치도 전주시 덕진구 동산동, 팔복동4가 일원"
   },
   {
     "id": 845,
@@ -29816,13 +29883,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.850816,
+    "lng": 127.111603,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 120,
-    "operating_companies": 110
+    "operating_companies": 110,
+    "address": "전북특별자치도 전주시 덕진구 팔복동 1,2,4가 일원"
   },
   {
     "id": 849,
@@ -29873,13 +29941,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.820903,
+    "lng": 126.927933,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전북특별자치도 김제시 상동동 45번지 일원"
   },
   {
     "id": 851,
@@ -29911,7 +29980,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 76,
-    "operating_companies": 71
+    "operating_companies": 71,
+    "address": "전북특별자치도 전주시 덕진구 팔복동, 여의동 일원"
   },
   {
     "id": 852,
@@ -30840,7 +30910,7 @@
   },
   {
     "id": 876,
-    "name": "태인",
+    "name": "태인농공단지",
     "region": "전북",
     "city": "정읍시",
     "type": "농공산단",
@@ -31223,7 +31293,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 11,
-    "operating_companies": 11
+    "operating_companies": 11,
+    "address": "전북특별자치도 부안군 행안면 역리 123-1번지 일원"
   },
   {
     "id": 886,
@@ -31580,13 +31651,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.772921,
+    "lng": 127.377251,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 36,
-    "operating_companies": 36
+    "operating_companies": 36,
+    "address": "전북특별자치도 진안군 진안읍 연장리 1763 일원"
   },
   {
     "id": 897,
@@ -31612,13 +31684,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.771937,
+    "lng": 127.435775,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 38,
-    "operating_companies": 38
+    "operating_companies": 38,
+    "address": "전북특별자치도 진안군 진안읍 홍삼한방로 일대(반월리 1817번지 일원)"
   },
   {
     "id": 898,
@@ -31832,7 +31905,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 33
+    "operating_companies": 33,
+    "address": "전북특별자치도 김제시 백구면 부용리 1030번지 일원"
   },
   {
     "id": 904,
@@ -32034,7 +32108,8 @@
     "dev_status": "완료",
     "sale_rate": 76.92,
     "total_companies": 5,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "전북특별자치도 정읍시 입암면 하부리 136-1번지 일원"
   },
   {
     "id": 910,
@@ -32679,7 +32754,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 9,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "전남광주통합특별시 나주시 문평면 옥당리 일원"
   },
   {
     "id": 926,
@@ -33311,7 +33387,8 @@
     "dev_status": "완료",
     "sale_rate": 98.97,
     "total_companies": 19,
-    "operating_companies": 19
+    "operating_companies": 19,
+    "address": "전남광주통합특별시 화순군 화순읍 내평리, 감도리, 능주면 광사리 일원"
   },
   {
     "id": 943,
@@ -34719,7 +34796,7 @@
   },
   {
     "id": 981,
-    "name": "칠곡",
+    "name": "칠곡농공단지",
     "region": "전남",
     "city": "영광군",
     "type": "농공산단",
@@ -35619,7 +35696,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 21,
-    "operating_companies": 16
+    "operating_companies": 16,
+    "address": "전남광주통합특별시 고흥군 동강면 장덕리 일원"
   },
   {
     "id": 1006,
@@ -36061,7 +36139,7 @@
   },
   {
     "id": 1019,
-    "name": "칠량",
+    "name": "칠량농공단지",
     "region": "전남",
     "city": "강진군",
     "type": "농공산단",
@@ -36208,13 +36286,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 34.812605,
+    "lng": 127.254183,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "전남광주통합특별시 보성군 조성면 귀산리 788-1 일원"
   },
   {
     "id": 1024,
@@ -42000,7 +42079,7 @@
   },
   {
     "id": 1182,
-    "name": "칠곡농기계특화",
+    "name": "칠곡농기계특화농공단지",
     "region": "경북",
     "city": "칠곡군",
     "type": "농공산단",
@@ -42081,13 +42160,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.065592,
+    "lng": 129.40182,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 35.37,
     "total_companies": 11,
-    "operating_companies": 6
+    "operating_companies": 6,
+    "address": "경상북도 울진군 죽변면 후정리 1254번지 일원"
   },
   {
     "id": 1185,
@@ -42400,7 +42480,8 @@
     "dev_status": "완료",
     "sale_rate": 44.5,
     "total_companies": 15,
-    "operating_companies": 4
+    "operating_companies": 4,
+    "address": "경상남도 밀양시 내이동 및 부북면 감천리, 운전리, 오례리, 제대리 일원"
   },
   {
     "id": 1195,
@@ -43707,7 +43788,7 @@
   },
   {
     "id": 1232,
-    "name": "칠서",
+    "name": "칠서일반산업단지[재생사업지구]",
     "region": "경남",
     "city": "함안군",
     "type": "일반산단",
@@ -44041,7 +44122,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 78,
-    "operating_companies": 78
+    "operating_companies": 78,
+    "address": "경상남도 창원시 마산합포구 진북면 신촌, 망곡리 일원"
   },
   {
     "id": 1242,
@@ -44684,13 +44766,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 35.34884,
+    "lng": 128.357667,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 의령군 정곡면 백곡리 880번지 일원"
   },
   {
     "id": 1261,
@@ -44967,7 +45050,7 @@
   },
   {
     "id": 1269,
-    "name": "토정",
+    "name": "온시티일반산업단지(구:토정)",
     "region": "경남",
     "city": "양산시",
     "type": "일반산단",
@@ -45845,7 +45928,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 35,
-    "operating_companies": 30
+    "operating_companies": 30,
+    "address": "경상남도 사천시 사천읍 용당리 및 사남면 유천리, 방지리, 월성리 일원"
   },
   {
     "id": 1294,
@@ -45889,7 +45973,8 @@
     "dev_status": "완료",
     "sale_rate": 98.99,
     "total_companies": 17,
-    "operating_companies": 17
+    "operating_companies": 17,
+    "address": "경상남도 사천시 사남면 방지리 및 유천리 일원"
   },
   {
     "id": 1295,
@@ -45927,7 +46012,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 19,
-    "operating_companies": 17
+    "operating_companies": 17,
+    "address": "경상남도 사천시 사남면 방지, 초전리 및 용현면 선진리 일원"
   },
   {
     "id": 1296,
@@ -46176,7 +46262,8 @@
     "dev_status": "완료",
     "sale_rate": 74.9,
     "total_companies": 67,
-    "operating_companies": 67
+    "operating_companies": 67,
+    "address": "경상남도 진주시 정촌면 예하리 및 예상리 일원"
   },
   {
     "id": 1302,
@@ -46462,7 +46549,8 @@
     "dev_status": "조성중",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "경상남도 의령군 부림면 대곡리 일원"
   },
   {
     "id": 1311,
@@ -48286,7 +48374,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 8,
-    "operating_companies": 8
+    "operating_companies": 8,
+    "address": "경상남도 의령군 부림면 신반리, 신반리 일원"
   },
   {
     "id": 1364,
@@ -48793,7 +48882,7 @@
   },
   {
     "id": 1379,
-    "name": "장암",
+    "name": "대산장암농공단지",
     "region": "경남",
     "city": "함안군",
     "type": "농공산단",
@@ -49320,7 +49409,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 24,
-    "operating_companies": 24
+    "operating_companies": 24,
+    "address": "경상남도 창원시 마산합포구 진북면 신촌리 일원"
   },
   {
     "id": 1393,
@@ -49340,13 +49430,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 34.966323,
+    "lng": 128.349949,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 2,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "경상남도 고성군 고성읍 율대리 219번지 일원"
   },
   {
     "id": 1394,
@@ -49576,7 +49667,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 193,
-    "operating_companies": 193
+    "operating_companies": 193,
+    "address": "제주특별자치도 제주시 아라동 일원"
   },
   {
     "id": 1401,
@@ -49602,7 +49694,8 @@
     "dev_status": "미개발",
     "sale_rate": 0.0,
     "total_companies": 0,
-    "operating_companies": 0
+    "operating_companies": 0,
+    "address": "제주특별자치도 제주시 월평동 일원"
   },
   {
     "id": 1402,
@@ -49871,7 +49964,7 @@
     "sale_rate": 100.0,
     "total_companies": null,
     "operating_companies": null,
-    "address": null
+    "address": "강원특별자치도 동해시 구호동 일원"
   },
   {
     "id": 1409,
@@ -49977,7 +50070,7 @@
     "sale_rate": null,
     "total_companies": null,
     "operating_companies": null,
-    "address": null
+    "address": "충청북도 보은군 탄부면 고승리, 사직리 일원"
   },
   {
     "id": 1412,
@@ -50095,13 +50188,80 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": 36.764833,
-    "lng": 127.150821,
+    "lat": null,
+    "lng": null,
     "source": "park_docs_안내서(산업입지정보시스템)+고시",
     "dev_status": "완료",
     "sale_rate": null,
     "total_companies": null,
     "operating_companies": null,
     "address": "충청남도 천안시 동남구 구룡동, 풍세면 미죽리 일원"
+  },
+  {
+    "available_area": null,
+    "vacancy_rate": null,
+    "rent_per_sqm": null,
+    "logistics": [],
+    "features": [],
+    "monthly_inquiries": 0,
+    "description": null,
+    "subsidy": null,
+    "contact": null,
+    "website": null,
+    "source": "park_docs_안내서(산업입지정보시스템)+고시",
+    "sale_rate": null,
+    "total_companies": null,
+    "operating_companies": null,
+    "id": 1416,
+    "name": "천흥2일반산업단지",
+    "region": "충남",
+    "city": "천안시",
+    "type": "일반산단",
+    "total_area": 420249.0,
+    "dev_status": "준비중",
+    "industries": [
+      "화학물질 및 화학제품 제조업",
+      "고무제품 및 플라스틱제품 제조업",
+      "금속가공제품 제조업",
+      "전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업",
+      "전기장비 제조업",
+      "기타 기계 및 장비 제조업",
+      "자동차 및 트레일러 제조업",
+      "기타 운송장비 제조업"
+    ],
+    "lat": 36.876416,
+    "lng": 127.220115,
+    "address": "충청남도 천안시 서북구 성거읍 천흥리 48번지 일원"
+  },
+  {
+    "available_area": null,
+    "vacancy_rate": null,
+    "rent_per_sqm": null,
+    "logistics": [],
+    "features": [],
+    "monthly_inquiries": 0,
+    "description": null,
+    "subsidy": null,
+    "contact": null,
+    "website": null,
+    "source": "park_docs_안내서(산업입지정보시스템)+고시",
+    "sale_rate": null,
+    "total_companies": null,
+    "operating_companies": null,
+    "id": 1417,
+    "name": "네이버도시첨단산업단지[구:춘천NHN]",
+    "region": "강원",
+    "city": "춘천시",
+    "type": "도시첨단산단",
+    "total_area": 100669.0,
+    "dev_status": "완료",
+    "industries": [
+      "출판업",
+      "컴퓨터 프로그래밍, 시스템 통합 및 관리업",
+      "정보서비스업"
+    ],
+    "lat": 37.8893,
+    "lng": 127.773792,
+    "address": "강원특별자치도 춘천시 동면 만천리 1000번지 일원"
   }
 ]
