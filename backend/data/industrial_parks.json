@@ -1763,7 +1763,7 @@
   },
   {
     "id": 48,
-    "name": "대구국가",
+    "name": "대구국가산업단지",
     "region": "대구",
     "city": "달성군",
     "type": "국가산단",
@@ -2220,7 +2220,7 @@
   },
   {
     "id": 59,
-    "name": "달성2차(외국인)",
+    "name": "달성2차(달성외국인)",
     "region": "대구",
     "city": "달성군",
     "type": "일반산단",
@@ -2394,7 +2394,7 @@
   },
   {
     "id": 63,
-    "name": "대성하이스코(구: 달성대성하이스코)",
+    "name": "대성일반산업단지[구:달성대성하이스코]",
     "region": "대구",
     "city": "달성군",
     "type": "일반산단",
@@ -3447,7 +3447,7 @@
   },
   {
     "id": 91,
-    "name": "남동",
+    "name": "인천남동도시첨단산업단지",
     "region": "인천",
     "city": "남동구",
     "type": "도시첨단산단",
@@ -11258,7 +11258,7 @@
   },
   {
     "id": 306,
-    "name": "화성정남",
+    "name": "정남일반산업단지",
     "region": "경기",
     "city": "화성시",
     "type": "일반산단",
@@ -11280,13 +11280,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 37.140816,
+    "lng": 127.023921,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "조성중",
     "sale_rate": 100.0,
     "total_companies": 123,
-    "operating_companies": 101
+    "operating_companies": 101,
+    "address": "경기도 화성시 정남면 음양리 632번지 일원"
   },
   {
     "id": 307,
@@ -21404,7 +21405,7 @@
   },
   {
     "id": 599,
-    "name": "용산",
+    "name": "용산농공단지",
     "region": "충북",
     "city": "영동군",
     "type": "농공산단",
@@ -21426,13 +21427,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": null,
-    "lng": null,
+    "lat": 36.259585,
+    "lng": 127.843174,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 3,
-    "operating_companies": 2
+    "operating_companies": 2,
+    "address": "충청북도 영동군 용산면 백자전리 205번지 일원"
   },
   {
     "id": 600,
@@ -26440,7 +26442,7 @@
   },
   {
     "id": 748,
-    "name": "성연",
+    "name": "성연농공단지",
     "region": "충남",
     "city": "서산시",
     "type": "농공산단",
@@ -28895,14 +28897,14 @@
     "subsidy": null,
     "contact": null,
     "website": null,
-    "lat": 35.974084,
-    "lng": 126.636525,
+    "lat": 35.960227,
+    "lng": 126.549649,
     "source": "kicox_전국산업단지현황통계_20251231",
     "dev_status": "완료",
     "sale_rate": 90.59,
     "total_companies": 55,
     "operating_companies": 53,
-    "address": "전북특별자치도 군산시 소룡동 일원(군산자유무역지역)"
+    "address": "전북특별자치도 군산시 자유로 482(군산2국가산업단지 내)"
   },
   {
     "id": 820,
@@ -30014,7 +30016,7 @@
   },
   {
     "id": 853,
-    "name": "성산",
+    "name": "성산농공단지",
     "region": "전북",
     "city": "군산시",
     "type": "농공산단",
@@ -30042,7 +30044,8 @@
     "dev_status": "완료",
     "sale_rate": 100.0,
     "total_companies": 26,
-    "operating_companies": 25
+    "operating_companies": 25,
+    "address": "전북특별자치도 군산시 성산면 고봉리 일원"
   },
   {
     "id": 854,
@@ -32262,7 +32265,7 @@
   },
   {
     "id": 914,
-    "name": "대불(산업)",
+    "name": "대불(공업단지)",
     "region": "전남",
     "city": "영암군",
     "type": "국가산단",
@@ -32319,7 +32322,7 @@
   },
   {
     "id": 915,
-    "name": "대불(외국인)",
+    "name": "대불(대불외국인)",
     "region": "전남",
     "city": "영암군",
     "type": "국가산단",
@@ -32481,7 +32484,7 @@
   },
   {
     "id": 919,
-    "name": "광양국가",
+    "name": "광양국가산업단지",
     "region": "전남",
     "city": "광양시",
     "type": "국가산단",
@@ -50324,5 +50327,38 @@
     "lat": 37.185209,
     "lng": 126.84915,
     "address": "경기도 화성시 만세구 남양읍 무송리 산100-1번지 일원"
+  },
+  {
+    "id": 1420,
+    "name": "성연일반산업단지",
+    "region": "충남",
+    "city": "서산시",
+    "type": "일반산단",
+    "total_area": 573046.0,
+    "available_area": null,
+    "vacancy_rate": null,
+    "rent_per_sqm": null,
+    "industries": [
+      "비금속 광물제품 제조업",
+      "1차 금속 제조업",
+      "의료, 정밀, 광학기기 및 시계 제조업",
+      "기타 기계 및 장비 제조업",
+      "창고 및 운송관련 서비스업"
+    ],
+    "logistics": [],
+    "features": [],
+    "monthly_inquiries": 0,
+    "description": null,
+    "subsidy": null,
+    "contact": null,
+    "website": null,
+    "lat": null,
+    "lng": null,
+    "source": "park_docs_안내서(산업입지정보시스템)+고시",
+    "dev_status": "준비중",
+    "sale_rate": null,
+    "total_companies": null,
+    "operating_companies": null,
+    "address": "충청남도 서산시 성연면 일람리 일원"
   }
 ]
