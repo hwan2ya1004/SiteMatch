@@ -24,6 +24,19 @@ try:
 except (OSError, ValueError):
     _PARK_MANAGEMENT = {}
 
+# 관리기관 단위 문의처(scripts/build_org_contacts.py) — 단지 고시문에 연락처가 없을 때만 쓴다.
+try:
+    with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "org_contacts.json"),
+              encoding="utf-8") as _f:
+        _ORG_CONTACTS = json.load(_f).get("orgs", {})
+except (OSError, ValueError):
+    _ORG_CONTACTS = {}
+_ORG_CONTACT_NOTES = {"same_org_notice": "같은 관리기관의 다른 단지 고시에 적힌 담당 부서",
+                      "official_site": "관리기관 공식 홈페이지 대표번호",
+                      "web_listing": "관리기관 대표번호(검색 업체정보 기준)",
+                      "notice_manual": "관리기관 고시문에 적힌 담당 부서",
+                      "user_provided": "관리기관 담당 부서(운영자 확인, 공식 문서 대조 전)"}
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS_PATH = os.path.join(BASE_DIR, "data", "subsidy_docs.txt")
 
@@ -421,6 +434,13 @@ class RAGService:
         if mgmt.get("contact"):
             c = mgmt["contact"]
             lines.append(f"문의처(고시문에 적힌 담당 부서): {c['dept']} {c['phone']}")
+        elif mgmt.get("org"):
+            # 키 규칙은 scripts/build_org_contacts.py와 같다(시·군 기관은 시도|기관, 그 밖은 시도|시군|기관)
+            city = (park.get("city") or "").split(" ")[0]
+            c = (_ORG_CONTACTS.get(f"{park.get('region')}|{city}|{mgmt['org']}")
+                 or _ORG_CONTACTS.get(f"{park.get('region')}|{mgmt['org']}"))
+            if c:
+                lines.append(f"문의처({_ORG_CONTACT_NOTES.get(c.get('basis'), '관리기관 문의처')}): {c['dept']} {c['phone']}")
         return "\n".join(lines)
 
     def _general_block(self, park: Dict, query: str, max_chars: int) -> str:

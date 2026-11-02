@@ -65,18 +65,19 @@ def check(park_id, division: Optional[int]) -> Tuple[str, str]:
     rule = _load_rules().get(str(park_id))
     if not rule or division is None:
         return "unknown", ""
+    # 근거는 고시뿐 아니라 산업입지정보시스템 안내서 유치업종 표인 경우도 있어 '공식 문서'로 부른다
     src = rule.get("source", "공식 고시문서")
     code = str(division)
     partial = (rule.get("partial") or {}).get(code)
     if "allowed" in rule:
         if division not in rule["allowed"]:
-            return "blocked", f"공식 고시({src})상 입주대상 업종이 아님"
+            return "blocked", f"공식 문서({src})상 입주대상 업종이 아님"
     elif division in rule.get("restricted", []):
-        return "blocked", f"공식 고시({src})상 입주제한 업종"
+        return "blocked", f"공식 문서({src})상 입주제한 업종"
     if partial:
-        return "partial", f"공식 고시({src}): {partial}"
+        return "partial", f"공식 문서({src}): {partial}"
     if "allowed" in rule:
-        return "allowed", f"공식 고시({src})상 입주대상 업종으로 확인됨"
+        return "allowed", f"공식 문서({src})상 입주대상 업종으로 확인됨"
     return "unknown", ""
 
 

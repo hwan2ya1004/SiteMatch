@@ -143,10 +143,37 @@ def _load_management() -> Dict[str, dict]:
 
 _PARK_MANAGEMENT = _load_management()
 
+# 관리기관 단위 문의처(scripts/build_org_contacts.py로 생성) — 단지 고시문에 연락처가 없을 때만 쓴다.
+_ORG_CONTACTS_PATH = os.path.join(os.path.dirname(_MANAGEMENT_PATH), "org_contacts.json")
+try:
+    with open(_ORG_CONTACTS_PATH, encoding="utf-8") as _f:
+        _ORG_CONTACTS = json.load(_f).get("orgs", {})
+except (OSError, ValueError):
+    _ORG_CONTACTS = {}
+
+_CONTACT_NOTES = {
+    "same_org_notice": "같은 관리기관의 다른 단지 고시에 적힌 담당 부서",
+    "official_site": "관리기관 공식 홈페이지 대표번호",
+    "web_listing": "관리기관 대표번호(검색 업체정보 기준)",
+    "notice_manual": "관리기관 고시문에 적힌 담당 부서",
+    "user_provided": "관리기관 담당 부서(운영자 확인, 공식 문서 대조 전)",
+}
+
 
 def _management_contact(park: "IndustrialPark") -> Optional[dict]:
-    """고시문에 실제로 적힌 담당부서·전화번호(없으면 None — 지어내지 않음)."""
-    return (_PARK_MANAGEMENT.get(str(park.id)) or {}).get("contact")
+    """고시문에 실제로 적힌 담당부서·전화번호. 이 단지 고시에 없으면 같은 관리기관의 문의처를
+    출처 문구(note)와 함께 돌려준다. 둘 다 없으면 None — 지어내지 않음."""
+    entry = _PARK_MANAGEMENT.get(str(park.id)) or {}
+    if entry.get("contact"):
+        return {**entry["contact"], "note": "고시문에 적힌 담당 부서"}
+    # 키 규칙은 scripts/build_org_contacts.py와 같다: 시·군 기관은 시도|기관, 그 밖의 기관은 시도|시군|기관
+    org = entry.get("org")
+    city = (park.city or "").split(" ")[0]
+    org_c = (_ORG_CONTACTS.get(f"{park.region}|{city}|{org}") or _ORG_CONTACTS.get(f"{park.region}|{org}")) if org else None
+    if org_c:
+        return {"dept": org_c["dept"], "phone": org_c["phone"], "source": org_c.get("source"),
+                "note": _CONTACT_NOTES.get(org_c.get("basis"), "관리기관 문의처")}
+    return None
 
 
 # 산업집적법 제30조상 "관리권자" 직함. region은 국가법령정보센터 통계 표기(약칭)라
