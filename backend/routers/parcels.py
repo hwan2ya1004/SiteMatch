@@ -7,6 +7,7 @@ from services.parcel_notices import NEW_DAYS, serialize
 
 router = APIRouter(prefix="/api", tags=["parcels"])
 SOURCE = {"name": "산업입지정보센터 분양공고", "url": "https://www.industryland.or.kr/il/parcel/list"}
+RECENT_DAYS = 90  # 지도에서 핀을 강조하는 "최근 분양공고" 기준
 
 
 @router.get("/parcel-notices")
@@ -19,6 +20,32 @@ def recent_notices(limit: int = Query(20, ge=1, le=100), region: str = "", db: S
     items = [serialize(r) for r in rows]
     return {"notices": items, "new_count": sum(1 for i in items if i["is_new"]), "new_days": NEW_DAYS,
             "total": db.query(ParcelNotice).count(), "source": SOURCE}
+
+
+@router.get("/parcel-notices/by-park")
+def notices_by_park(db: Session = Depends(get_db)):
+    """지도용 요약 — 단지별 분양공고 건수와 가장 최근 공고(공고일·구분·신규/최근 여부)."""
+    from collections import defaultdict
+    from datetime import datetime, timedelta
+
+    rows = db.query(ParcelNotice).filter(ParcelNotice.park_id.isnot(None)).all()
+    groups = defaultdict(list)
+    for r in rows:
+        groups[r.park_id].append(r)
+    today = datetime.now().date()
+    out = {}
+    for pid, rs in groups.items():
+        rs.sort(key=lambda r: (r.notice_date or "", r.par_seq), reverse=True)
+        top = serialize(rs[0])
+        recent = False
+        if top["notice_date"]:
+            try:
+                recent = (today - datetime.strptime(top["notice_date"], "%Y-%m-%d").date()) <= timedelta(days=RECENT_DAYS)
+            except ValueError:
+                pass
+        out[pid] = {"count": len(rs), "latest_date": top["notice_date"], "latest_type": top["par_type"],
+                    "latest_title": top["title"], "is_new": top["is_new"], "recent": recent}
+    return {"parks": out, "new_days": NEW_DAYS, "recent_days": RECENT_DAYS, "source": SOURCE}
 
 
 @router.get("/parks/{park_id}/parcel-notices")

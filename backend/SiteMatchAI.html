@@ -663,7 +663,11 @@
             <input type="checkbox" id="map-filter-available" onchange="filterMapList()">
             입주 가능만 보기
           </label>
-          <div style="font-size:11px;color:var(--text-sub);margin-top:6px">🟢 여유 · 🟡 보통 · 🔴 주의/포화 (좌표 있는 단지만 표시)</div>
+          <label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:12.5px;color:var(--text);cursor:pointer">
+            <input type="checkbox" id="map-filter-parcel" onchange="filterMapList()">
+            📢 분양공고 있는 단지만 (최근 공고순)
+          </label>
+          <div style="font-size:11px;color:var(--text-sub);margin-top:6px">🟢 여유 · 🟡 보통 · 🔴 주의/포화 · ⭐ 최근 3개월 분양공고 (좌표 있는 단지만 표시)</div>
         </div>
         <div id="map-list-panel">
           <div id="map-list-count"></div>
@@ -907,6 +911,7 @@ function showPage(id) {
   if (id === 'map') {
     initKakaoMapIfNeeded();
     showMapListPanel();
+    loadParcelSummary();
     // 대시보드를 먼저 들르지 않고 지도 탭으로 바로 와도 동작하도록, 아직
     // 단지 목록이 없으면 여기서 직접 불러온다(있으면 다시 불러오지 않고 재사용).
     if (window.allParks) filterMapList();
@@ -954,9 +959,15 @@ function renderMapList(parks) {
   let items = withCoords.map(p => ({
     p, d: myLocationLatLng ? haversineKm(myLocationLatLng.lat, myLocationLatLng.lng, p.lat, p.lng) : null,
   }));
-  if (myLocationLatLng) items.sort((a, b) => a.d - b.d);
+  const onlyParcel = document.getElementById('map-filter-parcel')?.checked;
+  if (onlyParcel) {
+    // 분양공고만 볼 때는 최근 공고가 위로 오게 정렬한다
+    items.sort((a, b) => (parcelInfo(b.p.id)?.latest_date || '').localeCompare(parcelInfo(a.p.id)?.latest_date || ''));
+  } else if (myLocationLatLng) items.sort((a, b) => a.d - b.d);
 
-  document.getElementById('map-list-count').textContent = myLocationLatLng
+  document.getElementById('map-list-count').textContent = onlyParcel
+    ? `분양공고가 있는 ${items.length}개 단지 (최근 공고순 · 출처: 산업입지정보센터)`
+    : myLocationLatLng
     ? `${items.length}개 단지 (내 위치에서 가까운 순)`
     : `${items.length}개 단지 (좌표 있는 곳만 표시 · "내 위치"를 켜면 가까운 순으로 정렬됩니다)`;
 
@@ -968,6 +979,7 @@ function renderMapList(parks) {
         ${p.type ? `<span class="map-badge type">${escapeHtml(p.type)}</span>` : ''}
         <span class="map-badge ${p.move_in_status === '입주 가능' ? 'ok' : 'no'}">${escapeHtml(p.move_in_status)}</span>
         <span class="map-badge sale">분양${p.sale_rate != null ? ' ' + p.sale_rate.toFixed(0) + '%' : ''}</span>
+        ${parcelListBadge(p.id)}
       </div>
     </div>`).join('')
     || `<div style="padding:20px 14px;color:var(--text-sub);font-size:13px">검색 결과가 없습니다.</div>`;
@@ -979,8 +991,39 @@ function filterMapList() {
   let filtered = window.allParks || [];
   if (q) filtered = filtered.filter(p => parkName(p).toLowerCase().includes(q) || p.name.toLowerCase().includes(q));
   if (onlyAvailable) filtered = filtered.filter(p => p.move_in_status === '입주 가능');
+  if (document.getElementById('map-filter-parcel')?.checked) filtered = filtered.filter(p => parcelInfo(p.id));
   renderMapList(filtered);
   renderParksMap(filtered);
+}
+
+// ── 지도 ↔ 분양공고 연동: 단지별 요약(건수·최근 공고일)을 한 번 받아 목록 배지·필터·핀 강조·정보창에 쓴다 ──
+window.parcelByPark = null;
+function parcelInfo(parkId) { return window.parcelByPark ? window.parcelByPark[parkId] : null; }
+
+async function loadParcelSummary() {
+  if (window.parcelByPark) return;
+  try {
+    const resp = await fetch(`${API_BASE}/api/parcel-notices/by-park`);
+    if (!resp.ok) return;
+    window.parcelByPark = (await resp.json()).parks || {};
+    // 이미 목록·핀이 그려졌다면 분양공고 표시를 붙이기 위해 다시 그린다
+    if (window.allParks) {
+      kakaoMarkers.forEach(m => m.setMap(null));
+      kakaoMarkers = [];
+      kakaoMarkersById = {};
+      filterMapList();
+    }
+  } catch (e) {
+    window.parcelByPark = {}; // 실패해도 지도는 그대로 쓸 수 있게
+  }
+}
+
+function parcelListBadge(parkId) {
+  const info = parcelInfo(parkId);
+  if (!info) return '';
+  const d = info.latest_date ? info.latest_date.replace(/-/g, '.') : '';
+  return `<span class="map-badge" style="background:var(--amber-bg);color:var(--amber-text)" title="${escapeHtml(info.latest_title || '')}">`
+    + `${info.is_new ? '<span class="parcel-new">신규</span>' : ''}📢 분양공고 ${d}${info.count > 1 ? ` 외 ${info.count - 1}건` : ''}</span>`;
 }
 
 function selectPark(id) {
@@ -1401,7 +1444,7 @@ function parcelItemHtml(n, showDanji) {
   return `<div class="parcel-item">
     ${n.is_new ? '<span class="parcel-new">신규</span>' : ''}${n.par_type ? `<span class="parcel-type">${escapeHtml(n.par_type)}</span>` : ''}
     <a href="${escapeHtml(n.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(n.title)}</a>
-    ${showDanji ? `<div class="parcel-meta">${escapeHtml([n.region, n.city].filter(Boolean).join(' '))} · ${escapeHtml(n.danji_nm || '')}</div>` : ''}
+    ${showDanji ? `<div class="parcel-meta">${escapeHtml([n.region, n.city].filter(Boolean).join(' '))} · ${escapeHtml(n.danji_nm || '')}${n.park_id ? ` · <a href="javascript:void(0)" onclick="showParkOnMap(${n.park_id})" style="font-weight:600;color:var(--teal-dark)">🗺️ 지도에서 보기</a>` : ''}</div>` : ''}
     ${meta ? `<div class="parcel-meta">${meta}</div>` : ''}
   </div>`;
 }
@@ -1425,6 +1468,16 @@ async function loadParkParcels(parkId, elId) {
   } catch (e) {
     // 분양공고는 부가 정보 — 실패해도 조용히 넘어간다
   }
+}
+
+// 분양공고 카드에서 단지를 눌렀을 때 지도 탭으로 가서 그 단지를 연다
+function showParkOnMap(parkId) {
+  showPage('map');
+  const tryOpen = (n) => {
+    if ((window.allParks || []).some(p => p.id === parkId)) { selectPark(parkId); return; }
+    if (n > 0) setTimeout(() => tryOpen(n - 1), 300); // 단지 목록을 아직 불러오는 중이면 잠깐 기다린다
+  };
+  tryOpen(20);
 }
 
 async function loadRecentParcels() {
@@ -1961,6 +2014,14 @@ function markerSvgDataUrl(color) {
   return 'data:image/svg+xml;base64,' + btoa(svg);
 }
 
+// 최근(3개월) 분양공고가 있는 단지 핀 — 같은 색 핀 가운데에 흰 원 대신 노란 별을 넣어 구분한다
+function parcelMarkerSvgDataUrl(color) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="34" viewBox="0 0 26 34">`
+    + `<path d="M13 0C5.8 0 0 5.8 0 13c0 9.7 13 21 13 21s13-11.3 13-21C26 5.8 20.2 0 13 0z" fill="${color}" stroke="#B45309" stroke-width="1.5"/>`
+    + `<path d="M13 5.5l2.3 4.7 5.2.8-3.8 3.7.9 5.2-4.6-2.4-4.6 2.4.9-5.2-3.8-3.7 5.2-.8z" fill="#FCD34D" stroke="#fff" stroke-width="0.8"/></svg>`;
+  return 'data:image/svg+xml;base64,' + btoa(svg);
+}
+
 // "내 위치"는 산업단지 핀과 똑같은 물방울 모양이면 색만 봐서는 눈에 잘 안 띈다
 // (실제로 구분이 어렵다는 지적) — 지도 앱들에서 흔히 쓰는 "현재 위치" 점+테두리
 // +바깥 후광 모양으로 확실히 다르게 만든다.
@@ -1995,14 +2056,16 @@ function openDirections(parkId) {
 function ensureMarkerFor(p) {
   if (kakaoMarkersById[p.id]) return kakaoMarkersById[p.id];
   const pos = new kakao.maps.LatLng(p.lat, p.lng);
+  const pinfo = parcelInfo(p.id);
   const marker = new kakao.maps.Marker({
     position: pos,
     map: kakaoMap,
     image: new kakao.maps.MarkerImage(
-      markerSvgDataUrl(p.bar_color || '#639922'),
+      (pinfo && pinfo.recent ? parcelMarkerSvgDataUrl : markerSvgDataUrl)(p.bar_color || '#639922'),
       new kakao.maps.Size(26, 34),
       { offset: new kakao.maps.Point(13, 34) }
     ),
+    zIndex: pinfo && pinfo.recent ? 3 : 1, // 최근 분양공고 핀이 다른 핀에 가려지지 않게
   });
   const info = new kakao.maps.InfoWindow({
     removable: true, // 정보창 우측 상단에 닫기(X) 버튼 표시
@@ -2013,6 +2076,7 @@ function ensureMarkerFor(p) {
       + `<span style="color:${p.bar_color};font-weight:600">${escapeHtml(p.status)}</span><br>`
       + (p.sale_rate != null ? `분양률 ${p.sale_rate.toFixed(1)}%<br>` : '')
       + `가용면적 ${escapeHtml(p.available_area)}<br>`
+      + (pinfo ? `<span style="color:var(--amber-text);font-weight:600">📢 분양공고 ${escapeHtml((pinfo.latest_date || '').replace(/-/g, '.'))}${pinfo.is_new ? ' (신규)' : ''}${pinfo.count > 1 ? ` 외 ${pinfo.count - 1}건` : ''}</span><br>` : '')
       + `<button onclick="openDirections(${p.id})" style="margin-top:6px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--teal-light);color:var(--teal-dark);font-size:12px;font-weight:600;cursor:pointer">🧭 길찾기</button>`
       + `</div>`,
   });
