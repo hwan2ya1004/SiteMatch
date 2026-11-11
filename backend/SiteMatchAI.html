@@ -284,6 +284,17 @@
   .map-list-sub { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
   .map-list-tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px; }
   .map-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 99px; white-space: nowrap; }
+  /* 분양공고 (산업입지정보센터) */
+  .parcel-box { background: var(--amber-bg); border-radius: 8px; padding: 10px 12px; font-size: 12px; margin: 10px 0 12px; }
+  .parcel-box-title { font-weight: 700; color: var(--amber-text); margin-bottom: 6px; }
+  .parcel-item { padding: 6px 0; border-top: 1px dashed rgba(99,56,6,0.18); line-height: 1.5; }
+  .parcel-item:first-of-type { border-top: none; }
+  .parcel-item a { color: var(--text); text-decoration: none; font-weight: 600; }
+  .parcel-item a:hover { text-decoration: underline; }
+  .parcel-meta { color: var(--text-sub); font-size: 11px; }
+  .parcel-new { display: inline-block; font-size: 10px; font-weight: 700; background: var(--red-text); color: #fff; padding: 1px 6px; border-radius: 99px; margin-right: 4px; vertical-align: 1px; }
+  .parcel-type { display: inline-block; font-size: 10px; font-weight: 600; background: #fff; color: var(--amber-text); padding: 1px 6px; border-radius: 99px; margin-right: 4px; vertical-align: 1px; }
+  .parcel-src { color: var(--text-sub); font-size: 10px; margin-top: 4px; }
   .map-badge.ok { background: var(--green-bg); color: var(--green-text); }
   .map-badge.no { background: var(--red-bg); color: var(--red-text); }
   .map-badge.sale { background: var(--teal-light); color: var(--teal-dark); }
@@ -705,6 +716,14 @@
       <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-label">누적 매칭 요청 수</div><div class="stat-value" id="stat-companies">-</div><div class="stat-change up" id="stat-companies-sub">로딩 중...</div></div>
     </div>
 
+    <div class="card" id="parcel-recent-card" style="margin-bottom:16px">
+      <div class="filter-bar-head">
+        <div class="card-title" style="margin-bottom:0">📢 최근 분양공고</div>
+        <div id="parcel-recent-count" class="filter-count"></div>
+      </div>
+      <div id="parcel-recent-list" style="font-size:13px;color:var(--text-sub);margin-top:8px">불러오는 중...</div>
+    </div>
+
     <div class="card" id="parks-filter-section" style="margin-bottom:16px">
       <div class="filter-bar-head">
         <div class="card-title" style="margin-bottom:0">🔎 산업단지 필터</div>
@@ -1007,6 +1026,7 @@ function renderParkDetail(p) {
       ${p.description ? `<div style="font-size:13px;color:var(--text-sub);margin-top:10px;line-height:1.6">${escapeHtml(p.description)}</div>` : ''}
       ${p.subsidy ? `<div class="subsidy-box" style="margin-top:10px">${escapeHtml(p.subsidy)}</div>` : ''}
       <div id="park-phone-${p.id}" style="display:none;margin-top:10px"></div>
+      <div id="map-parcel-${p.id}" style="display:none"></div>
       <div class="map-detail-actions">
         ${p.lat && p.lng ? `<button onclick="openDirections(${p.id})">🧭 길찾기</button>` : ''}
         ${p.website ? `<a href="${escapeHtml(p.website)}" target="_blank" rel="noopener noreferrer">🔗 홈페이지</a>` : ''}
@@ -1014,6 +1034,7 @@ function renderParkDetail(p) {
       </div>
     </div>`;
   loadParkPhone(p.id); // 지도 상세 패널에는 전화번호만 — 공식 문서 목록은 안 보여줘도 된다는 요청
+  loadParkParcels(p.id, `map-parcel-${p.id}`);
   if (p.lat && p.lng) loadDetailPhoto(p);
 }
 
@@ -1354,6 +1375,7 @@ function renderResults(results, ind, ar) {
       ${r.contact && r.website ? ' &nbsp;|&nbsp; ' : ''}
       ${r.website ? `🔗 <a href="${r.website}" target="_blank" rel="noopener noreferrer">공단 홈페이지</a>` : ''}
     </div>` : ''}
+    <div id="match-parcel-${r.id}" style="display:none"></div>
     <div id="park-docs-${r.id}" class="park-docs" style="display:none"></div>
     <div class="result-actions">
       <button class="btn-primary" onclick="goChat('${escapeHtml(parkName(r)).replace(/'/g, "\\'")}', '${escapeHtml(r.city || '').replace(/'/g, "\\'")}')">챗봇에서 상세 문의</button>
@@ -1364,6 +1386,64 @@ function renderResults(results, ind, ar) {
   // 결과가 그려진 뒤, 단지별로 관련 공문이 있는지 각각 조용히 조회한다 (없는 게 정상인
   // 단지가 대다수라 실패/빈 목록을 에러로 취급하지 않고 그냥 아무것도 안 보여준다).
   results.forEach(r => loadParkDocs(r.id));
+  results.forEach(r => loadParkParcels(r.id, `match-parcel-${r.id}`));
+}
+
+// ── 분양공고 (산업입지정보센터) — 공고일이 최근 7일 안이면 "신규" 표시 ──
+function parcelItemHtml(n, showDanji) {
+  const meta = [
+    n.notice_date ? `공고 ${escapeHtml(n.notice_date)}` : '',
+    n.area ? `면적 ${Math.round(n.area).toLocaleString()}㎡` : '',
+    n.price ? `분양가 ${n.price.toLocaleString()}원/㎡` : '',
+    n.org ? escapeHtml(n.org) : '',
+    n.phone ? `☎ ${escapeHtml(n.phone)}` : '',
+  ].filter(Boolean).join(' · ');
+  return `<div class="parcel-item">
+    ${n.is_new ? '<span class="parcel-new">신규</span>' : ''}${n.par_type ? `<span class="parcel-type">${escapeHtml(n.par_type)}</span>` : ''}
+    <a href="${escapeHtml(n.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(n.title)}</a>
+    ${showDanji ? `<div class="parcel-meta">${escapeHtml([n.region, n.city].filter(Boolean).join(' '))} · ${escapeHtml(n.danji_nm || '')}</div>` : ''}
+    ${meta ? `<div class="parcel-meta">${meta}</div>` : ''}
+  </div>`;
+}
+
+async function loadParkParcels(parkId, elId) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  try {
+    const resp = await fetch(`${API_BASE}/api/parks/${parkId}/parcel-notices?limit=3`);
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const list = data.notices || [];
+    if (!list.length) return; // 분양공고가 없는 단지가 대부분 — 아무것도 안 보여준다
+    const hasNew = list.some(n => n.is_new);
+    el.style.display = 'block';
+    el.innerHTML = `<div class="parcel-box">
+      <div class="parcel-box-title">📢 분양공고${hasNew ? ' <span class="parcel-new">신규</span>' : ''}</div>
+      ${list.map(n => parcelItemHtml(n, false)).join('')}
+      <div class="parcel-src">출처: <a href="${escapeHtml(data.source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(data.source.name)}</a> · 분양 가능 여부는 공고 원문과 담당 기관에 확인하세요</div>
+    </div>`;
+  } catch (e) {
+    // 분양공고는 부가 정보 — 실패해도 조용히 넘어간다
+  }
+}
+
+async function loadRecentParcels() {
+  const listEl = document.getElementById('parcel-recent-list');
+  const countEl = document.getElementById('parcel-recent-count');
+  if (!listEl) return;
+  try {
+    const resp = await fetch(`${API_BASE}/api/parcel-notices?limit=10`);
+    if (!resp.ok) throw new Error(resp.status);
+    const data = await resp.json();
+    const list = data.notices || [];
+    countEl.textContent = data.new_count ? `최근 ${data.new_days}일 신규 ${data.new_count}건` : `전체 ${data.total}건`;
+    listEl.innerHTML = list.length
+      ? list.map(n => parcelItemHtml(n, true)).join('') +
+        `<div class="parcel-src">출처: <a href="${escapeHtml(data.source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(data.source.name)}</a> · 매일 새벽 갱신</div>`
+      : '등록된 분양공고가 없습니다.';
+  } catch (e) {
+    listEl.textContent = '분양공고를 불러오지 못했습니다.';
+  }
 }
 
 async function loadParkDocs(parkId) {
@@ -1640,6 +1720,7 @@ function dashAuthHeaders() {
 }
 
 async function loadDashboard() {
+  loadRecentParcels();
   try {
     // 통계 로드
     const statsResp = await fetch(`${API_BASE}/api/dashboard/stats`, { headers: dashAuthHeaders() });

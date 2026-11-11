@@ -45,6 +45,18 @@ async def lifespan(app: FastAPI):
     init_db()
     print("✅ DB 초기화 완료")
 
+    # 분양공고: 커밋된 기준 데이터로 채운 뒤(재배포 때 DB가 비워짐), 새 공고는 백그라운드로 받아온다
+    try:
+        from services.parcel_notices import seed_from_json
+        _db = SessionLocal()
+        try:
+            print(f"✅ 분양공고 {seed_from_json(_db)}건 로드")
+        finally:
+            _db.close()
+        asyncio.get_running_loop().create_task(parcel_sync_job())
+    except Exception as e:
+        print(f"⚠️ 분양공고 로드 실패: {e}")
+
     # 2. AI 서비스 초기화 (Groq API 키 기반)
     if GROQ_API_KEY:
         # DB에서 공단 데이터 로드
@@ -97,8 +109,16 @@ async def lifespan(app: FastAPI):
             minute=0,
             id="industry_backfill",
         )
+        # 산업입지정보센터 분양공고 새 공고 수집 (매일 새벽 4시)
+        scheduler.add_job(
+            parcel_sync_job,
+            "cron",
+            hour=4,
+            minute=0,
+            id="parcel_sync",
+        )
         scheduler.start()
-        print("✅ ETL 스케줄러 시작 (매일 02:00 공공데이터 갱신 / 03:00 업종 백필)")
+        print("✅ ETL 스케줄러 시작 (매일 02:00 공공데이터 갱신 / 03:00 업종 백필 / 04:00 분양공고)")
     else:
         print("⚠️ GROQ_API_KEY 미설정 → AI 기능 비활성화")
         print("   backend/.env 파일에 GROQ_API_KEY를 설정하세요")
@@ -149,6 +169,23 @@ async def industry_backfill_job():
         print(f"⚠️ 업종 백필 오류: {e}")
 
 
+async def parcel_sync_job():
+    """산업입지정보센터에서 DB에 없는 새 분양공고만 받아 저장한다(네트워크 호출이라 스레드에서 실행)."""
+    from database import SessionLocal
+    from services.parcel_notices import sync_new
+
+    def _run():
+        db = SessionLocal()
+        try:
+            sync_new(db)
+        except Exception as e:
+            print(f"⚠️ 분양공고 동기화 오류: {e}")
+        finally:
+            db.close()
+
+    await asyncio.to_thread(_run)
+
+
 # FastAPI 앱 생성
 app = FastAPI(
     title="SiteMatch AI API",
@@ -170,10 +207,12 @@ app.add_middleware(
 from routers.match import router as match_router
 from routers.chat import router as chat_router
 from routers.dashboard import router as dashboard_router
+from routers.parcels import router as parcels_router
 
 app.include_router(match_router)
 app.include_router(chat_router)
 app.include_router(dashboard_router)
+app.include_router(parcels_router)
 
 # 정적 파일 서빙 (프론트엔드 HTML)
 # backend/ 폴더 내부 경로 우선, 없으면 상위 폴더에서 찾음

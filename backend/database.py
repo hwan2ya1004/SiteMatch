@@ -136,6 +136,32 @@ class ParkInquiry(Base):
     replied_at = Column(DateTime)
 
 
+class ParcelNotice(Base):
+    """산업입지정보센터(industryland.or.kr) 분양공고. 서버 DB는 재배포 때 비워지므로
+    시작할 때 data/parcel_notices.json으로 다시 채우고, 그 뒤 새 공고만 받아 더한다
+    (services/parcel_notices.py). 등록 담당자 이름 등 개인정보는 저장하지 않는다."""
+    __tablename__ = "parcel_notices"
+
+    par_seq = Column(Integer, primary_key=True)       # 사이트 공고 번호
+    park_id = Column(Integer, index=True)              # 연결된 SiteMatch 단지 id (못 찾으면 null)
+    title = Column(String(300))
+    danji_nm = Column(String(150))
+    danji_cd = Column(String(20))
+    region = Column(String(20))                        # addr_si_nm (예: 충북)
+    city = Column(String(50))                          # addr_gu_nm (예: 충주시)
+    par_type = Column(String(20))                      # 신규분양 / 재분양 등
+    notice_date = Column(String(10), index=True)       # 공고일 YYYY-MM-DD
+    start_date = Column(String(10))
+    end_date = Column(String(10))
+    area = Column(Float)                               # 분양면적(㎡)
+    price = Column(Integer)                            # 분양가(원/㎡)
+    org = Column(String(150))                          # 분양 주체·담당 기관
+    phone = Column(String(50))                         # 대표 문의번호
+    reason = Column(String(200))
+    url = Column(String(300))
+    first_seen_at = Column(DateTime, default=datetime.utcnow)
+
+
 class ChatHistory(Base):
     __tablename__ = "chat_history"
 
