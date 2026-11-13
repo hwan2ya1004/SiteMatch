@@ -48,6 +48,19 @@ def notices_by_park(db: Session = Depends(get_db)):
     return {"parks": out, "new_days": NEW_DAYS, "recent_days": RECENT_DAYS, "source": SOURCE}
 
 
+@router.get("/parcel-notices/{par_seq}")
+def notice_detail(par_seq: int, db: Session = Depends(get_db)):
+    """공고 하나 — 핵심 정보와 첨부 공고문을 항목별로 나눈 내용(원문 글자 그대로)."""
+    import json
+    from fastapi import HTTPException
+
+    row = db.get(ParcelNotice, par_seq)
+    if row is None:
+        raise HTTPException(status_code=404, detail="공고를 찾을 수 없습니다")
+    doc = json.loads(row.doc_json) if row.doc_json else None
+    return {"notice": serialize(row), "doc": doc, "source": SOURCE}
+
+
 @router.get("/parks/{park_id}/parcel-notices")
 def park_notices(park_id: int, limit: int = Query(5, ge=1, le=50), db: Session = Depends(get_db)):
     """한 단지에 연결된 분양공고(최신순)."""

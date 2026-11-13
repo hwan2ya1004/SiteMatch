@@ -159,6 +159,7 @@ class ParcelNotice(Base):
     phone = Column(String(50))                         # 대표 문의번호
     reason = Column(String(200))
     url = Column(String(300))
+    doc_json = Column(Text)                            # 첨부 공고문을 항목별로 나눈 결과(JSON) — 없으면 null
     first_seen_at = Column(DateTime, default=datetime.utcnow)
 
 
@@ -183,6 +184,12 @@ def get_db():
 def init_db():
     """DB 테이블 생성 및 초기 데이터 로드"""
     Base.metadata.create_all(bind=engine)
+    # create_all은 이미 있는 테이블에 새 열을 더하지 않는다 — 로컬 DB에 나중에 추가된 열을 붙인다
+    from sqlalchemy import text as _sql
+    with engine.begin() as conn:
+        cols = {r[1] for r in conn.execute(_sql("PRAGMA table_info(parcel_notices)"))}
+        if cols and "doc_json" not in cols:
+            conn.execute(_sql("ALTER TABLE parcel_notices ADD COLUMN doc_json TEXT"))
     db = SessionLocal()
     try:
         # 이미 데이터가 있으면 스킵

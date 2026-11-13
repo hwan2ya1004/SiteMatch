@@ -230,7 +230,11 @@ def sync_new(db, log=print) -> int:
     known = {str(s) for (s,) in db.query(ParcelNotice.par_seq).all()}
     recs, total = collect_new(known, full=False, log=log)
     added = upsert(db, recs) if recs else 0
-    log(f"✅ 분양공고 동기화: 새 공고 {added}건 (사이트 전체 {total}건)")
+    # 새 공고(+기준 데이터에 요약이 빠진 최근 공고)의 첨부 공고문을 항목별로 정리한다
+    rows = db.query(ParcelNotice).all()
+    targets = doc_targets([{"par_seq": r.par_seq, "notice_date": r.notice_date, "park_id": r.park_id} for r in rows])
+    docs = sync_docs(db, [s for s in targets if not db.get(ParcelNotice, s).doc_json], log=log)
+    log(f"✅ 분양공고 동기화: 새 공고 {added}건, 공고문 정리 {docs}건 (사이트 전체 {total}건)")
     return added
 
 
@@ -247,4 +251,100 @@ def serialize(row) -> Dict:
         "region": row.region, "city": row.city, "par_type": row.par_type, "notice_date": row.notice_date,
         "start_date": row.start_date, "end_date": row.end_date, "area": row.area, "price": row.price,
         "org": row.org, "phone": row.phone, "url": row.url, "is_new": is_new,
+        "has_doc": bool(row.doc_json) and '"status": "ok"' in (row.doc_json or ""),
     }
+
+
+# ── 첨부 공고문 → 항목별 요약 (원문 글자를 항목으로 나누기만 하고 고쳐 쓰지 않는다) ──
+DOCS_PATH = os.path.join(BASE_DIR, "data", "parcel_notice_docs.json")
+MAX_FILE_BYTES = 25 * 1024 * 1024   # 이보다 큰 첨부(대용량 ZIP 등)는 받지 않는다
+MAX_TEXT = 30000                    # 공고 하나당 저장할 글자 수 상한
+DOC_RECENT_DAYS = 365               # 처리 범위: 최근 1년 공고 + 단지별 가장 최근 공고
+
+
+def build_doc(seq: int, log=print) -> Dict:
+    """공고 상세에서 첨부를 받아 공고문 본문을 고르고 항목별로 나눈다."""
+    from services.doc_text import extract, pick_main, split_sections, trim_forms
+    d = fetch_detail(seq)
+    files = d.get("saveFiles") or []
+    docs, names, skipped = [], [], []
+    for f in files:
+        name = f"{f.get('file_name') or ''}{f.get('file_extension') or ''}"
+        names.append(name)
+        if (f.get("file_size") or 0) > MAX_FILE_BYTES:
+            skipped.append(name)
+            continue
+        try:
+            r = requests.get(f"{BASE}/cmm/file/download", params={"real_file_name": f.get("real_file_name"),
+                             "file_path": f.get("file_path")}, headers=HEADERS, timeout=90)
+            r.raise_for_status()
+            docs += extract(name, r.content)
+        except Exception as e:
+            log(f"  첨부 받기 실패 {seq} {name}: {e}")
+        time.sleep(DELAY)
+    main_name, text = pick_main(docs)
+    text = trim_forms(text)[:MAX_TEXT] if text else ""
+    sections = split_sections(text) if text else []
+    if sections:
+        status = "ok"
+    elif not files:
+        status = "no_file"
+    elif skipped and len(skipped) == len(files):
+        status = "too_large"
+    else:
+        status = "no_text"  # 이미지·엑셀뿐이거나 글자를 뽑지 못한 경우
+    return {"par_seq": seq, "status": status, "main_file": main_name, "files": names,
+            "sections": sections, "extracted_at": datetime.now().isoformat(timespec="seconds")}
+
+
+def doc_targets(notices: List[Dict]) -> List[int]:
+    """최근 1년 공고와 단지별 가장 최근 공고의 번호."""
+    today = datetime.now().date()
+    out, latest = set(), {}
+    for n in notices:
+        date = n.get("par_dtm") or n.get("notice_date")
+        seq = int(n["par_seq"])
+        try:
+            if date and (today - datetime.strptime(date, "%Y-%m-%d").date()).days <= DOC_RECENT_DAYS:
+                out.add(seq)
+        except ValueError:
+            pass
+        pid = n.get("park_id")
+        if pid and (pid not in latest or (date or "") > latest[pid][0]):
+            latest[pid] = (date or "", seq)
+    out |= {s for _, s in latest.values()}
+    return sorted(out, reverse=True)
+
+
+def save_doc_to_db(db, doc: Dict) -> None:
+    from database import ParcelNotice
+    row = db.get(ParcelNotice, int(doc["par_seq"]))
+    if row is not None:
+        row.doc_json = json.dumps(doc, ensure_ascii=False)
+
+
+def seed_docs_from_json(db) -> int:
+    if not os.path.exists(DOCS_PATH):
+        return 0
+    docs = json.load(open(DOCS_PATH, encoding="utf-8")).get("docs", {})
+    for doc in docs.values():
+        save_doc_to_db(db, doc)
+    db.commit()
+    return len(docs)
+
+
+def sync_docs(db, seqs: List[int], log=print) -> int:
+    """아직 요약이 없는 공고(seqs)의 첨부를 처리해 DB에 저장한다."""
+    from database import ParcelNotice
+    n = 0
+    for seq in seqs:
+        row = db.get(ParcelNotice, int(seq))
+        if row is None or row.doc_json:
+            continue
+        try:
+            save_doc_to_db(db, build_doc(int(seq), log=log))
+            db.commit()
+            n += 1
+        except Exception as e:
+            log(f"⚠️ 공고 요약 실패 {seq}: {e}")
+    return n

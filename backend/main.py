@@ -47,10 +47,10 @@ async def lifespan(app: FastAPI):
 
     # 분양공고: 커밋된 기준 데이터로 채운 뒤(재배포 때 DB가 비워짐), 새 공고는 백그라운드로 받아온다
     try:
-        from services.parcel_notices import seed_from_json
+        from services.parcel_notices import seed_from_json, seed_docs_from_json
         _db = SessionLocal()
         try:
-            print(f"✅ 분양공고 {seed_from_json(_db)}건 로드")
+            print(f"✅ 분양공고 {seed_from_json(_db)}건 로드 (공고문 정리 {seed_docs_from_json(_db)}건)")
         finally:
             _db.close()
         asyncio.get_running_loop().create_task(parcel_sync_job())

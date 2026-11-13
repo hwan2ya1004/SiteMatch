@@ -10,7 +10,16 @@ import sys
 from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from services.parcel_notices import JSON_PATH, PARKS_PATH, collect_new, match_park  # noqa: E402
+from services.parcel_notices import (DOCS_PATH, JSON_PATH, PARKS_PATH, build_doc,  # noqa: E402
+                                     collect_new, doc_targets, match_park)
+
+
+def _save(docs):
+    """중간에 죽어도 파일이 반쯤 쓰인 채 남지 않게 임시 파일에 쓴 뒤 바꿔 넣는다."""
+    tmp = DOCS_PATH + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(docs, f, ensure_ascii=False, indent=1)
+    os.replace(tmp, DOCS_PATH)
 
 
 def main():
@@ -32,6 +41,25 @@ def main():
     ns = list(store["notices"].values())
     matched = sum(1 for n in ns if n.get("park_id"))
     print(f"새 공고 {len(recs)}건 / 저장 {len(ns)}건 / 단지 연결 {matched}건 / 미연결 {len(ns) - matched}건 → {JSON_PATH}")
+
+    # 첨부 공고문 정리(최근 1년 + 단지별 최신) — 이미 정리한 공고는 건너뛴다(--redo-docs면 다시)
+    docs = {"source": store["source"], "docs": {}}
+    if os.path.exists(DOCS_PATH) and "--redo-docs" not in sys.argv:
+        docs = json.load(open(DOCS_PATH, encoding="utf-8"))
+    todo = [s for s in doc_targets(ns) if str(s) not in docs["docs"]]
+    print(f"공고문 정리 대상 {len(todo)}건")
+    for i, seq in enumerate(todo, 1):
+        try:
+            docs["docs"][str(seq)] = build_doc(seq)
+        except Exception as e:
+            print(f"  실패 {seq}: {e}")
+        if i % 20 == 0:
+            print(f"  {i}/{len(todo)}")
+            _save(docs)
+    docs["updated_at"] = datetime.now().isoformat(timespec="seconds")
+    _save(docs)
+    from collections import Counter
+    print("공고문 정리 결과:", dict(Counter(d["status"] for d in docs["docs"].values())))
 
 
 if __name__ == "__main__":
