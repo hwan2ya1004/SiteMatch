@@ -1574,14 +1574,33 @@ function formatNoticeText(text) {
 }
 // 공고문 글자를 읽기 좋게: 목록 기호(◆ ■ □ ● ○ ▶ ※ ∙ • ①… 1) 등) 앞에서 줄을 바꾸고, 줄마다 문단으로 나눠 보여준다.
 // 글자 자체는 바꾸지 않는다(줄바꿈·간격만 조정).
+// 동그라미·괄호 숫자: ①~⑳ ⑴~⒇ ㉑~㉟ ㊱~㊿ ㉠~㉻ (①~⑳만 넣었다가 ㉑부터 줄이 안 바뀌던 문제)
+const NOTICE_CIRC = '①-⒇㉑-㉟㊱-㊿㉠-㉿';
+const NOTICE_SYM = '◆■□●○◦▶▷►※∙•❍◯◎⊙☞★ㅇ';
 function renderNoticeText(text) {
   let t = formatNoticeText(String(text || ''));
-  t = t.replace(/\s*([◆■□●○◦▶※∙•])\s*/g, (m, sym, off) => (off === 0 ? '' : '\n') + sym + ' ');
-  t = t.replace(/\s*([①-⑳])\s*/g, (m, sym, off) => (off === 0 ? '' : '\n') + sym + ' ');
-  t = t.replace(/(^|[\s.])(\d{1,2}\))\s+(?=[가-힣「(])/g, (m, pre, num) => `${pre.trim() ? pre : ''}\n${num} `);
-  t = t.replace(/[ \t]{2,}/g, ' ');
-  return t.split('\n').map(s => s.trim()).filter(Boolean).map(line => {
-    const cls = /^※/.test(line) ? 'ln note' : /^[◆■]/.test(line) ? 'ln strong' : /^([가-하]\s?\.|[①-⑳]|\d{1,2}\)|[□●○◦▶∙•])/.test(line) ? 'ln item' : 'ln';
+  const brk = (re) => { t = t.replace(re, (m, sym, off) => (off === 0 ? '' : '\n') + sym + ' '); };
+  brk(new RegExp(`\\s*([${NOTICE_SYM}])\\s*`, 'g'));
+  brk(new RegExp(`\\s*([${NOTICE_CIRC}])\\s*`, 'g'));
+  // 가. 나. 다. — 앞 글자가 한글 음절이 아니면(공백·마침표·괄호·숫자) 목록 표시로 본다("합니다."는 건너뜀)
+  t = t.replace(/(?<![가-힣])([가나다라마바사아자차카타파하])\s?\.(?=\s?[^\d\s.])/g, '\n$1. ');
+  // (1) (가) 1) 가) — 앞이 공백·마침표일 때
+  t = t.replace(/(?:(?<=\s)|(?<=[.。]))(\(\d{1,2}\)|\([가나다라마바사아자차카타파하]\)|\d{1,2}\)|[가나다라마바사아자차카타파하]\))\s*(?=[가-힣「(])/g, '\n$1 ');
+  // 문단 속 번호 목록 "… 1. 「법」 … 2. 「법」 …"
+  t = t.replace(/(?<=\s)(\d{1,2})\.\s(?=[「가-힣])/g, '\n$1. ');
+  // 문장 끝(다./음./함./임.) 뒤의 "- " 항목
+  t = t.replace(/(?<=[다음함임]\.)\s*-\s+/g, '\n- ');
+  const lines = [];
+  t.split('\n').forEach(s => {
+    s = s.replace(/[ \t]{2,}/g, ' ').trim();
+    if (!s) return;
+    // 그래도 긴 문단은 문장 끝에서 나눈다
+    if (s.length > 220) s.split(/(?<=[다음함임]\.)\s+(?=\S)/).forEach(x => { if (x.trim()) lines.push(x.trim()); });
+    else lines.push(s);
+  });
+  const itemRe = new RegExp(`^([가나다라마바사아자차카타파하]\\.|[${NOTICE_CIRC}]|\\(?\\d{1,2}\\)|\\([가나다라마바사아자차카타파하]\\)|[가나다라마바사아자차카타파하]\\)|\\d{1,2}\\.|- |[□●○◦▶▷►∙•❍◯◎⊙☞★ㅇ])`);
+  return lines.map(line => {
+    const cls = /^※/.test(line) ? 'ln note' : /^[◆■]/.test(line) ? 'ln strong' : itemRe.test(line) ? 'ln item' : 'ln';
     return `<p class="${cls}">${escapeHtml(line)}</p>`;
   }).join('');
 }

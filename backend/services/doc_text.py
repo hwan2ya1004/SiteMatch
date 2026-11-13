@@ -123,10 +123,10 @@ def clean(text: str) -> str:
     return text.strip()
 
 
-_TITLE_STOP = re.compile(r"(?:\s?[가-하]\s?\.|[:：]|「|\n|○|◦|ㅇ|※|□|■|-)")
+_TITLE_STOP = re.compile(r"(?:\s?[가나다라마바사아자차카타파하]\s?\.|[:：]|「|\n|○|◦|ㅇ|※|□|■|-)")
 
 
-_BARE_STOP = re.compile(r"(?:\s?[가-하]\s?\.|[:：]|「|\n|○|◦|ㅇ|※|□|■|◆|[①-⑳]|\d|-)")
+_BARE_STOP = re.compile(r"(?:\s?[가나다라마바사아자차카타파하]\s?\.|[:：]|「|\n|○|◦|ㅇ|※|□|■|◆|[①-⑳]|\d|-)")
 
 
 def _bare_ok(text: str, num_pos: int, stop) -> bool:
