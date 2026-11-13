@@ -301,17 +301,31 @@
   .map-badge.type { background: var(--gray-bg); color: var(--text); border: 1px solid var(--border); }
   #map-view { flex: 1; position: relative; }
   #parks-map { width: 100%; height: 100%; background: var(--gray-bg); display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 13px; }
-  /* 지도 핀 위 라벨(네이버 부동산 매물 라벨처럼 분양가·면적을 바로 보이게) */
-  .map-label { transform: translateY(-38px); cursor: pointer; font-family: inherit; text-align: center; filter: drop-shadow(0 1px 2px rgba(0,0,0,.25)); }
-  .map-label .box { background: #fff; border: 1.5px solid var(--lc); border-radius: 6px; overflow: hidden; min-width: 64px; }
-  .map-label .hd { background: var(--lc); color: #fff; font-size: 11.5px; font-weight: 700; padding: 2px 6px; white-space: nowrap; }
-  .map-label .bd { font-size: 11px; color: #222; font-weight: 600; padding: 1px 6px 2px; white-space: nowrap; }
-  .map-label .bd .open { color: #B45309; }
-  .map-label .tail { width: 0; height: 0; margin: 0 auto; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid var(--lc); }
-  .map-label.parcel { --lc: #D97706; }
-  .map-label.avail { --lc: #2F7D32; }
-  .map-label:hover { z-index: 10; }
-  #map-legend { position: absolute; left: 12px; top: 12px; z-index: 5; background: rgba(255,255,255,.95); border: 1px solid var(--border); border-radius: 8px; padding: 6px 9px; font-size: 11.5px; color: #333; line-height: 1.7; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+  /* 지도 표시(네이버 부동산 매물 지도 방식): 핀 대신 가격·면적 라벨, 축소하면 숫자 원으로 묶는다 */
+  .map-pin { position: relative; cursor: pointer; text-align: center; font-family: inherit; filter: drop-shadow(0 1px 2px rgba(0,0,0,.3)); }
+  .map-pin .tab { display: inline-block; background: var(--pc-dark); color: #fff; font-size: 10.5px; font-weight: 700; padding: 1px 6px; border-radius: 4px 4px 0 0; white-space: nowrap; }
+  .map-pin .box { background: #fff; border: 2px solid var(--pc); border-radius: 6px; padding: 2px 7px 3px; min-width: 60px; }
+  .map-pin .main { font-size: 12.5px; font-weight: 800; color: #111; white-space: nowrap; }
+  .map-pin .sub { font-size: 10.5px; font-weight: 700; color: var(--pc-dark); white-space: nowrap; }
+  .map-pin .tail { width: 0; height: 0; margin: -1px auto 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid var(--pc); }
+  .map-pin.parcel { --pc: #E8730C; --pc-dark: #B4530A; }
+  .map-pin.avail { --pc: #2F8F46; --pc-dark: #1F6B33; }
+  .map-pin.sel .box { background: var(--pc); }
+  .map-pin.sel .main, .map-pin.sel .sub { color: #fff; }
+  .map-pin:hover { z-index: 50; }
+  .map-dot { position: relative; width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.3); cursor: pointer; }
+  .map-dot.sel { width: 18px; height: 18px; box-shadow: 0 0 0 3px #222; }
+  .map-nm { display: none; position: absolute; top: calc(100% + 2px); left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: #222; background: rgba(255,255,255,.92); border-radius: 4px; padding: 0 4px; white-space: nowrap; max-width: 150px; overflow: hidden; text-overflow: ellipsis; pointer-events: none; }
+  #parks-map.zoom-near .map-nm, .map-pin.sel .map-nm, .map-dot.sel .map-nm, .map-pin:hover .map-nm, .map-dot:hover .map-nm { display: block; }
+  .map-cluster { border-radius: 50%; background: rgba(47,143,70,.9); color: #fff; font-weight: 800; font-size: 13px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.35); cursor: pointer; line-height: 1.15; }
+  .map-cluster .cp { font-size: 9.5px; font-weight: 700; background: #E8730C; border-radius: 99px; padding: 0 5px; margin-top: 1px; white-space: nowrap; }
+  #map-chips { position: absolute; left: 12px; right: 12px; top: 12px; z-index: 6; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; pointer-events: none; }
+  #map-chips::-webkit-scrollbar { display: none; }
+  #map-chips > * { pointer-events: auto; flex: none; border: 1px solid #cfd4da; background: #fff; border-radius: 99px; padding: 7px 13px; font-size: 12.5px; font-weight: 700; color: #333; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,.14); font-family: inherit; }
+  #map-chips select { padding: 6px 8px; }
+  #map-chips .chip.on { background: #222; color: #fff; border-color: #222; }
+  #map-chips select.on { border-color: #222; color: #111; }
+  #map-legend { position: absolute; left: 12px; bottom: 24px; z-index: 5; background: rgba(255,255,255,.95); border: 1px solid var(--border); border-radius: 8px; padding: 6px 9px; font-size: 11.5px; color: #333; line-height: 1.7; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
   #map-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
   #map-locate-btn { position: absolute; right: 16px; bottom: 24px; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border); background: var(--white); font-size: 18px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.15); z-index: 5; }
   #map-locate-btn:hover { background: var(--gray-bg); }
@@ -702,7 +716,7 @@
             <input type="checkbox" id="map-filter-parcel" onchange="filterMapList()">
             📢 분양공고 있는 단지만 (최근 공고순)
           </label>
-          <div style="font-size:11px;color:var(--text-sub);margin-top:6px">🟢 여유 · 🟡 보통 · 🔴 주의/포화 · ⭐ 최근 3개월·접수 중 분양공고 (좌표 있는 단지만 표시)</div>
+          <div style="font-size:11px;color:var(--text-sub);margin-top:6px">지도: 주황 라벨 = 최근 3개월·접수 중 분양공고 · 초록 라벨 = 미분양 용지 · 점 = 그 밖의 단지(🟢여유 🟡보통 🔴포화) · 좌표 있는 단지만 표시</div>
         </div>
         <div id="map-list-panel">
           <div id="map-list-count"></div>
@@ -712,10 +726,32 @@
       </div>
       <div id="map-view">
         <div id="parks-map">지도 로딩 중...</div>
+        <div id="map-chips">
+          <button class="chip on" data-mode="all" onclick="setMapMode('all')">전체</button>
+          <button class="chip" data-mode="parcel" onclick="setMapMode('parcel')">📢 분양공고</button>
+          <button class="chip" data-mode="avail" onclick="setMapMode('avail')">미분양 용지</button>
+          <select id="map-f-area" onchange="filterMapList()" title="분양면적(분양공고) 또는 가용면적(미분양 용지) 기준">
+            <option value="">면적 전체</option>
+            <option value="1000">1,000㎡ 이상</option>
+            <option value="5000">5,000㎡ 이상</option>
+            <option value="10000">1만㎡ 이상</option>
+            <option value="50000">5만㎡ 이상</option>
+            <option value="100000">10만㎡ 이상</option>
+          </select>
+          <select id="map-f-price" onchange="filterMapList()" title="최근·접수 중 분양공고의 평당 분양가 기준">
+            <option value="">분양가 전체</option>
+            <option value="500000">평당 50만 이하</option>
+            <option value="1000000">평당 100만 이하</option>
+            <option value="2000000">평당 200만 이하</option>
+            <option value="3000000">평당 300만 이하</option>
+            <option value="5000000">평당 500만 이하</option>
+          </select>
+        </div>
         <div id="map-legend">
-          <div><i style="background:#D97706"></i>분양공고 (평당 분양가 · 분양면적)</div>
-          <div><i style="background:#2F7D32"></i>미분양 용지 있음 (공단 통계 · 가용면적)</div>
-          <div style="color:var(--text-sub);font-size:10.5px">지도를 확대하면 라벨이 보입니다 · 분양가는 최근·접수 중 공고 기준</div>
+          <div><i style="background:#E8730C"></i>분양공고 — 평당 분양가 · 분양면적</div>
+          <div><i style="background:#2F8F46"></i>미분양 용지(공단 통계) — 가용면적</div>
+          <div><i style="background:#8A8F98;border-radius:50%"></i>그 밖의 단지</div>
+          <div style="color:var(--text-sub);font-size:10.5px">숫자 원 = 단지 묶음 (누르면 확대)</div>
         </div>
         <button id="map-locate-btn" onclick="locateMe()" title="내 위치">📍</button>
       </div>
@@ -1043,8 +1079,41 @@ function filterMapList() {
   if (q) filtered = filtered.filter(p => parkName(p).toLowerCase().includes(q) || p.name.toLowerCase().includes(q));
   if (onlyAvailable) filtered = filtered.filter(p => p.move_in_status === '입주 가능');
   if (document.getElementById('map-filter-parcel')?.checked) filtered = filtered.filter(p => parcelInfo(p.id));
+  const minArea = +(document.getElementById('map-f-area')?.value || 0);
+  const maxPrice = +(document.getElementById('map-f-price')?.value || 0);
+  if (minArea) filtered = filtered.filter(p => mapOfferArea(p) >= minArea);
+  if (maxPrice) filtered = filtered.filter(p => {
+    const pi = parcelInfo(p.id);
+    return pi && (pi.recent || pi.open) && pi.label_price && pi.label_price * 3.305785 <= maxPrice;
+  });
+  syncMapChips();
   renderMapList(filtered);
   renderParksMap(filtered);
+}
+
+// 지도 위 칩: 전체 / 분양공고 / 미분양 용지 — 왼쪽 목록의 체크박스와 같은 필터를 켜고 끈다
+function setMapMode(mode) {
+  document.getElementById('map-filter-parcel').checked = mode === 'parcel';
+  document.getElementById('map-filter-available').checked = mode === 'avail';
+  filterMapList();
+}
+function syncMapChips() {
+  const parcel = document.getElementById('map-filter-parcel').checked;
+  const avail = document.getElementById('map-filter-available').checked;
+  document.querySelectorAll('#map-chips .chip').forEach(b => {
+    const m = b.dataset.mode;
+    b.classList.toggle('on', m === 'all' ? !parcel && !avail : m === 'parcel' ? parcel : avail);
+  });
+  ['map-f-area', 'map-f-price'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('on', !!el.value);
+  });
+}
+// 면적 필터 기준: 최근·접수 중 분양공고가 있으면 그 분양면적, 아니면 미분양(가용) 면적
+function mapOfferArea(p) {
+  const pi = parcelInfo(p.id);
+  if (pi && (pi.recent || pi.open) && pi.label_area) return pi.label_area;
+  return p.move_in_status === '입주 가능' ? (p.available_area_raw || 0) : 0;
 }
 
 // ── 지도 ↔ 분양공고 연동: 단지별 요약(건수·최근 공고일)을 한 번 받아 목록 배지·필터·핀 강조·정보창에 쓴다 ──
@@ -1087,6 +1156,7 @@ function backToMapList() {
   showMapListPanel();
   if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
   clearBoundaryPolygons();
+  if (selectedParkId != null) { selectedParkId = null; redrawMap(); }
 }
 
 // 공식 문서(관리기관 고시 등)·연락처처럼 원본 데이터에 없는 값은 "정보없음"으로
@@ -2013,10 +2083,12 @@ function applyParksFilter() {
 
 // ── 산업단지 지도 (카카오맵) ──
 let kakaoMap = null;
-let kakaoMarkers = [];
-let kakaoLabels = [];        // 핀 위 라벨(CustomOverlay)
-const LABEL_MAX_LEVEL = 10;  // 이 레벨 이하(확대)일 때만 라벨 표시 — 전국 화면에서는 겹쳐서 안 보이므로 숨긴다
-let kakaoMarkersById = {};   // id -> { marker, info, park } — 검색 결과 클릭/자동 이동에 사용
+let kakaoMarkersById = {};   // id -> { park, pos, overlay, el } — 단지 표시(라벨/점)를 한 번 만들어 재사용
+let mapParks = [];           // 지금 지도에 올릴 단지(필터 적용, 좌표 있는 것)
+let mapShown = [];           // 지금 지도에 떠 있는 오버레이(라벨·점·묶음 원)
+let selectedParkId = null;   // 목록·지도에서 고른 단지 — 묶음에 안 들어가고 강조 표시된다
+const CLUSTER_MIN_LEVEL = 9; // 이 레벨 이상(축소)에서는 가까운 단지를 숫자 원으로 묶는다
+const CLUSTER_GRID_PX = 80;
 let myLocationLatLng = null; // { lat, lng } — "내 위치" 버튼으로 확인된 현재 위치 (길찾기 출발지로 재사용)
 let myLocationMarker = null;
 let hasCenteredOnUser = false; // true가 되면 renderParksMap이 전체 마커 범위로 다시 안 맞춘다 —
@@ -2139,10 +2211,11 @@ function initKakaoMapIfNeeded() {
           level: 13,
         });
         // 지도의 빈 곳을 클릭하면 열려있던 정보창을 닫는다
-        kakao.maps.event.addListener(kakaoMap, 'zoom_changed', updateMapLabels);
+        kakao.maps.event.addListener(kakaoMap, 'idle', redrawMap);
         kakao.maps.event.addListener(kakaoMap, 'click', () => {
           if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
           clearBoundaryPolygons();
+          if (selectedParkId != null) { selectedParkId = null; redrawMap(); }
         });
         // 지도가 이제 막 준비됐는데 데이터가 이미 로드돼 있었다면 바로 그려준다
         if (window.allParks) applyParksFilter();
@@ -2160,21 +2233,6 @@ function initKakaoMapIfNeeded() {
     clearTimeout(watchdog);
     showMapLoadError('kakao.maps.load 호출 오류: ' + e.message);
   }
-}
-
-function markerSvgDataUrl(color) {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="34" viewBox="0 0 26 34">`
-    + `<path d="M13 0C5.8 0 0 5.8 0 13c0 9.7 13 21 13 21s13-11.3 13-21C26 5.8 20.2 0 13 0z" fill="${color}"/>`
-    + `<circle cx="13" cy="13" r="5.5" fill="#fff"/></svg>`;
-  return 'data:image/svg+xml;base64,' + btoa(svg);
-}
-
-// 최근(3개월) 분양공고가 있는 단지 핀 — 같은 색 핀 가운데에 흰 원 대신 노란 별을 넣어 구분한다
-function parcelMarkerSvgDataUrl(color) {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="34" viewBox="0 0 26 34">`
-    + `<path d="M13 0C5.8 0 0 5.8 0 13c0 9.7 13 21 13 21s13-11.3 13-21C26 5.8 20.2 0 13 0z" fill="${color}" stroke="#B45309" stroke-width="1.5"/>`
-    + `<path d="M13 5.5l2.3 4.7 5.2.8-3.8 3.7.9 5.2-4.6-2.4-4.6 2.4.9-5.2-3.8-3.7 5.2-.8z" fill="#FCD34D" stroke="#fff" stroke-width="0.8"/></svg>`;
-  return 'data:image/svg+xml;base64,' + btoa(svg);
 }
 
 // "내 위치"는 산업단지 핀과 똑같은 물방울 모양이면 색만 봐서는 눈에 잘 안 띈다
@@ -2200,61 +2258,24 @@ function directionsUrl(park) {
 }
 
 function openDirections(parkId) {
-  const p = kakaoMarkersById[parkId] && kakaoMarkersById[parkId].park;
+  const p = (window.allParks || []).find(x => x.id === parkId);
   if (!p) return;
   window.open(directionsUrl(p), '_blank', 'noopener');
 }
 
-// 마커+정보창 하나를 만들어 kakaoMarkersById에 등록한다. 이미 있으면 재사용.
-// 표 필터 때문에 renderParksMap에서 그려지지 않은 단지라도, 지도 검색으로
-// 찾을 때는 임시로 만들어서 보여준다 (숨겨진 필터 상태에 검색이 막히지 않도록).
+// 단지 하나의 지도 항목. 표시(오버레이)는 화면에 처음 나올 때 만든다(parkOverlay).
 function ensureMarkerFor(p) {
-  if (kakaoMarkersById[p.id]) return kakaoMarkersById[p.id];
-  const pos = new kakao.maps.LatLng(p.lat, p.lng);
-  const pinfo = parcelInfo(p.id);
-  const marker = new kakao.maps.Marker({
-    position: pos,
-    map: kakaoMap,
-    image: new kakao.maps.MarkerImage(
-      (pinfo && (pinfo.recent || pinfo.open) ? parcelMarkerSvgDataUrl : markerSvgDataUrl)(p.bar_color || '#639922'),
-      new kakao.maps.Size(26, 34),
-      { offset: new kakao.maps.Point(13, 34) }
-    ),
-    zIndex: pinfo && (pinfo.recent || pinfo.open) ? 3 : 1, // 최근 분양공고 핀이 다른 핀에 가려지지 않게
-  });
-  const info = new kakao.maps.InfoWindow({
-    removable: true, // 정보창 우측 상단에 닫기(X) 버튼 표시
-    content: `<div style="padding:8px 10px;font-size:12px;line-height:1.7;min-width:180px">`
-      + `<strong>${escapeHtml(parkName(p))}</strong><br>`
-      + `${escapeHtml([p.region, p.city].filter(Boolean).join(' '))}<br>`
-      + (p.vacancy_rate != null ? `운영률 ${(100 - p.vacancy_rate).toFixed(1)}% · ` : '')
-      + `<span style="color:${p.bar_color};font-weight:600">${escapeHtml(p.status)}</span><br>`
-      + (p.sale_rate != null ? `분양률 ${p.sale_rate.toFixed(1)}%<br>` : '')
-      + `가용면적 ${escapeHtml(p.available_area)}<br>`
-      + (pinfo ? `<span style="color:var(--amber-text);font-weight:600">📢 분양공고 ${escapeHtml((pinfo.latest_date || '').replace(/-/g, '.'))}${pinfo.is_new ? ' (신규)' : ''}${pinfo.count > 1 ? ` 외 ${pinfo.count - 1}건` : ''}</span><br>` : '')
-      + `<button onclick="openDirections(${p.id})" style="margin-top:6px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--teal-light);color:var(--teal-dark);font-size:12px;font-weight:600;cursor:pointer">🧭 길찾기</button>`
-      + `</div>`,
-  });
-  // selectPark()가 openParkInfo()를 거쳐 showInfoWindow/showParkBoundary/화면 중심이동을
-  // 전부 처리하므로, 마커 클릭도 목록에서 고른 것과 동일하게 좌측 상세 패널을 연다.
-  kakao.maps.event.addListener(marker, 'click', () => selectPark(p.id));
-  const entry = { marker, info, park: p };
-  const label = makeMapLabel(p, pinfo);
-  if (label) { entry.label = label; kakaoLabels.push(label); }
-  kakaoMarkers.push(marker);
-  kakaoMarkersById[p.id] = entry;
-  return entry;
+  if (!kakaoMarkersById[p.id]) kakaoMarkersById[p.id] = { park: p, pos: new kakao.maps.LatLng(p.lat, p.lng), overlay: null, el: null };
+  return kakaoMarkersById[p.id];
 }
 
 function clearMapMarkers() {
-  kakaoMarkers.forEach(m => m.setMap(null));
-  kakaoLabels.forEach(o => o.setMap(null));
-  kakaoMarkers = [];
-  kakaoLabels = [];
+  mapShown.forEach(o => o.setMap(null));
+  mapShown = [];
   kakaoMarkersById = {};
 }
 
-// 평당 가격 짧게: 1,398,271 → "140만", 10,226,572 → "1,023만"
+// 평당 가격 짧게: 1,398,271원/㎡ → "462만"(평당), 1억 넘으면 "1.2억"
 function shortPyeongPrice(perM2) {
   const man = Math.round(perM2 * 3.305785 / 10000);
   return man >= 10000 ? (man / 10000).toFixed(man % 10000 ? 1 : 0) + '억' : man.toLocaleString() + '만';
@@ -2263,79 +2284,127 @@ function shortArea(m2) {
   return m2 >= 10000 ? (m2 / 10000).toFixed(1).replace(/\.0$/, '') + '만㎡' : Math.round(m2).toLocaleString() + '㎡';
 }
 
-// 핀 위 라벨: 최근(3개월)·접수 중 분양공고가 있으면 주황 "분양 평당가/분양면적", 아니면 입주 가능 단지만 초록 "입주가능/가용면적"
-function makeMapLabel(p, pinfo) {
-  let cls, hd, bd;
-  if (pinfo && (pinfo.recent || pinfo.open)) {
-    cls = 'parcel';
-    hd = pinfo.label_price ? `분양 ${shortPyeongPrice(pinfo.label_price)}/평` : '분양공고';
-    const parts = [];
-    if (pinfo.label_area) parts.push(shortArea(pinfo.label_area));
-    if (pinfo.open) parts.push('<span class="open">접수중</span>');
-    else if (pinfo.is_new) parts.push('<span class="open">신규</span>');
-    bd = parts.join(' · ') || escapeHtml((pinfo.latest_date || '').replace(/-/g, '.'));
-  } else if (p.move_in_status === '입주 가능' && p.available_area_raw > 0) {
-    cls = 'avail';
-    hd = '미분양 용지';
-    bd = '가용 ' + shortArea(p.available_area_raw);
-  } else {
-    return null;
-  }
-  const el = document.createElement('div');
-  el.className = 'map-label ' + cls;
-  el.title = parkName(p);
-  el.innerHTML = `<div class="box"><div class="hd">${hd}</div><div class="bd">${bd}</div></div><div class="tail"></div>`;
-  el.addEventListener('click', () => selectPark(p.id));
-  const ov = new kakao.maps.CustomOverlay({
-    position: new kakao.maps.LatLng(p.lat, p.lng), content: el, yAnchor: 1, xAnchor: 0.5,
-    zIndex: cls === 'parcel' ? 6 : 5,
-  });
-  ov.kind = cls;
-  return ov;
+// 최근(3개월)·접수 중 분양공고 → 'parcel', 미분양(가용) 면적 있음 → 'avail', 그 밖 → 'etc'
+function parkMapKind(p) {
+  const pi = parcelInfo(p.id);
+  if (pi && (pi.recent || pi.open)) return 'parcel';
+  if (p.move_in_status === '입주 가능' && p.available_area_raw > 0) return 'avail';
+  return 'etc';
 }
 
-// 확대했을 때만 라벨을 보인다. "분양공고만" 필터를 켜면 분양 라벨만, 그리고 전국 화면에서도 보인다(수가 적어서).
-function updateMapLabels() {
-  if (!kakaoMap) return;
-  const onlyParcel = document.getElementById('map-filter-parcel')?.checked;
-  const zoomed = kakaoMap.getLevel() <= LABEL_MAX_LEVEL;
-  kakaoLabels.forEach(o => {
-    const show = onlyParcel ? o.kind === 'parcel' : zoomed;
-    if ((o.getMap() != null) !== show) o.setMap(show ? kakaoMap : null);
+// 네이버 부동산 매물 라벨처럼: 위 탭 = 면적, 본문 = 평당 분양가(또는 "미분양"), 아래 줄 = 접수중/분양률
+function parkOverlay(entry) {
+  if (entry.overlay) return entry.overlay;
+  const p = entry.park, pi = parcelInfo(p.id), kind = parkMapKind(p);
+  const el = document.createElement('div');
+  el.title = parkName(p);
+  const nm = `<div class="map-nm">${escapeHtml(p.name || parkName(p))}</div>`;
+  if (kind === 'etc') {
+    el.className = 'map-dot';
+    el.style.background = p.bar_color || '#8A8F98';
+    el.innerHTML = nm;
+  } else {
+    let tab, main, sub;
+    if (kind === 'parcel') {
+      tab = pi.label_area ? shortArea(pi.label_area) : '분양공고';
+      main = pi.label_price ? `분양 ${shortPyeongPrice(pi.label_price)}/평` : '분양공고';
+      sub = pi.open ? '접수중' : pi.is_new ? '신규 공고' : (pi.latest_date || '').replace(/-/g, '.') + ' 공고';
+    } else {
+      tab = shortArea(p.available_area_raw);
+      main = '미분양 용지';
+      sub = p.sale_rate != null ? `분양률 ${p.sale_rate.toFixed(0)}%` : '';
+    }
+    el.className = 'map-pin ' + kind;
+    el.innerHTML = `<div class="tab">${escapeHtml(tab)}</div><div class="box"><div class="main">${escapeHtml(main)}</div>`
+      + (sub ? `<div class="sub">${escapeHtml(sub)}</div>` : '') + `</div><div class="tail"></div>${nm}`;
+  }
+  el.addEventListener('click', e => { e.stopPropagation(); selectPark(p.id); });
+  entry.el = el;
+  entry.kind = kind;
+  entry.overlay = new kakao.maps.CustomOverlay({
+    position: entry.pos, content: el, clickable: true,
+    xAnchor: 0.5, yAnchor: kind === 'etc' ? 0.5 : 1,
+    zIndex: kind === 'parcel' ? 6 : kind === 'avail' ? 5 : 3,
   });
+  return entry.overlay;
+}
+
+// 묶음 원: 단지 수, 그중 분양공고 단지 수. 누르면 그 자리로 2단계 확대한다.
+function clusterOverlay(list) {
+  const lat = list.reduce((a, e) => a + e.park.lat, 0) / list.length;
+  const lng = list.reduce((a, e) => a + e.park.lng, 0) / list.length;
+  const pos = new kakao.maps.LatLng(lat, lng);
+  const n = list.length;
+  const nParcel = list.filter(e => parkMapKind(e.park) === 'parcel').length;
+  const size = n >= 100 ? 58 : n >= 30 ? 50 : n >= 10 ? 44 : 38;
+  const el = document.createElement('div');
+  el.className = 'map-cluster';
+  el.style.width = el.style.height = size + 'px';
+  el.innerHTML = `<span>${n}</span>` + (nParcel ? `<span class="cp">분양 ${nParcel}</span>` : '');
+  el.title = `단지 ${n}개${nParcel ? ` (분양공고 ${nParcel})` : ''} — 누르면 확대`;
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    kakaoMap.setLevel(Math.max(1, kakaoMap.getLevel() - 2), { anchor: pos });
+  });
+  return new kakao.maps.CustomOverlay({ position: pos, content: el, clickable: true, xAnchor: 0.5, yAnchor: 0.5, zIndex: 4 });
+}
+
+// 지금 화면에 보이는 단지만 그린다. 축소 상태면 화면 격자(80px) 단위로 묶어 숫자 원으로 보여준다.
+function redrawMap() {
+  if (!kakaoMap) return;
+  mapShown.forEach(o => o.setMap(null));
+  mapShown = [];
+  const level = kakaoMap.getLevel();
+  const mapEl = document.getElementById('parks-map');
+  if (mapEl) mapEl.classList.toggle('zoom-near', level <= 8);
+  const bounds = kakaoMap.getBounds();
+  const proj = kakaoMap.getProjection();
+  const entries = mapParks.map(ensureMarkerFor).filter(e => bounds.contain(e.pos));
+  const show = (o) => { o.setMap(kakaoMap); mapShown.push(o); };
+  const showPark = (e) => {
+    const o = parkOverlay(e);
+    const sel = e.park.id === selectedParkId;
+    e.el.classList.toggle('sel', sel);
+    o.setZIndex(sel ? 30 : e.kind === 'parcel' ? 6 : e.kind === 'avail' ? 5 : 3);
+    show(o);
+  };
+  if (level < CLUSTER_MIN_LEVEL) { entries.forEach(showPark); return; }
+  const cells = new Map();
+  entries.forEach(e => {
+    if (e.park.id === selectedParkId) { showPark(e); return; }
+    const pt = proj.pointFromCoords(e.pos);
+    const key = Math.floor(pt.x / CLUSTER_GRID_PX) + ',' + Math.floor(pt.y / CLUSTER_GRID_PX);
+    if (!cells.has(key)) cells.set(key, []);
+    cells.get(key).push(e);
+  });
+  cells.forEach(list => (list.length === 1 ? showPark(list[0]) : show(clusterOverlay(list))));
 }
 
 function openParkInfo(parkId) {
   if (!kakaoMap) return;
-  let entry = kakaoMarkersById[parkId];
-  if (!entry) {
-    const p = (window.allParks || []).find(x => x.id === parkId);
-    if (!p || !p.lat || !p.lng) return;
-    entry = ensureMarkerFor(p);
-  }
-  kakaoMap.setCenter(entry.marker.getPosition());
+  const p = (window.allParks || []).find(x => x.id === parkId);
+  if (!p || !p.lat || !p.lng) return;
+  // 필터 때문에 지도에 없는 단지라도 검색·목록에서 고르면 보여준다
+  if (!mapParks.some(x => x.id === parkId)) mapParks = mapParks.concat([p]);
+  selectedParkId = parkId;
   kakaoMap.setLevel(5);
-  showInfoWindow(entry.info, entry.marker);
+  kakaoMap.setCenter(new kakao.maps.LatLng(p.lat, p.lng));
+  redrawMap();
   showParkBoundary(parkId);
 }
 
 function renderParksMap(parks) {
   if (!kakaoMap) return; // 지도가 아직 준비 전이면 initKakaoMapIfNeeded 콜백에서 다시 그린다
   if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
-  clearMapMarkers();
-
-  const withCoords = parks.filter(p => p.lat && p.lng);
-  if (withCoords.length === 0) return;
-
-  const bounds = new kakao.maps.LatLngBounds();
-  withCoords.forEach(p => {
-    ensureMarkerFor(p);
-    bounds.extend(new kakao.maps.LatLng(p.lat, p.lng));
-  });
-  updateMapLabels();
-  // 내 위치로 이미 화면을 맞춘 뒤라면, 데이터가 다시 로드되거나 필터가 바뀌어도
-  // 전체 마커 범위로 화면을 도로 확대해버리지 않는다 (사용자가 보던 위치 유지).
-  if (!hasCenteredOnUser) kakaoMap.setBounds(bounds);
+  mapParks = parks.filter(p => p.lat && p.lng);
+  if (mapParks.length && !hasCenteredOnUser) {
+    // 내 위치로 이미 화면을 맞춘 뒤라면, 데이터가 다시 로드되거나 필터가 바뀌어도
+    // 전체 범위로 화면을 도로 넓히지 않는다 (사용자가 보던 위치 유지).
+    const bounds = new kakao.maps.LatLngBounds();
+    mapParks.forEach(p => bounds.extend(new kakao.maps.LatLng(p.lat, p.lng)));
+    kakaoMap.setBounds(bounds);
+  }
+  redrawMap();
 }
 
 // "내 위치" — 브라우저 위치 권한으로 현재 좌표를 얻어 지도에 별도 마커로 표시하고,
