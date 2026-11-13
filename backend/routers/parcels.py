@@ -43,8 +43,15 @@ def notices_by_park(db: Session = Depends(get_db)):
                 recent = (today - datetime.strptime(top["notice_date"], "%Y-%m-%d").date()) <= timedelta(days=RECENT_DAYS)
             except ValueError:
                 pass
+        # 지금 접수 중인 공고(공고일이 오래돼도 신청기간이 남은 것) — 지도 라벨에 "접수중"으로 표시
+        t = today.strftime("%Y-%m-%d")
+        opened = [r for r in rs if r.start_date and r.end_date and r.start_date <= t <= r.end_date]
+        # 지도 라벨(분양가·면적)은 접수 중인 공고가 있으면 그것, 없으면 가장 최근 공고 기준
+        lab = opened[0] if opened else rs[0]
         out[pid] = {"count": len(rs), "latest_date": top["notice_date"], "latest_type": top["par_type"],
-                    "latest_title": top["title"], "is_new": top["is_new"], "recent": recent}
+                    "latest_title": top["title"], "is_new": top["is_new"], "recent": recent,
+                    "open": bool(opened), "label_price": lab.price, "label_area": lab.area,
+                    "label_end": lab.end_date}
     return {"parks": out, "new_days": NEW_DAYS, "recent_days": RECENT_DAYS, "source": SOURCE}
 
 

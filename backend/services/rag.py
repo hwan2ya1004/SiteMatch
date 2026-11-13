@@ -112,6 +112,13 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
 12. 답변에서 단지를 가리킬 때는 "[... 실측 데이터]" 제목에 적힌 정식 명칭(예: 나주일반산업단지)을
     쓰세요. "이름이 비슷한 다른 단지" 목록이 있으면 답변 끝에 한 줄로 "같은 지역의 다른 단지:
     ..."라고 알려 사용자가 헷갈리지 않게 하세요.
+13. "[... 분양공고 — 산업입지정보센터]" 블록은 산업입지정보센터에 올라온 분양공고 목록(공고일·구분·
+    신청기간·분양면적·분양가·문의처)과 가장 최근 공고문 원문 일부입니다. 분양 일정·분양가·신청 자격·
+    공급 필지를 물으면 이 블록을 근거로 답하고, 문장 끝에 "(출처: 산업입지정보센터 분양공고, 공고일
+    YYYY-MM-DD)"처럼 표시하세요. 분양가는 ㎡당 금액이며 블록에 적힌 평당 환산값 외에 새로 계산하지
+    마세요. "접수 중/마감" 표시는 블록에 적힌 그대로 쓰세요. 블록에 공고가 없다고 되어 있으면 "수집된
+    분양공고가 없습니다"라고 답하고, 분양 일정을 지어내지 마세요. 분양률(공식 통계)과 분양공고는 다른
+    자료이니 섞지 마세요.
 참고 문서:
 {context}
 """
@@ -145,6 +152,83 @@ _AREA_RE = re.compile(r"\d[\d,\.]*\s*(㎡|m2|평)")
 _GENERAL_TOPIC_RE = re.compile(
     r"절차|지원금|보조금|지원|혜택|세금|세제|감면|인허가|허가|신청|서류|대출|융자|입주계약|공장등록|공장설립|기간"
 )
+
+# 분양공고(산업입지정보센터, services/parcel_notices.py가 DB에 넣어 둔 것)
+_PARCEL_RE = re.compile(r"분양|공고|모집|입주\s*신청|신청\s*(기간|자격)|접수|평당|토지\s*가격|땅값|필지")
+# 단지 이름 없이 "최근 분양공고 있어?"·"충남에 분양 중인 곳"처럼 공고 목록을 묻는 질문
+_PARCEL_LIST_RE = re.compile(
+    r"분양\s*공고|분양\s*(중|정보|소식|하는|진행|일정|모집)|(최근|새|신규|요즘|이번).*(분양|공고)|공고.*(나온|올라온|뜬)"
+)
+_OPEN_RE = re.compile(r"진행\s*중|접수\s*중|모집\s*중|분양\s*중|신청\s*(가능|할\s*수)|지금|현재")
+PARCEL_DOC_CHARS = 2500
+
+
+def _parcel_rows(park_id: Optional[int] = None, region: str = "", open_only: bool = False,
+                 limit: int = 5, with_doc: bool = False) -> List[Dict]:
+    """DB의 분양공고를 최신순으로 읽는다. region은 시도 약칭("충남") — DB에는 "전남(구)" 같은 표기도 있어 앞부분으로 비교."""
+    from datetime import datetime
+    from database import ParcelNotice, SessionLocal
+    today = datetime.now().strftime("%Y-%m-%d")
+    db = SessionLocal()
+    try:
+        q = db.query(ParcelNotice)
+        if park_id is not None:
+            q = q.filter(ParcelNotice.park_id == park_id)
+        if region:
+            q = q.filter(ParcelNotice.region.like(f"{region}%"))
+        if open_only:
+            q = q.filter(ParcelNotice.end_date >= today, ParcelNotice.start_date <= today)
+        q = q.order_by(ParcelNotice.notice_date.desc(), ParcelNotice.par_seq.desc())
+        rows = q.limit(limit).all() if limit else q.all()
+        out = []
+        for r in rows:
+            d = {c: getattr(r, c) for c in ("par_seq", "park_id", "title", "danji_nm", "region", "city", "par_type",
+                                            "notice_date", "start_date", "end_date", "area", "price", "org", "phone")}
+            if r.end_date and r.start_date:
+                d["state"] = "접수 중" if r.start_date <= today <= r.end_date else ("마감" if r.end_date < today else "접수 전")
+            if with_doc and r.doc_json:
+                try:
+                    doc = json.loads(r.doc_json)
+                    d["doc"] = doc if doc.get("status") == "ok" else None
+                except ValueError:
+                    d["doc"] = None
+            out.append(d)
+        return out
+    except Exception as e:  # 테이블이 아직 없을 때 등 — 상담 자체는 계속 되게 한다
+        print(f"⚠️ 분양공고 조회 실패: {e}")
+        return []
+    finally:
+        db.close()
+
+
+def _parcel_line(n: Dict) -> str:
+    """공고 한 건을 한 줄로. 숫자는 DB 값 그대로(평당 값만 ×3.305785 환산)."""
+    parts = [f"{n.get('notice_date') or '공고일 미상'} {n.get('par_type') or ''} 「{n.get('title') or ''}」".strip()]
+    if n.get("start_date") or n.get("end_date"):
+        parts.append(f"신청기간 {n.get('start_date') or ''}~{n.get('end_date') or ''}"
+                     + (f"(오늘 기준 {n['state']})" if n.get("state") else ""))
+    if n.get("area"):
+        parts.append(f"분양면적 {n['area']:,.0f}㎡")
+    if n.get("price"):
+        parts.append(f"분양가 {n['price']:,}원/㎡(평당 약 {round(n['price'] * 3.305785):,}원)")
+    contact = " ".join(x for x in (n.get("org"), n.get("phone")) if x)
+    if contact:
+        parts.append(f"문의 {contact}")
+    return " · ".join(parts)
+
+
+def _parcel_doc_text(doc: Dict, max_chars: int) -> str:
+    """공고문을 항목 제목과 함께 앞에서부터 잘라 넣는다(원문 그대로)."""
+    out, used = [], 0
+    for sec in doc.get("sections") or []:
+        chunk = f"■ {sec.get('title', '')}\n{sec.get('text', '')}"
+        if used + len(chunk) > max_chars:
+            out.append(chunk[: max(0, max_chars - used)] + " …(이하 생략)")
+            break
+        out.append(chunk)
+        used += len(chunk)
+    return "\n".join(out)
+
 
 RECOMMEND_ASK_MSG = (
     "추천을 위해 조건을 알려주세요. 희망 **지역**, **업종**, 필요한 **면적** 중 하나 이상이면 됩니다.\n\n"
@@ -443,6 +527,57 @@ class RAGService:
                 lines.append(f"문의처({_ORG_CONTACT_NOTES.get(c.get('basis'), '관리기관 문의처')}): {c['dept']} {c['phone']}")
         return "\n".join(lines)
 
+    def _parcel_block(self, park: Dict, parcel_q: bool) -> str:
+        """단지의 분양공고 목록. 분양 관련 질문이면 가장 최근 공고문 원문 일부도 붙인다."""
+        name = full_park_name(park.get("name"), park.get("type"))
+        rows = _parcel_rows(park_id=park.get("id"), limit=5, with_doc=parcel_q)
+        if not rows:
+            return f"[{name} 분양공고 — 산업입지정보센터]\n수집된 분양공고 없음" if parcel_q else ""
+        lines = [f"[{name} 분양공고 — 산업입지정보센터, 최신순 {len(rows)}건]"]
+        lines += [f"- {_parcel_line(n)}" for n in rows]
+        if parcel_q:
+            latest = next((n for n in rows if n.get("doc")), None)
+            if latest:
+                lines.append(f"\n[가장 최근 공고문 원문 발췌 — {latest['notice_date']} 「{latest['title']}」]")
+                lines.append(_parcel_doc_text(latest["doc"], PARCEL_DOC_CHARS))
+        return "\n".join(lines)
+
+    def _parcel_list(self, messages: List[dict]) -> Optional[str]:
+        """단지 이름 없이 분양공고 목록을 물으면 DB에서 찾아 코드로 답한다(지어낼 여지 없음).
+        앞선 대화에 단지가 있고 이번 질문에 지역도 없으면("거기 분양공고 있어?") None — 단지 상담으로 넘긴다."""
+        last = next((m.get("content", "") for m in reversed(messages) if m.get("role") == "user"), "")
+        if not last or not _PARCEL_LIST_RE.search(last) or self._find_mentioned_park(last):
+            return None
+        region = _detect_region(last)
+        if not region and self._find_park_in_conversation(messages):
+            return None
+        open_only = bool(_OPEN_RE.search(last))
+        by_id = {p.get("id"): p for p in self.parks}
+
+        def loc_of(n):
+            # 공고 원자료 지역 표기는 "전남(구)"·"함평군(2026-07-01)"처럼 섞여 있어, 연결된 단지는 DB 표기를 쓴다
+            p = by_id.get(n.get("park_id"))
+            if p:
+                return p.get("region") or "", p.get("city") or ""
+            return (re.sub(r"\(.*?\)", "", n.get("region") or "").strip(),
+                    re.sub(r"\(.*?\)", "", n.get("city") or "").strip())
+
+        rows = [n for n in _parcel_rows(open_only=open_only, limit=0)
+                if not region or loc_of(n)[0] == region][:8]
+        cond = (f"{region} " if region else "전국 ") + ("접수 중인 " if open_only else "최근 ")
+        if not rows:
+            return f"{cond}분양공고가 수집된 자료에 없습니다. 지역 조건을 바꿔 다시 물어보세요."
+        lines = [f"{cond}분양공고입니다 (산업입지정보센터 분양공고, 공고일 최신순).", ""]
+        for i, n in enumerate(rows, 1):
+            p = by_id.get(n.get("park_id"))
+            pname = full_park_name(p.get("name"), p.get("type")) if p else (n.get("danji_nm") or "")
+            loc = " ".join(x for x in loc_of(n) if x)
+            lines.append(f"{i}. **{pname}** ({loc})")
+            lines.append(f"   - {_parcel_line(n)}")
+        lines += ["", "공고 내용(공급 필지·신청 자격 등)은 단지 이름과 함께 물어보시거나, "
+                      "지도에서 단지를 눌러 **📄 공고 내용 보기**로 확인하세요."]
+        return "\n".join(lines)
+
     def _general_block(self, park: Dict, query: str, max_chars: int) -> str:
         """입주 절차·지원금·세제처럼 모든 단지에 공통인 제도 질문용 컨텍스트. 시도 정식 명칭을
         검색어에 더해 해당 시도의 지원정책 문단이 위로 오게 한다."""
@@ -480,18 +615,23 @@ class RAGService:
             # 8000토큰) 한도를 넘겨 요청 자체가 거부되므로, 전체 합이 비슷하게
             # 유지되도록 컨텍스트 쪽에서 줄였다.
             facts = self._format_park_facts(park)
+            parcel_q = bool(_PARCEL_RE.search(query))
+            parcel = self._parcel_block(park, parcel_q)
+            if parcel:
+                facts += "\n\n" + parcel
             # 절차·지원금 같은 공통 제도 질문이면 단지 고시문 예산을 줄이고 그만큼 공통 자료를 넣는다
             # (TPM 한도 때문에 합계는 이전과 비슷하게 유지). 예전엔 고시문이 있으면 공통 자료를
             # 통째로 뺐는데, 단지 정보시트에는 입주 절차·지원금이 없어서 "AI 매칭에서 추천한 나주의
             # 입주 절차와 지원금"을 물으면 "문서에 없다"고만 답하는 문제가 있었다.
             official = get_park_documents_text(
                 park.get("region", ""), park.get("city", ""), park.get("name", ""),
-                budget=3500 if general_topic else 6000, park_type=park.get("type"),
+                # 분양 질문이면 공고문 발췌(최대 PARCEL_DOC_CHARS자)가 들어가므로 고시문 예산을 줄인다
+                budget=3500 if (general_topic or parcel_q) else 6000, park_type=park.get("type"),
             )
             if official:
                 facts += f"\n\n[{full_park_name(park.get('name'), park.get('type'))} 관리기관 공식 고시문서 발췌]\n{official}"
                 if general_topic:
-                    return facts + "\n\n" + self._general_block(park, query, 2500)
+                    return facts + "\n\n" + self._general_block(park, query, 1500 if parcel_q else 2500)
                 # 그 단지의 공식 고시문서를 이미 확보했다면 전국 공통 참고자료
                 # (subsidy_docs.txt)는 붙이지 않는다 — 라벨을 붙여 구분해봐도
                 # LLM이 두 블록을 섞어 전국 공통 자료의 내용(예: 일반적인
@@ -556,11 +696,11 @@ class RAGService:
             dev = park.get("dev_status") or "완료"
             avail = park.get("available_area") or 0
             if svc._is_available(park):
-                status = "입주 가능"
+                status = "미분양 용지 있음(공단 통계)"
             elif dev != "완료":
-                status = f"입주 불가({dev})"
+                status = f"{dev}"
             else:
-                status = "입주 불가(가용면적 없음)"
+                status = "미분양 없음(가용면적 0)"
             loc = " ".join(x for x in [park.get("region"), park.get("city")] if x)
             lines.append(f"{i}. **{full_park_name(park.get('name'), park.get('type'))}** ({loc}) — {status}")
             detail = [f"가용면적 {avail:,.0f}㎡"]
@@ -581,7 +721,7 @@ class RAGService:
         if not messages:
             return "질문을 입력해주세요."
 
-        rec = self._recommend(messages)
+        rec = self._parcel_list(messages) or self._recommend(messages)
         if rec is not None:
             return rec
 
@@ -620,7 +760,7 @@ AI:"""
             yield "질문을 입력해주세요."
             return
 
-        rec = await asyncio.to_thread(self._recommend, messages)
+        rec = await asyncio.to_thread(lambda: self._parcel_list(messages) or self._recommend(messages))
         if rec is not None:
             yield rec
             return
