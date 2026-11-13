@@ -126,27 +126,47 @@ def clean(text: str) -> str:
 _TITLE_STOP = re.compile(r"(?:\s?[가-하]\s?\.|[:：]|「|\n|○|◦|ㅇ|※|□|■|-)")
 
 
-def split_sections(text: str, max_title: int = 16) -> List[dict]:
-    """1, 2, 3 … 순서대로 나오는 최상위 번호 제목(짧은 제목 뒤에 '가.'·줄바꿈 등이 오는 것)을 찾아 항목으로 나눈다.
-    본문 속 번호 목록("1. 구비서류 중 …")은 제목이 길어서 건너뛴다.
-    번호가 2개 이상 차례로 이어지지 않으면 전체를 한 항목으로 둔다."""
-    text = clean(text)
+_BARE_STOP = re.compile(r"(?:\s?[가-하]\s?\.|[:：]|「|\n|○|◦|ㅇ|※|□|■|◆|[①-⑳]|\d|-)")
+
+
+def _bare_ok(text: str, num_pos: int, stop) -> bool:
+    """점 없는 번호 제목은 문장이 끝난 뒤(앞 글자가 '.'·줄바꿈)이거나, 제목 바로 뒤에 □·◆·① 같은 기호가 올 때만 인정한다."""
+    prev = text[num_pos - 1] if num_pos else "\n"
+    return prev in ".\n" or bool(re.match(r"\s?[□■◆①-⑳※○◦]", text[stop.start():stop.start() + 2]))
+
+
+def _find_marks(text: str, pattern: str, stop_re, max_title: int, bare: bool = False) -> List[tuple]:
+    """번호 1, 2, 3 … 을 차례대로 찾아 (번호 위치, 제목 시작, 제목) 목록을 만든다."""
     marks, pos, n = [], 0, 1
     while True:
         found = None
-        for m in re.finditer(rf"(?<!\d){n}\s?\.\s?(?=[가-힣])", text[pos:]):
+        for m in re.finditer(pattern.replace("{n}", str(n)), text[pos:]):
             start = pos + m.end()
-            stop = _TITLE_STOP.search(text, start, start + max_title + 4)
+            stop = stop_re.search(text, start, start + max_title + 4)
             if not stop:
                 continue
+            if bare and not _bare_ok(text, pos + m.start(), stop):
+                continue
             title = re.sub(r"\s+", " ", text[start:stop.start()]).strip()
-            if 2 <= len(title) <= max_title:
+            if 2 <= len(title) <= max_title and not title.endswith(("(", "‘", ",")):
                 found = (pos + m.start(), start, title)
                 break
         if not found:
             break
         marks.append(found)
         pos, n = found[1], n + 1
+    return marks
+
+
+def split_sections(text: str, max_title: int = 16) -> List[dict]:
+    """1, 2, 3 … 순서대로 나오는 최상위 번호 제목(짧은 제목 뒤에 '가.'·줄바꿈 등이 오는 것)을 찾아 항목으로 나눈다.
+    본문 속 번호 목록("1. 구비서류 중 …")은 제목이 길어서 건너뛴다.
+    번호가 2개 이상 차례로 이어지지 않으면 전체를 한 항목으로 둔다."""
+    text = clean(text)
+    dotted = _find_marks(text, r"(?<!\d){n}\s?\.\s?(?=[가-힣])", _TITLE_STOP, max_title)
+    # LH 공고처럼 "…합니다.1공급대상토지□ …"로 번호 뒤에 점 없이 제목이 붙는 형식
+    bare = _find_marks(text, r"(?<![\d,\-~∼]){n}(?=[가-힣])", _BARE_STOP, 12, bare=True)
+    marks = bare if len(bare) >= 3 and len(bare) > len(dotted) else dotted
     if len(marks) < 2:
         return [{"title": "공고 내용", "text": text}] if text else []
     out = []

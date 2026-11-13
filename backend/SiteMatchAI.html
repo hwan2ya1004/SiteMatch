@@ -337,7 +337,11 @@
   .parcel-sec summary::-webkit-details-marker { display: none; }
   .parcel-sec summary::before { content: '▸ '; color: var(--text-sub); }
   .parcel-sec[open] summary::before { content: '▾ '; }
-  .parcel-sec .t { padding: 0 12px 12px; white-space: pre-wrap; line-height: 1.7; color: var(--text); word-break: break-all; }
+  .parcel-sec .t { padding: 2px 14px 12px; color: var(--text); font-size: 13.5px; line-height: 1.75; word-break: keep-all; overflow-wrap: anywhere; }
+  .parcel-sec .t .ln { margin: 0 0 7px; }
+  .parcel-sec .t .ln.item { padding-left: 1.1em; text-indent: -1.1em; }
+  .parcel-sec .t .ln.strong { font-weight: 600; }
+  .parcel-sec .t .ln.note { color: var(--text-sub); font-size: 12.5px; background: var(--gray-bg); border-radius: 6px; padding: 6px 9px; }
   .parcel-open-btn { border: 1px solid #E9B872; background: #fff; color: var(--amber-text); border-radius: 99px; font-size: 11px; font-weight: 700; padding: 2px 9px; cursor: pointer; margin-left: 4px; }
   .parcel-open-btn:hover { background: var(--amber-bg); }
   #roadview-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 200; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box; }
@@ -1532,7 +1536,7 @@ async function openParcelNotice(parSeq) {
     const secs = (doc && doc.status === 'ok') ? doc.sections : [];
     if (secs.length) {
       html += `<div style="font-weight:700;margin:4px 0 8px">📄 공고문 내용</div>`
-        + secs.map((s, i) => `<details class="parcel-sec"${i < 3 ? ' open' : ''}><summary>${escapeHtml(s.title)}</summary><div class="t">${escapeHtml(formatNoticeText(s.text))}</div></details>`).join('');
+        + secs.map((s, i) => `<details class="parcel-sec"${i < 3 ? ' open' : ''}><summary>${escapeHtml(s.title)}</summary><div class="t">${renderNoticeText(s.text)}</div></details>`).join('');
     } else {
       const why = !doc ? '아직 정리되지 않은 공고입니다.'
         : doc.status === 'no_file' ? '첨부된 공고문이 없는 공고입니다.'
@@ -1567,6 +1571,19 @@ function formatNoticeText(text) {
     pos = hit.index; k++;
   }
   return out + text.slice(pos);
+}
+// 공고문 글자를 읽기 좋게: 목록 기호(◆ ■ □ ● ○ ▶ ※ ∙ • ①… 1) 등) 앞에서 줄을 바꾸고, 줄마다 문단으로 나눠 보여준다.
+// 글자 자체는 바꾸지 않는다(줄바꿈·간격만 조정).
+function renderNoticeText(text) {
+  let t = formatNoticeText(String(text || ''));
+  t = t.replace(/\s*([◆■□●○◦▶※∙•])\s*/g, (m, sym, off) => (off === 0 ? '' : '\n') + sym + ' ');
+  t = t.replace(/\s*([①-⑳])\s*/g, (m, sym, off) => (off === 0 ? '' : '\n') + sym + ' ');
+  t = t.replace(/(^|[\s.])(\d{1,2}\))\s+(?=[가-힣「(])/g, (m, pre, num) => `${pre.trim() ? pre : ''}\n${num} `);
+  t = t.replace(/[ \t]{2,}/g, ' ');
+  return t.split('\n').map(s => s.trim()).filter(Boolean).map(line => {
+    const cls = /^※/.test(line) ? 'ln note' : /^[◆■]/.test(line) ? 'ln strong' : /^([가-하]\s?\.|[①-⑳]|\d{1,2}\)|[□●○◦▶∙•])/.test(line) ? 'ln item' : 'ln';
+    return `<p class="${cls}">${escapeHtml(line)}</p>`;
+  }).join('');
 }
 function closeParcelNotice() { document.getElementById('parcel-modal').classList.remove('open'); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeParcelNotice(); });
