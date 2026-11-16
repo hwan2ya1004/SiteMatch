@@ -40,6 +40,15 @@ _ORG_CONTACT_NOTES = {"same_org_notice": "같은 관리기관의 다른 단지 �
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS_PATH = os.path.join(BASE_DIR, "data", "subsidy_docs.txt")
 
+# 시·군·구 기업·투자유치 조례의 지원 조항 원문(scripts/fetch_local_subsidy.py, 자치법규정보시스템)
+try:
+    with open(os.path.join(BASE_DIR, "data", "local_subsidy.json"), encoding="utf-8") as _f:
+        _LOCAL = json.load(_f)
+    _LOCAL_SUBSIDY = _LOCAL.get("local", {})
+    _LOCAL_DATE = _LOCAL.get("collected_at", "")
+except (OSError, ValueError):
+    _LOCAL_SUBSIDY, _LOCAL_DATE = {}, ""
+
 # llama-3.3-70b-versatile는 Groq에서 서비스 종료되어 대체 모델로 전환 (2026-08 확인)
 CHAT_MODEL = "openai/gpt-oss-120b"
 
@@ -119,6 +128,12 @@ SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMa
     마세요. "접수 중/마감" 표시는 블록에 적힌 그대로 쓰세요. 블록에 공고가 없다고 되어 있으면 "수집된
     분양공고가 없습니다"라고 답하고, 분양 일정을 지어내지 마세요. 분양률(공식 통계)과 분양공고는 다른
     자료이니 섞지 마세요.
+14. "[OO시 기업·투자유치 지원 조례 원문 발췌]" 블록은 그 시·군·구 조례의 조항 원문입니다. 지원금·보조금을
+    물으면 이 블록의 조항을 근거로 답하고, 문장 끝에 "(출처: OO시 OO 조례 제n조, 시행 YYYY.MM.DD)"처럼
+    조례명과 조항 번호를 표시하세요. 금액·비율·인원 기준·한도는 원문 그대로 옮기고, 원문에 없는 계산
+    (예: 우리 회사는 얼마 받는다)은 하지 마세요. 조례는 대부분 "예산의 범위에서 지원할 수 있다"는 근거
+    규정이므로, 실제 지원 여부와 올해 예산은 블록에 적힌 담당 부서에 확인해야 한다고 한 문장으로 덧붙이세요.
+    블록에 발췌된 조항만으로 답이 안 되면 "발췌된 조항에는 없습니다"라고 하세요.
 참고 문서:
 {context}
 """
@@ -228,6 +243,79 @@ def _parcel_doc_text(doc: Dict, max_chars: int) -> str:
         out.append(chunk)
         used += len(chunk)
     return "\n".join(out)
+
+
+# 시·군 지원금 질문인지 — 이때 그 시·군 조례 발췌를 넣는다
+_LOCAL_Q_RE = re.compile(r"지원금|보조금|지원|혜택|인센티브|입지|고용|교육훈련|이전|설비|시설|투자유치|융자|이자|조례|분양가\s*차액")
+# 질문 낱말 ↔ 조항 제목 매칭(관련 조항을 앞에 둔다)
+_LOCAL_TOPICS = ["고용", "교육훈련", "입지", "부지", "설비", "시설", "이전", "본사", "본점", "연구", "분양가", "융자", "이자",
+                 "외국인", "대규모", "신ㆍ증설", "신·증설", "증설", "신재생", "신ㆍ재생", "관광", "임대", "특별지원", "기금"]
+_CITY_SUFFIX = re.compile(r"(특별자치시|특별자치도|광역시|시|군|구)$")
+
+
+def _local_key_for(region: str, city: str) -> Optional[str]:
+    city = (city or "").split(" ")[0]
+    key = f"{region}|{city}"
+    if key in _LOCAL_SUBSIDY:
+        return key
+    if region in ("세종", "제주"):  # 시·군 조례가 따로 없는 곳은 수집 때 본청 기준으로 들어가 있다
+        return next((k for k in _LOCAL_SUBSIDY if k.startswith(region + "|")), None)
+    return None
+
+
+def _detect_local_key(text: str, city_regions: Optional[Dict[str, set]] = None) -> Optional[str]:
+    """질문에 적힌 시·군·구 이름("김해시", "김해")으로 조례 데이터를 찾는다. 북구·고성군처럼 여러 시·도에
+    같은 이름이 있으면 질문에 시·도 이름도 있을 때만 고른다."""
+    t = text.replace(" ", "")
+    region = _detect_region(text)
+    hits = []
+    for key, rec in _LOCAL_SUBSIDY.items():
+        city = rec["city"]
+        core = _CITY_SUFFIX.sub("", city)
+        if city in t or (len(core) >= 2 and core in t):
+            hits.append((len(city) if city in t else len(core), key, rec["region"]))
+    if not hits:
+        return None
+    if region:
+        same = [h for h in hits if h[2] == region]
+        if same:
+            return max(same)[1]
+    best = max(hits)
+    same_name = [h for h in hits if _LOCAL_SUBSIDY[h[1]]["city"] == _LOCAL_SUBSIDY[best[1]]["city"]]
+    # 조례 자료가 없는 시·도에도 같은 이름(북구 등)이 있으면 어느 곳인지 모르므로 고르지 않는다
+    others = (city_regions or {}).get(_LOCAL_SUBSIDY[best[1]]["city"], set())
+    return best[1] if len(same_name) == 1 and len(others) <= 1 else None  # 같은 이름이 여러 시·도에 있으면 고르지 않는다
+
+
+def _local_subsidy_block(key: str, query: str, max_chars: int) -> str:
+    rec = _LOCAL_SUBSIDY.get(key)
+    if not rec:
+        return ""
+    want = [w for w in _LOCAL_TOPICS if w in query]
+    items = []  # (점수, 순서, 조례, 조항)
+    order = 0
+    for o in rec["ordinances"]:
+        for a in o["articles"]:
+            head = a.split("\n", 1)[0]
+            score = sum(1 for w in want if w in head) * 2 + sum(1 for w in want if w in a)
+            items.append((-score, order, o, a))
+            order += 1
+    items.sort(key=lambda x: (x[0], x[1]))
+    name = rec["city"] if rec["city"] not in ("세종", "") else rec["region"]
+    lines = [f"[{name} 기업·투자유치 지원 조례 원문 발췌 — 자치법규정보시스템, {_LOCAL_DATE} 수집]"]
+    depts = sorted({f"{o['dept']} {o['phone']}".strip() for o in rec["ordinances"] if o.get("dept")})
+    if depts:
+        lines.append("담당 부서(조례 관리책임부서): " + ", ".join(depts[:3]))
+    used = sum(len(x) for x in lines)
+    for _, _, o, a in items:
+        chunk = f"\n<{o['title']} (시행 {o['effective']})> {a}"
+        if used + len(chunk) > max_chars:
+            if used < max_chars * 0.6:  # 앞 조항이 짧으면 하나는 잘라서라도 넣는다
+                lines.append(chunk[: max_chars - used] + " …(이하 생략)")
+            break
+        lines.append(chunk)
+        used += len(chunk)
+    return "\n".join(lines)
 
 
 RECOMMEND_ASK_MSG = (
@@ -385,6 +473,9 @@ class RAGService:
             reasoning_effort="low",  # gpt-oss는 추론 모델 — effort를 낮추지 않으면 토큰 예산을 "생각"에 다 씀
         )
         self._answer_cache: Dict[str, tuple] = {}
+        self._city_regions: Dict[str, set] = {}
+        for p in self.parks:
+            self._city_regions.setdefault((p.get("city") or "").split(" ")[0], set()).add(p.get("region"))
         # 문서 로드 (시작 시 1회)
         self._docs_text = _load_docs()
         print(f"✅ RAG 챗봇 초기화 완료 (문서 {len(self._docs_text)}자 로드, 단지 {len(self.parks)}개 조회 가능)")
@@ -591,6 +682,7 @@ class RAGService:
         그리고 그 단지의 관리기관 공식 고시문서(있으면)를 함께 제공."""
         park = park or self._find_mentioned_park(query)
         general_topic = bool(_GENERAL_TOPIC_RE.search(query))
+        local_q = bool(_LOCAL_Q_RE.search(query))
 
         if park:
             # 특정 단지가 특정된 질문은, 그 단지 자체의 공식 문서가 전국 단위
@@ -623,23 +715,33 @@ class RAGService:
             # (TPM 한도 때문에 합계는 이전과 비슷하게 유지). 예전엔 고시문이 있으면 공통 자료를
             # 통째로 뺐는데, 단지 정보시트에는 입주 절차·지원금이 없어서 "AI 매칭에서 추천한 나주의
             # 입주 절차와 지원금"을 물으면 "문서에 없다"고만 답하는 문제가 있었다.
+            # 지원금 질문이면 그 단지가 있는 시·군·구의 조례 조항 원문을 넣는다(시·도 자료와 별도)
+            lkey = _local_key_for(park.get("region", ""), park.get("city", "")) if local_q else None
+            local = _local_subsidy_block(lkey, query, 2200) if lkey else ""
+            if local:
+                facts += "\n\n" + local
             official = get_park_documents_text(
                 park.get("region", ""), park.get("city", ""), park.get("name", ""),
                 # 분양 질문이면 공고문 발췌(최대 PARCEL_DOC_CHARS자)가 들어가므로 고시문 예산을 줄인다
-                budget=3500 if (general_topic or parcel_q) else 6000, park_type=park.get("type"),
+                budget=(2500 if local else 3500) if (general_topic or parcel_q) else (4000 if local else 6000),
+                park_type=park.get("type"),
             )
             if official:
                 facts += f"\n\n[{full_park_name(park.get('name'), park.get('type'))} 관리기관 공식 고시문서 발췌]\n{official}"
                 if general_topic:
-                    return facts + "\n\n" + self._general_block(park, query, 1500 if parcel_q else 2500)
+                    return facts + "\n\n" + self._general_block(park, query, 1500 if (parcel_q or local) else 2500)
                 # 그 단지의 공식 고시문서를 이미 확보했다면 전국 공통 참고자료
                 # (subsidy_docs.txt)는 붙이지 않는다 — 라벨을 붙여 구분해봐도
                 # LLM이 두 블록을 섞어 전국 공통 자료의 내용(예: 일반적인
                 # "입주제한업종 예시")을 그 단지의 공식 고시 출처로 잘못
                 # 인용하는 사례가 실제로 있었다. 아예 안 섞이게 원천 차단한다.
                 return facts
-            return facts + "\n\n" + self._general_block(park, query, 2500 if general_topic else 500)
+            return facts + "\n\n" + self._general_block(park, query, (1500 if local else 2500) if general_topic else 500)
 
+        # 단지 없이 "김해시 고용보조금 얼마야?"처럼 시·군을 들어 물으면 그 시·군 조례 발췌를 앞에 둔다
+        lkey = _detect_local_key(query, self._city_regions) if local_q else None
+        if lkey:
+            return _local_subsidy_block(lkey, query, 3000) + "\n\n" + _keyword_filter_context(self._docs_text, query, max_chars=1500)
         return _keyword_filter_context(self._docs_text, query)
 
     def _recommend(self, messages: List[dict]) -> Optional[str]:
