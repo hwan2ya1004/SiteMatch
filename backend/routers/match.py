@@ -12,7 +12,8 @@ from sqlalchemy.orm import Session
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from database import get_db, MatchingHistory
+from database import get_db, MatchingHistory, ParcelNotice
+from services import local_subsidy
 from services.embedding import get_embedding_service
 from services.park_names import full_park_name
 
@@ -178,6 +179,12 @@ async def run_match(req: MatchRequest, db: Session = Depends(get_db)):
             "lng": park.get("lng", 0),
         })
 
+    # 카드에 바로 보여줄 분양공고·지원 조례 요약 (둘 다 원자료 값 그대로)
+    parcels = _parcel_summaries(db, [f["id"] for f in formatted])
+    for f in formatted:
+        f["parcel"] = parcels.get(f["id"])
+        f["local_subsidy"] = local_subsidy.summary(f["region"], f["city"])
+
     # 매칭 이력 저장
     try:
         history = MatchingHistory(
@@ -199,3 +206,37 @@ async def run_match(req: MatchRequest, db: Session = Depends(get_db)):
         pass  # 이력 저장 실패해도 결과는 반환
 
     return {"results": formatted, "total": len(formatted)}
+
+
+def _parcel_summaries(db: Session, park_ids: list) -> dict:
+    """단지별 대표 분양공고 1건: 지금 접수 중인 공고가 있으면 그것, 없으면 가장 최근 공고. 분양가는 ㎡당 원(DB 값)."""
+    out = {}
+    if not park_ids:
+        return out
+    today = datetime.now().strftime("%Y-%m-%d")
+    rows = (db.query(ParcelNotice).filter(ParcelNotice.park_id.in_(park_ids))
+            .order_by(ParcelNotice.notice_date.desc(), ParcelNotice.par_seq.desc()).all())
+    groups = {}
+    for r in rows:
+        groups.setdefault(r.park_id, []).append(r)
+    for pid, rs in groups.items():
+        opened = [r for r in rs if r.start_date and r.end_date and r.start_date <= today <= r.end_date]
+        r = opened[0] if opened else rs[0]
+        state = ""
+        if r.start_date and r.end_date:
+            state = "접수 중" if r.start_date <= today <= r.end_date else ("마감" if r.end_date < today else "접수 전")
+        out[pid] = {"par_seq": r.par_seq, "title": r.title, "par_type": r.par_type, "notice_date": r.notice_date,
+                    "start_date": r.start_date, "end_date": r.end_date, "state": state, "area": r.area,
+                    "price": r.price, "org": r.org, "phone": r.phone, "count": len(rs),
+                    "has_doc": bool(r.doc_json) and '"status": "ok"' in (r.doc_json or "")}
+    return out
+
+
+@router.get("/local-subsidy")
+def local_subsidy_articles(region: str, city: str = ""):
+    """단지가 있는 시·군·구(없으면 시·도) 기업·투자유치 조례의 지원 조항 원문."""
+    key = local_subsidy.key_for(region, city)
+    data = local_subsidy.articles(key) if key else None
+    if not data:
+        raise HTTPException(status_code=404, detail="수집된 지원 조례가 없습니다")
+    return data

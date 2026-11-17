@@ -123,6 +123,81 @@
   .btn-ghost { padding: 8px 16px; background: transparent; color: var(--text-sub); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
   .btn-ghost:hover { background: var(--gray-bg); color: var(--text); }
 
+  /* ── AI 매칭 (리뉴얼) ── */
+  .mx-step { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; margin: 0 0 12px; color: var(--text); }
+  .mx-step span { width: 22px; height: 22px; border-radius: 50%; background: var(--teal); color: #fff; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
+  .mx-form .form-grid.three { grid-template-columns: 1.4fr 1fr 1fr; }
+  .mx-more { margin-top: 16px; border-top: 1px dashed var(--border); padding-top: 14px; }
+  .mx-more > summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; }
+  .mx-more > summary::-webkit-details-marker { display: none; }
+  .mx-more > summary span.n { width: 22px; height: 22px; border-radius: 50%; background: var(--gray-bg); border: 1px solid var(--border); color: var(--text-sub); font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
+  .mx-more > summary em { font-style: normal; font-weight: 500; color: var(--text-hint); font-size: 12px; }
+  .mx-more > summary::after { content: '펼치기 ▾'; margin-left: auto; font-size: 12px; color: var(--teal-dark); font-weight: 600; }
+  .mx-more[open] > summary::after { content: '접기 ▴'; }
+  .mx-more .form-grid { margin-top: 14px; }
+  .mx-form .match-btn { margin-top: 18px; }
+  .mx-cond { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 4px 0 14px; font-size: 13px; color: var(--text-sub); }
+  .mx-cond b { color: var(--text); }
+  .mx-cond .chip { background: var(--white); border: 1px solid var(--border); border-radius: 99px; padding: 3px 10px; font-size: 12px; color: var(--text); }
+  .mx-results { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 18px; align-items: start; }
+  .mx-side { position: sticky; top: 72px; }
+  #match-map { width: 100%; height: 440px; border-radius: 14px; border: 1px solid var(--border); background: var(--gray-bg); overflow: hidden; }
+  .mx-side-note { font-size: 11.5px; color: var(--text-sub); margin-top: 6px; line-height: 1.5; }
+  .mx-pin { width: 30px; height: 30px; border-radius: 50%; background: var(--teal); color: #fff; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,.35); cursor: pointer; }
+  .mx-pin.first { background: #E8730C; width: 34px; height: 34px; }
+  .mx-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 18px 18px 14px; margin-bottom: 14px; transition: border-color .15s, box-shadow .15s; scroll-margin-top: 80px; }
+  .mx-card:hover, .mx-card.flash { border-color: var(--teal-mid); box-shadow: 0 2px 12px rgba(15,110,86,.12); }
+  .mx-head { display: flex; align-items: flex-start; gap: 12px; }
+  .mx-rank { flex: none; width: 34px; height: 34px; border-radius: 10px; background: var(--teal-light); color: var(--teal-dark); font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .mx-card.first .mx-rank { background: #E8730C; color: #fff; }
+  .mx-title { flex: 1; min-width: 0; }
+  .mx-name { font-size: 17px; font-weight: 800; color: var(--text); line-height: 1.35; }
+  .mx-sub { font-size: 12.5px; color: var(--text-sub); margin-top: 3px; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+  .mx-score { flex: none; width: 58px; height: 58px; border-radius: 50%; background: conic-gradient(var(--teal) calc(var(--p) * 1%), #E5E7EB 0); display: flex; align-items: center; justify-content: center; position: relative; }
+  .mx-score::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; background: #fff; }
+  .mx-score b { position: relative; font-size: 17px; font-weight: 800; color: var(--teal-dark); }
+  .mx-score small { position: relative; font-size: 10px; color: var(--text-sub); margin-left: 1px; }
+  .mx-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 14px 0 10px; }
+  .mx-metrics > div { background: var(--gray-bg); border-radius: 10px; padding: 8px 10px; min-width: 0; }
+  .mx-metrics span { display: block; font-size: 11px; color: var(--text-sub); }
+  .mx-metrics b { display: block; font-size: 15px; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+  .mx-metrics em { display: block; font-style: normal; font-size: 11px; color: var(--text-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mx-metrics .hot { background: #FFF4E8; }
+  .mx-metrics .hot b, .mx-metrics .hot em { color: #B4530A; }
+  .mx-metrics .good { background: var(--teal-light); }
+  .mx-metrics .good b { color: var(--teal-dark); }
+  .mx-reason { font-size: 13px; color: var(--text); background: #F3F7FF; border-radius: 8px; padding: 8px 10px; line-height: 1.6; margin-bottom: 8px; }
+  .mx-bars { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin-bottom: 12px; }
+  .mx-bars div { font-size: 10.5px; color: var(--text-sub); }
+  .mx-bars i { display: block; height: 4px; border-radius: 2px; background: #E5E7EB; margin-top: 3px; overflow: hidden; }
+  .mx-bars i::after { content: ''; display: block; height: 100%; width: var(--w); background: var(--teal-mid); }
+  .mx-tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 10px; overflow-x: auto; scrollbar-width: none; }
+  .mx-tabs::-webkit-scrollbar { display: none; }
+  .mx-tabs button { flex: none; background: none; border: none; border-bottom: 2px solid transparent; padding: 8px 10px; font-size: 13px; font-weight: 600; color: var(--text-sub); cursor: pointer; font-family: inherit; }
+  .mx-tabs button.on { color: var(--teal-dark); border-bottom-color: var(--teal); }
+  .mx-tabs button .cnt { font-size: 10.5px; background: var(--gray-bg); border-radius: 99px; padding: 0 6px; margin-left: 3px; }
+  .mx-pane { display: none; font-size: 13px; line-height: 1.65; min-height: 40px; }
+  .mx-pane.on { display: block; }
+  .mx-empty { color: var(--text-hint); font-size: 12.5px; padding: 4px 0 8px; }
+  .sub-ord { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
+  .sub-ord .t { font-weight: 700; font-size: 13px; }
+  .sub-ord .d { font-size: 11.5px; color: var(--text-sub); margin: 1px 0 6px; }
+  .sub-ord .chips span { display: inline-block; font-size: 12px; background: var(--teal-light); color: var(--teal-dark); border-radius: 99px; padding: 2px 9px; margin: 0 4px 4px 0; }
+  .sub-note { font-size: 11.5px; color: var(--text-sub); margin: 2px 0 8px; }
+  .mx-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .mx-actions .main { background: var(--teal); color: #fff; border-color: var(--teal); }
+  .mx-actions .main:hover { background: var(--teal-dark); }
+  .mx-actions button { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: #fff; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .mx-actions button:hover { background: var(--gray-bg); }
+  .mini-btn { padding: 5px 10px; border-radius: 7px; border: 1px solid var(--border); background: #fff; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; margin: 2px 6px 2px 0; }
+  .mini-btn:hover { background: var(--gray-bg); }
+  /* 조례 원문 모달 */
+  .ord-art { border-top: 1px solid var(--border); padding: 10px 0; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+  .ord-art b { display: block; color: var(--teal-dark); margin-bottom: 2px; white-space: normal; }
+  .ord-head { font-weight: 800; font-size: 14px; margin: 14px 0 2px; }
+  .ord-head:first-child { margin-top: 0; }
+  .ord-meta { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; }
+
   /* ── 로딩 ── */
   .loading-wrap { text-align: center; padding: 48px 24px; background: white; border: 1px solid var(--border); border-radius: 14px; }
   .dots { display: inline-flex; gap: 6px; margin-bottom: 16px; }
@@ -139,7 +214,29 @@
 
   /* ── 챗봇 ── */
   .chat-layout { display: grid; grid-template-columns: 1fr 280px; gap: 20px; align-items: start; }
-  .chat-box { background: var(--white); border: 1px solid var(--border); border-radius: 14px; display: flex; flex-direction: column; height: 520px; }
+  .chat-box { background: var(--white); border: 1px solid var(--border); border-radius: 14px; display: flex; flex-direction: column; height: max(520px, calc(100vh - 230px)); overflow: hidden; }
+  .chat-context { display: none; align-items: center; gap: 8px; padding: 10px 14px; background: var(--teal-light); border-bottom: 1px solid #BFE6D6; font-size: 13px; color: var(--teal-dark); }
+  .chat-context.on { display: flex; }
+  .chat-context b { color: var(--teal-dark); }
+  .chat-context .sp { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .chat-context button { border: none; background: rgba(255,255,255,.7); border-radius: 6px; padding: 3px 8px; font-size: 12px; font-weight: 600; cursor: pointer; color: var(--teal-dark); font-family: inherit; }
+  .chat-suggest { display: flex; gap: 6px; padding: 0 14px 10px; overflow-x: auto; scrollbar-width: none; }
+  .chat-suggest:empty { display: none; }
+  .chat-suggest button { flex: none; border: 1px solid #BFE6D6; background: #fff; color: var(--teal-dark); border-radius: 99px; padding: 6px 12px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .chat-suggest button:hover { background: var(--teal-light); }
+  .welcome-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .welcome-grid button { text-align: left; border: 1px solid var(--border); background: #fff; border-radius: 10px; padding: 10px 12px; cursor: pointer; font-family: inherit; font-size: 12.5px; color: var(--text-sub); line-height: 1.45; }
+  .welcome-grid button b { display: block; color: var(--text); font-size: 13.5px; margin-bottom: 2px; }
+  .welcome-grid button:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .bubble .src { display: inline-block; font-size: 11.5px; color: var(--text-sub); background: rgba(0,0,0,.05); border-radius: 6px; padding: 0 6px; margin-left: 2px; }
+  .msg-parks { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .msg-parks button { border: 1px solid var(--border); background: #fff; border-radius: 99px; padding: 4px 10px; font-size: 12px; cursor: pointer; font-family: inherit; }
+  .msg-parks button:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .side-park { padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 6px; cursor: pointer; font-size: 13px; }
+  .side-park:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .side-park small { display: block; color: var(--text-sub); font-size: 11.5px; }
+  .quick-group { font-size: 11.5px; font-weight: 700; color: var(--text-hint); margin: 10px 0 4px; }
+  .quick-group:first-child { margin-top: 0; }
   .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
   .msg { max-width: 80%; }
   .msg.bot { align-self: flex-start; }
@@ -432,6 +529,13 @@
     .chat-sidebar { display: none; }
     .stats-grid { grid-template-columns: 1fr 1fr; }
     .dashboard-grid { grid-template-columns: 1fr; }
+    .mx-form .form-grid.three { grid-template-columns: 1fr; }
+    .mx-results { grid-template-columns: 1fr; }
+    .mx-side { position: static; order: -1; }
+    #match-map { height: 220px; }
+    .mx-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mx-bars { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .welcome-grid { grid-template-columns: 1fr; }
 
     /* 지도 탭(모바일): 카카오맵 앱처럼 지도를 화면 전체에 깔고, 목록/상세는 지도 위에
        뜨는 "바텀시트"로 올린다 — 손잡이를 드래그하면(또는 탭하면) 접힘/기본/펼침
@@ -556,11 +660,11 @@
   <div class="page active" id="page-match">
     <div class="page-header">
       <div class="page-title">산업단지 AI 매칭</div>
-      <div class="page-desc">기업 조건을 입력하면 AI가 최적 산업단지를 분석해 추천합니다. 지원금·인허가 정보도 함께 안내해 드립니다.</div>
+      <div class="page-desc">업종·규모·면적을 고르면 전국 산업단지 중 맞는 곳을 찾아 <b>분양공고(평당 분양가·접수 기간)</b>와 <b>지자체 지원금 조례</b>까지 한 번에 보여드립니다.</div>
     </div>
-    <div class="card">
-      <div class="card-title">기업 조건 입력</div>
-      <div class="form-grid">
+    <div class="card mx-form">
+      <div class="mx-step"><span>1</span> 필수 조건</div>
+      <div class="form-grid three">
         <div class="field">
           <label>업종 *</label>
           <select id="f-industry" onchange="showIndustryHint(this.value)">
@@ -591,7 +695,7 @@
             <option value="기타 제품 제조업">33 기타 제품 제조업</option>
             <option value="산업용 기계·장비 수리업">34 산업용 기계 및 장비 수리업</option>
           </select>
-          <div style="font-size:11px;color:var(--text-hint);margin-top:2px">※ 통계청 한국표준산업분류(KSIC) 대분류 C(제조업) 중분류 10~34 기준</div>
+          <div style="font-size:11px;color:var(--text-hint);margin-top:2px">※ 한국표준산업분류(KSIC) 제조업 중분류 10~34 기준</div>
           <div id="industry-hint" style="display:none;font-size:12px;color:var(--teal-dark);background:var(--teal-light);border-radius:6px;padding:6px 10px;margin-top:2px"></div>
         </div>
         <div class="field">
@@ -616,49 +720,59 @@
             <option>10,000㎡ 이상</option>
           </select>
         </div>
-        <div class="field">
-          <label>희망 지역</label>
-          <select id="f-region">
-            <option value="">지역 무관</option>
-            <option>경기도</option>
-            <option>인천광역시</option>
-            <option>경상남도</option>
-            <option>경상북도</option>
-            <option>충청남도</option>
-            <option>충청북도</option>
-            <option>전라남도</option>
-            <option>전라북도</option>
-            <option>강원도</option>
-            <option>부산광역시</option>
-            <option>대구광역시</option>
-            <option>울산광역시</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>월 예산</label>
-          <select id="f-budget">
-            <option value="">무관</option>
-            <option>500만원 미만</option>
-            <option>500~1,000만원</option>
-            <option>1,000~3,000만원</option>
-            <option>3,000만원 이상</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>물류 조건</label>
-          <select id="f-logistics">
-            <option value="">무관</option>
-            <option>고속도로 IC 15분 이내</option>
-            <option>항만 인접 (30분 이내)</option>
-            <option>공항 인접 (30분 이내)</option>
-            <option>철도 인접</option>
-          </select>
-        </div>
-        <div class="field form-full">
-          <label>추가 요구사항</label>
-          <input type="text" id="f-extra" placeholder="예: 3상 전력 필수, 냉동창고 필요, 클린룸 설비, R&D 공간 포함...">
-        </div>
       </div>
+      <details class="mx-more" id="mx-more">
+        <summary><span class="n">2</span> 선택 조건 <em>지역 · 예산 · 물류 · 요구사항</em></summary>
+        <div class="form-grid">
+          <div class="field">
+            <label>희망 지역</label>
+            <select id="f-region">
+              <option value="">지역 무관</option>
+              <option>경기도</option>
+              <option>서울특별시</option>
+              <option>인천광역시</option>
+              <option>강원특별자치도</option>
+              <option>충청북도</option>
+              <option>충청남도</option>
+              <option>대전광역시</option>
+              <option>세종특별자치시</option>
+              <option>전북특별자치도</option>
+              <option>전라남도</option>
+              <option>광주광역시</option>
+              <option>경상북도</option>
+              <option>대구광역시</option>
+              <option>경상남도</option>
+              <option>부산광역시</option>
+              <option>울산광역시</option>
+              <option>제주특별자치도</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>월 예산</label>
+            <select id="f-budget">
+              <option value="">무관</option>
+              <option>500만원 미만</option>
+              <option>500~1,000만원</option>
+              <option>1,000~3,000만원</option>
+              <option>3,000만원 이상</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>물류 조건</label>
+            <select id="f-logistics">
+              <option value="">무관</option>
+              <option>고속도로 IC 15분 이내</option>
+              <option>항만 인접 (30분 이내)</option>
+              <option>공항 인접 (30분 이내)</option>
+              <option>철도 인접</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>추가 요구사항</label>
+            <input type="text" id="f-extra" placeholder="예: 3상 전력, 냉동창고, 클린룸, R&D 공간">
+          </div>
+        </div>
+      </details>
       <button class="match-btn" id="match-btn" onclick="runMatch()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         AI 매칭 시작
@@ -675,27 +789,51 @@
     </div>
     <div class="chat-layout">
       <div class="chat-box">
+        <div class="chat-context" id="chat-context"></div>
         <div class="chat-messages" id="chat-messages">
           <div class="msg bot">
-            <div class="bubble">안녕하세요! SiteMatch AI 입주 상담 챗봇입니다. 산업단지 입주와 관련된 모든 궁금증을 도와드립니다.<br><br>지원금 조건, 인허가 절차, 세금 혜택, 업종별 추천 입지 등을 물어보세요.</div>
+            <div class="bubble">안녕하세요! <b>SiteMatch AI 입주 상담</b>입니다. 공식 자료(지자체 조례·분양공고·관리기관 고시)를 근거로, 출처와 함께 답해 드립니다.
+              <div class="welcome-grid">
+                <button onclick="quickAsk('김해시 고용보조금은 얼마나 받을 수 있어?')"><b>💰 지자체 지원금</b>시·군 조례의 입지·고용·설비 보조금</button>
+                <button onclick="quickAsk('지금 접수 중인 분양공고 알려줘')"><b>📢 분양공고</b>접수 중인 공고, 평당 분양가</button>
+                <button onclick="quickAsk('충남에서 식품 공장 1,000㎡ 정도 들어갈 곳 추천해줘')"><b>🏭 단지 추천</b>지역·업종·면적으로 찾기</button>
+                <button onclick="quickAsk('산업단지 입주계약부터 공장등록까지 절차를 알려줘')"><b>📋 입주 절차</b>입주계약·공장설립 승인 순서</button>
+              </div>
+            </div>
           </div>
         </div>
+        <div class="chat-suggest" id="chat-suggest"></div>
         <div class="chat-footer">
-          <input class="chat-input" id="chat-input" type="text" placeholder="질문을 입력하세요..." onkeydown="if(event.key==='Enter'&&!event.shiftKey)sendChat()">
+          <input class="chat-input" id="chat-input" type="text" placeholder="예) 김해 골든루트 산업단지 지원금 알려줘" onkeydown="if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing)sendChat()">
           <button class="send-btn" id="send-btn" onclick="sendChat()">전송</button>
         </div>
       </div>
       <div class="chat-sidebar">
+        <div class="sidebar-card" id="chat-match-card" style="display:none">
+          <div class="sidebar-title">최근 AI 매칭 결과</div>
+          <div style="font-size:11.5px;color:var(--text-sub);margin:-4px 0 8px">눌러서 이 단지로 상담을 이어가세요</div>
+          <div id="chat-match-list"></div>
+        </div>
         <div class="sidebar-card">
-          <div class="sidebar-title">자주 묻는 질문</div>
+          <div class="sidebar-title">이렇게 물어보세요</div>
           <div class="quick-list">
-            <div class="quick-item" onclick="quickAsk('경기도 산업단지 입주 지원금 조건이 어떻게 되나요?')">경기도 지원금 조건</div>
+            <div class="quick-group">지원금</div>
+            <div class="quick-item" onclick="quickAsk('경기도 기업 투자유치 지원금 조건 알려줘')">경기도 투자유치 지원금</div>
+            <div class="quick-item" onclick="quickAsk('경주시 입지보조금과 고용보조금 알려줘')">경주시 입지·고용보조금</div>
+            <div class="quick-group">분양</div>
+            <div class="quick-item" onclick="quickAsk('충북에 분양 중인 단지 알려줘')">충북 분양 중인 단지</div>
+            <div class="quick-item" onclick="quickAsk('최근 분양공고 있어?')">최근 분양공고</div>
+            <div class="quick-group">절차·제도</div>
             <div class="quick-item" onclick="quickAsk('공장 이전 시 인허가 절차와 기간이 어떻게 되나요?')">인허가 절차·기간</div>
             <div class="quick-item" onclick="quickAsk('산업단지 입주 시 세금 감면 혜택이 있나요?')">세금 감면 혜택</div>
-            <div class="quick-item" onclick="quickAsk('전자부품 제조업에 적합한 산업단지 입지는 어디인가요?')">업종별 추천 입지</div>
-            <div class="quick-item" onclick="quickAsk('스마트팩토리 전환 지원 사업에 대해 알려주세요.')">스마트팩토리 지원</div>
-            <div class="quick-item" onclick="quickAsk('창업 기업이 산업단지에 입주할 때 받을 수 있는 혜택은?')">창업 기업 혜택</div>
           </div>
+        </div>
+        <div class="sidebar-card" style="font-size:11.5px;color:var(--text-sub);line-height:1.6">
+          <div class="sidebar-title" style="font-size:13px">답변 근거</div>
+          지자체 지원금: 자치법규정보시스템 조례 원문<br>
+          분양공고: 산업입지정보센터<br>
+          단지 정보: 한국산업단지공단 통계·관리기관 고시<br>
+          조례상 지원은 "예산 범위에서 지원할 수 있다"는 근거이므로 실제 지원 여부는 담당 부서에 확인하세요.
         </div>
       </div>
     </div>
@@ -1460,7 +1598,9 @@ async function runMatch() {
     }
 
     const data = await resp.json();
+    window.lastMatch = { results: data.results, cond: { ind, sz, ar, rg, bud, log, ex } };
     renderResults(data.results, ind, ar);
+    renderChatMatchList();
   } catch(e) {
     res.innerHTML = `<div style="background:var(--red-bg);border:1px solid #f5c6c6;border-radius:12px;padding:20px;color:var(--red-text)">
       <strong>⚠️ 오류:</strong> ${e.message}<br>
@@ -1474,81 +1614,203 @@ async function runMatch() {
 
 function renderResults(results, ind, ar) {
   const res = document.getElementById('match-results');
-  const areaSqm = parseAreaMidpointSqm(ar);
   if (!results.length) {
     res.innerHTML = `<div style="background:var(--amber-bg);color:var(--amber-text);border-radius:12px;padding:20px;font-size:14px;line-height:1.7">
-      <strong>조건에 맞는 입주 가능한 산업단지를 찾지 못했습니다.</strong><br>
-      선택하신 업종(<strong>${ind}</strong>)으로 지금 입주할 수 있는 단지(조성 완료·가용면적 있음)가 없거나, 공식 고시문서상 입주가 제한된 업종입니다.
+      <strong>조건에 맞는 산업단지를 찾지 못했습니다.</strong><br>
+      선택하신 업종(<strong>${escapeHtml(ind)}</strong>)으로 지금 미분양 용지가 있는 단지가 없거나, 공식 고시문서상 입주가 제한된 업종입니다.
       지역이나 업종 조건을 넓혀서 다시 매칭해보세요.
     </div>`;
     return;
   }
-  res.innerHTML = `<div style="font-size:14px;color:var(--text-sub);margin-bottom:16px;display:flex;align-items:center;gap:8px">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-    <span><strong style="color:var(--text)">${ind}</strong> 조건에 맞는 산업단지 ${results.length}곳을 추천합니다 (AI 분석 기반)</span>
-  </div>` + results.map((r, i) => {
-    const bd = r.breakdown || {};
-    const bdLabels = [['industry','업종',40],['region','지역',25],['budget','예산',15],['logistics','물류',10],['area','면적',5],['extra','요구사항',5]];
-    const breakdownLine = Object.keys(bd).length
-      ? `<div style="font-size:11px;color:var(--text-sub);margin-bottom:10px">매칭 근거: ${bdLabels.map(([k,label,cap])=>`${label} ${Math.round(bd[k]||0)}/${cap}`).join(' · ')}</div>`
-      : '';
-
-    // ⭐ 프리미엄: 동종업계 입주현황 — 요청 업종(ind)의 키워드가 이 단지의 실제 등록공장 업종과
-    // 겹치는지 확인해 "이미 같은 업종이 입주해 있다"는 클러스터 신호를 보여준다.
-    const parkIndustries = r.industries || [];
-    const indKeywords = (ind || '').split('·').map(s => s.trim()).filter(Boolean);
-    const overlap = parkIndustries.filter(pi => indKeywords.some(kw => pi.includes(kw) || kw.includes(pi)));
-    const peerHtml = parkIndustries.length ? `
-      <div style="background:${overlap.length ? 'var(--teal-light)' : 'var(--gray-bg)'};border-radius:8px;padding:10px 12px;font-size:12px;margin-bottom:12px">
-        <strong>${overlap.length ? '✅ 동일·유사 업종 입주 확인' : '📋 입주 업종 현황'}</strong>
-        <span style="color:var(--text-sub)">(등록공장 실데이터 기준)</span><br>
-        ${parkIndustries.map(pi => `<span class="tag" style="${overlap.includes(pi) ? 'font-weight:700' : ''}">${pi}</span>`).join(' ')}
-      </div>` : '';
-
-    return `
-  <div class="result-card ${i===0?'top-pick':''}">
-    <div class="result-row1">
-      <div>
-        <div class="result-rank">${i===0?'★ 최우선 추천':'#'+r.rank+' 추천'}</div>
-        <div class="result-name">${escapeHtml(parkName(r))}${devStatusBadge(r.dev_status)}${moveInBadge(r.move_in_status)}</div>
-        <div class="result-region">${[r.region, r.city].filter(Boolean).join(' ')}</div>
-        ${r.address ? `<div style="font-size:12px;color:var(--text-hint);margin-top:1px">${r.address}</div>` : ''}
+  const c = (window.lastMatch && window.lastMatch.cond) || {};
+  const chips = [c.ind, c.sz, c.ar, c.rg || '지역 무관', c.bud, c.log, c.ex].filter(Boolean)
+    .map(v => `<span class="chip">${escapeHtml(v)}</span>`).join('');
+  res.innerHTML = `
+    <div class="mx-cond"><b>추천 ${results.length}곳</b> · 조건 ${chips}
+      <button class="mini-btn" onclick="document.querySelector('.mx-form').scrollIntoView({behavior:'smooth'})">조건 바꾸기</button></div>
+    <div class="mx-results">
+      <div class="mx-list">${results.map((r, i) => matchCardHtml(r, i, ind)).join('')}</div>
+      <div class="mx-side">
+        <div id="match-map"></div>
+        <div class="mx-side-note">번호를 누르면 해당 카드로 이동합니다. 주황 = 최우선 추천.</div>
       </div>
-      <div class="score-pill">매칭 ${r.score}점</div>
-    </div>
-    <div class="tags">
-      ${(r.features||[]).slice(0,4).map(t=>`<span class="tag">${t}</span>`).join('')}
-      ${r.vacancy_rate != null ? `<span class="tag" title="등록된 입주기업 중 실제로 운영 중인 기업의 비율">운영률 ${(100 - r.vacancy_rate).toFixed(1)}%</span>` : ''}
-      ${r.sale_rate != null ? `<span class="tag" title="지정면적 대비 분양이 완료된 면적의 비율">분양률 ${r.sale_rate.toFixed(1)}%</span>` : ''}
-    </div>
-    ${(r.reason || r.description) ? `<div class="result-reason">${r.reason || r.description}</div>` : ''}
-    ${breakdownLine}
-    ${r.subsidy ? `<div class="subsidy-box">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:6px"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-      ${r.subsidy}
-    </div>` : ''}
-    ${r.infra_note ? `<div style="background:var(--amber-bg);color:var(--amber-text);border-radius:8px;padding:8px 12px;font-size:12px;margin-bottom:12px">🔍 입지 선정 시 확인사항: ${r.infra_note}</div>` : ''}
-    ${peerHtml}
-    <div style="font-size:12px;color:var(--text-sub);margin-bottom:12px">
-      가용면적: <strong>${(r.available_area||0).toLocaleString()}㎡</strong>
-    </div>
-    ${(r.contact || r.website) ? `<div style="font-size:12px;color:var(--text-sub);margin-bottom:12px">
-      ${r.contact ? `📞 담당자 문의: <a href="tel:${r.contact}">${r.contact}</a>` : ''}
-      ${r.contact && r.website ? ' &nbsp;|&nbsp; ' : ''}
-      ${r.website ? `🔗 <a href="${r.website}" target="_blank" rel="noopener noreferrer">공단 홈페이지</a>` : ''}
-    </div>` : ''}
-    <div id="match-parcel-${r.id}" style="display:none"></div>
-    <div id="park-docs-${r.id}" class="park-docs" style="display:none"></div>
-    <div class="result-actions">
-      <button class="btn-primary" onclick="goChat('${escapeHtml(parkName(r)).replace(/'/g, "\\'")}', '${escapeHtml(r.city || '').replace(/'/g, "\\'")}')">챗봇에서 상세 문의</button>
-    </div>
-  </div>`;
-  }).join('');
-
-  // 결과가 그려진 뒤, 단지별로 관련 공문이 있는지 각각 조용히 조회한다 (없는 게 정상인
-  // 단지가 대다수라 실패/빈 목록을 에러로 취급하지 않고 그냥 아무것도 안 보여준다).
+    </div>`;
   results.forEach(r => loadParkDocs(r.id));
   results.forEach(r => loadParkParcels(r.id, `match-parcel-${r.id}`));
+  renderMatchMap(results);
+  res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function matchCardHtml(r, i, ind) {
+  const p = r.parcel, sub = r.local_subsidy;
+  // 지표 4칸: 미분양(가용) 면적 · 분양률 · 분양공고(평당가·접수 상태) · 지원 조례
+  const avail = r.available_area > 0;
+  const parcelOpen = p && p.state === '접수 중';
+  const subItems = sub ? sub.ordinances.reduce((a, o) => a + o.items.length, 0) : 0;
+  const metrics = `
+    <div class="mx-metrics">
+      <div class="${avail ? 'good' : ''}"><span>미분양 용지(통계)</span><b>${avail ? shortArea(r.available_area) : '없음'}</b><em>${escapeHtml(r.dev_status && r.dev_status !== '완료' ? r.dev_status : '가용면적')}</em></div>
+      <div><span>분양률</span><b>${r.sale_rate != null ? r.sale_rate.toFixed(0) + '%' : '-'}</b><em>${r.vacancy_rate != null ? '운영률 ' + (100 - r.vacancy_rate).toFixed(0) + '%' : ''}</em></div>
+      <div class="${parcelOpen ? 'hot' : ''}"><span>분양공고</span><b>${p ? (p.price ? '평당 ' + shortPyeongPrice(p.price) : escapeHtml(p.par_type || '공고')) : '없음'}</b><em>${p ? escapeHtml(p.state ? p.state + (p.end_date && p.state !== '마감' ? ' ~' + p.end_date.slice(5).replace('-', '.') : '') : (p.notice_date || '')) : '산업입지정보센터'}</em></div>
+      <div class="${sub ? 'good' : ''}"><span>지원금 조례</span><b>${sub ? subItems + '개 조항' : '없음'}</b><em>${sub ? escapeHtml(sub.name) : '수집 자료 없음'}</em></div>
+    </div>`;
+  const bd = r.breakdown || {};
+  const bars = Object.keys(bd).length ? `<div class="mx-bars">${[['industry','업종',40],['region','지역',25],['budget','예산',15],['logistics','물류',10],['area','면적',5],['extra','요구',5]]
+    .map(([k, l, cap]) => `<div>${l} ${Math.round(bd[k] || 0)}/${cap}<i style="--w:${Math.min(100, (bd[k] || 0) / cap * 100)}%"></i></div>`).join('')}</div>` : '';
+
+  // 탭: 지원금 / 분양공고 / 입주 업종 / 문서·문의 / 확인사항
+  const subPane = sub ? `
+      <div class="sub-note"><b>${escapeHtml(sub.name)}</b> ${sub.scope === '시·도' ? '조례 (시·군·구 자체 지원 조항이 없어 시·도 조례 기준)' : '조례'} · ${escapeHtml(sub.source)}, ${escapeHtml(sub.collected_at)} 수집</div>
+      ${sub.ordinances.map(o => `<div class="sub-ord"><div class="t">${escapeHtml(o.title)}</div>
+        <div class="d">시행 ${escapeHtml(o.effective || '-')}${o.dept ? ` · ${escapeHtml(o.dept)} ${escapeHtml(o.phone || '')}` : ''}</div>
+        <div class="chips">${o.items.map(t => `<span>${escapeHtml(t)}</span>`).join('') || '<span>지원 조항 ' + o.count + '개</span>'}</div></div>`).join('')}
+      <div class="sub-note">※ 조례는 "예산의 범위에서 지원할 수 있다"는 근거 규정입니다. 실제 지원 여부·올해 예산은 담당 부서에 확인하세요.</div>
+      <button class="mini-btn" onclick="openSubsidyArticles('${jsq(r.region)}','${jsq(r.city)}')">📜 조항 원문 보기</button>
+      <button class="mini-btn" onclick="askPark(${r.id},'subsidy')">💬 이 단지 지원금 물어보기</button>`
+    : `<div class="mx-empty">이 지역 기업·투자유치 조례에서 금액이 적힌 지원 조항을 찾지 못했습니다.</div>${r.subsidy ? `<div class="subsidy-box">${escapeHtml(r.subsidy)}</div>` : ''}`;
+  const parcelPane = `
+      <div id="match-parcel-${r.id}" style="display:none"></div>
+      <div id="match-parcel-${r.id}-empty" class="mx-empty">${p ? '분양공고 불러오는 중…' : '산업입지정보센터에 등록된 이 단지의 분양공고가 없습니다.'}</div>
+      ${p ? `<button class="mini-btn" onclick="askPark(${r.id},'parcel')">💬 분양 조건 물어보기</button>` : ''}`;
+  const parkIndustries = r.industries || [];
+  const indKeywords = (ind || '').split('·').map(x => x.trim()).filter(Boolean);
+  const overlap = parkIndustries.filter(pi => indKeywords.some(kw => pi.includes(kw) || kw.includes(pi)));
+  const indPane = parkIndustries.length ? `
+      <div style="margin-bottom:6px">${overlap.length ? '✅ <b>같은·비슷한 업종이 이미 입주</b>해 있습니다' : '등록공장 기준 주요 업종'} <span style="color:var(--text-sub);font-size:11.5px">(등록공장 실데이터)</span></div>
+      ${parkIndustries.map(pi => `<span class="tag" style="${overlap.includes(pi) ? 'font-weight:700;border-color:var(--teal-mid)' : ''}">${escapeHtml(pi)}</span>`).join(' ')}
+      <div style="margin-top:6px"><button class="mini-btn" onclick="askPark(${r.id},'industry')">💬 입주 가능·제한 업종 물어보기</button></div>`
+    : '<div class="mx-empty">등록공장 업종 자료가 없습니다.</div>';
+  const docsPane = `
+      <div id="park-docs-${r.id}" class="park-docs" style="display:none"></div>
+      <div id="park-docs-${r.id}-empty" class="mx-empty">관리기관 공식 문서를 확인하는 중…</div>
+      ${(r.contact || r.website) ? `<div style="font-size:12.5px;color:var(--text-sub)">
+        ${r.contact ? `📞 <a href="tel:${escapeHtml(r.contact)}">${escapeHtml(r.contact)}</a>` : ''}
+        ${r.website ? ` · 🔗 <a href="${escapeHtml(r.website)}" target="_blank" rel="noopener noreferrer">공단 홈페이지</a>` : ''}</div>` : ''}`;
+  const checkPane = r.infra_note ? `<div>🔍 ${escapeHtml(r.infra_note)}</div>` : '<div class="mx-empty">추가 확인사항이 없습니다.</div>';
+
+  return `
+  <div class="mx-card ${i === 0 ? 'first' : ''}" id="mx-card-${r.id}">
+    <div class="mx-head">
+      <div class="mx-rank" onclick="focusMatchPin(${r.id})" title="지도에서 위치 보기">${i + 1}</div>
+      <div class="mx-title">
+        <div class="mx-name">${escapeHtml(parkName(r))}</div>
+        <div class="mx-sub"><span>${escapeHtml([r.region, r.city].filter(Boolean).join(' '))}</span>${devStatusBadge(r.dev_status)}${moveInBadge(r.move_in_status)}</div>
+      </div>
+      <div class="mx-score" style="--p:${Math.max(0, Math.min(100, r.score))}" title="매칭 점수"><b>${Math.round(r.score)}</b><small>점</small></div>
+    </div>
+    ${metrics}
+    ${(r.reason || r.description) ? `<div class="mx-reason">🤖 ${escapeHtml(r.reason || r.description)}</div>` : ''}
+    ${bars}
+    <div class="mx-tabs">
+      <button class="on" onclick="mxTab(this,'sub')">💰 지원금</button>
+      <button onclick="mxTab(this,'parcel')">📢 분양공고${p ? `<span class="cnt">${p.count}</span>` : ''}</button>
+      <button onclick="mxTab(this,'ind')">🏭 입주 업종</button>
+      <button onclick="mxTab(this,'docs')">📄 문서·문의</button>
+      <button onclick="mxTab(this,'check')">🔍 확인사항</button>
+    </div>
+    <div class="mx-pane on" data-p="sub">${subPane}</div>
+    <div class="mx-pane" data-p="parcel">${parcelPane}</div>
+    <div class="mx-pane" data-p="ind">${indPane}</div>
+    <div class="mx-pane" data-p="docs">${docsPane}</div>
+    <div class="mx-pane" data-p="check">${checkPane}</div>
+    <div class="mx-actions">
+      <button class="main" onclick="askPark(${r.id})">💬 이 단지 AI 상담</button>
+      <button onclick="showParkOnMap(${r.id})">🗺️ 지도에서 보기</button>
+    </div>
+  </div>`;
+}
+
+// 작은따옴표로 감싼 onclick 인자에 넣을 문자열
+function jsq(v) { return escapeHtml(String(v || '')).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
+
+function mxTab(btn, key) {
+  const card = btn.closest('.mx-card');
+  card.querySelectorAll('.mx-tabs button').forEach(b => b.classList.toggle('on', b === btn));
+  card.querySelectorAll('.mx-pane').forEach(pn => pn.classList.toggle('on', pn.dataset.p === key));
+}
+
+// 결과 옆 작은 지도: 추천 순위 번호 핀. 핀을 누르면 해당 카드로 이동한다.
+let matchMap = null, matchPins = {};
+function renderMatchMap(results) {
+  const el = document.getElementById('match-map');
+  if (!el) return;
+  const pts = results.filter(r => r.lat && r.lng);
+  if (!pts.length || !window.kakao || !kakao.maps) { el.parentElement.style.display = 'none'; return; }
+  kakao.maps.load(() => {
+    matchMap = new kakao.maps.Map(el, { center: new kakao.maps.LatLng(pts[0].lat, pts[0].lng), level: 9 });
+    matchPins = {};
+    const bounds = new kakao.maps.LatLngBounds();
+    pts.forEach(r => {
+      const pos = new kakao.maps.LatLng(r.lat, r.lng);
+      bounds.extend(pos);
+      const pin = document.createElement('div');
+      const rank = results.indexOf(r) + 1;
+      pin.className = 'mx-pin' + (rank === 1 ? ' first' : '');
+      pin.textContent = rank;
+      pin.title = parkName(r);
+      pin.addEventListener('click', () => {
+        const card = document.getElementById(`mx-card-${r.id}`);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          card.classList.add('flash');
+          setTimeout(() => card.classList.remove('flash'), 1500);
+        }
+      });
+      new kakao.maps.CustomOverlay({ map: matchMap, position: pos, content: pin, clickable: true, zIndex: 10 - rank });
+      matchPins[r.id] = pos;
+    });
+    if (pts.length > 1) matchMap.setBounds(bounds, 40, 40, 40, 40);
+  });
+}
+function focusMatchPin(id) {
+  if (!matchMap || !matchPins[id]) return;
+  matchMap.setLevel(6);
+  matchMap.panTo(matchPins[id]);
+  if (window.innerWidth <= 900) document.getElementById('match-map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// 조례 지원 조항 원문 — 분양공고와 같은 모달을 쓴다(원문 그대로, 요약하지 않음)
+async function openSubsidyArticles(region, city) {
+  const modal = document.getElementById('parcel-modal');
+  const body = document.getElementById('parcel-body');
+  document.getElementById('parcel-title').textContent = '불러오는 중...';
+  document.getElementById('parcel-badges').innerHTML = '';
+  body.innerHTML = '';
+  modal.classList.add('open');
+  try {
+    const resp = await fetch(`${API_BASE}/api/local-subsidy?region=${encodeURIComponent(region)}&city=${encodeURIComponent(city || '')}`);
+    if (!resp.ok) throw new Error(resp.status);
+    const d = await resp.json();
+    document.getElementById('parcel-title').textContent = `${d.name} 기업·투자유치 지원 조례`;
+    document.getElementById('parcel-badges').innerHTML = `<span class="parcel-type">${escapeHtml(d.scope)} 조례</span><span class="parcel-type">원문</span>`;
+    body.innerHTML = `<div class="ord-meta">출처: ${escapeHtml(d.source)} · ${escapeHtml(d.collected_at)} 수집 · 금액·비율이 적힌 조항만 원문 그대로 옮겼습니다.</div>`
+      + d.ordinances.map(o => `<div class="ord-head">${escapeHtml(o.title)}</div>
+        <div class="ord-meta">시행 ${escapeHtml(o.effective || '-')} ${escapeHtml(o.amended || '')}${o.dept ? ` · 담당 ${escapeHtml(o.dept)} ${escapeHtml(o.phone || '')}` : ''}</div>
+        ${o.articles.map(a => {
+          const m = a.match(/^(제\d+조(?:의\d+)?\([^)]*\))\s*/);
+          return `<div class="ord-art">${m ? `<b>${escapeHtml(m[1])}</b>` : ''}${escapeHtml(m ? a.slice(m[0].length) : a)}</div>`;
+        }).join('')}`).join('')
+      + `<div class="ord-meta" style="margin-top:10px">※ 조례는 "예산의 범위에서 지원할 수 있다"는 근거 규정입니다. 실제 지원 여부·올해 예산은 담당 부서에 확인하세요.</div>`;
+  } catch (e) {
+    document.getElementById('parcel-title').textContent = '조례를 불러오지 못했습니다';
+    body.innerHTML = '<div class="mx-empty">수집된 지원 조례가 없거나 잠시 연결에 실패했습니다.</div>';
+  }
+}
+
+// 매칭 카드 → AI 상담: 이 단지를 상담 단지로 정하고 주제별 첫 질문을 보낸다
+const ASK_TOPICS = {
+  subsidy: '이 단지가 있는 지역의 기업·투자유치 지원금(입지·고용·설비 보조금 등) 조건을 조례 기준으로 알려줘',
+  parcel: '이 단지의 분양공고 내용(분양가, 신청 기간, 신청 자격)을 알려줘',
+  industry: '이 단지에 입주 가능한 업종과 입주 제한 업종을 알려줘',
+};
+function askPark(id, topic) {
+  const r = ((window.lastMatch && window.lastMatch.results) || []).find(x => x.id === id)
+    || (window.allParks || []).find(x => x.id === id);
+  if (!r) return;
+  setChatPark(r);
+  showPage('chat');
+  document.getElementById('chat-input').value = ASK_TOPICS[topic] || '이 단지의 지원금, 분양공고, 입주 조건을 요약해줘';
+  sendChat();
 }
 
 // ── 분양공고 (산업입지정보센터) — 공고일이 최근 7일 안이면 "신규" 표시 ──
@@ -1578,6 +1840,8 @@ async function loadParkParcels(parkId, elId) {
     const data = await resp.json();
     const list = data.notices || [];
     if (!list.length) return; // 분양공고가 없는 단지가 대부분 — 아무것도 안 보여준다
+    const empty = document.getElementById(`${elId}-empty`);
+    if (empty) empty.style.display = 'none';
     const hasNew = list.some(n => n.is_new);
     el.style.display = 'block';
     el.innerHTML = `<div class="parcel-box">
@@ -1739,7 +2003,9 @@ async function loadParkDocs(parkId) {
       html += `<div style="font-size:12px;color:var(--text-sub);margin-bottom:6px">📄 관리기관 공식 공문</div>`
         + docs.map(d => `<a href="${API_BASE}${d.url}" target="_blank" rel="noopener noreferrer" class="tag" style="text-decoration:none;margin:2px 4px 8px 0;display:inline-block">${d.kind === 'image' ? '🖼️' : '📎'} ${escapeHtml(d.filename)}</a>`).join('');
     }
-    if (!html) return;
+    const empty = document.getElementById(`park-docs-${parkId}-empty`);
+    if (!html) { if (empty) empty.textContent = '이 단지의 관리기관 공식 문서는 아직 수집되지 않았습니다.'; return; }
+    if (empty) empty.style.display = 'none';
     el.style.display = 'block';
     el.innerHTML = html;
   } catch (e) {
@@ -1901,20 +2167,21 @@ function handleWsMessage(data) {
   } else if (data.type === 'chunk') {
     currentBotText += data.content;
     if (currentBotEl) {
-      currentBotEl.querySelector('.bubble').innerHTML = mdToHtml(currentBotText);
+      currentBotEl.querySelector('.bubble').innerHTML = botHtml(currentBotText);
       const wrap = document.getElementById('chat-messages');
       wrap.scrollTop = wrap.scrollHeight;
     }
   } else if (data.type === 'end') {
     chatHistory.push({ role: 'assistant', content: currentBotText });
+    if (currentBotEl) finishBotMsg(currentBotEl, currentBotText);
     document.getElementById('send-btn').disabled = false;
     isStreaming = false;
     currentBotEl = null;
   } else if (data.type === 'error') {
     if (currentBotEl) {
-      currentBotEl.querySelector('.bubble').textContent = data.content;
+      currentBotEl.querySelector('.bubble').innerHTML = botHtml(data.content);
     } else {
-      appendMsg('bot', data.content);
+      appendMsg('bot', botHtml(data.content));
     }
     document.getElementById('send-btn').disabled = false;
     isStreaming = false;
@@ -1938,7 +2205,8 @@ async function sendChat() {
     return;
   }
 
-  ws.send(JSON.stringify({ messages: chatHistory }));
+  document.getElementById('chat-suggest').innerHTML = '';
+  ws.send(JSON.stringify({ messages: chatHistory, park_id: chatPark ? chatPark.id : null }));
 }
 
 async function sendChatHttp(msg) {
@@ -1950,12 +2218,13 @@ async function sendChatHttp(msg) {
     const resp = await fetch(`${API_BASE}/api/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: chatHistory }),
+      body: JSON.stringify({ messages: chatHistory, park_id: chatPark ? chatPark.id : null }),
     });
     const data = await resp.json();
     const reply = data.reply || '응답을 받지 못했습니다.';
     chatHistory.push({ role: 'assistant', content: reply });
-    typingEl.querySelector('.bubble').innerHTML = mdToHtml(reply);
+    typingEl.querySelector('.bubble').innerHTML = botHtml(reply);
+    finishBotMsg(typingEl, reply);
   } catch(e) {
     typingEl.querySelector('.bubble').textContent = '백엔드 서버에 연결할 수 없습니다. 서버를 실행해주세요.';
   }
@@ -1981,10 +2250,73 @@ function quickAsk(q) {
 }
 
 function goChat(name, city) {
+  // 지도 상세 등 예전 버튼 — 이름으로 단지를 찾아 상담 단지로 정한다
+  const p = (window.allParks || []).find(x => parkName(x) === name && (!city || x.city === city));
+  if (p) { askPark(p.id); return; }
   showPage('chat');
-  // 같은 이름의 단지가 다른 시군에도 있어(예: 남면 — 양주·춘천) 시군을 같이 보내 챗봇이 정확히 찾게 한다
-  document.getElementById('chat-input').value = (city ? city + ' ' : '') + name + '의 입주 절차와 지원금 조건을 자세히 알려주세요.';
+  document.getElementById('chat-input').value = (city ? city + ' ' : '') + name + '의 지원금, 분양공고, 입주 조건을 요약해줘';
   sendChat();
+}
+
+// 상담 단지: 매칭 카드·지도·답변 속 단지 버튼에서 고른 단지. 질문에 단지 이름이 없어도 이 단지 기준으로 답한다.
+let chatPark = null;
+function setChatPark(p) {
+  chatPark = p ? { id: p.id, name: parkName(p), region: p.region, city: p.city } : null;
+  const bar = document.getElementById('chat-context');
+  if (!chatPark) { bar.classList.remove('on'); bar.innerHTML = ''; renderSuggest(); return; }
+  bar.classList.add('on');
+  bar.innerHTML = `<span>📍</span><span class="sp">상담 중인 단지 <b>${escapeHtml(chatPark.name)}</b> · ${escapeHtml([chatPark.region, chatPark.city].filter(Boolean).join(' '))}</span>
+    <button onclick="showParkOnMap(${chatPark.id})">지도</button><button onclick="setChatPark(null)">해제 ✕</button>`;
+  renderSuggest();
+}
+
+// 답변 아래 후속 질문 버튼
+function renderSuggest() {
+  const el = document.getElementById('chat-suggest');
+  if (!el) return;
+  const qs = chatPark
+    ? [['💰 지원금 조례', '이 단지 지역의 기업·투자유치 지원금을 조례 기준으로 알려줘'],
+       ['📢 분양공고·분양가', '이 단지의 분양공고와 분양가를 알려줘'],
+       ['🏭 입주 업종', '이 단지에 입주 가능한 업종과 제한 업종을 알려줘'],
+       ['☎ 관리기관 연락처', '이 단지 관리기관과 문의처를 알려줘']]
+    : [['📢 접수 중 분양공고', '지금 접수 중인 분양공고 알려줘'],
+       ['🏭 단지 추천', '경기도에서 전자부품 공장 2,000㎡ 들어갈 곳 추천해줘'],
+       ['📋 입주 절차', '산업단지 입주계약부터 공장등록까지 절차를 알려줘']];
+  el.innerHTML = qs.map(([l, q]) => `<button onclick="quickAsk('${jsq(q)}')">${l}</button>`).join('');
+}
+
+// 답변 렌더링: 마크다운 + "(출처: …)"를 작은 회색 표시로
+function botHtml(text) {
+  return mdToHtml(text).replace(/\(출처:\s*((?:[^()<]|\([^()<]*\))*)\)/g, '<span class="src">출처: $1</span>');
+}
+
+// 답변이 끝나면: 답변에 나온 단지 이름을 버튼으로(지도·상담), 후속 질문 표시
+function finishBotMsg(el, text) {
+  const parks = (window.allParks || []).filter(p => {
+    const n = parkName(p);
+    return n && n.length >= 5 && text.includes(n);
+  }).slice(0, 5);
+  if (parks.length) {
+    const box = document.createElement('div');
+    box.className = 'msg-parks';
+    box.innerHTML = parks.map(p => `<button onclick="showParkOnMap(${p.id})">🗺️ ${escapeHtml(parkName(p))}</button>`
+      + `<button onclick="setChatPark((window.allParks||[]).find(x=>x.id===${p.id}))" title="이 단지로 상담 이어가기">💬</button>`).join('');
+    el.appendChild(box);
+  }
+  renderSuggest();
+  const wrap = document.getElementById('chat-messages');
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+// 사이드바: 최근 AI 매칭 결과 → 눌러서 그 단지로 상담
+function renderChatMatchList() {
+  const card = document.getElementById('chat-match-card');
+  const list = document.getElementById('chat-match-list');
+  const rs = (window.lastMatch && window.lastMatch.results) || [];
+  if (!card || !rs.length) return;
+  card.style.display = 'block';
+  list.innerHTML = rs.map((r, i) => `<div class="side-park" onclick="setChatPark(window.lastMatch.results[${i}])">
+    <b>${i + 1}. ${escapeHtml(parkName(r))}</b><small>${escapeHtml([r.region, r.city].filter(Boolean).join(' '))}${r.parcel && r.parcel.state === '접수 중' ? ' · 📢 분양 접수 중' : ''}</small></div>`).join('');
 }
 
 // ── 입주 문의 모달 (소비자 → 관공서 대시보드로 접수) ──
@@ -2606,7 +2938,21 @@ document.querySelector('.layout')?.addEventListener('scroll', updateScrollTopBtn
 window.addEventListener('load', () => {
   checkApiStatus();
   connectWebSocket();
+  ensureAllParks();
 });
+
+// 챗봇의 단지 버튼·상담 단지 지정은 단지 목록이 필요하다 — 지도·대시보드를 안 들러도 처음에 한 번 받아 둔다
+async function ensureAllParks() {
+  if (window.allParks) return;
+  try {
+    const resp = await fetch(`${API_BASE}/api/dashboard/parks`, { headers: dashAuthHeaders() });
+    if (resp.ok && !window.allParks) {
+      const data = await resp.json();
+      window.allParks = data.parks;
+      populateParksFilterOptions(data.parks);
+    }
+  } catch (e) { /* 지도 탭에서 다시 시도한다 */ }
+}
 </script>
 </body>
 </html>

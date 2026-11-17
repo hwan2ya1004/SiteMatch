@@ -29,6 +29,7 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     messages: List[ChatMessage]
     session_id: Optional[str] = "default"
+    park_id: Optional[int] = None  # 화면에서 고른 상담 단지(매칭 카드·지도에서 "AI 상담")
 
 
 # Groq 무료 티어는 하루 토큰 한도(TPD)가 있어 다 쓰면 429가 난다 — 원문 에러(조직 ID·결제 안내 포함)를
@@ -65,11 +66,11 @@ async def chat_endpoint(req: ChatRequest, request: Request, db: Session = Depend
     messages = [{"role": m.role, "content": m.content} for m in req.messages]
 
     try:
-        if svc.cached_reply(messages) is None:
+        if svc.cached_reply(messages, req.park_id) is None:
             client = f"{request.client.host if request.client else ''}:{req.session_id}"
             await _wait_turn(_http_last_call.get(client, 0.0))
             _http_last_call[client] = time.monotonic()
-        reply = await asyncio.to_thread(svc.chat, messages)
+        reply = await asyncio.to_thread(svc.chat, messages, req.park_id)
     except Exception as e:
         if _is_rate_limited(e):
             return {"reply": RATE_LIMIT_MSG}
@@ -109,6 +110,7 @@ async def websocket_chat(websocket: WebSocket):
             raw = await websocket.receive_text()
             data = json.loads(raw)
             messages = data.get("messages", [])
+            park_id = data.get("park_id") if isinstance(data.get("park_id"), int) else None
 
             if not messages:
                 await websocket.send_text(json.dumps({"type": "error", "content": "메시지가 없습니다."}))
@@ -127,10 +129,10 @@ async def websocket_chat(websocket: WebSocket):
             # 스트리밍 응답
             full_reply = ""
             try:
-                if svc.cached_reply(messages) is None:
+                if svc.cached_reply(messages, park_id) is None:
                     await _wait_turn(last_call)
                     last_call = time.monotonic()
-                async for chunk in svc.chat_stream(messages):
+                async for chunk in svc.chat_stream(messages, park_id):
                     full_reply += chunk
                     await websocket.send_text(json.dumps({
                         "type": "chunk",

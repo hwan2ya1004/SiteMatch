@@ -40,14 +40,9 @@ _ORG_CONTACT_NOTES = {"same_org_notice": "같은 관리기관의 다른 단지 �
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS_PATH = os.path.join(BASE_DIR, "data", "subsidy_docs.txt")
 
-# 시·군·구 기업·투자유치 조례의 지원 조항 원문(scripts/fetch_local_subsidy.py, 자치법규정보시스템)
-try:
-    with open(os.path.join(BASE_DIR, "data", "local_subsidy.json"), encoding="utf-8") as _f:
-        _LOCAL = json.load(_f)
-    _LOCAL_SUBSIDY = _LOCAL.get("local", {})
-    _LOCAL_DATE = _LOCAL.get("collected_at", "")
-except (OSError, ValueError):
-    _LOCAL_SUBSIDY, _LOCAL_DATE = {}, ""
+# 시·군·구·시·도 기업·투자유치 조례의 지원 조항 원문 — 매칭 카드와 같이 쓰는 services/local_subsidy.py
+from services.local_subsidy import COLLECTED_AT as _LOCAL_DATE, LOCAL as _LOCAL_SUBSIDY, SIDO_FULL as _METRO_FULL  # noqa: E402
+from services.local_subsidy import key_for as _local_key_for  # noqa: E402
 
 # llama-3.3-70b-versatile는 Groq에서 서비스 종료되어 대체 모델로 전환 (2026-08 확인)
 CHAT_MODEL = "openai/gpt-oss-120b"
@@ -55,6 +50,13 @@ CHAT_MODEL = "openai/gpt-oss-120b"
 SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMatch AI'입니다.
 산업단지 입주와 관련된 지원금, 인허가 절차, 세금 혜택, 입지 추천 등에 대해 
 친절하고 구체적으로 답변하세요.
+
+[답변 형식 — 읽기 쉽게]
+- 첫 문단에 질문에 대한 핵심 답을 1~2문장으로 먼저 쓰세요(예: "김해시는 고용보조금으로 1명당 월 100만원까지 지원할 수 있습니다.").
+- 이어서 근거를 "-" 항목으로 정리하세요. 항목은 7개 이내로, 금액·비율·기간·한도는 **굵게** 쓰세요.
+- 자료에 없는 항목을 하나하나 "확인되지 않음"으로 나열하지 마세요. 없는 내용은 끝에 한 줄로만 "OO은 수집된 자료에 없습니다"라고 쓰세요.
+- 표는 3개 이상을 나란히 비교할 때만 쓰세요. 머리말("다음과 같습니다" 등)과 맺음말 인사는 쓰지 마세요.
+- 사이트에 없는 서비스(원스톱 안내, 확인대행, 민원대행 등)를 안내하지 마세요. 확인이 필요하면 자료에 적힌 담당 기관·부서를 안내하세요.
 
 다음 규칙을 따르세요:
 0. [가장 중요, 다른 모든 규칙에 우선함] "입주 제한 업종"·"입주 대상 업종"을 묻는 질문에
@@ -253,16 +255,6 @@ _LOCAL_TOPICS = ["고용", "교육훈련", "입지", "부지", "설비", "시설
 _CITY_SUFFIX = re.compile(r"(특별자치시|특별자치도|광역시|시|군|구)$")
 
 
-def _local_key_for(region: str, city: str) -> Optional[str]:
-    city = (city or "").split(" ")[0]
-    key = f"{region}|{city}"
-    if key in _LOCAL_SUBSIDY:
-        return key
-    if region in ("세종", "제주"):  # 시·군 조례가 따로 없는 곳은 수집 때 본청 기준으로 들어가 있다
-        return next((k for k in _LOCAL_SUBSIDY if k.startswith(region + "|")), None)
-    return None
-
-
 def _detect_local_key(text: str, city_regions: Optional[Dict[str, set]] = None) -> Optional[str]:
     """질문에 적힌 시·군·구 이름("김해시", "김해")으로 조례 데이터를 찾는다. 북구·고성군처럼 여러 시·도에
     같은 이름이 있으면 질문에 시·도 이름도 있을 때만 고른다."""
@@ -271,11 +263,14 @@ def _detect_local_key(text: str, city_regions: Optional[Dict[str, set]] = None) 
     hits = []
     for key, rec in _LOCAL_SUBSIDY.items():
         city = rec["city"]
+        if city == "본청":
+            continue
         core = _CITY_SUFFIX.sub("", city)
         if city in t or (len(core) >= 2 and core in t):
             hits.append((len(city) if city in t else len(core), key, rec["region"]))
     if not hits:
-        return None
+        # "경기도 지원금"·"부산 투자 보조금"처럼 시·도만 말하면 시·도 본청 조례
+        return f"{region}|본청" if region and f"{region}|본청" in _LOCAL_SUBSIDY else None
     if region:
         same = [h for h in hits if h[2] == region]
         if same:
@@ -298,10 +293,18 @@ def _local_subsidy_block(key: str, query: str, max_chars: int) -> str:
         for a in o["articles"]:
             head = a.split("\n", 1)[0]
             score = sum(1 for w in want if w in head) * 2 + sum(1 for w in want if w in a)
+            # 보조금·지원 조항을 앞에, 위원회·협의회·기금 설치 같은 운영 조항은 뒤로
+            if re.search(r"보조|지원|감면|융자|차액|특별|우대", head):
+                score += 2
+            if re.search(r"위원회|협의회|설치|구성|지원\s*제한|취소|반환|환수", head):
+                score -= 3
             items.append((-score, order, o, a))
             order += 1
     items.sort(key=lambda x: (x[0], x[1]))
-    name = rec["city"] if rec["city"] not in ("세종", "") else rec["region"]
+    if rec["city"] == "본청":
+        name = _METRO_FULL.get(rec["region"], rec["region"]) + "(시·도 단위 — 시·군·구 자체 조례가 아님)"
+    else:
+        name = rec["city"] if rec["city"] not in ("세종", "") else rec["region"]
     lines = [f"[{name} 기업·투자유치 지원 조례 원문 발췌 — 자치법규정보시스템, {_LOCAL_DATE} 수집]"]
     depts = sorted({f"{o['dept']} {o['phone']}".strip() for o in rec["ordinances"] if o.get("dept")})
     if depts:
@@ -448,11 +451,12 @@ _CACHE_TTL_SEC = 6 * 3600
 _CACHE_MAX = 500
 
 
-def _cache_key(messages: List[dict]) -> Optional[str]:
+def _cache_key(messages: List[dict], park_id: Optional[int] = None) -> Optional[str]:
     if len(messages) != 1 or messages[0].get("role") != "user":
         return None
     key = re.sub(r"\s+", " ", messages[0].get("content", "")).strip().lower()
-    return key or None
+    # 화면에서 고른 단지(park_id)가 있으면 "지원금 알려줘" 같은 같은 질문이라도 단지마다 답이 다르다
+    return (f"{key}#park{park_id}" if park_id else key) or None
 
 
 class RAGService:
@@ -480,15 +484,15 @@ class RAGService:
         self._docs_text = _load_docs()
         print(f"✅ RAG 챗봇 초기화 완료 (문서 {len(self._docs_text)}자 로드, 단지 {len(self.parks)}개 조회 가능)")
 
-    def cached_reply(self, messages: List[dict]) -> Optional[str]:
-        key = _cache_key(messages)
+    def cached_reply(self, messages: List[dict], park_id: Optional[int] = None) -> Optional[str]:
+        key = _cache_key(messages, park_id)
         hit = self._answer_cache.get(key) if key else None
         if hit and time.time() - hit[0] < _CACHE_TTL_SEC:
             return hit[1]
         return None
 
-    def _store_reply(self, messages: List[dict], reply: str) -> None:
-        key = _cache_key(messages)
+    def _store_reply(self, messages: List[dict], reply: str, park_id: Optional[int] = None) -> None:
+        key = _cache_key(messages, park_id)
         if not key or not reply.strip():
             return
         if len(self._answer_cache) >= _CACHE_MAX:
@@ -633,14 +637,24 @@ class RAGService:
                 lines.append(_parcel_doc_text(latest["doc"], PARCEL_DOC_CHARS))
         return "\n".join(lines)
 
-    def _parcel_list(self, messages: List[dict]) -> Optional[str]:
+    def _park_by_id(self, park_id: Optional[int]) -> Optional[Dict]:
+        if not park_id:
+            return None
+        return next((p for p in self.parks if p.get("id") == park_id), None)
+
+    def _context_park(self, messages: List[dict], park_id: Optional[int] = None) -> Optional[Dict]:
+        """이번 질문에 단지 이름이 있으면 그 단지, 없으면 화면에서 고른 상담 단지(park_id), 그것도 없으면 앞선 대화의 단지."""
+        last = next((m.get("content", "") for m in reversed(messages) if m.get("role") == "user"), "")
+        return self._find_mentioned_park(last) or self._park_by_id(park_id) or self._find_park_in_conversation(messages)
+
+    def _parcel_list(self, messages: List[dict], park_id: Optional[int] = None) -> Optional[str]:
         """단지 이름 없이 분양공고 목록을 물으면 DB에서 찾아 코드로 답한다(지어낼 여지 없음).
         앞선 대화에 단지가 있고 이번 질문에 지역도 없으면("거기 분양공고 있어?") None — 단지 상담으로 넘긴다."""
         last = next((m.get("content", "") for m in reversed(messages) if m.get("role") == "user"), "")
         if not last or not _PARCEL_LIST_RE.search(last) or self._find_mentioned_park(last):
             return None
         region = _detect_region(last)
-        if not region and self._find_park_in_conversation(messages):
+        if not region and (park_id or self._find_park_in_conversation(messages)):
             return None
         open_only = bool(_OPEN_RE.search(last))
         by_id = {p.get("id"): p for p in self.parks}
@@ -818,12 +832,12 @@ class RAGService:
                       "특정 단지의 상세 정보는 단지 이름으로 물어보세요."]
         return "\n".join(lines)
 
-    def chat(self, messages: List[dict]) -> str:
+    def chat(self, messages: List[dict], park_id: Optional[int] = None) -> str:
         """동기 챗봇 응답"""
         if not messages:
             return "질문을 입력해주세요."
 
-        rec = self._parcel_list(messages) or self._recommend(messages)
+        rec = self._parcel_list(messages, park_id) or self._recommend(messages)
         if rec is not None:
             return rec
 
@@ -833,7 +847,7 @@ class RAGService:
                 last_user_msg = msg.get("content", "")
                 break
 
-        context = self._get_context(last_user_msg, self._find_park_in_conversation(messages))
+        context = self._get_context(last_user_msg, self._context_park(messages, park_id))
 
         # 대화 히스토리 구성
         history_text = ""
@@ -849,25 +863,25 @@ class RAGService:
 사용자: {last_user_msg}
 AI:"""
 
-        cached = self.cached_reply(messages)
+        cached = self.cached_reply(messages, park_id)
         if cached is not None:
             return cached
         response = self.llm.invoke(prompt)
-        self._store_reply(messages, response.content)
+        self._store_reply(messages, response.content, park_id)
         return response.content
 
-    async def chat_stream(self, messages: List[dict]) -> AsyncGenerator[str, None]:
+    async def chat_stream(self, messages: List[dict], park_id: Optional[int] = None) -> AsyncGenerator[str, None]:
         """스트리밍 챗봇 응답 (Groq 스트리밍)"""
         if not messages:
             yield "질문을 입력해주세요."
             return
 
-        rec = await asyncio.to_thread(lambda: self._parcel_list(messages) or self._recommend(messages))
+        rec = await asyncio.to_thread(lambda: self._parcel_list(messages, park_id) or self._recommend(messages))
         if rec is not None:
             yield rec
             return
 
-        cached = self.cached_reply(messages)
+        cached = self.cached_reply(messages, park_id)
         if cached is not None:
             yield cached
             return
@@ -878,7 +892,7 @@ AI:"""
                 last_user_msg = msg.get("content", "")
                 break
 
-        context = self._get_context(last_user_msg, self._find_park_in_conversation(messages))
+        context = self._get_context(last_user_msg, self._context_park(messages, park_id))
 
         history_text = ""
         for msg in messages[:-1]:
@@ -906,7 +920,7 @@ AI:"""
             if delta:
                 parts.append(delta)
                 yield delta
-        self._store_reply(messages, "".join(parts))
+        self._store_reply(messages, "".join(parts), park_id)
 
 
 # 싱글톤 인스턴스
