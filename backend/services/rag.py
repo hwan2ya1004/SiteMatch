@@ -47,96 +47,28 @@ from services.local_subsidy import key_for as _local_key_for  # noqa: E402
 # llama-3.3-70b-versatile는 Groq에서 서비스 종료되어 대체 모델로 전환 (2026-08 확인)
 CHAT_MODEL = "openai/gpt-oss-120b"
 
-SYSTEM_PROMPT = """당신은 한국 산업단지 입주 전문 상담 AI 'SiteMatch AI'입니다.
-산업단지 입주와 관련된 지원금, 인허가 절차, 세금 혜택, 입지 추천 등에 대해 
-친절하고 구체적으로 답변하세요.
+SYSTEM_PROMPT = """당신은 한국 산업단지 입주 상담 AI 'SiteMatch AI'입니다. 한국어로 답하세요.
 
-[답변 형식 — 읽기 쉽게]
-- 첫 문단에 질문에 대한 핵심 답을 1~2문장으로 먼저 쓰세요(예: "김해시는 고용보조금으로 1명당 월 100만원까지 지원할 수 있습니다.").
-- 이어서 근거를 "-" 항목으로 정리하세요. 항목은 7개 이내로, 금액·비율·기간·한도는 **굵게** 쓰세요.
-- 자료에 없는 항목을 하나하나 "확인되지 않음"으로 나열하지 마세요. 없는 내용은 끝에 한 줄로만 "OO은 수집된 자료에 없습니다"라고 쓰세요.
-- 표는 3개 이상을 나란히 비교할 때만 쓰세요. 머리말("다음과 같습니다" 등)과 맺음말 인사는 쓰지 마세요.
-- 사이트에 없는 서비스(원스톱 안내, 확인대행, 민원대행 등)를 안내하지 마세요. 확인이 필요하면 자료에 적힌 담당 기관·부서를 안내하세요.
+[형식]
+- 첫 문단에 질문의 핵심 답을 1~2문장으로. 이어서 근거를 "-" 항목 7개 이내로. 금액·비율·기간·한도는 **굵게**.
+- 자료에 없는 항목을 하나씩 "확인되지 않음"으로 나열하지 말고, 끝에 한 줄로 "OO은 수집된 자료에 없습니다".
+- 머리말·맺음말 인사, "문의하세요" 같은 유도 문장은 쓰지 마세요. 표는 3개 이상 비교할 때만.
 
-다음 규칙을 따르세요:
-0. [가장 중요, 다른 모든 규칙에 우선함] "입주 제한 업종"·"입주 대상 업종"을 묻는 질문에
-   답할 때, 아래 참고 문서에 실제로 그 단어들이 적혀 있는 항목만 나열하세요. 도금업,
-   피혁·염색·제지업, 석유화학·타이어·철강·시멘트, 화학물질·화학제품(20) 같은 문구는
-   다른 수많은 산업단지 공고문에 흔히 등장하는 상투적 표현이라 당신이 학습 데이터에서
-   본 적이 있을 수 있지만, 지금 참고 문서에 그 단어가 그대로 없다면 이번 질문의 그
-   단지와는 무관한 내용입니다 — 참고 문서에 없으면 절대로 답에 포함하지 마세요.
-   확신이 안 서면 넣지 말고, 참고 문서에 있는 항목만 그대로 옮기세요.
-1. 참고 문서에 실제로 적힌 제도명·금액만 사용하세요. 문서에 없는 금액·비율·조건은 절대로
-   지어내지 마세요. 문서에 "확인 필요" 또는 "확인되지 않음"이라고 되어 있으면, 그 사실 그대로
-   "정확한 금액은 확인되지 않았습니다"라고 답하세요 — 그럴듯한 숫자를 새로 만들어 채우는 것이
-   가장 나쁜 답변입니다.
-2. 절차·조건처럼 여러 단계로 나뉘는 질문에는 1번부터 번호를 매겨 순서대로 자세히 설명하세요.
-   길이를 줄이려고 정보를 생략하지 말고, 확인된 내용은 빠짐없이 구조적으로 안내하세요.
-3. 한국어로만 답변하세요
-4. 관리기관명과 그 기관의 전화번호가 참고 문서(실측 데이터 또는 공식 고시문서)에 실제로
-   적혀 있으면 그대로 안내하세요 — 예: "여주시청 도시개발과(031-887-3026)". 이건 관공서
-   대표/부서 전화번호이지 특정 개인의 사생활 정보가 아닙니다 — 정부가 자체적으로 관보·고시를
-   통해 공개한 정보라서 안내해도 전혀 문제 없습니다. "개인정보라서 알려줄 수 없다"거나
-   "직접 문의하라"며 안내를 거부하지 마세요 — 참고 문서에 있는 그대로 옮겨 답하면 됩니다.
-   다만 문서에 없는데 그럴듯한 기관명·전화번호를 만들어내는 것은 절대 금지입니다 — 없으면
-   없다고 답하세요. 답변은 질문에 대한 내용으로 끝내세요 — "문의하세요", "확인해드립니다",
-   "신청하시면 도와드립니다" 같은 안내·유도성 마무리 문장을 답변 끝에 덧붙이지 마세요. 아는 내용은
-   바로 답하고, 모르는 내용은 모른다고 답하면 그걸로 끝입니다.
-5. 참고 문서에 구체적인 내용(금액·조건·절차 등)이 없는 질문이라도, 무조건 "해당 정보는
-   없습니다"로 끝내지 마세요. 용어의 뜻이나 일반 개념(예: "행정사가 뭐야?", "공장등록이 뭐야?")처럼
-   시간이 지나도 안 바뀌는 정의·개념 수준이면 아는 대로 설명해주고, 그 다음에 "다만 구체적인
-   금액·조건·절차는 확인되지 않았습니다"라고 이어가세요. 정말 아무 실마리도 없는 질문에서만
-   "해당 정보는 없습니다"라고 답하세요.
-6. 5번의 "일반 개념 설명"은 절대로 교통편·경로·요금·시간표·전화번호·주소·거리·날짜처럼 실시간으로
-   바뀌고 사실 확인이 필요한 "운영 정보"에는 적용하지 마세요. 예를 들어 "OO에서 OO산단까지
-   어떻게 가?"처럼 구체적 이동 경로·버스터미널명·요금·소요시간을 묻는 질문에 참고 문서·실측 데이터에
-   없는 답을 그럴듯하게 만들어내면 절대 안 됩니다 — 이런 종류는 100% 사실이거나 100% 지어낸 것 중
-   하나이지 "일반 상식"이 아닙니다. 이 경우 "정확한 교통편 정보는 확인되지 않았습니다. 관리기관
-   또는 지도 서비스에서 확인해보시기 바랍니다"처럼 솔직하게 답하세요.
-7. 아래 참고 문서를 활용하여 정확한 정보를 제공하세요
-8. 참고 문서 맨 앞에 "[단지명 실측 데이터]" 블록이 있다면, 그건 SiteMatch DB에서 방금 조회한
-   실제 수치입니다 — 질문한 단지에 대한 답변은 반드시 이 블록의 수치를 그대로 인용하세요.
-   이 블록이 없다면, 또는 블록은 있어도 물어본 항목(예: 운영률)이 그 안에 안 적혀 있다면,
-   절대로 다른 수치(면적 등)로부터 계산·추정해서 만들어내지 말고 "해당 정보는 없습니다"라고
-   솔직히 답하세요. 없는 수치를 그럴듯하게 계산해서 답하는 것이 가장 나쁜 답변입니다.
-9. "[단지명 관리기관 공식 고시문서 발췌]" 블록이 있다면, 이건 해당 관리기관(시청 등)이 실제로
-   발행한 관리기본계획·지형도면 고시문 원문 일부입니다 — 입주업체 목록, 업종별 배치, 입주제한
-   업종, 추진경위 등을 물으면 이 블록을 근거로 답하세요. 이 블록이 없다면 그 단지의 공식
-   고시문서를 아직 확보하지 못한 것뿐이니, 없다고 솔직히 답하고 DB 실측 데이터로만 답하세요.
-10. 정확도가 가장 중요합니다. 그 블록 안에는 "[출처: 문서 제목]" 형태의 표시가 문서마다
-    붙어있습니다 — 그 블록의 내용을 근거로 답할 때는 반드시 문장 끝에 그 출처를 그대로
-    괄호로 표시하세요. 예: "31개 업체가 입주해 있습니다. (출처: 김해시 고시 제2025-216호)".
-    여러 출처의 내용을 같이 썼다면 관련된 출처를 전부 표시하세요. 숫자·업체명·조항 번호는
-    문서 원문에 적힌 그대로 옮기고, 어림잡거나 반올림·요약하지 마세요 — "30개사쯤", "대략"처럼
-    부정확하게 답하지 말고, 원문 표현이 애매하면("OOO 외 30개사" 등) 그 애매함까지 그대로
-    설명하세요 (예: "㈜구보 외 30개사로 표기되어 있어 구보를 포함하면 총 31개사입니다").
-    절대로 원문에 없는 예시(업종명, 회사명, 수치 등)를 만들어 덧붙이고 그걸 같은 출처로
-    표시하지 마세요 — 예를 들어 원문이 "도금시설은 입주 제한"이라고만 했는데 "타이어
-    제조업, 시멘트 제조업" 같은 예시를 스스로 지어내 같은 출처 표시로 답하면 안 됩니다.
-    원문에 있는 항목만 그대로 나열하고, 이해를 돕는 일반적 설명을 덧붙이고 싶으면 그
-    부분은 출처 표시 없이 "(참고로 일반적으로는 ~)"처럼 원문과 명확히 구분해서 쓰세요.
-11. "[전국·시도 공통 제도 안내]" 블록은 특정 단지의 고시가 아니라 모든 단지에 적용되는 일반
-    절차와 해당 시·도 지원정책입니다. 단지에 대한 질문에 이 블록을 쓸 때는 "(전국 공통 기준)"
-    또는 "(OO도 지원정책 기준)"처럼 단지 고시와 구분해 표시하고, 절대로 그 단지의 고시번호를
-    출처로 붙이지 마세요. 단지 고시문서에 절차·지원금 내용이 없더라도 이 블록에 있으면
-    "해당 정보는 없습니다"로 끝내지 말고 이 블록 내용으로 답하세요.
-12. 답변에서 단지를 가리킬 때는 "[... 실측 데이터]" 제목에 적힌 정식 명칭(예: 나주일반산업단지)을
-    쓰세요. "이름이 비슷한 다른 단지" 목록이 있으면 답변 끝에 한 줄로 "같은 지역의 다른 단지:
-    ..."라고 알려 사용자가 헷갈리지 않게 하세요.
-13. "[... 분양공고 — 산업입지정보센터]" 블록은 산업입지정보센터에 올라온 분양공고 목록(공고일·구분·
-    신청기간·분양면적·분양가·문의처)과 가장 최근 공고문 원문 일부입니다. 분양 일정·분양가·신청 자격·
-    공급 필지를 물으면 이 블록을 근거로 답하고, 문장 끝에 "(출처: 산업입지정보센터 분양공고, 공고일
-    YYYY-MM-DD)"처럼 표시하세요. 분양가는 ㎡당 금액이며 블록에 적힌 평당 환산값 외에 새로 계산하지
-    마세요. "접수 중/마감" 표시는 블록에 적힌 그대로 쓰세요. 블록에 공고가 없다고 되어 있으면 "수집된
-    분양공고가 없습니다"라고 답하고, 분양 일정을 지어내지 마세요. 분양률(공식 통계)과 분양공고는 다른
-    자료이니 섞지 마세요.
-14. "[OO시 기업·투자유치 지원 조례 원문 발췌]" 블록은 그 시·군·구 조례의 조항 원문입니다. 지원금·보조금을
-    물으면 이 블록의 조항을 근거로 답하고, 문장 끝에 "(출처: OO시 OO 조례 제n조, 시행 YYYY.MM.DD)"처럼
-    조례명과 조항 번호를 표시하세요. 금액·비율·인원 기준·한도는 원문 그대로 옮기고, 원문에 없는 계산
-    (예: 우리 회사는 얼마 받는다)은 하지 마세요. 조례는 대부분 "예산의 범위에서 지원할 수 있다"는 근거
-    규정이므로, 실제 지원 여부와 올해 예산은 블록에 적힌 담당 부서에 확인해야 한다고 한 문장으로 덧붙이세요.
-    블록에 발췌된 조항만으로 답이 안 되면 "발췌된 조항에는 없습니다"라고 하세요.
-참고 문서:
+[정확성 — 가장 중요]
+- 아래 참고 자료에 실제로 적힌 내용만 쓰세요. 금액·비율·업종·기관명·전화번호·날짜를 지어내거나 계산·추정하지 마세요.
+- 입주 가능·제한 업종은 자료에 그 단어가 그대로 있는 것만. 다른 단지에서 흔한 문구(도금업, 피혁·염색 등)를 덧붙이지 마세요.
+- 자료의 관공서 부서·전화번호는 그대로 안내하세요(공개 정보). 자료에 없으면 없다고 하세요.
+- 용어 뜻 같은 일반 개념은 설명해도 되지만, 교통편·요금·일정 같은 운영 정보는 자료에 없으면 모른다고 하세요.
+- 사이트에 없는 서비스(원스톱 안내, 확인대행, 민원대행)를 안내하지 마세요.
+
+[자료 블록과 출처 표시] 근거로 쓴 문장 끝에 (출처: …)를 붙이세요.
+- [OO 실측 데이터]: SiteMatch DB 수치. 단지 이름은 이 블록의 정식 명칭을 쓰고, "이름이 비슷한 다른 단지"가 있으면 끝에 한 줄로 알려주세요.
+- [OO 관리기관 공식 고시문서 발췌]: 고시 원문. 출처는 문서마다 붙은 [출처: …]를 그대로. 원문에 없는 예시를 같은 출처로 덧붙이지 마세요.
+- [OO 분양공고 — 산업입지정보센터]: 출처 "(출처: 산업입지정보센터 분양공고, 공고일 YYYY-MM-DD)". 분양가는 ㎡당이며 적힌 평당 값 외에 계산하지 마세요. 접수 중/마감은 적힌 그대로. 분양률(통계)과 섞지 마세요.
+- [OO 기업·투자유치 지원 조례 원문 발췌]: 출처 "(출처: 조례명 제n조)". 조례는 "예산의 범위에서 지원할 수 있다"는 근거이므로 실제 지원 여부는 적힌 담당 부서에 확인해야 한다고 한 문장 덧붙이세요. 외국인투자 조례는 외국인투자기업에만 해당한다고 밝히세요.
+- [전국·시도 공통 제도 안내]: 모든 단지 공통 기준. "(전국 공통 기준)"처럼 구분하고 단지 고시 번호를 출처로 붙이지 마세요.
+
+참고 자료:
 {context}
 """
 
@@ -177,7 +109,7 @@ _PARCEL_LIST_RE = re.compile(
     r"분양\s*공고|분양\s*(중|정보|소식|하는|진행|일정|모집)|(최근|새|신규|요즘|이번).*(분양|공고)|공고.*(나온|올라온|뜬)"
 )
 _OPEN_RE = re.compile(r"진행\s*중|접수\s*중|모집\s*중|분양\s*중|신청\s*(가능|할\s*수)|지금|현재")
-PARCEL_DOC_CHARS = 2500
+PARCEL_DOC_CHARS = 1400
 
 
 def _parcel_rows(park_id: Optional[int] = None, region: str = "", open_only: bool = False,
@@ -319,6 +251,32 @@ def _local_subsidy_block(key: str, query: str, max_chars: int) -> str:
         lines.append(chunk)
         used += len(chunk)
     return "\n".join(lines)
+
+
+# 자료 합계 상한(글자). 한국어는 대략 1자≈0.55토큰 — 지시문(~1,900자)+자료+답변(1,200토큰)이
+# 분당 8,000토큰 안에 들도록 잡았다. 블록별 예산을 넘는 일이 생겨도 여기서 한 번 더 자른다.
+CONTEXT_MAX_CHARS = 6000
+CHAT_MAX_TOKENS = 1200
+FALLBACK_MODEL = "openai/gpt-oss-20b"  # 같은 계열 작은 모델 — 분당 토큰 한도가 모델별로 따로라 한도에 걸리면 이쪽으로 답한다
+
+
+def _cap(ctx: str, limit: int = CONTEXT_MAX_CHARS) -> str:
+    return ctx if len(ctx) <= limit else ctx[:limit] + "\n…(자료 일부 생략)"
+
+
+def _history_text(messages: List[dict]) -> str:
+    """이전 대화: 최근 6개만, 긴 답변은 앞부분만(대화가 길어져도 분당 토큰 한도를 넘지 않게)."""
+    out = []
+    for msg in messages[:-1][-6:]:
+        role = "사용자" if msg.get("role") == "user" else "AI"
+        text = msg.get("content", "")
+        out.append(f"{role}: {text[:500] + '…' if len(text) > 500 else text}")
+    return "\n".join(out) + ("\n" if out else "")
+
+
+def _too_large(e: Exception) -> bool:
+    t = str(e)
+    return "413" in t or "too large" in t.lower()
 
 
 RECOMMEND_ASK_MSG = (
@@ -464,7 +422,8 @@ class RAGService:
         self.api_key = api_key
         self.parks = parks or []
         # Groq 클라이언트 (스트리밍용)
-        self._groq_client = Groq(api_key=api_key)
+        # 한도(429)에 걸리면 SDK가 수십 초 기다렸다 재시도한다 — 기다리지 않고 _create()가 작은 모델로 넘긴다
+        self._groq_client = Groq(api_key=api_key, max_retries=0)
         # LangChain Groq LLM
         self.llm = ChatGroq(
             model=CHAT_MODEL,
@@ -473,7 +432,7 @@ class RAGService:
             # 900이었을 때 GW 같은 공식 문서 근거 답변(표+여러 항목)이 중간 단어에서
             # 뚝 끊기는 문제가 실제로 있었다 — 1500으로 올리고, 그만큼 TPM 예산을
             # 맞추려고 _get_context()의 컨텍스트 쪽 예산을 줄였다(아래 chat_stream도 동일).
-            max_tokens=1500,
+            max_tokens=CHAT_MAX_TOKENS,
             reasoning_effort="low",  # gpt-oss는 추론 모델 — effort를 낮추지 않으면 토큰 예산을 "생각"에 다 씀
         )
         self._answer_cache: Dict[str, tuple] = {}
@@ -625,7 +584,7 @@ class RAGService:
     def _parcel_block(self, park: Dict, parcel_q: bool) -> str:
         """단지의 분양공고 목록. 분양 관련 질문이면 가장 최근 공고문 원문 일부도 붙인다."""
         name = full_park_name(park.get("name"), park.get("type"))
-        rows = _parcel_rows(park_id=park.get("id"), limit=5, with_doc=parcel_q)
+        rows = _parcel_rows(park_id=park.get("id"), limit=4 if parcel_q else 2, with_doc=parcel_q)
         if not rows:
             return f"[{name} 분양공고 — 산업입지정보센터]\n수집된 분양공고 없음" if parcel_q else ""
         lines = [f"[{name} 분양공고 — 산업입지정보센터, 최신순 {len(rows)}건]"]
@@ -645,7 +604,16 @@ class RAGService:
     def _context_park(self, messages: List[dict], park_id: Optional[int] = None) -> Optional[Dict]:
         """이번 질문에 단지 이름이 있으면 그 단지, 없으면 화면에서 고른 상담 단지(park_id), 그것도 없으면 앞선 대화의 단지."""
         last = next((m.get("content", "") for m in reversed(messages) if m.get("role") == "user"), "")
-        return self._find_mentioned_park(last) or self._park_by_id(park_id) or self._find_park_in_conversation(messages)
+        mentioned = self._find_mentioned_park(last)
+        chosen = self._park_by_id(park_id)
+        # 상담 단지가 정해져 있으면, 질문 속 낱말이 우연히 짧은 단지 이름과 겹친 것("관리기관" ↔ 이천 "관리"단지)은
+        # 무시한다 — 다른 단지 정식 명칭이나 세 글자 이상 이름을 직접 쓴 경우에만 그 단지로 바꾼다.
+        if mentioned and chosen and mentioned.get("id") != chosen.get("id"):
+            q = last.replace(" ", "")
+            full = full_park_name(mentioned.get("name"), mentioned.get("type")).replace(" ", "")
+            if full not in q and len(short_park_name(mentioned.get("name"))) < 3:
+                mentioned = None
+        return mentioned or chosen or self._find_park_in_conversation(messages)
 
     def _parcel_list(self, messages: List[dict], park_id: Optional[int] = None) -> Optional[str]:
         """단지 이름 없이 분양공고 목록을 물으면 DB에서 찾아 코드로 답한다(지어낼 여지 없음).
@@ -731,32 +699,29 @@ class RAGService:
             # 입주 절차와 지원금"을 물으면 "문서에 없다"고만 답하는 문제가 있었다.
             # 지원금 질문이면 그 단지가 있는 시·군·구의 조례 조항 원문을 넣는다(시·도 자료와 별도)
             lkey = _local_key_for(park.get("region", ""), park.get("city", "")) if local_q else None
-            local = _local_subsidy_block(lkey, query, 2200) if lkey else ""
+            local = _local_subsidy_block(lkey, query, 1800) if lkey else ""
             if local:
                 facts += "\n\n" + local
+            # 고시문 예산: 분양·지원금 자료가 들어가면 줄인다(분당 토큰 한도)
+            budget = 1000 if (local and parcel_q) else 1300 if (local or parcel_q) else 1800 if general_topic else 3200
             official = get_park_documents_text(
                 park.get("region", ""), park.get("city", ""), park.get("name", ""),
-                # 분양 질문이면 공고문 발췌(최대 PARCEL_DOC_CHARS자)가 들어가므로 고시문 예산을 줄인다
-                budget=(2500 if local else 3500) if (general_topic or parcel_q) else (4000 if local else 6000),
-                park_type=park.get("type"),
+                budget=budget, park_type=park.get("type"),
             )
             if official:
                 facts += f"\n\n[{full_park_name(park.get('name'), park.get('type'))} 관리기관 공식 고시문서 발췌]\n{official}"
-                if general_topic:
-                    return facts + "\n\n" + self._general_block(park, query, 1500 if (parcel_q or local) else 2500)
-                # 그 단지의 공식 고시문서를 이미 확보했다면 전국 공통 참고자료
-                # (subsidy_docs.txt)는 붙이지 않는다 — 라벨을 붙여 구분해봐도
-                # LLM이 두 블록을 섞어 전국 공통 자료의 내용(예: 일반적인
-                # "입주제한업종 예시")을 그 단지의 공식 고시 출처로 잘못
-                # 인용하는 사례가 실제로 있었다. 아예 안 섞이게 원천 차단한다.
-                return facts
-            return facts + "\n\n" + self._general_block(park, query, (1500 if local else 2500) if general_topic else 500)
+                # 고시문서가 있으면 전국 공통 자료는 절차·지원금 질문일 때만 붙인다(두 출처를 섞어 인용하던 문제)
+                if general_topic and not local:
+                    return _cap(facts + "\n\n" + self._general_block(park, query, 1000))
+                return _cap(facts)
+            general = 0 if local else (1200 if general_topic else 400)
+            return _cap(facts + ("\n\n" + self._general_block(park, query, general) if general else ""))
 
         # 단지 없이 "김해시 고용보조금 얼마야?"처럼 시·군을 들어 물으면 그 시·군 조례 발췌를 앞에 둔다
         lkey = _detect_local_key(query, self._city_regions) if local_q else None
         if lkey:
-            return _local_subsidy_block(lkey, query, 3000) + "\n\n" + _keyword_filter_context(self._docs_text, query, max_chars=1500)
-        return _keyword_filter_context(self._docs_text, query)
+            return _cap(_local_subsidy_block(lkey, query, 2600) + "\n\n" + _keyword_filter_context(self._docs_text, query, max_chars=900))
+        return _cap(_keyword_filter_context(self._docs_text, query))
 
     def _recommend(self, messages: List[dict]) -> Optional[str]:
         """단지 추천 요청이면 매칭 엔진으로 실제 DB를 검색해 답을 만들어 반환한다(아니면 None).
@@ -850,25 +815,39 @@ class RAGService:
         context = self._get_context(last_user_msg, self._context_park(messages, park_id))
 
         # 대화 히스토리 구성
-        history_text = ""
-        for msg in messages[:-1]:
-            role = "사용자" if msg["role"] == "user" else "AI"
-            history_text += f"{role}: {msg['content']}\n"
-
-        prompt = f"""{SYSTEM_PROMPT.format(context=context)}
-
-이전 대화:
-{history_text}
-
-사용자: {last_user_msg}
-AI:"""
+        history_text = _history_text(messages)
 
         cached = self.cached_reply(messages, park_id)
         if cached is not None:
             return cached
-        response = self.llm.invoke(prompt)
-        self._store_reply(messages, response.content, park_id)
-        return response.content
+        resp = self._create(context, history_text, last_user_msg, stream=False)
+        reply = resp.choices[0].message.content or ""
+        self._store_reply(messages, reply, park_id)
+        return reply
+
+    def _create(self, context: str, history_text: str, last_user_msg: str, stream: bool):
+        """Groq 호출. 요청이 한도보다 크면(413) 자료를 줄여 다시, 분당 한도(429)면 작은 모델로 다시 보낸다."""
+        attempts = [(CHAT_MODEL, context), (CHAT_MODEL, _cap(context, 3000)), (FALLBACK_MODEL, _cap(context, 3000))]
+        last_err = None
+        for i, (model, ctx) in enumerate(attempts):
+            if i == 1 and last_err is not None and not _too_large(last_err):
+                continue  # 429면 같은 모델로 줄여 보내도 소용없다 — 바로 작은 모델로
+            try:
+                return self._groq_client.chat.completions.create(
+                    model=model,
+                    messages=[
+                        {"role": "system", "content": SYSTEM_PROMPT.format(context=ctx)},
+                        {"role": "user", "content": f"이전 대화:\n{history_text}\n사용자: {last_user_msg}"},
+                    ],
+                    temperature=0.3,
+                    max_tokens=CHAT_MAX_TOKENS,
+                    reasoning_effort="low",
+                    stream=stream,
+                )
+            except Exception as e:
+                last_err = e
+                print(f"⚠️ 챗봇 호출 실패({model}, 자료 {len(ctx)}자): {str(e)[:160]}")
+        raise last_err
 
     async def chat_stream(self, messages: List[dict], park_id: Optional[int] = None) -> AsyncGenerator[str, None]:
         """스트리밍 챗봇 응답 (Groq 스트리밍)"""
@@ -894,26 +873,9 @@ AI:"""
 
         context = self._get_context(last_user_msg, self._context_park(messages, park_id))
 
-        history_text = ""
-        for msg in messages[:-1]:
-            role = "사용자" if msg["role"] == "user" else "AI"
-            history_text += f"{role}: {msg['content']}\n"
+        history_text = _history_text(messages)
 
-        system_content = SYSTEM_PROMPT.format(context=context)
-        user_content = f"이전 대화:\n{history_text}\n사용자: {last_user_msg}"
-
-        # Groq 스트리밍
-        stream = self._groq_client.chat.completions.create(
-            model=CHAT_MODEL,
-            messages=[
-                {"role": "system", "content": system_content},
-                {"role": "user", "content": user_content},
-            ],
-            temperature=0.3,
-            max_tokens=1500,  # 사유는 위 chat()의 동일 옵션 주석 참고
-            reasoning_effort="low",
-            stream=True,
-        )
+        stream = self._create(context, history_text, last_user_msg, stream=True)
         parts = []
         for chunk in stream:
             delta = chunk.choices[0].delta.content
